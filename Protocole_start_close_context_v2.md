@@ -1,5 +1,5 @@
 # Protocole de vibecoding — Documentation générique
-> **v2.1** — Révision du 2026-06-12. Voir section [Changelog](#changelog) pour le détail des modifications.
+> **v2.2** — Révision du 2026-06-20. Voir section [Changelog](#changelog) pour le détail des modifications.
 
 ## Pourquoi ce fichier
 
@@ -200,8 +200,9 @@ Structure fixe. Taille maximale par section indiquée — à respecter pour cont
    > `contexte.md` peut être chargé à la demande plutôt que systématiquement.
    > En cas de doute : le charger.
 
-5. Produire le résumé de démarrage à partir des fichiers chargés : état actuel, phase en cours
-   si roadmap active, point d'attention immédiat.
+5. Afficher le contenu intégral de `signals.md` (sans résumé ni reformulation). Ajouter ensuite,
+   à partir des autres fichiers chargés : la phase en cours si roadmap active, et le point
+   d'attention immédiat.
 
 6. Afficher en fin de réponse : 🎉🎉🎉
 
@@ -531,6 +532,11 @@ Répondre uniquement : "✅ Init <alias> terminé. Lancer /start <alias> pour co
 ---
 
 # Changelog
+
+## v2.2 — 2026-06-20
+
+**Affichage de `/start`**
+- Étape 5 de `/start` : `signals.md` est désormais affiché **intégralement** (sans résumé ni reformulation) au lieu d'être synthétisé. La synthèse pouvait omettre des actions ouvertes, échéances ou blocages ; l'affichage intégral garantit qu'aucun signal de pilotage n'est perdu au démarrage. Les autres fichiers (roadmap, contexte) restent résumés en complément.
 
 ## v2.1 — 2026-06-12
 

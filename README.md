@@ -44,6 +44,7 @@ Claude pose 5 questions (alias, objectif, stack, git, première zone ou supplém
 ```
 claude-vibecoding-kit/
 ├── Protocole_start_close_context_v2.md   # documentation complète
+├── CHANGELOG.md                          # historique des versions
 └── templates/
     ├── .claude/
     │   ├── CLAUDE.md                     # règles pour l'IA
@@ -61,7 +62,9 @@ claude-vibecoding-kit/
 
 ## Documentation
 
-Lire `Protocole_start_close_context_v2.md` pour le détail complet : stratégie de gestion du contexte, table des modèles recommandés, formats canoniques, intégration Ollama, changelog.
+Lire `Protocole_start_close_context_v2.md` pour le détail complet : stratégie de gestion du contexte, table des modèles recommandés, formats canoniques, intégration Ollama.
+
+L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## Prérequis
 

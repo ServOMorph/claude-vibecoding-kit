@@ -34,7 +34,8 @@ model: haiku
    > `contexte.md` peut être chargé à la demande plutôt que systématiquement.
    > En cas de doute : le charger.
 
-5. Produire le résumé de démarrage à partir des fichiers chargés : état actuel, phase en cours
-   si roadmap active, point d'attention immédiat.
+5. Afficher le contenu intégral de `signals.md` (sans résumé ni reformulation). Ajouter ensuite,
+   à partir des autres fichiers chargés : la phase en cours si roadmap active, et le point
+   d'attention immédiat.
 
 6. Afficher en fin de réponse : 🎉🎉🎉
