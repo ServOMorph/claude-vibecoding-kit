@@ -6,9 +6,11 @@ Résout le problème structurel du vibecoding : **le contexte est perdu à chaqu
 
 ## Ce que ça fait
 
-- `/start <zone>` — charge le contexte du projet au démarrage de session
-- `/close <zone>` — sauvegarde l'état, met à jour les fichiers de contexte, committe
+- `/start [zone]` — charge le contexte du projet au démarrage de session (zone implicite si absent)
+- `/close [zone]` — sauvegarde l'état, met à jour les fichiers de contexte, committe (zone implicite si absent)
 - `/init` — initialise le protocole dans un nouveau projet en quelques questions
+- `/update` — met à jour les fichiers de protocole dans un projet déjà initialisé, sans toucher aux données projet
+- `/memory` — ajoute une entrée dans la mémoire projet persistante (`.claude/memory.md`)
 - `CLAUDE.md` — règles permanentes appliquées à toutes les conversations
 - Support multi-zones (plusieurs sous-projets dans un même repo)
 - Intégration Ollama pour les tâches répétitives sans envoyer de données en cloud
@@ -31,7 +33,7 @@ Dans Claude Code, ouvrir le dossier du projet à initialiser.
 /init <chemin vers claude-vibecoding-kit>
 ```
 
-Claude pose 5 questions (alias, objectif, stack, git, première zone ou supplémentaire), copie les fichiers, remplace les placeholders, committe.
+Claude pose 5 questions (alias, objectif, stack, git, première zone ou supplémentaire). La racine est le working directory courant — non demandée. Copie les fichiers, remplace les placeholders, committe, enregistre le déploiement dans `DEPLOYMENTS.md`.
 
 ### 4. Démarrer
 
@@ -43,15 +45,19 @@ Claude pose 5 questions (alias, objectif, stack, git, première zone ou supplém
 
 ```
 claude-vibecoding-kit/
-├── Protocole_start_close_context_v2.md   # documentation complète
+├── Protocole_start_close_context.md   # documentation complète
 ├── CHANGELOG.md                          # historique des versions
+├── DEPLOYMENTS.md                        # registre des projets initialisés (ignoré par git)
 └── templates/
     ├── .claude/
     │   ├── CLAUDE.md                     # règles pour l'IA
+    │   ├── zones.md                      # table alias → dossiers réels
     │   └── commands/
     │       ├── init.md                   # commande /init
     │       ├── start.md                  # commande /start
-    │       └── close.md                  # commande /close
+    │       ├── close.md                  # commande /close
+    │       ├── update.md                 # commande /update
+    │       └── memory.md                 # commande /memory
     ├── _contexte/
     │   ├── _manifest.md                  # fichiers à charger au /start
     │   ├── contexte.md                   # contexte stable du projet
@@ -62,7 +68,7 @@ claude-vibecoding-kit/
 
 ## Documentation
 
-Lire `Protocole_start_close_context_v2.md` pour le détail complet : stratégie de gestion du contexte, table des modèles recommandés, formats canoniques, intégration Ollama.
+Lire `Protocole_start_close_context.md` pour le détail complet : stratégie de gestion du contexte, table des modèles recommandés, formats canoniques, intégration Ollama.
 
 L'historique des versions est consigné dans `CHANGELOG.md`.
 

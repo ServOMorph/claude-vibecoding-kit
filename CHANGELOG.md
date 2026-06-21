@@ -1,7 +1,7 @@
 # Changelog — claude-vibecoding-kit
 
 Toutes les modifications notables du kit sont consignées ici.
-Le détail complet par version reste documenté dans `Protocole_start_close_context_v2.md`.
+Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
 ## v2.3 — 2026-06-21
 
@@ -17,7 +17,7 @@ Le détail complet par version reste documenté dans `Protocole_start_close_cont
 
 ### Modifié
 - `/start` (étape 5) : `signals.md` est désormais affiché **intégralement**, sans résumé ni reformulation. La synthèse précédente pouvait omettre des actions ouvertes, échéances ou blocages ; l'affichage intégral garantit qu'aucun signal de pilotage n'est perdu au démarrage. Les autres fichiers (roadmap, contexte) restent résumés en complément.
-- Fichiers touchés : `templates/.claude/commands/start.md`, `Protocole_start_close_context_v2.md`.
+- Fichiers touchés : `templates/.claude/commands/start.md`, `Protocole_start_close_context.md`.
 
 ## v2.1 — 2026-06-12
 

@@ -19,39 +19,62 @@ Mettre à jour les fichiers de protocole (`start.md`, `close.md`, `init.md`) dan
 - `templates/` = `$ARGUMENTS/templates`
 - Racine du projet courant = dossier de travail actif (working directory).
 
-### 2. Vérifier que le projet est initialisé
+### 2. Détecter l'état du projet
 
 Vérifier que `.claude/commands/start.md` et `.claude/commands/close.md` existent.
-Si absents : répondre "Ce projet n'a pas encore été initialisé. Utiliser /init."
-et s'arrêter.
 
-### 3. Lire la configuration existante
+- **Si présents** : continuer la procédure normalement (mise à jour).
+- **Si absents** : basculer en mode initialisation — lire avant d'écrire :
+  1. Scanner `.claude/` et noter tout fichier existant (CLAUDE.md, sous-dossiers, fichiers de contexte). **Ne jamais écraser ce qui existe.**
+  2. Demander : "Alias de la zone (nom court, sans espace) ?"
+  3. Demander : "Chemin absolu de la racine du projet ?" (par défaut : working directory courant)
+  4. Créer `.claude/commands/` s'il n'existe pas.
+  5. Pour chaque fichier ci-dessous, **copier depuis le kit uniquement s'il est absent** dans le projet cible :
+     - `templates/.claude/commands/start.md` → `.claude/commands/start.md`
+     - `templates/.claude/commands/close.md` → `.claude/commands/close.md`
+     - `templates/.claude/commands/init.md` → `.claude/commands/init.md`
+     - `templates/.claude/commands/update.md` → `.claude/commands/update.md`
+     - `templates/.claude/zones.md` → `.claude/zones.md`
+  6. Pour `.claude/CLAUDE.md` :
+     - Si absent : copier depuis le kit.
+     - Si présent : merger — identifier les sections du kit absentes du fichier existant et les ajouter en fin de fichier. Ne jamais supprimer ni modifier les sections existantes.
+  7. Substituer `{{ALIAS}}` et `{{RACINE}}` dans les fichiers copiés (pas dans les fichiers existants non touchés).
+  8. Ne jamais toucher à `_contexte/` ni à aucun fichier de contexte existant.
+  9. Passer directement à l'étape 7 (DEPLOYMENTS.md) puis 8 (commit) et 9 (confirmer).
+  **Ne pas exécuter les étapes 3 à 6.**
 
-- Lire `.claude/zones.md` pour extraire l'alias et le dossier réel courant.
+### 3. Commit de sauvegarde
+
+Avant toute modification, effectuer un commit de l'état actuel du projet cible :
+
+```bash
+git add .claude/commands/ .claude/CLAUDE.md
+git commit -m "backup: avant update protocole vibecoding"
+```
+
+Si le working tree est propre (rien à commiter) : passer à l'étape suivante sans commit.
+
+### 4. Lire la configuration existante
+
+- Lire `.claude/zones.md` pour extraire **toutes** les paires alias → dossier réel.
   - Si la table est vide ou le fichier absent : demander "Alias de la zone ?" et "Chemin absolu de la racine ?"
-  - Si une seule ligne dans la table : utiliser cet alias et ce dossier sans demander.
-  - Si plusieurs lignes : demander "Quelle zone mettre à jour ?" (lister les alias).
+- Lire `.claude/commands/start.md` et `.claude/commands/close.md` existants pour extraire les substitutions déjà présentes (toutes les lignes alias/racine de la table des zones).
+- Construire la liste complète des paires `{{ALIAS}}` / `{{RACINE}}` à partir des deux sources (zones.md + fichiers existants). En cas de conflit : zones.md fait autorité.
 
-### 4. Mettre à jour les fichiers de protocole
+### 5. Mettre à jour les fichiers de protocole
 
-Pour chacun des fichiers suivants, copier depuis le kit et réappliquer les substitutions :
+Pour chacun des fichiers suivants, copier depuis le kit et réappliquer **toutes** les substitutions de la liste construite à l'étape 4 :
 
 | Fichier kit | Destination | Placeholders à substituer |
 |-------------|-------------|--------------------------|
-| `templates/.claude/commands/start.md` | `.claude/commands/start.md` | `{{ALIAS}}`, `{{RACINE}}` |
-| `templates/.claude/commands/close.md` | `.claude/commands/close.md` | `{{ALIAS}}`, `{{RACINE}}` |
+| `templates/.claude/commands/start.md` | `.claude/commands/start.md` | toutes les paires `{{ALIAS}}` / `{{RACINE}}` |
+| `templates/.claude/commands/close.md` | `.claude/commands/close.md` | toutes les paires `{{ALIAS}}` / `{{RACINE}}` |
 | `templates/.claude/commands/init.md` | `.claude/commands/init.md` | _(aucun)_ |
 | `templates/.claude/commands/update.md` | `.claude/commands/update.md` | _(aucun)_ |
 
-Substitutions :
-| Placeholder | Remplacé par |
-|-------------|--------------|
-| `{{ALIAS}}` | Alias extrait à l'étape 3 |
-| `{{RACINE}}` | Dossier réel extrait à l'étape 3 |
-
 **Ne pas écraser** `_contexte/`, `zones.md`, ni `ollama_call.sh`.
 
-### 5. Mettre à jour CLAUDE.md (partiel)
+### 6. Mettre à jour CLAUDE.md (partiel)
 
 - Lire `.claude/CLAUDE.md` existant.
 - Lire `templates/.claude/CLAUDE.md` du kit.
@@ -59,7 +82,7 @@ Substitutions :
 - **Remplacer** toutes les autres sections par celles du kit.
 - Écraser `.claude/CLAUDE.md` avec le résultat fusionné.
 
-### 6. Vérifier l'entrée dans DEPLOYMENTS.md
+### 7. Vérifier l'entrée dans DEPLOYMENTS.md
 
 - Lire `$ARGUMENTS/DEPLOYMENTS.md`.
 - Chercher une ligne contenant le chemin absolu du projet courant.
@@ -69,14 +92,14 @@ Substitutions :
   ```
   La version kit est la dernière entrée de `$ARGUMENTS/CHANGELOG.md`.
 
-### 7. Commit
+### 8. Commit
 
 ```bash
 git add .claude/commands/ .claude/CLAUDE.md
 git commit -m "update: protocole vibecoding — zone <alias> — kit <version>"
 ```
 
-### 8. Confirmer
+### 9. Confirmer
 
 Répondre uniquement :
 "✅ Update <alias> terminé (kit <version>). Fichiers mis à jour : start.md, close.md, init.md, update.md, CLAUDE.md."

@@ -17,7 +17,7 @@ Initialiser le protocole vibecoding dans le projet courant à partir du kit de t
 - Le dossier du kit est fourni en argument ($ARGUMENTS).
   Si absent : demander "Chemin vers le dossier Template_initiailisation_projet_videcoding_ClaudeCode ?"
 - `templates/` = `$ARGUMENTS/templates`
-- `protocole/` = `$ARGUMENTS/Protocole_start_close_context_v2.md`
+- `protocole/` = `$ARGUMENTS/Protocole_start_close_context.md`
 - Racine du projet courant = dossier de travail actif (working directory).
 
 ### 2. Poser ces questions avant toute action
@@ -44,7 +44,7 @@ La racine du projet (chemin absolu) est le working directory courant — ne pas 
 - `templates/.claude/zones.md` → `.claude/zones.md`
   (sauf zone supplémentaire : ajouter une ligne `| alias | dossier |` à la table existante)
 - `templates/ollama_call.sh` → `ollama_call.sh`, puis `chmod +x ollama_call.sh`
-- `$ARGUMENTS/Protocole_start_close_context_v2.md` → `_docs/protocole_vibecoding.md`
+- `$ARGUMENTS/Protocole_start_close_context.md` → `_docs/protocole_vibecoding.md`
 
 Ne pas copier `roadmap_TEMPLATE.md` (utilisé uniquement à la création d'un chantier).
 
