@@ -3,6 +3,16 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context_v2.md`.
 
+## v2.3 — 2026-06-21
+
+### Ajouté
+- Commande `/update` : met à jour les fichiers de protocole (`start.md`, `close.md`, `init.md`) dans un projet déjà initialisé, sans toucher aux données projet.
+- `zones.md` : table centralisée des alias → dossiers réels, copiée par `/init` et `/update`.
+
+### Modifié
+- `/close` : utilise désormais la zone **implicite** (working directory courant) si aucun argument n'est fourni, alignant le comportement avec `/start`.
+- Build : `DEPLOYMENTS.md` ajouté au `.gitignore` pour permettre à chaque clone du kit d'avoir son propre registre de déploiements.
+
 ## v2.2 — 2026-06-20
 
 ### Modifié

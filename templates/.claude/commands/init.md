@@ -41,6 +41,8 @@ La racine du projet (chemin absolu) est le working directory courant — ne pas 
   (sauf zone supplémentaire, voir Q5)
 - `templates/.claude/commands/close.md` → `.claude/commands/close.md`
   (sauf zone supplémentaire, voir Q5)
+- `templates/.claude/zones.md` → `.claude/zones.md`
+  (sauf zone supplémentaire : ajouter une ligne `| alias | dossier |` à la table existante)
 - `templates/ollama_call.sh` → `ollama_call.sh`, puis `chmod +x ollama_call.sh`
 - `$ARGUMENTS/Protocole_start_close_context_v2.md` → `_docs/protocole_vibecoding.md`
 
@@ -48,7 +50,7 @@ Ne pas copier `roadmap_TEMPLATE.md` (utilisé uniquement à la création d'un ch
 
 ### 4. Remplacer les placeholders
 
-Dans tous les fichiers copiés sous `_contexte/` et `.claude/commands/` :
+Dans tous les fichiers copiés sous `_contexte/`, `.claude/commands/` et `.claude/zones.md` :
 
 | Placeholder | Remplacé par |
 |-------------|--------------|
@@ -65,6 +67,16 @@ git add .claude/ _contexte/ ollama_call.sh _docs/
 git commit -m "init: protocole vibecoding — zone <alias>"
 ```
 
-### 6. Confirmer
+### 6. Enregistrer le déploiement dans le kit
+
+Ajouter une ligne dans `$ARGUMENTS/DEPLOYMENTS.md` :
+
+```
+| <nom du projet> | <chemin absolu ou URL repo> | <alias> | <version du kit> | {{DATE}} |
+```
+
+La version du kit est la dernière entrée de `$ARGUMENTS/CHANGELOG.md` (ex: `v2.2`).
+
+### 7. Confirmer
 
 Répondre uniquement : "✅ Init <alias> terminé. Lancer /start <alias> pour commencer."
