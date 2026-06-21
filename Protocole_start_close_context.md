@@ -259,7 +259,7 @@ claude-vibecoding-kit/
     │   └── commands/
     │       ├── start.md
     │       ├── close.md
-    │       └── memory.md
+    │       └── create_memory.md
     ├── _contexte/
     │   ├── _manifest.md
     │   ├── contexte.md
@@ -300,15 +300,15 @@ Met à jour `start.md`, `close.md` et `CLAUDE.md` dans un projet déjà initiali
 Procédure : voir `templates/.claude/commands/update.md`.
 
 
-# /memory — Mémoire projet persistante
+# /create_memory — Mémoire projet persistante
 
 Gère `.claude/memory.md` : décisions et préférences explicitement enregistrées, relues au démarrage de chaque session.
 
-Procédure : voir `templates/.claude/commands/memory.md`.
+Procédure : voir `templates/.claude/commands/create_memory.md`.
 
 ## Règle d'utilisation
 
-Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par `/memory`. Ne jamais y écrire des informations éphémères (état courant, session en cours) : réserver aux décisions, préférences et contexte persistants.
+Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par `/create_memory`. Ne jamais y écrire des informations éphémères (état courant, session en cours) : réserver aux décisions, préférences et contexte persistants.
 
 ---
 
@@ -318,7 +318,7 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 
 **Nouvelles commandes**
 - `/update` : met à jour les fichiers de protocole dans un projet déjà initialisé sans toucher aux données projet.
-- `/memory` : gestion de la mémoire projet persistante dans `.claude/memory.md`.
+- `/create_memory` : gestion de la mémoire projet persistante dans `.claude/memory.md`.
 
 **`zones.md`**
 - Table centralisée `alias → dossier réel`, copiée par `/init` dans `.claude/zones.md`. `start.md` et `close.md` lisent ce fichier au lieu d'embarquer la table statiquement.

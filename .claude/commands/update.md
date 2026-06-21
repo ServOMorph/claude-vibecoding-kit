@@ -69,7 +69,7 @@ Pour chacun des fichiers suivants, copier depuis le kit et réappliquer **toutes
 |-------------|-------------|--------------------------|
 | `templates/.claude/commands/start.md` | `.claude/commands/start.md` | toutes les paires `{{ALIAS}}` / `{{RACINE}}` |
 | `templates/.claude/commands/close.md` | `.claude/commands/close.md` | toutes les paires `{{ALIAS}}` / `{{RACINE}}` |
-| `templates/.claude/commands/memory.md` | `.claude/commands/memory.md` | _(aucun)_ |
+| `templates/.claude/commands/create_memory.md` | `.claude/commands/create_memory.md` | _(aucun)_ |
 
 `init.md` et `update.md` ne sont pas copiés dans les projets — ils restent dans le kit.
 

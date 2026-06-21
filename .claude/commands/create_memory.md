@@ -4,7 +4,7 @@ argument-hint: [contenu à mémoriser]
 model: haiku
 ---
 
-# /memory [contenu]
+# /create_memory [contenu]
 
 ## Procédure
 
@@ -15,7 +15,7 @@ model: haiku
    - Si absent : créer le fichier avec l'en-tête suivant :
      ```
      # Mémoire projet
-     <!-- Fichier géré via /memory. Ne pas modifier manuellement sauf pour supprimer des entrées. -->
+     <!-- Fichier géré via /create_memory. Ne pas modifier manuellement sauf pour supprimer des entrées. -->
      ```
 
 3. Formuler une entrée concise au format :

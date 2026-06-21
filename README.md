@@ -10,7 +10,7 @@ Résout le problème structurel du vibecoding : **le contexte est perdu à chaqu
 - `/close [zone]` — sauvegarde l'état, met à jour les fichiers de contexte, committe (zone implicite si absent)
 - `/init` — initialise le protocole dans un nouveau projet en quelques questions
 - `/update` — met à jour les fichiers de protocole dans un projet déjà initialisé, sans toucher aux données projet
-- `/memory` — ajoute une entrée dans la mémoire projet persistante (`.claude/memory.md`)
+- `/create_memory` — ajoute une entrée dans la mémoire projet persistante (`.claude/memory.md`)
 - `CLAUDE.md` — règles permanentes appliquées à toutes les conversations
 - Support multi-zones (plusieurs sous-projets dans un même repo)
 - Intégration Ollama pour les tâches répétitives sans envoyer de données en cloud
@@ -57,7 +57,7 @@ claude-vibecoding-kit/
     │       ├── start.md                  # commande /start
     │       ├── close.md                  # commande /close
     │       ├── update.md                 # commande /update
-    │       └── memory.md                 # commande /memory
+    │       └── create_memory.md          # commande /create_memory
     ├── _contexte/
     │   ├── _manifest.md                  # fichiers à charger au /start
     │   ├── contexte.md                   # contexte stable du projet
