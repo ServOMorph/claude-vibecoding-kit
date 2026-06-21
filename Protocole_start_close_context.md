@@ -17,11 +17,7 @@ Ce fichier définit un protocole reproductible pour travailler avec Claude sur d
 
 ## Comment utiliser ce fichier
 
-Ce fichier est un **template générique**. Pour l'adapter à un projet :
-
-- Remplir les tables `Alias / Dossier` dans `/start` et `/close`
-- Coller le contenu de `CLAUDE.md` dans le fichier `CLAUDE.md` à la racine du projet ou dans le system prompt
-- Créer une roadmap uniquement quand le chantier est multi-phases : la lister dans le manifest pour qu'elle soit chargée au `/start` suivant
+Ce fichier est un **document de référence**. Les fichiers opérationnels (commandes, templates, CLAUDE.md) sont dans `templates/` — ce document explique les choix de conception et les règles qui ne figurent pas dans les templates eux-mêmes.
 
 ## Stratégie de gestion du contexte
 
@@ -60,38 +56,6 @@ Faire `/close`+`/start` entre chaque phase serait sur-ingénié. Faire `/compact
 | Données sensibles | Tout ce qui ne doit pas quitter la machine |
 
 Dès qu'il y a du contexte non trivial, des dépendances ou de l'incertitude : basculer sur un modèle cloud.
-
----
-
-# CLAUDE.md
-Instructions de conversation
-
-## Langue et style
-- Communiquer exclusivement en français
-- Adopter un ton professionnel
-- Être synthétique et direct
-- Optimiser l'utilisation des tokens
-
-## Comportement
-- Exécuter uniquement ce qui est demandé, sans initiative ni extrapolation.
-- Ne pas ajouter de commentaires non nécessaires.
-
-## Honnêteté (priorité absolue)
-- Si une idée, une approche ou une demande est mauvaise, risquée ou inefficace, le dire clairement. Ne jamais valider par complaisance ni capituler face au désaccord.
-- Signaler les angles morts, risques et meilleures alternatives, même non sollicités, quand ils sont importants.
-- Ne pas affirmer qu'une chose fonctionne sans l'avoir vérifié. Distinguer fait, hypothèse et opinion.
-- Ne jamais inventer de faits, chiffres, détails techniques ou contextuels sur l'utilisateur, ses projets, ses clients ou ses actions passées. Si l'information n'est pas explicitement fournie, demander ou laisser un blanc plutôt qu'extrapoler.
-- Détecter et signaler le "prompt theater" : les réponses longues et bien structurées qui rassurent sans apporter de valeur réelle.
-- Détecter quand on polit la méta (analyser l'analyse, auditer l'audit) au lieu d'avancer : le signaler et recommander de passer à l'action.
-- Ne pas justifier son propre travail après l'avoir produit. Si une réponse est bonne, elle se défend seule.
-
-## Code
-- Pas d'emojis dans le code
-- Code fonctionnel uniquement
-- Pas de commentaires décoratifs
-
-## Délégation Ollama
-Pour les tâches répétitives et templated (commits, posts, changelogs, données de test, digest de logs), déléguer à Ollama via `./ollama_call.sh` plutôt que de traiter en cloud. Consulter la section Intégration Ollama du protocole pour les templates disponibles. Ne jamais envoyer de données sensibles à un modèle cloud.
 
 ---
 
@@ -170,144 +134,16 @@ Structure fixe. Taille maximale par section indiquée — à respecter pour cont
 
 # /start [zone]
 
-> **Frontmatter (v2.1) :** le fichier `.claude/commands/start.md` porte `model: haiku` et `argument-hint: <zone>`. La ligne "/start → Haiku" de la table des modèles est appliquée automatiquement.
+> **Frontmatter (v2.1) :** le fichier `.claude/commands/start.md` porte `model: haiku` et `argument-hint: [zone]`. La ligne "/start → Haiku" de la table des modèles est appliquée automatiquement.
 
-## Zones valides et dossiers réels
-
-La table des alias → dossiers réels est lue depuis `.claude/zones.md` à chaque invocation.
-
-
-## Procédure
-
-1. Lire l'argument fourni ($ARGUMENTS).
-   - Si absent : utiliser le working directory courant comme dossier cible (zone implicite).
-   - Si présent mais non reconnu dans la table de `zones.md` :
-     répondre "Erreur : zone inconnue. Zones valides : <liste des alias>"
-     et s'arrêter.
-   - Si présent et reconnu : résoudre le dossier via la table.
-
-2. Résoudre le dossier réel via la table. Vérifier que `<dossier>/_contexte/_manifest.md` existe.
-   Si absent : proposer d'initialiser la structure `_contexte/` pour cette zone (créer les fichiers
-   vides : `_manifest.md`, `contexte.md`, `signals.md`) et s'arrêter.
-
-3. Lire `<dossier>/_contexte/_manifest.md`.
-
-4. Charger les fichiers listés dans "Charger au démarrage" dans l'ordre suivant, indépendamment
-   de leur ordre dans le manifest :
-   1. `signals.md` — actions ouvertes, blocages, dernière session (priorité absolue)
-   2. `contexte.md` — contexte stable
-   3. roadmap active si présente
-
-   > **Économie tokens :** si `signals.md` suffit à répondre à la question immédiate,
-   > `contexte.md` peut être chargé à la demande plutôt que systématiquement.
-   > En cas de doute : le charger.
-
-5. Afficher le contenu intégral de `signals.md` (sans résumé ni reformulation).
-
-5b. Pour chaque action listée dans `signals.md` qui contient un champ `réf:`, lire les fichiers
-    référencés avant d'afficher la synthèse. Si une action semble ambiguë mais qu'une `réf:` existe,
-    lire la référence en priorité plutôt que de demander des précisions.
-
-    Ajouter ensuite, à partir des autres fichiers chargés : la phase en cours si roadmap active,
-    et le point d'attention immédiat.
-
-6. Afficher en fin de réponse : 🎉🎉🎉
+Voir `templates/.claude/commands/start.md`.
 
 
 # /close [zone]
 
 > **Frontmatter (v2.1) :** le fichier `.claude/commands/close.md` porte `model: sonnet`, `argument-hint: <zone>` et `allowed-tools` autorisant `git status/diff/add/commit` — plus de prompts de permission au commit de clôture.
 
-## Zones valides et dossiers réels
-
-La table des alias → dossiers réels est lue depuis `.claude/zones.md` à chaque invocation.
-
-
-## Procédure
-
-1. Lire l'argument fourni ($ARGUMENTS).
-   - Si absent : utiliser le working directory courant comme dossier cible (zone implicite).
-   - Si présent mais non reconnu dans la table de `zones.md` :
-     répondre "Erreur : zone inconnue. Zones valides : <liste des alias>"
-     et s'arrêter.
-   - Si présent et reconnu : résoudre le dossier via la table.
-
-2. Résoudre le dossier réel via la table (ou utiliser le working directory si pas d'argument).
-
-3. Produire une synthèse de session (< 25 lignes) au format suivant :
-
-```
-# Session du AAAA-MM-JJ
-
-## Décisions prises
-- [décision actée, 1 ligne]
-
-## Livrables produits ou modifiés
-- [fichier] : [statut]
-
-## Hypothèses validées / invalidées
-- VALIDE : ...
-- INVALIDE : ... -> pivot vers ...
-- EN ATTENTE : ...
-
-## Prochaine étape exacte
-[1-3 lignes]
-
-## Question bloquante pour la session suivante
-[1 question, ou "Aucune"]
-```
-
-4. Mettre à jour `<dossier>/_contexte/signals.md` :
-   - Lire le fichier existant. Reporter tout élément non résolu.
-   - Écraser la section "Dernière session" avec la synthèse de l'étape 3 (date du jour dans le titre).
-   - Mettre à jour les priorités [P1/P2] sur les actions ouvertes.
-   - Supprimer les entrées "Contexte chaud" périmées. Ajouter les nouvelles informations volatiles.
-   - Sections sans contenu : laisser le titre sans puce.
-   - **Invariant :** chaque action ouverte doit comporter :
-     - `fait quand: <critère observable en 1 ligne>` — condition concrète permettant de clore l'action
-     - `réf: <fichier(s) ou contexte clé>` — où trouver le contexte nécessaire
-     Si le contexte est introuvable dans la session, écrire `réf: [à préciser]` plutôt qu'omettre le champ.
-
-5. Mettre à jour `<dossier>/_contexte/contexte.md` :
-   - Réécrire intégralement la section "État actuel" (5 lignes max).
-   - Ajouter les décisions actées à "Décisions structurantes" (append only).
-   - Si la liste dépasse 10 entrées : archiver les plus anciennes dans `_contexte/archive_decisions.md`.
-   - Ne pas toucher à "Objectif" sauf décision explicite. Ne pas toucher à "Stack" sauf changement technique.
-   - Si rien n'a changé : ne pas toucher au fichier.
-
-6. Mettre à jour `<dossier>/_contexte/_manifest.md` :
-   - Ajouter ou retirer la roadmap de "Charger au démarrage" si son statut a changé.
-   - Sinon : ne pas toucher au fichier.
-
-7. Lire la section "Charger au démarrage" du manifest.
-   Pour chaque autre fichier listé (hors fichiers déjà traités aux étapes 4-6), vérifier qu'il reflète
-   fidèlement l'état après session. Mettre à jour ceux qui sont périmés.
-   Invariant : ce que lira le prochain `/start` doit être vrai.
-
-8. Mettre à jour `README.md` à la racine du projet :
-   - Refléter l'état actuel du projet (section "État actuel" de `contexte.md`).
-   - Ne pas modifier les sections stables (objectif, stack, structure) sauf changement explicite.
-   - Si le README n'existe pas encore : ne pas le créer sans demander.
-
-9. Bumper la version dans `CHANGELOG.md` :
-   - Lire la dernière entrée pour extraire la version actuelle.
-   - Déterminer le type de bump : **major** si structure de `_contexte/` modifiée ou commande supprimée ; **minor** dans tous les autres cas.
-   - Calculer la prochaine version et ajouter en tête une nouvelle entrée avec les livrables de l'étape 3.
-   - Ne pas modifier les entrées existantes.
-
-10. Effectuer un commit git :
-   ```bash
-   git diff --name-only          # vérifier tous les fichiers modifiés pendant la session
-   git status                    # confirmer l'état du repo
-   git add <dossier>/_contexte/ CHANGELOG.md [autres fichiers modifiés identifiés ci-dessus]
-   git commit -m "close(<alias>): session AAAA-MM-JJ — <résumé 1 ligne>"
-   ```
-   - Le résumé reprend la première décision actée, ou la prochaine étape si aucune décision.
-   - En cas de doute sur ce qu'il faut stager : préférer un commit légèrement trop large
-     plutôt qu'un commit partiel laissant le repo dans un état incohérent.
-   - Ne pas inclure de fichiers sans lien avec la session.
-
-11. Afficher en fin de réponse en grand format : ✌️😎
+Voir `templates/.claude/commands/close.md`.
 
 
 # ROADMAP.md
@@ -331,39 +167,7 @@ Nommage : `roadmap_<sujet>.md` dans le dossier de zone.
 - La roadmap est listée dans la section "Charger au démarrage" du manifest pendant toute la durée du chantier.
 - Quand toutes les phases sont `[FAIT]` : retirer la roadmap du manifest. La conserver dans le dossier comme archive.
 
-## Modèle
-
-À chaque création, copier ce modèle, renommer en `roadmap_<sujet>.md`, remplir les phases.
-
-```markdown
-# Roadmap — <titre>
-Objectif : <1 ligne>
-Créée le : AAAA-MM-JJ
-
----
-
-## Phase 1 — <titre> [TODO]
-- [ ] tâche
-- [ ] tâche
-- [ ] tâche
-
-**⏸ Checkpoint** — Demander à l'utilisateur de faire `/compact` avant de continuer. Attendre sa réponse écrite. Ne pas commencer la phase suivante sans confirmation.
-
----
-
-## Phase 2 — <titre> [TODO]
-- [ ] tâche
-- [ ] tâche
-- [ ] tâche
-
-**⏸ Checkpoint** — Demander à l'utilisateur de faire `/compact` avant de continuer. Attendre sa réponse écrite. Ne pas commencer la phase suivante sans confirmation.
-
----
-
-## Phase N — <titre> [TODO]
-- [ ] tâche
-- [ ] tâche
-```
+Modèle : voir `templates/roadmap_TEMPLATE.md`.
 
 
 # Intégration Ollama
@@ -377,33 +181,7 @@ ollama serve                                     # démarrer le service (si non 
 apt install jq  # ou brew install jq             # dépendance du script
 ```
 
-## Script générique
-
-Placer `ollama_call.sh` à la racine du projet :
-
-```bash
-#!/bin/bash
-# Usage : ./ollama_call.sh "prompt"
-# Override modèle : OLLAMA_MODEL=autre:tag ./ollama_call.sh "prompt"
-MODEL="${OLLAMA_MODEL:-gemma3:4b}"
-
-# Vérification que le service est disponible
-if ! curl -s http://localhost:11434/api/tags > /dev/null 2>&1; then
-  echo "ERREUR: Ollama n'est pas démarré. Lancer 'ollama serve' puis réessayer." >&2
-  exit 1
-fi
-
-jq -n --arg model "$MODEL" --arg prompt "$1" \
-  '{model:$model, prompt:$prompt, stream:false}' \
-  | curl -s http://localhost:11434/api/generate \
-      -H "Content-Type: application/json" \
-      -d @- \
-  | jq -r '.response // "ERREUR: réponse vide ou inattendue du modèle"'
-```
-
-```bash
-chmod +x ollama_call.sh
-```
+Script : voir `templates/ollama_call.sh`.
 
 > **Test de sanité :** avant d'intégrer Ollama dans un workflow, vérifier que le script répond :
 > ```bash
@@ -470,8 +248,6 @@ Ne pas déléguer à Ollama quand :
 
 ## Contenu du kit
 
-Ce protocole est livré avec un dossier `templates/` contenant les fichiers prêts à copier dans un projet. Initialiser une zone ne consiste pas à générer du contenu depuis zéro : Claude pose quelques questions, copie les fichiers, remplace les placeholders.
-
 ```
 claude-vibecoding-kit/
 ├── Protocole_start_close_context.md   <- ce document, copié dans _docs/
@@ -481,10 +257,8 @@ claude-vibecoding-kit/
     │   ├── CLAUDE.md
     │   ├── zones.md                    <- table alias → dossiers réels
     │   └── commands/
-    │       ├── init.md
     │       ├── start.md
     │       ├── close.md
-    │       ├── update.md
     │       └── memory.md
     ├── _contexte/
     │   ├── _manifest.md
@@ -506,32 +280,7 @@ claude-vibecoding-kit/
 
 Les placeholders apparaissent dans `templates/_contexte/*.md`, `templates/.claude/commands/*.md` et `templates/.claude/zones.md`. `CLAUDE.md`, `ollama_call.sh` et `roadmap_TEMPLATE.md` sont génériques, copiés tels quels.
 
-## Procédure
-
-La commande `/init <chemin-vers-le-kit>` automatise l'initialisation. Claude :
-
-1. Pose 5 questions : alias de la zone, objectif, stack, git (oui/non), première zone ou supplémentaire.
-   La racine du projet est le working directory courant — non demandée.
-
-2. Copie les fichiers :
-   - `templates/_contexte/` → `_contexte/`
-   - `templates/.claude/CLAUDE.md` → `.claude/CLAUDE.md`
-   - `templates/.claude/zones.md` → `.claude/zones.md`
-   - `templates/.claude/commands/` → `.claude/commands/`
-   - `templates/ollama_call.sh` → `ollama_call.sh` (+ `chmod +x`)
-   - `Protocole_start_close_context.md` → `_docs/protocole_vibecoding.md`
-
-   Pour une zone supplémentaire : ne pas copier `start.md`, `close.md` ni `zones.md` — ajouter une ligne `| alias | dossier |` à la table existante dans `zones.md`.
-
-3. Remplace les placeholders dans les fichiers copiés sous `_contexte/`, `.claude/commands/` et `.claude/zones.md`.
-
-4. Commit initial (si git = oui) :
-   ```bash
-   git add .claude/ _contexte/ ollama_call.sh _docs/
-   git commit -m "init: protocole vibecoding — zone <alias>"
-   ```
-
-5. Enregistre le déploiement dans `DEPLOYMENTS.md` du kit (nom projet, chemin, alias, version, date).
+Procédure : voir `templates/.claude/commands/init.md`.
 
 ## Notes
 
@@ -544,58 +293,18 @@ La commande `/init <chemin-vers-le-kit>` automatise l'initialisation. Claude :
 
 # /update — Mise à jour des fichiers de protocole
 
-Met à jour les fichiers de protocole (`start.md`, `close.md`, `init.md`, `update.md`, `CLAUDE.md`) dans un projet déjà initialisé à partir de la dernière version du kit. Ne touche pas aux fichiers spécifiques au projet (`_contexte/`, `zones.md`, section "Données sensibles" de `CLAUDE.md`).
+Met à jour `start.md`, `close.md` et `CLAUDE.md` dans un projet déjà initialisé à partir de la dernière version du kit. Ne touche pas à `_contexte/`, `zones.md`, ni à la section "Données sensibles" de `CLAUDE.md`.
 
-## Procédure
+`init.md` et `update.md` ne sont pas déployés dans les projets — ils restent dans le kit.
 
-1. **Argument** : chemin vers le dossier du kit (`$ARGUMENTS`). Si absent : demander.
-
-2. **Si start.md et close.md sont absents** : basculer en mode initialisation partielle — copier uniquement les fichiers manquants, substituer `{{ALIAS}}` / `{{RACINE}}`, ne jamais écraser ce qui existe.
-
-3. **Commit de sauvegarde** avant toute modification :
-   ```bash
-   git add .claude/commands/ .claude/CLAUDE.md
-   git commit -m "backup: avant update protocole vibecoding"
-   ```
-   Si working tree propre : passer directement.
-
-4. **Lire la configuration existante** : extraire toutes les paires alias → dossier depuis `zones.md` et les fichiers existants. En cas de conflit : `zones.md` fait autorité.
-
-5. **Copier et réappliquer les substitutions** pour chaque fichier :
-
-| Fichier kit | Destination |
-|-------------|-------------|
-| `templates/.claude/commands/start.md` | `.claude/commands/start.md` |
-| `templates/.claude/commands/close.md` | `.claude/commands/close.md` |
-| `templates/.claude/commands/init.md` | `.claude/commands/init.md` |
-| `templates/.claude/commands/update.md` | `.claude/commands/update.md` |
-
-   Ne pas écraser `_contexte/`, `zones.md`, `ollama_call.sh`.
-
-6. **Mettre à jour CLAUDE.md** (partiel) : conserver la section "Données sensibles" du fichier existant ; remplacer toutes les autres sections par celles du kit.
-
-7. **Enregistrer dans DEPLOYMENTS.md** si le projet n'y figure pas encore.
-
-8. **Commit** :
-   ```bash
-   git add .claude/commands/ .claude/CLAUDE.md
-   git commit -m "update: protocole vibecoding — zone <alias> — kit <version>"
-   ```
+Procédure : voir `templates/.claude/commands/update.md`.
 
 
 # /memory — Mémoire projet persistante
 
-Gère la mémoire projet dans `.claude/memory.md`. Ce fichier est lu au démarrage de chaque session (voir section CLAUDE.md → Mémoire projet) et contient les décisions et préférences explicitement enregistrées par l'utilisateur.
+Gère `.claude/memory.md` : décisions et préférences explicitement enregistrées, relues au démarrage de chaque session.
 
-## Procédure
-
-- **Sans argument** : afficher le contenu actuel de `.claude/memory.md` (ou "Aucune mémoire enregistrée." si absent).
-- **Avec argument** : ajouter une entrée datée au format :
-  ```
-  ## YYYY-MM-DD — [sujet en 3-5 mots]
-  [contenu mémorisé, reformulé pour être compréhensible hors contexte]
-  ```
-  Confirmer en une ligne : "Mémorisé : [sujet]".
+Procédure : voir `templates/.claude/commands/memory.md`.
 
 ## Règle d'utilisation
 
