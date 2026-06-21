@@ -5,3 +5,6 @@ Thumbs.db
 # Editors
 .vscode/
 *.swp
+
+# Local deployments registry
+DEPLOYMENTS.md
