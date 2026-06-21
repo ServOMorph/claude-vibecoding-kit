@@ -42,4 +42,4 @@ Certains dossiers ou fichiers peuvent contenir des données sensibles (informati
 -->
 
 ## Délégation Ollama
-Pour les tâches répétitives et templated (commits, posts, changelogs, données de test, digest de logs), déléguer à Ollama via `./ollama_call.sh` plutôt que de traiter en cloud. Consulter `_docs/protocole_vibecoding.md` (section Intégration Ollama) pour les templates disponibles. Ne jamais envoyer de données sensibles à un modèle cloud.
+Pour les tâches répétitives et templated (commits, posts, changelogs, données de test, digest de logs), déléguer à Ollama via `./ollama_call.sh` plutôt que de traiter en cloud. Ne jamais envoyer de données sensibles à un modèle cloud.
