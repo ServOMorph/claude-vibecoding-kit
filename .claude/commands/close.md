@@ -64,21 +64,16 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
    - Ne pas toucher à "Objectif" sauf décision explicite. Ne pas toucher à "Stack" sauf changement technique.
    - Si rien n'a changé : ne pas toucher au fichier.
 
-6. Mettre à jour `<dossier>/_contexte/_manifest.md` :
-   - Ajouter ou retirer la roadmap de "Charger au démarrage" si son statut a changé.
-   - Sinon : ne pas toucher au fichier.
-
-7. Lire la section "Charger au démarrage" du manifest.
-   Pour chaque autre fichier listé (hors fichiers déjà traités aux étapes 4-6), vérifier qu'il reflète
-   fidèlement l'état après session. Mettre à jour ceux qui sont périmés.
+6. Si une `roadmap_*.md` existe dans `<dossier>` : vérifier qu'elle reflète fidèlement l'état après
+   session (statuts des tâches et phases). Mettre à jour si périmée.
    Invariant : ce que lira le prochain `/start` doit être vrai.
 
-8. Mettre à jour `README.md` à la racine du projet :
+7. Mettre à jour `README.md` à la racine du projet :
    - Refléter l'état actuel du projet (section "État actuel" de `contexte.md`).
    - Ne pas modifier les sections stables (objectif, stack, structure) sauf changement explicite.
    - Si le README n'existe pas encore : ne pas le créer sans demander.
 
-9. Bumper la version dans `CHANGELOG.md` :
+8. Bumper la version dans `CHANGELOG.md` :
    - Lire la dernière entrée de `CHANGELOG.md` pour extraire la version actuelle (ex: `v2.2`).
    - Déterminer le type de bump à partir de la synthèse de l'étape 3 :
      - **major** si : structure de `_contexte/` modifiée, placeholder renommé ou supprimé, commande supprimée
@@ -93,7 +88,7 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
      ```
    - Ne pas modifier les entrées existantes.
 
-10. Effectuer un commit git :
+9. Effectuer un commit git :
    ```bash
    git diff --name-only          # vérifier tous les fichiers modifiés pendant la session
    git status                    # confirmer l'état du repo
@@ -105,4 +100,4 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
      plutôt qu'un commit partiel laissant le repo dans un état incohérent.
    - Ne pas inclure de fichiers sans lien avec la session.
 
-11. Afficher en fin de réponse en grand format : ✌️😎
+10. Afficher en fin de réponse en grand format : ✌️😎

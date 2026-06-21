@@ -61,21 +61,6 @@ Dès qu'il y a du contexte non trivial, des dépendances ou de l'incertitude : b
 
 # Structure `_contexte/`
 
-## Format canonique du manifest
-
-`_manifest.md` est le fichier pivot de chaque zone. Il est lu par `/start` et mis à jour par `/close`. Format strict à respecter — ne pas ajouter de sections libres.
-
-```markdown
-# Manifest — <zone>
-
-## Charger au démarrage
-- _contexte/signals.md
-- _contexte/contexte.md
-- roadmap_<sujet>.md   # uniquement si chantier actif
-```
-
-> **Note v2.1 :** le champ "Résumé de démarrage" a été supprimé — il était écrit par `/close` mais jamais lu par `/start` (qui le considérait comme potentiellement périmé). Le manifest se réduit à la liste de chargement ; sa seule partie variable est la ligne roadmap.
-
 ## Format canonique de `contexte.md`
 
 Structure fixe. Taille maximale par section indiquée — à respecter pour contenir le coût token au fil des sessions.
@@ -134,14 +119,16 @@ Structure fixe. Taille maximale par section indiquée — à respecter pour cont
 
 # /start [zone]
 
-> **Frontmatter (v2.1) :** le fichier `.claude/commands/start.md` porte `model: haiku` et `argument-hint: [zone]`. La ligne "/start → Haiku" de la table des modèles est appliquée automatiquement.
+> **Frontmatter :** le fichier `.claude/commands/start.md` porte `model: haiku` — la ligne "/start → Haiku" de la table des modèles est appliquée automatiquement.
+
+Charge `signals.md`, `contexte.md`, et `roadmap_*.md` si présente — sans fichier manifest intermédiaire.
 
 Voir `templates/.claude/commands/start.md`.
 
 
 # /close [zone]
 
-> **Frontmatter (v2.1) :** le fichier `.claude/commands/close.md` porte `model: sonnet`, `argument-hint: <zone>` et `allowed-tools` autorisant `git status/diff/add/commit` — plus de prompts de permission au commit de clôture.
+> **Frontmatter :** le fichier `.claude/commands/close.md` porte `model: sonnet` et `allowed-tools` autorisant `git status/diff/add/commit` — plus de prompts de permission au commit de clôture.
 
 Voir `templates/.claude/commands/close.md`.
 
@@ -261,7 +248,6 @@ claude-vibecoding-kit/
     │       ├── close.md
     │       └── create_memory.md
     ├── _contexte/
-    │   ├── _manifest.md
     │   ├── contexte.md
     │   └── signals.md
     ├── ollama_call.sh

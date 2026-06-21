@@ -28,7 +28,7 @@ Initialiser le protocole vibecoding dans le projet courant à partir du kit de t
 4. Projet sous git ? (oui/non)
 5. Première zone de ce projet, ou zone supplémentaire ?
    - Si supplémentaire : `.claude/commands/start.md` et `close.md` existent déjà.
-     Ajouter une ligne `{{ALIAS}} | {{RACINE}}` à leur table des zones au lieu de copier ces fichiers.
+     Ajouter une ligne dans `zones.md` au lieu de copier ces fichiers.
 
 La racine du projet (chemin absolu) est le working directory courant — ne pas la demander.
 

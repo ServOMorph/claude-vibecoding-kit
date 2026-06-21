@@ -59,7 +59,6 @@ claude-vibecoding-kit/
     │       ├── update.md                 # commande /update
     │       └── create_memory.md          # commande /create_memory
     ├── _contexte/
-    │   ├── _manifest.md                  # fichiers à charger au /start
     │   ├── contexte.md                   # contexte stable du projet
     │   └── signals.md                    # actions ouvertes, blocages, dernière session
     ├── ollama_call.sh                    # délégation vers modèle local
