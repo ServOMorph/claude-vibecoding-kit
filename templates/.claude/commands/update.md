@@ -8,7 +8,7 @@ model: sonnet
 
 ## Objectif
 
-Mettre à jour les fichiers de protocole (`start.md`, `close.md`, `init.md`) dans le projet courant à partir de la dernière version du kit. Ne touche pas aux fichiers spécifiques au projet (`_contexte/`, `zones.md`, la section "Données sensibles" de `CLAUDE.md`).
+Mettre à jour les fichiers de protocole (`start.md`, `close.md`, `init_projet.md`) dans le projet courant à partir de la dernière version du kit. Ne touche pas aux fichiers spécifiques au projet (`_contexte/`, `zones.md`, la section "Données sensibles" de `CLAUDE.md`).
 
 ## Procédure
 
@@ -32,7 +32,7 @@ Vérifier que `.claude/commands/start.md` et `.claude/commands/close.md` existen
   5. Pour chaque fichier ci-dessous, **copier depuis le kit uniquement s'il est absent** dans le projet cible :
      - `templates/.claude/commands/start.md` → `.claude/commands/start.md`
      - `templates/.claude/commands/close.md` → `.claude/commands/close.md`
-     - `templates/.claude/commands/init.md` → `.claude/commands/init.md`
+     - `templates/.claude/commands/init_projet.md` → `.claude/commands/init_projet.md`
      - `templates/.claude/commands/update.md` → `.claude/commands/update.md`
      - `templates/.claude/zones.md` → `.claude/zones.md`
   6. Pour `.claude/CLAUDE.md` :
@@ -71,7 +71,7 @@ Pour chacun des fichiers suivants, copier depuis le kit et réappliquer **toutes
 | `templates/.claude/commands/close.md` | `.claude/commands/close.md` | toutes les paires `{{ALIAS}}` / `{{RACINE}}` |
 | `templates/.claude/commands/create_memory.md` | `.claude/commands/create_memory.md` | _(aucun)_ |
 
-`init.md` et `update.md` ne sont pas copiés dans les projets — ils restent dans le kit.
+`init_projet.md` et `update.md` ne sont pas copiés dans les projets — ils restent dans le kit.
 
 **Ne pas écraser** `_contexte/`, `zones.md`, ni `ollama_call.sh`.
 
@@ -103,4 +103,4 @@ git commit -m "update: protocole vibecoding — zone <alias> — kit <version>"
 ### 9. Confirmer
 
 Répondre uniquement :
-"✅ Update <alias> terminé (kit <version>). Fichiers mis à jour : start.md, close.md, init.md, update.md, CLAUDE.md."
+"✅ Update <alias> terminé (kit <version>). Fichiers mis à jour : start.md, close.md, init_projet.md, update.md, CLAUDE.md."

@@ -266,7 +266,7 @@ claude-vibecoding-kit/
 
 Les placeholders apparaissent dans `templates/_contexte/*.md`, `templates/.claude/commands/*.md` et `templates/.claude/zones.md`. `CLAUDE.md`, `ollama_call.sh` et `roadmap_TEMPLATE.md` sont génériques, copiés tels quels.
 
-Procédure : voir `templates/.claude/commands/init.md`.
+Procédure : voir `templates/.claude/commands/init_projet.md`.
 
 ## Notes
 
@@ -281,7 +281,7 @@ Procédure : voir `templates/.claude/commands/init.md`.
 
 Met à jour `start.md`, `close.md` et `CLAUDE.md` dans un projet déjà initialisé à partir de la dernière version du kit. Ne touche pas à `_contexte/`, `zones.md`, ni à la section "Données sensibles" de `CLAUDE.md`.
 
-`init.md` et `update.md` ne sont pas déployés dans les projets — ils restent dans le kit.
+`init_projet.md` et `update.md` ne sont pas déployés dans les projets — ils restent dans le kit.
 
 Procédure : voir `templates/.claude/commands/update.md`.
 

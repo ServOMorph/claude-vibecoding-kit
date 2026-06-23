@@ -6,7 +6,7 @@ Le détail complet par version reste documenté dans `Protocole_start_close_cont
 ## v2.3 — 2026-06-21
 
 ### Ajouté
-- Commande `/update` : met à jour les fichiers de protocole (`start.md`, `close.md`, `init.md`) dans un projet déjà initialisé, sans toucher aux données projet.
+- Commande `/update` : met à jour les fichiers de protocole (`start.md`, `close.md`, `init_projet.md`) dans un projet déjà initialisé, sans toucher aux données projet.
 - `zones.md` : table centralisée des alias → dossiers réels, copiée par `/init` et `/update`.
 
 ### Modifié
