@@ -64,7 +64,7 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
    - Ne pas toucher à "Objectif" sauf décision explicite. Ne pas toucher à "Stack" sauf changement technique.
    - Si rien n'a changé : ne pas toucher au fichier.
 
-6. Si une `roadmap_*.md` existe dans `<dossier>` : vérifier qu'elle reflète fidèlement l'état après
+6. Si une `roadmap*.md` existe dans `<dossier>` : vérifier qu'elle reflète fidèlement l'état après
    session (statuts des tâches et phases). Mettre à jour si périmée.
    Invariant : ce que lira le prochain `/start` doit être vrai.
 

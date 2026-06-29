@@ -27,7 +27,7 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
 3. Charger dans l'ordre :
    1. `_contexte/signals.md` — actions ouvertes, blocages, dernière session (priorité absolue)
    2. `_contexte/contexte.md` — contexte stable
-   3. `roadmap_*.md` — si un fichier correspondant existe dans `<dossier>`, le charger
+   3. `roadmap*.md` — si un fichier correspondant existe dans `<dossier>`, le charger
 
    > **Économie tokens :** si `signals.md` suffit à répondre à la question immédiate,
    > `contexte.md` peut être chargé à la demande plutôt que systématiquement.

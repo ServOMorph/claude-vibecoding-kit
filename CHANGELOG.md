@@ -3,6 +3,11 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v2.4 — 2026-06-29
+
+### Modifié
+- Pattern roadmap unifié : `roadmap_*.md` → `roadmap*.md` dans `/start`, `/close` et `Protocole_start_close_context.md`.
+
 ## v2.3 — 2026-06-21
 
 ### Ajouté

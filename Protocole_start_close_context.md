@@ -121,7 +121,7 @@ Structure fixe. Taille maximale par section indiquée — à respecter pour cont
 
 > **Frontmatter :** le fichier `.claude/commands/start.md` porte `model: haiku` — la ligne "/start → Haiku" de la table des modèles est appliquée automatiquement.
 
-Charge `signals.md`, `contexte.md`, et `roadmap_*.md` si présente — sans fichier manifest intermédiaire.
+Charge `signals.md`, `contexte.md`, et `roadmap*.md` si présente — sans fichier manifest intermédiaire.
 
 Voir `templates/.claude/commands/start.md`.
 
