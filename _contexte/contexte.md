@@ -12,7 +12,7 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - **Déploiement** : copie template vers projets via `/init`, tracking dans DEPLOYMENTS.md
 
 ## État actuel
-Kit v2.8 en production. Mode batch `/update all` opérationnel. Mécanisme "Spécificités projet" (CLAUDE.md + start.md/close.md) protège les lignes propres à un projet contre l'écrasement par `/update`, avec migration assistée (diff + question) pour les fichiers pas encore migrés. 4 projets déployés en v2.3, pas encore mis à jour.
+Kit v2.9 en production. `/update` se lance désormais depuis le repo du kit avec le chemin du projet cible en argument (inversion du sens précédent). Mode batch `/update all` opérationnel. Mécanisme "Spécificités projet" (CLAUDE.md + start.md/close.md) protège les lignes propres à un projet contre l'écrasement par `/update`, avec migration assistée (diff + question) pour les fichiers pas encore migrés. 4 projets déployés en v2.3, pas encore mis à jour.
 
 ## Décisions structurantes
 - 2026-06-29 : JeGeekUtile v2.3 déployé avec support C:\Users\raph6\Documents
@@ -23,3 +23,4 @@ Kit v2.8 en production. Mode batch `/update all` opérationnel. Mécanisme "Spé
 - 2026-07-03 : Contenu des phases de roadmap précisé — tests intégrés à la phase fonctionnelle, refacto en phase dédiée seulement si dette technique visible et trop large pour la suivante
 - 2026-07-03 : `/update all` ajouté (mode batch), pause ciblée par projet uniquement si migration "Spécificités projet" nécessaire
 - 2026-07-03 : Mécanisme "Spécificités projet" créé (CLAUDE.md + start.md/close.md) pour protéger les lignes propres à un projet lors de `/update`, avec migration assistée par diff quand la zone est absente
+- 2026-07-03 : `/update` inversé — se lance depuis le repo du kit, argument = chemin absolu du projet cible (au lieu de l'inverse)

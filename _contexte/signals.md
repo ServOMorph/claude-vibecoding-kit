@@ -1,7 +1,8 @@
 # Signals — claude-vibecoding-kit (MAJ 2026-07-03)
 
 ## Actions ouvertes
-- [P2|ouvert] Vérifier que les 4 projets déployés (v2.3) reçoivent la section Roadmap + le mécanisme "Spécificités projet" via `/update` — fait quand: chaque zone déployée a exécuté `/update` après v2.8 — réf: DEPLOYMENTS.md, templates/.claude/CLAUDE.md, .claude/commands/update.md
+- [P2|ouvert] Vérifier que les 4 projets déployés (v2.3) reçoivent la section Roadmap + le mécanisme "Spécificités projet" via `/update` — fait quand: chaque zone déployée a exécuté `/update` après v2.9 — réf: DEPLOYMENTS.md, templates/.claude/CLAUDE.md, .claude/commands/update.md
+- [P2|ouvert] Vérifier que les scripts/habitudes de lancement de `/update` sur les 4 projets déployés sont mis à jour suite à l'inversion du sens de la commande (v2.9) — fait quand: chaque zone déployée est mise à jour en lançant `/update <chemin>` depuis le repo du kit — réf: .claude/commands/update.md, CHANGELOG.md v2.9
 
 ## Questions ouvertes
 - Aucune
@@ -21,25 +22,19 @@
 # Session du 2026-07-03
 
 ## Décisions prises
-- Mode batch `/update all` ajouté : met à jour tous les projets de DEPLOYMENTS.md, silencieux sauf pause ciblée si migration "Spécificités projet" nécessaire sur un projet.
-- Mécanisme "Spécificités projet" créé (section dédiée CLAUDE.md + marqueurs start.md/close.md) pour survivre à `/update`, avec détection par diff + question utilisateur si zone absente.
-- Convention : toute règle de la zone "Spécificités projet" doit référencer explicitement l'étape/section visée (position toujours en fin de fichier, sinon effet perdu).
-- `/doc_sync` ajouté comme étape 8bis dans `.claude/commands/close.md` (kit), via sa propre zone "Spécificités projet".
+- `/update` inversé : se lance désormais depuis le repo du kit avec le chemin du projet cible en argument (au lieu de l'inverse). Toutes les opérations sur le projet cible référencent explicitement ce chemin (`git -C <cible> ...`).
+- `DEPLOYMENTS.md`/`CHANGELOG.md` sont désormais lus à la racine du kit (working directory), plus de préfixe `$ARGUMENTS/`.
 
 ## Livrables produits ou modifiés
-- `.claude/commands/update.md` + `templates/.claude/commands/update.md` : mode batch all, préservation/migration spécificités projet
-- `.claude/CLAUDE.md` + `templates/.claude/CLAUDE.md` : section "Spécificités projet"
-- `.claude/commands/start.md` + `templates/.claude/commands/start.md` : marqueurs SPECIFICITES PROJET
-- `.claude/commands/close.md` + `templates/.claude/commands/close.md` : marqueurs SPECIFICITES PROJET ; version kit contient en plus l'appel `/doc_sync`
-- `CHANGELOG.md` : entrées v2.7 et v2.8
-- `Protocole_start_close_context.md` : section `/update` et changelog interne mis à jour
+- `.claude/commands/update.md` + `templates/.claude/commands/update.md` : inversion kit/cible, argument-hint mis à jour
+- `Protocole_start_close_context.md` : section `/update` et changelog interne mis à jour (v2.9)
+- `CHANGELOG.md` : entrée v2.9
 
 ## Hypothèses validées / invalidées
-- VALIDE : diff + question utilisateur (y compris pause ciblée en mode batch) pour ne rien perdre silencieusement
-- VALIDE : convention de référencement explicite par étape/section plutôt que marqueurs positionnels multiples (trop fragiles vu l'évolution du kit)
+- VALIDE : l'inversion élimine l'incohérence détectée en session (argument pointant vers un dossier non-kit alors que le cwd était déjà le kit)
 
 ## Prochaine étape exacte
-Lancer `/doc_sync`, puis propager v2.8 aux 4 projets déployés via `/update` (ou `/update all`).
+Propager v2.9 aux 4 projets déployés via `/update <chemin>` (ou `/update all`) depuis le repo du kit.
 
 ## Question bloquante pour la session suivante
 Aucune

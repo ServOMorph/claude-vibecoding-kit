@@ -3,6 +3,11 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v2.9 — 2026-07-03
+
+### Modifié
+- `/update` : inversion du sens de lancement — la commande se lance désormais depuis le repo du kit (working directory), avec en argument le chemin absolu du projet cible à mettre à jour (au lieu de se lancer depuis le projet cible avec le chemin du kit en argument). Toutes les opérations sur le projet cible référencent désormais explicitement ce chemin (`git -C <cible> ...`), et `DEPLOYMENTS.md`/`CHANGELOG.md` sont lus directement à la racine du kit.
+
 ## v2.8 — 2026-07-03
 
 ### Ajouté

@@ -287,11 +287,11 @@ Procédure : voir `templates/.claude/commands/init_projet.md`.
 
 # /update — Mise à jour des fichiers de protocole
 
-Met à jour `start.md`, `close.md` et `CLAUDE.md` dans un projet déjà initialisé à partir de la dernière version du kit. Ne touche pas à `_contexte/`, `zones.md`, ni à la section "Données sensibles" et la section "Spécificités projet" de `CLAUDE.md`, ni au bloc `SPECIFICITES PROJET` de `start.md`/`close.md`. Un commit de sauvegarde est effectué dans le repo du projet cible avant toute modification.
+Lancée depuis le repo du kit, avec en argument le chemin absolu du projet cible (ou `all`). Met à jour `start.md`, `close.md` et `CLAUDE.md` dans ce projet à partir de la dernière version du kit. Ne touche pas à `_contexte/`, `zones.md`, ni à la section "Données sensibles" et la section "Spécificités projet" de `CLAUDE.md`, ni au bloc `SPECIFICITES PROJET` de `start.md`/`close.md`. Un commit de sauvegarde est effectué dans le repo du projet cible avant toute modification.
 
 `init_projet.md` et `update.md` ne sont pas déployés dans les projets — ils restent dans le kit.
 
-**Mode batch (`/update all`)** : lancé depuis le repo du kit, met à jour tous les projets listés dans `DEPLOYMENTS.md`, sans confirmation intermédiaire. Un projet dont le chemin est introuvable ou n'est plus un repo git est ignoré (échec noté) sans interrompre le batch. Un résumé final liste le statut de chaque projet.
+**Mode batch (`/update all`)** : met à jour tous les projets listés dans `DEPLOYMENTS.md`, sans confirmation intermédiaire. Un projet dont le chemin est introuvable ou n'est plus un repo git est ignoré (échec noté) sans interrompre le batch. Un résumé final liste le statut de chaque projet.
 
 **Zone "Spécificités projet"** (section `CLAUDE.md` + bloc marqueur `start.md`/`close.md`) : préserve les lignes propres à un projet à travers les updates successifs. Si la zone est absente (fichier jamais migré vers ce mécanisme), `/update` compare le fichier existant au fichier kit correspondant, liste les lignes candidates et pose une question à l'utilisateur (migrer / ignorer / décider ligne par ligne) — y compris en mode `/update all`, qui se met alors en pause ciblée sur ce projet sans interrompre le reste du batch. Convention : toute règle liée à une étape/section précise doit la référencer explicitement par son numéro/titre, car la zone est toujours physiquement en fin de fichier.
 
@@ -311,6 +311,11 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 ---
 
 # Changelog
+
+## v2.9 — 2026-07-03
+
+**`/update`**
+- Inversion du sens de lancement : se lance désormais depuis le repo du kit, argument = chemin absolu du projet cible (au lieu de l'inverse). Opérations sur le projet cible référencées explicitement (`git -C <cible> ...`) ; `DEPLOYMENTS.md`/`CHANGELOG.md` lus à la racine du kit.
 
 ## v2.8 — 2026-07-03
 
