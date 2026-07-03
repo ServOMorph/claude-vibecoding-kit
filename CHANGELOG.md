@@ -3,6 +3,11 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v2.6 — 2026-07-03
+
+### Ajouté
+- `CLAUDE.md` : nouvelle section "Roadmap" — critères de création, format canonique (nommage, phase `[EN COURS]` unique, checkpoint `/compact`), et sous-section "Contenu des phases" (tests intégrés à la phase fonctionnelle, phase de refacto dédiée uniquement si dette technique visible). Règle appliquée en permanence via CLAUDE.md plutôt que via une commande dédiée, pour couvrir les demandes de roadmap formulées en cours de session.
+
 ## v2.5 — 2026-07-03
 
 ### Ajouté

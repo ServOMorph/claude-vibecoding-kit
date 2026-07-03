@@ -135,6 +135,12 @@ Voir `templates/.claude/commands/close.md`.
 
 # ROADMAP.md
 
+> **Règle appliquée automatiquement :** les critères de création, le format et les règles ci-dessous
+> sont dupliqués dans `templates/.claude/CLAUDE.md` (section "Roadmap"), donc chargés en permanence
+> dans toute conversation — pas seulement en cas d'appel à une commande dédiée. Choix fait pour que la
+> règle s'applique même quand la demande de roadmap est formulée de façon informelle en cours de
+> session, pas uniquement au lancement d'une commande explicite.
+
 ## Quand créer une roadmap
 
 Pas à chaque session. Une roadmap se justifie quand :
@@ -150,11 +156,13 @@ Nommage : `roadmap_<sujet>.md` dans le dossier de zone.
 
 - Une seule phase `[EN COURS]` à la fois.
 - Le checkpoint `/compact` est intégré dans le modèle après chaque phase — ne pas le supprimer.
-- Le fichier est mis à jour par `/close` : statuts des tâches et phases reflètent l'état réel après session.
-- La roadmap est listée dans la section "Charger au démarrage" du manifest pendant toute la durée du chantier.
-- Quand toutes les phases sont `[FAIT]` : retirer la roadmap du manifest. La conserver dans le dossier comme archive.
+- Le fichier est mis à jour par `/close` : statuts des tâches et phases reflètent l'état réel après session, jamais en cours de session.
+- Tant qu'une roadmap est active, `/start` la charge automatiquement (`roadmap*.md` dans le dossier de zone).
+- Quand toutes les phases sont `[FAIT]` : la conserver dans le dossier comme archive.
+- Tests : intégrés à la phase fonctionnelle (dernière tâche = tests exécutés et verts), pas une phase séparée sauf volume important.
+- Refacto : phase dédiée uniquement si dette technique visible en fin de phase précédente et trop large pour la phase suivante — sinon signaler sans imposer de phase.
 
-Modèle : voir `templates/roadmap_TEMPLATE.md`.
+Modèle détaillé (structure de fichier complète) : voir `templates/roadmap_TEMPLATE.md` — sert de référence humaine ; l'agent applique directement les règles ci-dessus via CLAUDE.md.
 
 
 # Intégration Ollama
@@ -299,6 +307,12 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 ---
 
 # Changelog
+
+## v2.6 — 2026-07-03
+
+**`CLAUDE.md`**
+- Nouvelle section "Roadmap" : critères de création, format canonique, et règle "Contenu des phases" (tests intégrés à la phase fonctionnelle sauf volume important ; refacto en phase dédiée uniquement si dette technique visible et trop large pour la phase suivante). Choix de la localiser dans `CLAUDE.md` (chargé en permanence) plutôt qu'une commande `/roadmap` dédiée, pour couvrir les demandes formulées de façon informelle en cours de session.
+- Section "ROADMAP.md" de ce document mise à jour en conséquence ; référence obsolète au "manifest" supprimée.
 
 ## v2.5 — 2026-07-03
 

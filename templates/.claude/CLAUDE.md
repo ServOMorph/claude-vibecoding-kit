@@ -24,6 +24,35 @@
 - Code fonctionnel uniquement
 - Pas de commentaires décoratifs
 
+## Roadmap
+
+### Quand créer une roadmap
+Pas à chaque session. Une roadmap se justifie quand :
+- la feature ou la modification comporte plusieurs phases distinctes
+- le travail va s'étaler sur plusieurs sessions
+- le risque de perdre le fil entre deux `/compact` est réel
+
+Si aucun de ces critères n'est rempli, le signaler avant de créer le fichier.
+
+### Format
+- Nommage : `roadmap_<sujet>.md`, dans le dossier de zone (racine du projet).
+- Une seule phase `[EN COURS]` à la fois, les autres `[TODO]` ou `[FAIT]`.
+- Chaque phase se termine par un checkpoint `/compact` (ne pas le supprimer, ne pas le modifier) :
+
+  **⏸ Checkpoint** — Demander à l'utilisateur de faire `/compact` avant de continuer.
+  Attendre sa réponse écrite. Ne pas commencer la phase suivante sans confirmation.
+
+- Mise à jour des statuts : à la charge de `/close`, jamais en cours de session.
+
+### Contenu des phases
+- Chaque phase de développement inclut la création et l'exécution des tests pertinents
+  avant d'être marquée [FAIT] — pas une phase séparée, sauf si le volume de tests le justifie.
+- Insérer une phase de refacto dédiée entre deux phases fonctionnelles quand :
+  - la phase qui vient de se terminer a introduit de la dette technique visible (duplication,
+    contournement temporaire, structure bancale) qui compliquerait la phase suivante
+  - le refacto est trop large pour être absorbé silencieusement dans la phase suivante
+  Sinon, ne pas insérer de phase dédiée : signaler l'opportunité sans forcer une phase.
+
 ## Contrôle du contexte
 
 ### Mémoire automatique
