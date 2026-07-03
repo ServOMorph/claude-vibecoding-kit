@@ -88,16 +88,24 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
      ```
    - Ne pas modifier les entrées existantes.
 
-9. Effectuer un commit git :
-   ```bash
-   git diff --name-only          # vérifier tous les fichiers modifiés pendant la session
-   git status                    # confirmer l'état du repo
-   git add <dossier>/_contexte/ CHANGELOG.md [autres fichiers modifiés identifiés ci-dessus]
-   git commit -m "close(<alias>): session AAAA-MM-JJ — <résumé 1 ligne>"
-   ```
-   - Le résumé reprend la première décision actée, ou la prochaine étape si aucune décision.
-   - En cas de doute sur ce qu'il faut stager : préférer un commit légèrement trop large
-     plutôt qu'un commit partiel laissant le repo dans un état incohérent.
-   - Ne pas inclure de fichiers sans lien avec la session.
+9. Avant de committer, relire les étapes 3 à 8 une par une et confirmer explicitement que chacune
+   a été exécutée (pas seulement planifiée). Si une étape a une commande associée (script de build,
+   régénération de vue, etc.) et qu'elle n'a pas encore été lancée dans cette session, l'exécuter
+   maintenant, avant le commit — jamais après.
 
-10. Afficher en fin de réponse en grand format : ✌️😎
+10. Effectuer un commit git :
+    ```bash
+    git diff --name-only          # vérifier tous les fichiers modifiés pendant la session
+    git status                    # confirmer l'état du repo
+    git add <dossier>/_contexte/ CHANGELOG.md [autres fichiers modifiés identifiés ci-dessus]
+    git commit -m "close(<alias>): session AAAA-MM-JJ — <résumé 1 ligne>"
+    ```
+    - Le résumé reprend la première décision actée, ou la prochaine étape si aucune décision.
+    - En cas de doute sur ce qu'il faut stager : préférer un commit légèrement trop large
+      plutôt qu'un commit partiel laissant le repo dans un état incohérent.
+    - Ne pas inclure de fichiers sans lien avec la session.
+    - Si une commande de génération a modifié des fichiers après le commit (cas non censé
+      survenir avec l'étape 9, mais à vérifier via `git status` après coup) : les inclure dans
+      ce même commit, jamais dans un commit séparé.
+
+11. Afficher en fin de réponse en grand format : ✌️😎

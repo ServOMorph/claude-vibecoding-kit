@@ -300,6 +300,11 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 
 # Changelog
 
+## v2.5 — 2026-07-03
+
+**`/close`**
+- Nouvelle étape 9 : avant le commit, relire les étapes 3 à 8 et confirmer explicitement leur exécution. Toute commande de génération/build associée à une étape et pas encore lancée doit l'être immédiatement, avant le commit. Étapes 9-10 deviennent 10-11.
+
 ## v2.3 — 2026-06-21
 
 **Nouvelles commandes**
