@@ -12,7 +12,7 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - **Déploiement** : copie template vers projets via `/init`, tracking dans DEPLOYMENTS.md
 
 ## État actuel
-Kit v2.6 en production. Règles de roadmap (critères, format, contenu des phases) déplacées dans `CLAUDE.md`, appliquées en permanence sans commande dédiée. 4 projets déployés en v2.3, pas encore mis à jour vers v2.6. Prêt pour propagation via `/update`.
+Kit v2.8 en production. Mode batch `/update all` opérationnel. Mécanisme "Spécificités projet" (CLAUDE.md + start.md/close.md) protège les lignes propres à un projet contre l'écrasement par `/update`, avec migration assistée (diff + question) pour les fichiers pas encore migrés. 4 projets déployés en v2.3, pas encore mis à jour.
 
 ## Décisions structurantes
 - 2026-06-29 : JeGeekUtile v2.3 déployé avec support C:\Users\raph6\Documents
@@ -21,3 +21,5 @@ Kit v2.6 en production. Règles de roadmap (critères, format, contenu des phase
 - 2026-01-15 : Multizone support implémenté
 - 2026-07-03 : Règles de roadmap intégrées à CLAUDE.md (pas de commande /roadmap) pour s'appliquer même hors démarrage de commande explicite
 - 2026-07-03 : Contenu des phases de roadmap précisé — tests intégrés à la phase fonctionnelle, refacto en phase dédiée seulement si dette technique visible et trop large pour la suivante
+- 2026-07-03 : `/update all` ajouté (mode batch), pause ciblée par projet uniquement si migration "Spécificités projet" nécessaire
+- 2026-07-03 : Mécanisme "Spécificités projet" créé (CLAUDE.md + start.md/close.md) pour protéger les lignes propres à un projet lors de `/update`, avec migration assistée par diff quand la zone est absente

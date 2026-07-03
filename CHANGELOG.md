@@ -3,6 +3,19 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v2.8 — 2026-07-03
+
+### Ajouté
+- `CLAUDE.md` : nouvelle section "Spécificités projet", préservée intégralement par `/update` (comme "Données sensibles").
+- `start.md` / `close.md` : bloc `SPECIFICITES PROJET` en fin de fichier, préservé par `/update` (extraction/réinjection). Convention de référencement explicite par étape/section pour limiter la perte de position logique.
+- `/update` : si la zone "Spécificités projet" est absente (fichier jamais migré), détection par diff contre le fichier kit et question à l'utilisateur (migrer / ignorer / décider ligne par ligne) — y compris en mode `/update all`, qui se met en pause ciblée sur le projet concerné sans interrompre le reste du batch.
+- `.claude/commands/close.md` (kit) : lancement de `/doc_sync` ajouté entre l'étape 8 et l'étape 9, via la zone "Spécificités projet".
+
+## v2.7 — 2026-07-03
+
+### Ajouté
+- `/update` : nouveau mode batch `/update all` — met à jour tous les projets listés dans `DEPLOYMENTS.md` en une seule commande, exécution silencieuse avec résumé final, sans interrompre le batch en cas de projet introuvable ou non-git.
+
 ## v2.6 — 2026-07-03
 
 ### Ajouté

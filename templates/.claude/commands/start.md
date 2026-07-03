@@ -43,3 +43,9 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
     et le point d'attention immédiat.
 
 5. Afficher en fin de réponse : 🎉🎉🎉
+
+<!-- SPECIFICITES PROJET : DEBUT (préservé par /update, ne pas toucher hors de ce bloc) -->
+<!-- Convention : toute règle liée à une étape précise de la Procédure ci-dessus doit la
+     référencer explicitement par son numéro (ex: "Étape 3 : ..."), plutôt que compter sur la
+     position physique de cette zone (toujours en fin de fichier). -->
+<!-- SPECIFICITES PROJET : FIN -->

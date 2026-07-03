@@ -8,7 +8,7 @@ RÃ©sout le problÃ¨me structurel du vibecoding : **le contexte est perdu Ã 
 
 - `/start [zone]` â€” charge le contexte du projet au dÃ©marrage de session (zone implicite si absent)
 - `/close [zone]` â€” sauvegarde l'Ã©tat, met Ã  jour les fichiers de contexte, committe (zone implicite si absent)
-- `/init` â€” initialise le protocole dans un nouveau projet en quelques questions
+- `/init_projet` â€” initialise le protocole dans un nouveau projet en quelques questions
 - `/update` â€” met Ã  jour les fichiers de protocole dans un projet dÃ©jÃ  initialisÃ©, sans toucher aux donnÃ©es projet
 - `/create_memory` â€” ajoute une entrÃ©e dans la mÃ©moire projet persistante (`.claude/memory.md`)
 - `CLAUDE.md` â€” rÃ¨gles permanentes appliquÃ©es Ã  toutes les conversations
@@ -53,7 +53,7 @@ claude-vibecoding-kit/
     â”‚   â”œâ”€â”€ CLAUDE.md                     # rÃ¨gles pour l'IA
     â”‚   â”œâ”€â”€ zones.md                      # table alias â†’ dossiers rÃ©els
     â”‚   â””â”€â”€ commands/
-    â”‚       â”œâ”€â”€ init.md                   # commande /init
+    â”‚       â”œâ”€â”€ init_projet.md            # commande /init_projet
     â”‚       â”œâ”€â”€ start.md                  # commande /start
     â”‚       â”œâ”€â”€ close.md                  # commande /close
     â”‚       â”œâ”€â”€ update.md                 # commande /update

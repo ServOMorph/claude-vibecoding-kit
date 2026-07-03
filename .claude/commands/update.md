@@ -1,6 +1,6 @@
 ---
 description: Met à jour les fichiers de protocole du kit dans un projet déjà initialisé
-argument-hint: <chemin vers le dossier Template_initiailisation_projet_videcoding_ClaudeCode>
+argument-hint: <chemin vers le dossier Template_initiailisation_projet_videcoding_ClaudeCode> | all
 model: sonnet
 ---
 
@@ -8,9 +8,36 @@ model: sonnet
 
 ## Objectif
 
-Mettre à jour les fichiers de protocole (`start.md`, `close.md`, `init_projet.md`) dans le projet courant à partir de la dernière version du kit. Ne touche pas aux fichiers spécifiques au projet (`_contexte/`, `zones.md`, la section "Données sensibles" de `CLAUDE.md`).
+Mettre à jour les fichiers de protocole (`start.md`, `close.md`, `init_projet.md`) dans le projet courant à partir de la dernière version du kit. Ne touche pas aux fichiers spécifiques au projet (`_contexte/`, `zones.md`, la section "Données sensibles" et la section "Spécificités projet" de `CLAUDE.md`, le bloc `SPECIFICITES PROJET` de `start.md`/`close.md`).
 
 ## Procédure
+
+### 0. Mode batch (all)
+
+Si `$ARGUMENTS` vaut `all` (comparaison insensible à la casse) : basculer en mode batch.
+
+1. Le kit = working directory courant. Vérifier que `DEPLOYMENTS.md` existe à cette racine.
+   Sinon : répondre "❌ DEPLOYMENTS.md introuvable — /update all doit être lancé depuis le repo du kit." et s'arrêter.
+2. Lire `DEPLOYMENTS.md`, extraire chaque ligne du tableau (nom, chemin absolu, alias, version, date).
+3. Pour chaque projet, dans l'ordre du tableau :
+   a. Vérifier que le chemin existe et contient un `.git`.
+      - Si non : noter "❌ <alias> — échec (chemin introuvable ou non-git)" et passer au projet suivant.
+   b. Exécuter silencieusement les étapes 1 à 8 de la procédure standard ci-dessous, avec :
+      - racine du projet = chemin de la ligne
+      - kit = working directory courant (celui de l'étape 0)
+      - Pas de confirmation intermédiaire, pas d'exécution de l'étape 9 individuelle.
+      - **Exception** : si l'étape 5 ou 6 détecte des lignes candidates "spécificités projet" non
+        migrées (voir procédure de détection dans ces étapes), poser la question à l'utilisateur
+        pour ce projet précis avant de continuer — le batch se met en pause le temps de la réponse,
+        puis reprend automatiquement sur le projet suivant.
+      - Toute erreur pendant les étapes 1 à 8 est capturée : noter "❌ <alias> — échec (<raison>)",
+        passer au projet suivant sans interrompre le batch.
+      - Succès : noter "✅ <alias> — mis à jour (kit <version>)".
+4. Étape finale (remplace l'étape 9 individuelle) : afficher un résumé unique, une ligne par projet,
+   dans l'ordre du tableau DEPLOYMENTS.md.
+
+**Ne pas exécuter les étapes 1 à 9 décrites plus bas telles quelles en mode batch** — elles restent
+la procédure standard, appelée en interne pour chaque projet à l'étape 0.3.b.
 
 ### 1. Résoudre les chemins
 
@@ -63,6 +90,31 @@ Si le working tree est propre (rien à commiter) : passer à l'étape suivante s
 
 ### 5. Mettre à jour les fichiers de protocole
 
+Pour `start.md` et `close.md`, avant d'écraser, déterminer le contenu à réinjecter :
+
+- **Si les marqueurs `<!-- SPECIFICITES PROJET : DEBUT -->` / `FIN` sont présents** dans le fichier
+  existant : extraire leur contenu (chaîne vide si la zone est vide). Passer directement à la copie.
+- **Si les marqueurs sont absents** (fichier jamais migré vers ce mécanisme) :
+  1. Comparer ligne à ligne le fichier existant avec le fichier kit correspondant
+     (`templates/.claude/commands/start.md` ou `close.md`).
+  2. Lister les lignes présentes dans le fichier existant et absentes du fichier kit — candidats
+     "spécificités projet".
+  3. Si la liste est vide : rien à migrer, la zone réinjectée sera vide.
+  4. Si la liste est non vide : poser la question (voir note batch à l'étape 0) :
+     ```
+     Zone "Spécificités projet" introuvable dans <fichier> de <alias>. Lignes absentes du kit détectées :
+     <liste>
+     Attention : cette zone est toujours en fin de fichier. Si une ligne est liée à une étape précise
+     de la Procédure, la reformuler pour référencer explicitement son numéro (ex: "Étape 3 : ..."),
+     sinon elle perdra sa position d'exécution dans le workflow.
+     Que faire ?
+     1. Migrer telles quelles dans la nouvelle zone "Spécificités projet"
+     2. Ignorer (obsolètes ou déjà couvertes par le kit)
+     3. Décider ligne par ligne
+     ```
+     Le contenu retenu selon la réponse (tout, rien, ou le sous-ensemble choisi) devient le contenu
+     à réinjecter.
+
 Pour chacun des fichiers suivants, copier depuis le kit et réappliquer **toutes** les substitutions de la liste construite à l'étape 4 :
 
 | Fichier kit | Destination | Placeholders à substituer |
@@ -71,15 +123,38 @@ Pour chacun des fichiers suivants, copier depuis le kit et réappliquer **toutes
 | `templates/.claude/commands/close.md` | `.claude/commands/close.md` | toutes les paires `{{ALIAS}}` / `{{RACINE}}` |
 | `templates/.claude/commands/create_memory.md` | `.claude/commands/create_memory.md` | _(aucun)_ |
 
+Pour `start.md` et `close.md`, une fois le fichier copié : réinjecter le contenu retenu ci-dessus
+entre les marqueurs `SPECIFICITES PROJET` du fichier nouvellement copié.
+
 `init_projet.md` et `update.md` ne sont pas copiés dans les projets — ils restent dans le kit.
 
 **Ne pas écraser** `_contexte/`, `zones.md`, ni `ollama_call.sh`.
 
 ### 6. Mettre à jour CLAUDE.md (partiel)
 
-- Lire `.claude/CLAUDE.md` existant.
-- Lire `templates/.claude/CLAUDE.md` du kit.
-- **Conserver** la section "Données sensibles" du fichier existant.
+- Lire `.claude/CLAUDE.md` existant et `templates/.claude/CLAUDE.md` du kit.
+- **Si la section `## Spécificités projet` est présente** dans le fichier existant : la conserver
+  telle quelle.
+- **Si elle est absente** (fichier jamais migré vers ce mécanisme) :
+  1. Comparer ligne à ligne le fichier existant avec `templates/.claude/CLAUDE.md`, hors section
+     "Données sensibles" (déjà traitée séparément).
+  2. Lister les lignes présentes dans le fichier existant et absentes du fichier kit — candidats
+     "spécificités projet".
+  3. Si la liste est vide : la nouvelle section "Spécificités projet" reprend le contenu vide du kit.
+  4. Si la liste est non vide : poser la question (voir note batch à l'étape 0) :
+     ```
+     Section "Spécificités projet" introuvable dans CLAUDE.md de <alias>. Lignes absentes du kit détectées :
+     <liste>
+     Attention : cette section est toujours en fin de fichier. Si une ligne est liée à une section
+     précise du kit, la reformuler pour référencer explicitement son titre (ex: "Section Roadmap : ..."),
+     sinon elle perdra son rattachement d'origine.
+     Que faire ?
+     1. Migrer telles quelles dans la nouvelle section "Spécificités projet"
+     2. Ignorer (obsolètes ou déjà couvertes par le kit)
+     3. Décider ligne par ligne
+     ```
+     Le contenu retenu selon la réponse remplit la nouvelle section "Spécificités projet".
+- **Conserver** en tout état de cause la section "Données sensibles" du fichier existant.
 - **Remplacer** toutes les autres sections par celles du kit.
 - Écraser `.claude/CLAUDE.md` avec le résultat fusionné.
 
@@ -103,4 +178,4 @@ git commit -m "update: protocole vibecoding — zone <alias> — kit <version>"
 ### 9. Confirmer
 
 Répondre uniquement :
-"✅ Update <alias> terminé (kit <version>). Fichiers mis à jour : start.md, close.md, init_projet.md, update.md, CLAUDE.md."
+"✅ Update <alias> terminé (kit <version>). Fichiers mis à jour : start.md, close.md, init_projet.md, update.md, CLAUDE.md. Sections/blocs "Spécificités projet" préservés."

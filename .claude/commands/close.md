@@ -109,3 +109,12 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
       ce même commit, jamais dans un commit séparé.
 
 11. Afficher en fin de réponse en grand format : ✌️😎
+
+<!-- SPECIFICITES PROJET : DEBUT (préservé par /update, ne pas toucher hors de ce bloc) -->
+<!-- Convention : toute règle liée à une étape précise de la Procédure ci-dessus doit la
+     référencer explicitement par son numéro (ex: "Étape 6 : ..."), plutôt que compter sur la
+     position physique de cette zone (toujours en fin de fichier). -->
+
+Étape 8bis (entre l'étape 8 et l'étape 9) : lancer la commande `/doc_sync` pour synchroniser la
+documentation du kit avant le commit.
+<!-- SPECIFICITES PROJET : FIN -->
