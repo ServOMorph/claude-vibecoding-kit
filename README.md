@@ -75,5 +75,5 @@ L'historique des versions est consignÃ© dans `CHANGELOG.md`.
 
 - [Claude Code](https://claude.ai/code)
 - Git
-- (Optionnel) [Ollama](https://ollama.com) + `jq` pour la dÃ©lÃ©gation locale
+- (Optionnel) [Ollama](https://ollama.com) + `python`/`python3` pour la dÃ©lÃ©gation locale
 
