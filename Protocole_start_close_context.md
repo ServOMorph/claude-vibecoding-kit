@@ -44,7 +44,7 @@ Faire `/close`+`/start` entre chaque phase serait sur-ingénié. Faire `/compact
 
 **Attention sur Haiku :** le critère n'est pas la taille de la tâche mais la complexité du contexte. Une petite modification dans un codebase avec des dépendances peut introduire un bug subtil qu'Haiku ne détectera pas. Le coût du debug qui suit dépasse l'économie réalisée. Utiliser Haiku uniquement quand la tâche est réellement isolée.
 
-**Ollama (local, ex. gemma3:4b) :** pour les tâches répétitives et templated qui ne nécessitent pas de raisonnement complexe, ou quand les données sont sensibles et ne doivent pas quitter la machine.
+**Ollama (local, ex. gemma4:e4b) :** pour les tâches répétitives et templated qui ne nécessitent pas de raisonnement complexe, ou quand les données sont sensibles et ne doivent pas quitter la machine.
 
 | Cas d'usage | Exemple |
 |-------------|---------|
@@ -171,10 +171,11 @@ Modèle détaillé (structure de fichier complète) : voir `templates/roadmap_TE
 
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh   # installation
-ollama pull gemma3:4b                            # modèle par défaut
+ollama pull gemma4:e4b                           # modèle par défaut
 ollama serve                                     # démarrer le service (si non automatique)
-apt install jq  # ou brew install jq             # dépendance du script
 ```
+
+Dépendance : `python` ou `python3` sur le PATH (utilisé par le script pour le JSON, pas de `jq` requis).
 
 Script : voir `templates/ollama_call.sh`.
 
@@ -287,7 +288,7 @@ Procédure : voir `templates/.claude/commands/init_projet.md`.
 
 # /update — Mise à jour des fichiers de protocole
 
-Lancée depuis le repo du kit, avec en argument le chemin absolu du projet cible (ou `all`). Met à jour `start.md`, `close.md` et `CLAUDE.md` dans ce projet à partir de la dernière version du kit. Ne touche pas à `_contexte/`, `zones.md`, ni à la section "Données sensibles" et la section "Spécificités projet" de `CLAUDE.md`, ni au bloc `SPECIFICITES PROJET` de `start.md`/`close.md`. Un commit de sauvegarde est effectué dans le repo du projet cible avant toute modification.
+Lancée depuis le repo du kit, avec en argument le chemin absolu du projet cible (ou `all`). Met à jour `start.md`, `close.md`, `CLAUDE.md` et `ollama_call.sh` dans ce projet à partir de la dernière version du kit. Ne touche pas à `_contexte/`, `zones.md`, ni à la section "Données sensibles" et la section "Spécificités projet" de `CLAUDE.md`, ni au bloc `SPECIFICITES PROJET` de `start.md`/`close.md`. Un commit de sauvegarde est effectué dans le repo du projet cible avant toute modification.
 
 `init_projet.md` et `update.md` ne sont pas déployés dans les projets — ils restent dans le kit.
 
@@ -311,6 +312,11 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 ---
 
 # Changelog
+
+## v2.10 — 2026-07-14
+
+- `ollama_call.sh` : suppression de la dépendance `jq`, encodage/décodage JSON via `python`/`python3`, remontée explicite des erreurs HTTP Ollama. Modèle par défaut changé de `gemma3:4b` à `gemma4:e4b`.
+- `/update` : ajout de `ollama_call.sh` à la table des fichiers propagés vers les projets cibles (absent jusqu'ici — bug corrigé).
 
 ## v2.9 — 2026-07-03
 

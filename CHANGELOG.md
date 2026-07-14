@@ -3,6 +3,15 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v2.10 — 2026-07-14
+
+### Corrigé
+- `ollama_call.sh` : suppression de la dépendance à `jq` (absente sur certains postes). Le script encode/décode le JSON via `python`/`python3` (déjà requis ailleurs dans le kit), avec remontée explicite des erreurs HTTP Ollama (ex: modèle introuvable) au lieu d'un échec silencieux.
+- `/update` : la procédure ne copiait jamais `ollama_call.sh` vers les projets cibles — corrigé, il est désormais inclus dans la table de copie et les commits de sauvegarde/mise à jour.
+
+### Modifié
+- `ollama_call.sh` : modèle par défaut changé de `gemma3:4b` (jamais installé) à `gemma4:e4b`. Reste surchargeable via `OLLAMA_MODEL`.
+
 ## v2.9 — 2026-07-03
 
 ### Modifié

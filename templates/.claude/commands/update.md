@@ -76,7 +76,7 @@ Vérifier que `<cible>/.claude/commands/start.md` et `<cible>/.claude/commands/c
 Avant toute modification, effectuer un commit de l'état actuel du projet cible :
 
 ```bash
-git -C <cible> add .claude/commands/ .claude/CLAUDE.md
+git -C <cible> add .claude/commands/ .claude/CLAUDE.md ollama_call.sh
 git -C <cible> commit -m "backup: avant update protocole vibecoding"
 ```
 
@@ -123,13 +123,14 @@ Pour chacun des fichiers suivants, copier depuis le kit et réappliquer **toutes
 | `templates/.claude/commands/start.md` | `<cible>/.claude/commands/start.md` | toutes les paires `{{ALIAS}}` / `{{RACINE}}` |
 | `templates/.claude/commands/close.md` | `<cible>/.claude/commands/close.md` | toutes les paires `{{ALIAS}}` / `{{RACINE}}` |
 | `templates/.claude/commands/create_memory.md` | `<cible>/.claude/commands/create_memory.md` | _(aucun)_ |
+| `templates/ollama_call.sh` | `<cible>/ollama_call.sh` | _(aucun)_ |
 
 Pour `start.md` et `close.md`, une fois le fichier copié : réinjecter le contenu retenu ci-dessus
 entre les marqueurs `SPECIFICITES PROJET` du fichier nouvellement copié.
 
 `init_projet.md` et `update.md` ne sont pas copiés dans les projets — ils restent dans le kit.
 
-**Ne pas écraser** `<cible>/_contexte/`, `<cible>/.claude/zones.md`, ni `<cible>/ollama_call.sh`.
+**Ne pas écraser** `<cible>/_contexte/` ni `<cible>/.claude/zones.md`.
 
 ### 6. Mettre à jour CLAUDE.md (partiel)
 
@@ -172,11 +173,11 @@ entre les marqueurs `SPECIFICITES PROJET` du fichier nouvellement copié.
 ### 8. Commit
 
 ```bash
-git -C <cible> add .claude/commands/ .claude/CLAUDE.md
+git -C <cible> add .claude/commands/ .claude/CLAUDE.md ollama_call.sh
 git -C <cible> commit -m "update: protocole vibecoding — zone <alias> — kit <version>"
 ```
 
 ### 9. Confirmer
 
 Répondre uniquement :
-"✅ Update <alias> terminé (kit <version>). Fichiers mis à jour : start.md, close.md, init_projet.md, update.md, CLAUDE.md. Sections/blocs "Spécificités projet" préservés."
+"✅ Update <alias> terminé (kit <version>). Fichiers mis à jour : start.md, close.md, init_projet.md, update.md, CLAUDE.md, ollama_call.sh. Sections/blocs "Spécificités projet" préservés."
