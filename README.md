@@ -48,6 +48,8 @@ claude-vibecoding-kit/
 â”œâ”€â”€ Protocole_start_close_context.md   # documentation complÃ¨te
 â”œâ”€â”€ CHANGELOG.md                          # historique des versions
 â”œâ”€â”€ DEPLOYMENTS.md                        # registre des projets initialisÃ©s (ignorÃ© par git)
+â”œâ”€â”€ tests/                                # suite unittest du lanceur Ollama
+â”œâ”€â”€ base_connaissances/                   # audit des projets dÃ©ployÃ©s (index, fiches, analyse, propositions)
 â””â”€â”€ templates/
     â”œâ”€â”€ .claude/
     â”‚   â”œâ”€â”€ CLAUDE.md                     # rÃ¨gles pour l'IA
@@ -79,4 +81,16 @@ L'historique des versions est consignÃ© dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit v2.14 : la délégation Ollama utilise `python ollama_call.py "<prompt>"`, sans dépendance à Bash ni WSL. La propagation vers les projets déjà déployés reste à effectuer explicitement via `/update`.
+Kit v2.17 : la délégation Ollama utilise `python ollama_call.py "<prompt>"`, sans dépendance à Bash ni WSL. Le lanceur gère les délais et réponses API invalides ; sa suite de tests couvre aussi un appel local réel optionnel. `base_connaissances/` contient un audit des 11 projets déployés (frictions, patterns terrain, propositions d'amélioration du kit).
+
+## Vérifier le lanceur Ollama
+
+La suite est dans `tests/test_ollama_call.py`.
+
+```powershell
+python -m unittest discover -s tests -v
+$env:OLLAMA_LIVE_TEST = "1"
+python -m unittest tests.test_ollama_call.OllamaCallTests.test_live_ollama_returns_a_response -v
+```
+
+Le second test appelle réellement Ollama ; il reste désactivé par défaut.

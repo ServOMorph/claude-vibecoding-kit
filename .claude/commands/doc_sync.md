@@ -43,6 +43,9 @@ ne s'applique à eux, car ce sont des définitions de commande, pas des instance
 | `CLAUDE.md` | `CLAUDE.md` |
 
 Pour chaque paire :
+- Pour `start.md` et `close.md`, comparer uniquement le contenu situé hors des marqueurs
+  `SPECIFICITES PROJET`. Le contenu de ce bloc est propre à chaque instance et peut donc différer
+  légitimement ; ne jamais le recopier dans le miroir.
 - Si les deux fichiers existent et diffèrent : celui modifié dans le diff de l'étape 1 est la source ;
   répercuter son contenu intégral sur l'autre.
 - Si les deux ont changé de façon divergente (rare) : signaler le conflit à l'utilisateur et demander

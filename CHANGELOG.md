@@ -3,6 +3,24 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v2.17 — 2026-07-17
+
+### Ajouté
+- `base_connaissances/` : audit reproductible des 11 projets déployés (historique git, `_contexte/`, roadmaps, mémoire projet, transcripts Claude Code) — `INDEX.md`, une fiche par projet, `ANALYSE.md` (frictions et patterns terrain) et `PROPOSITIONS_AMELIORATION.md` (propositions priorisées, non mises en œuvre).
+
+## v2.16 — 2026-07-17
+
+### Corrigé
+- `/doc_sync` ignore désormais le contenu des blocs `SPECIFICITES PROJET` de `start.md` et `close.md` lors de la comparaison des miroirs ; ces règles locales ne sont plus signalées comme une divergence.
+
+## v2.15 — 2026-07-17
+
+### Ajouté
+- Suite `unittest` du lanceur Ollama : sérialisation des prompts, sélection du modèle, sortie UTF-8 et gestion des erreurs. Un appel réel est disponible sur demande via `OLLAMA_LIVE_TEST=1`.
+
+### Corrigé
+- `ollama_call.py` applique un délai maximal de 60 secondes et remonte explicitement les réponses JSON invalides ou inattendues du service local.
+
 ## v2.14 — 2026-07-17
 
 ### Corrigé

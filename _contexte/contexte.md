@@ -12,21 +12,18 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - **Déploiement** : copie template vers projets via `/init`, tracking dans DEPLOYMENTS.md
 
 ## État actuel
-- Kit v2.14 : la délégation Ollama utilise désormais `ollama_call.py`, compatible Windows sans Bash ni WSL.
-- Les commandes `/init_projet` et `/update`, les templates et la documentation propagent ce lanceur Python.
-- Onze projets sont enregistrés dans `DEPLOYMENTS.md` ; leur propagation v2.14 reste à effectuer explicitement.
-- `jeux_vibecoder` reçoit déjà le lanceur, sans commit car son dépôt contenait des travaux non liés.
+- Kit v2.17 : `ollama_call.py` durci (timeout 60s, erreurs JSON/réponse explicites) et couvert par une suite `unittest` (dont un test d'intégration réel opt-in) ; `/doc_sync` ignore désormais les blocs "Spécificités projet" lors de la comparaison des miroirs.
+- `base_connaissances/` créé : audit des 11 projets déployés (git, `_contexte/`, roadmaps, mémoire, transcripts Claude Code) + `ANALYSE.md` (10 frictions, 7 patterns terrain) + `PROPOSITIONS_AMELIORATION.md` (16 propositions priorisées) — aucune proposition mise en œuvre à ce stade.
+- Onze projets sont enregistrés dans `DEPLOYMENTS.md` (registre local, hors git) ; leur propagation vers la dernière version du kit reste à effectuer explicitement via `/update`.
+- `jeux_vibecoder` reçoit déjà le lanceur Ollama, sans commit car son dépôt contenait des travaux non liés.
 - Le README reste affecté par une corruption d'encodage historique hors les lignes corrigées.
 
 ## Décisions structurantes
-- 2026-07-03 : Règles de roadmap intégrées à CLAUDE.md (pas de commande /roadmap) pour s'appliquer même hors démarrage de commande explicite
-- 2026-07-03 : Contenu des phases de roadmap précisé — tests intégrés à la phase fonctionnelle, refacto en phase dédiée seulement si dette technique visible et trop large pour la suivante
-- 2026-07-03 : `/update all` ajouté (mode batch), pause ciblée par projet uniquement si migration "Spécificités projet" nécessaire
-- 2026-07-03 : Mécanisme "Spécificités projet" créé (CLAUDE.md + start.md/close.md) pour protéger les lignes propres à un projet lors de `/update`, avec migration assistée par diff quand la zone est absente
-- 2026-07-03 : `/update` inversé — se lance depuis le repo du kit, argument = chemin absolu du projet cible (au lieu de l'inverse)
 - 2026-07-14 : `ollama_call.sh` réécrit sans dépendance `jq` (python), modèle par défaut `gemma4:e4b` ; `/update` corrigé pour propager ce fichier ; 6 projets déployés synchronisés en v2.10
 - 2026-07-17 : `/init_projet` inversé — même logique que `/update` (lancement depuis le kit, argument = projet cible) ; ajout d'une étape de liste des fichiers modifiés avant confirmation ; TableauDeBord initialisé comme 7e projet déployé
 - 2026-07-17 : `/close` crée automatiquement le README du projet cible s'il est absent (au lieu de demander confirmation)
 - 2026-07-17 : `/update` corrigé — suppression du mécanisme de substitution `{{ALIAS}}`/`{{RACINE}}` obsolète dans la doc (start.md/close.md lisent `zones.md` directement) ; correction des mentions erronées d'`init_projet.md`/`update.md` comme fichiers copiés vers les projets cibles
 - 2026-07-17 : `/update all` exécuté sur les 9 projets déployés (kit v2.13), IA-TSA migré vers le mécanisme "Spécificités projet" (jamais fait auparavant)
 - 2026-07-17 : `ollama_call.py` remplace le lanceur Bash pour une délégation Ollama compatible Windows sans Bash ni WSL.
+- 2026-07-17 : `ollama_call.py` durci (timeout 60s, gestion JSON invalide/réponse inattendue) + suite `unittest` dédiée ; `/doc_sync` exclut les blocs "Spécificités projet" de la comparaison start.md/close.md.
+- 2026-07-17 : `base_connaissances/` créé comme audit reproductible de la flotte de projets déployés (git + `_contexte/` + roadmaps + transcripts) ; `PROPOSITIONS_AMELIORATION.md` priorise 16 correctifs/évolutions du kit, en attente de décision sur la mise en œuvre.

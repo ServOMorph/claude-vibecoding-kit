@@ -185,6 +185,17 @@ Script : voir `templates/ollama_call.py`.
 > # Attendu : OK
 > ```
 
+> **Suite de tests :** depuis la racine du kit, exécuter les contrôles sans service local :
+> ```powershell
+> python -m unittest discover -s tests -v
+> ```
+> Pour vérifier un appel réel à Ollama, activer explicitement le test d’intégration :
+> ```powershell
+> $env:OLLAMA_LIVE_TEST = "1"
+> python -m unittest tests.test_ollama_call.OllamaCallTests.test_live_ollama_returns_a_response -v
+> ```
+> Le lanceur impose un délai maximal de 60 secondes et affiche une erreur lisible si l’API renvoie un JSON invalide ou une réponse inattendue.
+
 ## Appel depuis Claude
 
 Dans Claude Code, Claude construit le prompt et délègue directement :
@@ -312,6 +323,21 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 ---
 
 # Changelog
+
+## v2.17 — 2026-07-17
+
+**Base de connaissances**
+- `base_connaissances/` : audit reproductible des projets déployés (git, `_contexte/`, roadmaps, mémoire projet, transcripts Claude Code) — index, fiche par projet, analyse transversale (frictions, patterns terrain) et propositions d'amélioration priorisées.
+
+## v2.16 — 2026-07-17
+
+**Synchronisation documentaire**
+- `/doc_sync` exclut les blocs `SPECIFICITES PROJET` de `start.md` et `close.md` lors du contrôle des fichiers miroir ; les règles locales sont ainsi préservées sans faux conflit.
+
+## v2.15 — 2026-07-17
+
+**Délégation Ollama**
+- Ajout d’une suite `unittest` (dont un appel réel opt-in) et renforcement du lanceur : délai de 60 secondes, erreurs explicites pour les réponses JSON invalides ou inattendues.
 
 ## v2.14 — 2026-07-17
 
