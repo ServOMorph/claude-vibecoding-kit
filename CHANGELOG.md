@@ -3,6 +3,16 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v2.12 — 2026-07-17
+
+### Ajouté
+- `/init_projet` : nouvelle étape listant, avant la confirmation finale, tous les fichiers créés ou modifiés au cours de l'initialisation, sous forme de liens cliquables (chemin absolu).
+
+## v2.11 — 2026-07-17
+
+### Modifié
+- `/init_projet` : inversion du sens de lancement — la commande se lance désormais depuis le repo du kit (working directory), avec en argument le chemin absolu du projet cible à initialiser (au lieu de se lancer depuis le projet cible avec le chemin du kit en argument). Toutes les opérations de copie référencent désormais explicitement ce chemin, et `DEPLOYMENTS.md`/`CHANGELOG.md` sont lus directement à la racine du kit.
+
 ## v2.10 — 2026-07-14
 
 ### Corrigé

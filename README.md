@@ -23,17 +23,17 @@ RÃ©sout le problÃ¨me structurel du vibecoding : **le contexte est perdu Ã 
 git clone https://github.com/<votre-compte>/claude-vibecoding-kit.git
 ```
 
-### 2. Ouvrir le projet cible dans Claude Code
+### 2. Ouvrir ce kit dans Claude Code
 
-Dans Claude Code, ouvrir le dossier du projet Ã  initialiser.
+Dans Claude Code, ouvrir le dossier du kit (claude-vibecoding-kit).
 
 ### 3. Lancer l'initialisation
 
 ```
-/init <chemin vers claude-vibecoding-kit>
+/init_projet <chemin vers le projet Ã  initialiser>
 ```
 
-Claude pose 5 questions (alias, objectif, stack, git, premiÃ¨re zone ou supplÃ©mentaire). La racine est le working directory courant â€” non demandÃ©e. Copie les fichiers, remplace les placeholders, committe, enregistre le dÃ©ploiement dans `DEPLOYMENTS.md`.
+Claude pose 5 questions (alias, objectif, stack, git, premiÃ¨re zone ou supplÃ©mentaire). La racine du projet cible est l'argument fourni â€” non demandÃ©e. Copie les fichiers, remplace les placeholders, committe dans le projet cible, enregistre le dÃ©ploiement dans `DEPLOYMENTS.md`.
 
 ### 4. DÃ©marrer
 

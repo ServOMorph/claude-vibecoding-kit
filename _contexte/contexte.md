@@ -12,7 +12,7 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - **Déploiement** : copie template vers projets via `/init`, tracking dans DEPLOYMENTS.md
 
 ## État actuel
-Kit v2.10 en production. `/update` couvre désormais `ollama_call.sh` (bug de propagation corrigé). Les 6 projets déployés (DEPLOYMENTS.md) sont tous à jour en v2.10 : robert-ia, jeu, Appli_TSA_SDI_TDAH, jegeekutile, SérénIATech_dev, visioaide. Mécanisme "Spécificités projet" opérationnel avec migration assistée par diff.
+Kit v2.12 en production. `/init_projet` inversé (aligné sur `/update` v2.9) : lancement depuis le kit, argument = projet cible, avec nouvelle étape de liste des fichiers modifiés avant confirmation. 7 projets déployés (DEPLOYMENTS.md), dont TableauDeBord (nouveau). Asymétrie mineure non tranchée entre les deux copies d'`init_projet.md` (ligne Q5) — voir signals.md.
 
 ## Décisions structurantes
 - 2026-06-29 : JeGeekUtile v2.3 déployé avec support C:\Users\raph6\Documents
@@ -25,3 +25,4 @@ Kit v2.10 en production. `/update` couvre désormais `ollama_call.sh` (bug de pr
 - 2026-07-03 : Mécanisme "Spécificités projet" créé (CLAUDE.md + start.md/close.md) pour protéger les lignes propres à un projet lors de `/update`, avec migration assistée par diff quand la zone est absente
 - 2026-07-03 : `/update` inversé — se lance depuis le repo du kit, argument = chemin absolu du projet cible (au lieu de l'inverse)
 - 2026-07-14 : `ollama_call.sh` réécrit sans dépendance `jq` (python), modèle par défaut `gemma4:e4b` ; `/update` corrigé pour propager ce fichier ; 6 projets déployés synchronisés en v2.10
+- 2026-07-17 : `/init_projet` inversé — même logique que `/update` (lancement depuis le kit, argument = projet cible) ; ajout d'une étape de liste des fichiers modifiés avant confirmation ; TableauDeBord initialisé comme 7e projet déployé

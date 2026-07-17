@@ -268,7 +268,7 @@ claude-vibecoding-kit/
 | Placeholder | Remplacé par |
 |-------------|--------------|
 | `{{ALIAS}}` | Alias court de la zone (ex: backend) |
-| `{{RACINE}}` | Chemin absolu de la racine du projet (working directory courant) |
+| `{{RACINE}}` | Chemin absolu de la racine du projet (argument fourni à `/init_projet`) |
 | `{{OBJECTIF}}` | Objectif du projet, 1-2 phrases |
 | `{{STACK}}` | Stack technique, liste courte |
 | `{{DATE}}` | Date du jour, AAAA-MM-JJ |
@@ -312,6 +312,16 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 ---
 
 # Changelog
+
+## v2.12 — 2026-07-17
+
+**`/init_projet`**
+- Nouvelle étape (avant la confirmation finale) listant tous les fichiers créés ou modifiés au cours de l'initialisation, sous forme de liens cliquables (chemin absolu).
+
+## v2.11 — 2026-07-17
+
+**`/init_projet`**
+- Inversion du sens de lancement : se lance désormais depuis le repo du kit, argument = chemin absolu du projet cible à initialiser (au lieu de l'inverse). Opérations de copie référencées explicitement via ce chemin ; `DEPLOYMENTS.md`/`CHANGELOG.md` lus à la racine du kit.
 
 ## v2.10 — 2026-07-14
 
