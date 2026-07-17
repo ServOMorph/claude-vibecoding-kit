@@ -12,10 +12,9 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - **Déploiement** : copie template vers projets via `/init`, tracking dans DEPLOYMENTS.md
 
 ## État actuel
-- Kit v2.17 : `ollama_call.py` durci (timeout 60s, erreurs JSON/réponse explicites) et couvert par une suite `unittest` (dont un test d'intégration réel opt-in) ; `/doc_sync` ignore désormais les blocs "Spécificités projet" lors de la comparaison des miroirs.
-- `base_connaissances/` créé : audit des 11 projets déployés (git, `_contexte/`, roadmaps, mémoire, transcripts Claude Code) + `ANALYSE.md` (10 frictions, 7 patterns terrain) + `PROPOSITIONS_AMELIORATION.md` (16 propositions priorisées) — aucune proposition mise en œuvre à ce stade.
-- Onze projets sont enregistrés dans `DEPLOYMENTS.md` (registre local, hors git) ; leur propagation vers la dernière version du kit reste à effectuer explicitement via `/update`.
-- `jeux_vibecoder` reçoit déjà le lanceur Ollama, sans commit car son dépôt contenait des travaux non liés.
+- Kit v2.17. `/update` corrigé (F1 : réécrit version/date sur ligne DEPLOYMENTS.md existante ; migration automatique du contenu "Spécificités projet" ; nouvelle étape de vérification post-update à 7 contrôles) et testé avec succès sur 2 projets (robert-ia, Jeu pour Nino → v2.17).
+- 9 projets restent à propager vers v2.17 : Appli_TSA_SDI_TDAH, JeGeekUtile, SérénIATech_dev, VisioAide, TableauDeBord, IA-TSA, La Rev, IA_V7, jeux_vibecoder.
+- `base_connaissances/` créé : audit des 11 projets déployés + `ANALYSE.md` (10 frictions, 7 patterns terrain) + `PROPOSITIONS_AMELIORATION.md` (16 propositions priorisées) — Lot 1 partiellement mis en œuvre (F1 fait), reste à trancher.
 - Le README reste affecté par une corruption d'encodage historique hors les lignes corrigées.
 
 ## Décisions structurantes
@@ -27,3 +26,6 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - 2026-07-17 : `ollama_call.py` remplace le lanceur Bash pour une délégation Ollama compatible Windows sans Bash ni WSL.
 - 2026-07-17 : `ollama_call.py` durci (timeout 60s, gestion JSON invalide/réponse inattendue) + suite `unittest` dédiée ; `/doc_sync` exclut les blocs "Spécificités projet" de la comparaison start.md/close.md.
 - 2026-07-17 : `base_connaissances/` créé comme audit reproductible de la flotte de projets déployés (git + `_contexte/` + roadmaps + transcripts) ; `PROPOSITIONS_AMELIORATION.md` priorise 16 correctifs/évolutions du kit, en attente de décision sur la mise en œuvre.
+- 2026-07-17 : proposition 1.1 (F1) implémentée — `/update` réécrit désormais version/date d'une ligne `DEPLOYMENTS.md` existante au lieu de l'ignorer.
+- 2026-07-17 : `/update` migre désormais automatiquement tout contenu "Spécificités projet" détecté (lignes ou sections orphelines) sans poser de question — décision actée après un cas réel sur robert-ia (sections opérationnelles placées hors de la zone dédiée).
+- 2026-07-17 : `/update` intègre une étape de vérification post-update (7 contrôles) avant confirmation ; échec → statut `⚠️` avec détail, en individuel comme en mode batch.

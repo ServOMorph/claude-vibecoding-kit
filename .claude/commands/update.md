@@ -22,21 +22,21 @@ Si `$ARGUMENTS` vaut `all` (comparaison insensible à la casse) : basculer en mo
 3. Pour chaque projet, dans l'ordre du tableau :
    a. Vérifier que le chemin existe et contient un `.git`.
       - Si non : noter "❌ <alias> — échec (chemin introuvable ou non-git)" et passer au projet suivant.
-   b. Exécuter silencieusement les étapes 1 à 8 de la procédure standard ci-dessous, avec :
+   b. Exécuter silencieusement les étapes 1 à 9 de la procédure standard ci-dessous, avec :
       - projet cible = chemin de la ligne
       - kit = working directory courant (celui de l'étape 0)
-      - Pas de confirmation intermédiaire, pas d'exécution de l'étape 9 individuelle.
-      - **Exception** : si l'étape 5 ou 6 détecte des lignes candidates "spécificités projet" non
-        migrées (voir procédure de détection dans ces étapes), poser la question à l'utilisateur
-        pour ce projet précis avant de continuer — le batch se met en pause le temps de la réponse,
-        puis reprend automatiquement sur le projet suivant.
+      - Pas de confirmation intermédiaire, pas d'exécution de l'étape 10 individuelle.
+      - Si l'étape 5 ou 6 détecte des lignes ou sections candidates "spécificités projet" non
+        migrées, elles sont migrées automatiquement sans interrompre le batch (voir étapes 5 et 6).
       - Toute erreur pendant les étapes 1 à 8 est capturée : noter "❌ <alias> — échec (<raison>)",
         passer au projet suivant sans interrompre le batch.
-      - Succès : noter "✅ <alias> — mis à jour (kit <version>)".
-4. Étape finale (remplace l'étape 9 individuelle) : afficher un résumé unique, une ligne par projet,
+      - Si l'étape 9 (vérification) détecte un ou plusieurs échecs : noter
+        "⚠️ <alias> — mis à jour avec réserves (kit <ancienne version> → <version>) : <détail des échecs>".
+      - Sinon, succès : noter "✅ <alias> — mis à jour (kit <ancienne version> → <version>)".
+4. Étape finale (remplace l'étape 10 individuelle) : afficher un résumé unique, une ligne par projet,
    dans l'ordre du tableau DEPLOYMENTS.md.
 
-**Ne pas exécuter les étapes 1 à 9 décrites plus bas telles quelles en mode batch** — elles restent
+**Ne pas exécuter les étapes 1 à 10 décrites plus bas telles quelles en mode batch** — elles restent
 la procédure standard, appelée en interne pour chaque projet à l'étape 0.3.b.
 
 ### 1. Résoudre les chemins
@@ -99,20 +99,11 @@ Pour `start.md` et `close.md`, avant d'écraser, déterminer le contenu à réin
   2. Lister les lignes présentes dans le fichier existant et absentes du fichier kit — candidats
      "spécificités projet".
   3. Si la liste est vide : rien à migrer, la zone réinjectée sera vide.
-  4. Si la liste est non vide : poser la question (voir note batch à l'étape 0) :
-     ```
-     Zone "Spécificités projet" introuvable dans <fichier> de <alias>. Lignes absentes du kit détectées :
-     <liste>
-     Attention : cette zone est toujours en fin de fichier. Si une ligne est liée à une étape précise
-     de la Procédure, la reformuler pour référencer explicitement son numéro (ex: "Étape 3 : ..."),
-     sinon elle perdra sa position d'exécution dans le workflow.
-     Que faire ?
-     1. Migrer telles quelles dans la nouvelle zone "Spécificités projet"
-     2. Ignorer (obsolètes ou déjà couvertes par le kit)
-     3. Décider ligne par ligne
-     ```
-     Le contenu retenu selon la réponse (tout, rien, ou le sous-ensemble choisi) devient le contenu
-     à réinjecter.
+  4. Si la liste est non vide : les migrer automatiquement telles quelles dans la nouvelle zone
+     "Spécificités projet", sans demander confirmation. Si une ligne est manifestement liée à une
+     étape précise de la Procédure, la reformuler pour référencer explicitement son numéro
+     (ex: "Étape 3 : ..."), pour qu'elle ne perde pas son rattachement une fois déplacée. Signaler
+     dans la réponse finale les lignes migrées, pour information.
 
 Pour chacun des fichiers suivants, copier tel quel depuis le kit (aucune substitution requise, ces fichiers lisent `zones.md` directement) :
 
@@ -141,19 +132,16 @@ entre les marqueurs `SPECIFICITES PROJET` du fichier nouvellement copié.
   2. Lister les lignes présentes dans le fichier existant et absentes du fichier kit — candidats
      "spécificités projet".
   3. Si la liste est vide : la nouvelle section "Spécificités projet" reprend le contenu vide du kit.
-  4. Si la liste est non vide : poser la question (voir note batch à l'étape 0) :
-     ```
-     Section "Spécificités projet" introuvable dans CLAUDE.md de <alias>. Lignes absentes du kit détectées :
-     <liste>
-     Attention : cette section est toujours en fin de fichier. Si une ligne est liée à une section
-     précise du kit, la reformuler pour référencer explicitement son titre (ex: "Section Roadmap : ..."),
-     sinon elle perdra son rattachement d'origine.
-     Que faire ?
-     1. Migrer telles quelles dans la nouvelle section "Spécificités projet"
-     2. Ignorer (obsolètes ou déjà couvertes par le kit)
-     3. Décider ligne par ligne
-     ```
-     Le contenu retenu selon la réponse remplit la nouvelle section "Spécificités projet".
+  4. Si la liste est non vide : les migrer automatiquement telles quelles dans la nouvelle section
+     "Spécificités projet", sans demander confirmation. Si une ligne est manifestement liée à une
+     section précise du kit, la reformuler pour référencer explicitement son titre
+     (ex: "Section Roadmap : ..."), pour qu'elle ne perde pas son rattachement une fois déplacée.
+     Signaler dans la réponse finale les lignes migrées, pour information.
+- **Si elle est présente mais que du contenu spécifique existe hors de cette section** (sections
+  entières ajoutées après "Spécificités projet", ou lignes ajoutées ailleurs dans le fichier et
+  absentes de `templates/.claude/CLAUDE.md`) : déplacer ce contenu à l'intérieur de la section
+  "Spécificités projet" (en sous-section `###` si ce sont des sections entières), sans demander
+  confirmation. Signaler dans la réponse finale le contenu déplacé, pour information.
 - **Conserver** en tout état de cause la section "Données sensibles" du fichier existant.
 - **Remplacer** toutes les autres sections par celles du kit.
 - Écraser `<cible>/.claude/CLAUDE.md` avec le résultat fusionné.
@@ -162,11 +150,12 @@ entre les marqueurs `SPECIFICITES PROJET` du fichier nouvellement copié.
 
 - Lire `DEPLOYMENTS.md` (racine du kit, working directory).
 - Chercher une ligne contenant le chemin absolu de `<cible>`.
+- La version kit est la dernière entrée de `CHANGELOG.md` (racine du kit).
 - Si absente : ajouter une ligne :
   ```
   | <nom du dossier de <cible>> | <chemin absolu de <cible>> | <alias> | <version kit> | <date du jour> |
   ```
-  La version kit est la dernière entrée de `CHANGELOG.md` (racine du kit).
+- Si présente : réécrire ses colonnes "Version kit" et "Date init" avec la nouvelle version et la date du jour (conserver les autres colonnes telles quelles). Noter l'ancienne version pour l'étape 9 / le résumé batch.
 
 ### 8. Commit
 
@@ -175,7 +164,35 @@ git -C <cible> add .claude/commands/ .claude/CLAUDE.md ollama_call.py
 git -C <cible> commit -m "update: protocole vibecoding — zone <alias> — kit <version>"
 ```
 
-### 9. Confirmer
+### 9. Vérification post-update
+
+Avant de confirmer, exécuter ces contrôles sur `<cible>` et collecter les échecs éventuels :
+
+1. **Fichiers présents et à jour** : `start.md`, `close.md`, `create_memory.md`, `ollama_call.py` sont
+   strictement identiques à leur version dans `templates/` (hors zones `SPECIFICITES PROJET`, qui
+   diffèrent normalement).
+2. **Marqueurs intacts** : `start.md` et `close.md` contiennent chacun exactement une paire
+   `<!-- SPECIFICITES PROJET : DEBUT -->` / `<!-- SPECIFICITES PROJET : FIN -->`.
+3. **CLAUDE.md cohérent** :
+   - la section `## Spécificités projet` existe et contient tout le contenu spécifique identifié
+     aux étapes 5/6 (rien laissé en section orpheline après elle) ;
+   - la section `## Données sensibles` du fichier existant a été conservée telle quelle ;
+   - la ligne de délégation Ollama référence `python ollama_call.py "<prompt>"` (pas l'ancien
+     `./ollama_call.sh` ni une autre forme obsolète).
+4. **Fichiers protégés non touchés** : `_contexte/` et `.claude/zones.md` sont identiques à avant
+   l'update (`git diff` vide sur ces chemins par rapport au commit de sauvegarde de l'étape 3).
+5. **`ollama_call.py` tracké** : `git -C <cible> ls-files ollama_call.py` retourne bien le fichier.
+6. **Commit propre** : `git -C <cible> show --stat HEAD` ne contient que des fichiers du protocole
+   (`.claude/commands/`, `.claude/CLAUDE.md`, `ollama_call.py`) — aucun fichier de projet non lié
+   n'a été inclus par erreur.
+7. **DEPLOYMENTS.md** : la ligne de `<cible>` porte bien la nouvelle version et la date du jour.
+
+Si un contrôle échoue : ne pas corriger silencieusement — consigner l'échec précis (contrôle,
+raison) pour l'afficher à l'étape 10. En mode batch, un échec de vérification bascule le statut du
+projet de "✅" à "⚠️" dans le résumé final, avec le détail du contrôle en échec.
+
+### 10. Confirmer
 
 Répondre uniquement :
-"✅ Update <alias> terminé (kit <version>). Fichiers mis à jour : start.md, close.md, create_memory.md, CLAUDE.md, ollama_call.py. Sections/blocs "Spécificités projet" préservés."
+"✅ Update <alias> terminé (kit <ancienne version> → <version>). Fichiers mis à jour : start.md, close.md, create_memory.md, CLAUDE.md, ollama_call.py. Sections/blocs "Spécificités projet" préservés."
+Si l'étape 9 a détecté un ou plusieurs échecs : remplacer "✅" par "⚠️" et lister chaque échec sur une ligne dédiée après la confirmation.

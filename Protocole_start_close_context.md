@@ -305,7 +305,9 @@ Lancée depuis le repo du kit, avec en argument le chemin absolu du projet cible
 
 **Mode batch (`/update all`)** : met à jour tous les projets listés dans `DEPLOYMENTS.md`, sans confirmation intermédiaire. Un projet dont le chemin est introuvable ou n'est plus un repo git est ignoré (échec noté) sans interrompre le batch. Un résumé final liste le statut de chaque projet.
 
-**Zone "Spécificités projet"** (section `CLAUDE.md` + bloc marqueur `start.md`/`close.md`) : préserve les lignes propres à un projet à travers les updates successifs. Si la zone est absente (fichier jamais migré vers ce mécanisme), `/update` compare le fichier existant au fichier kit correspondant, liste les lignes candidates et pose une question à l'utilisateur (migrer / ignorer / décider ligne par ligne) — y compris en mode `/update all`, qui se met alors en pause ciblée sur ce projet sans interrompre le reste du batch. Convention : toute règle liée à une étape/section précise doit la référencer explicitement par son numéro/titre, car la zone est toujours physiquement en fin de fichier.
+**Zone "Spécificités projet"** (section `CLAUDE.md` + bloc marqueur `start.md`/`close.md`) : préserve les lignes propres à un projet à travers les updates successifs. Si la zone est absente (fichier jamais migré vers ce mécanisme) ou si du contenu spécifique existe hors de la zone (sections orphelines ajoutées après elle), `/update` migre automatiquement ce contenu dans la zone "Spécificités projet", sans poser de question — y compris en mode `/update all`, qui ne se met donc plus en pause pour ce cas. Convention : toute règle liée à une étape/section précise doit la référencer explicitement par son numéro/titre, car la zone est toujours physiquement en fin de fichier.
+
+**Vérification post-update** : avant de confirmer, `/update` contrôle que les fichiers de protocole sont à jour, les marqueurs intacts, `CLAUDE.md` cohérent (section Spécificités projet complète, Données sensibles préservée, délégation Ollama à jour), `_contexte/`/`zones.md` non touchés, `ollama_call.py` tracké par git, le commit propre (pas de fichier étranger), et `DEPLOYMENTS.md` correct. Un échec fait passer le statut du projet de "✅" à "⚠️" (avec détail), en individuel comme en mode batch.
 
 Procédure : voir `templates/.claude/commands/update.md`.
 
@@ -323,6 +325,13 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 ---
 
 # Changelog
+
+## v2.18 — 2026-07-17
+
+**`/update`**
+- Réécrit désormais version/date d'une ligne `DEPLOYMENTS.md` existante (au lieu de l'ignorer).
+- Migre automatiquement le contenu "Spécificités projet" détecté (lignes ou sections orphelines), sans poser de question.
+- Nouvelle étape de vérification post-update (7 contrôles) avant confirmation, avec statut "⚠️" en cas d'échec.
 
 ## v2.17 — 2026-07-17
 

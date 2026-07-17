@@ -81,7 +81,7 @@ L'historique des versions est consignÃ© dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit v2.17 : la délégation Ollama utilise `python ollama_call.py "<prompt>"`, sans dépendance à Bash ni WSL. Le lanceur gère les délais et réponses API invalides ; sa suite de tests couvre aussi un appel local réel optionnel. `base_connaissances/` contient un audit des 11 projets déployés (frictions, patterns terrain, propositions d'amélioration du kit).
+Kit v2.17 : la délégation Ollama utilise `python ollama_call.py "<prompt>"`, sans dépendance à Bash ni WSL. Le lanceur gère les délais et réponses API invalides ; sa suite de tests couvre aussi un appel local réel optionnel. `base_connaissances/` contient un audit des 11 projets déployés (frictions, patterns terrain, propositions d'amélioration du kit). `/update` corrigé (DEPLOYMENTS.md fiable, migration automatique du contenu spécifique projet, vérification post-update) et testé sur 2 projets ; propagation aux 9 restants en cours.
 
 ## Vérifier le lanceur Ollama
 

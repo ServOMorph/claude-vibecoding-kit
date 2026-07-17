@@ -3,6 +3,15 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v2.18 — 2026-07-17
+
+### Corrigé
+- `/update` réécrit désormais la version et la date d'une ligne `DEPLOYMENTS.md` existante au lieu de l'ignorer (friction F1) ; `DEPLOYMENTS.md` corrigé manuellement pour les lignes déjà fausses.
+- `/update` migre automatiquement (sans poser de question) tout contenu "Spécificités projet" détecté, y compris les sections spécifiques placées hors de la zone dédiée.
+
+### Ajouté
+- `/update` : étape de vérification post-update (7 contrôles) avant la confirmation finale, avec statut `⚠️` en cas d'échec.
+
 ## v2.17 — 2026-07-17
 
 ### Ajouté
