@@ -3,6 +3,14 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v2.13 — 2026-07-17
+
+### Modifié
+- `/close` : si le `README.md` du projet cible n'existe pas encore, il est désormais créé automatiquement (sections objectif, stack, structure, état actuel) au lieu de demander confirmation à l'utilisateur.
+
+### Corrigé
+- `/update` : suppression des références obsolètes au mécanisme de substitution `{{ALIAS}}`/`{{RACINE}}` dans `start.md`/`close.md` (ces fichiers lisent `zones.md` directement depuis une version antérieure du kit, la doc `/update` ne le reflétait plus). Correction de l'objectif, du message de confirmation (étape 9) et de la liste de fichiers copiés en mode initialisation (étape 2), qui mentionnaient `init_projet.md`/`update.md` comme fichiers propagés vers les projets cibles alors qu'ils restent dans le kit.
+
 ## v2.12 — 2026-07-17
 
 ### Ajouté

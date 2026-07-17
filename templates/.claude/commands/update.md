@@ -8,7 +8,7 @@ model: sonnet
 
 ## Objectif
 
-Mettre à jour les fichiers de protocole (`start.md`, `close.md`, `init_projet.md`) d'un projet cible à partir de la dernière version du kit. Se lance depuis le repo du kit. Ne touche pas aux fichiers spécifiques au projet cible (`_contexte/`, `zones.md`, la section "Données sensibles" et la section "Spécificités projet" de `CLAUDE.md`, le bloc `SPECIFICITES PROJET` de `start.md`/`close.md`).
+Mettre à jour les fichiers de protocole (`start.md`, `close.md`, `create_memory.md`, `ollama_call.sh`, `CLAUDE.md`) d'un projet cible à partir de la dernière version du kit. Se lance depuis le repo du kit. Ne touche pas aux fichiers spécifiques au projet cible (`_contexte/`, `zones.md`, la section "Données sensibles" et la section "Spécificités projet" de `CLAUDE.md`, le bloc `SPECIFICITES PROJET` de `start.md`/`close.md`).
 
 ## Procédure
 
@@ -60,15 +60,14 @@ Vérifier que `<cible>/.claude/commands/start.md` et `<cible>/.claude/commands/c
   5. Pour chaque fichier ci-dessous, **copier depuis le kit uniquement s'il est absent** dans le projet cible :
      - `templates/.claude/commands/start.md` → `<cible>/.claude/commands/start.md`
      - `templates/.claude/commands/close.md` → `<cible>/.claude/commands/close.md`
-     - `templates/.claude/commands/init_projet.md` → `<cible>/.claude/commands/init_projet.md`
-     - `templates/.claude/commands/update.md` → `<cible>/.claude/commands/update.md`
+     - `templates/.claude/commands/create_memory.md` → `<cible>/.claude/commands/create_memory.md`
      - `templates/.claude/zones.md` → `<cible>/.claude/zones.md`
+     - `templates/ollama_call.sh` → `<cible>/ollama_call.sh`
   6. Pour `<cible>/.claude/CLAUDE.md` :
      - Si absent : copier depuis le kit.
      - Si présent : merger — identifier les sections du kit absentes du fichier existant et les ajouter en fin de fichier. Ne jamais supprimer ni modifier les sections existantes.
-  7. Substituer `{{ALIAS}}` et `{{RACINE}}` dans les fichiers copiés (pas dans les fichiers existants non touchés).
-  8. Ne jamais toucher à `<cible>/_contexte/` ni à aucun fichier de contexte existant.
-  9. Passer directement à l'étape 7 (DEPLOYMENTS.md) puis 8 (commit) et 9 (confirmer).
+  7. Ne jamais toucher à `<cible>/_contexte/` ni à aucun fichier de contexte existant.
+  8. Passer directement à l'étape 7 (DEPLOYMENTS.md) puis 8 (commit) et 9 (confirmer).
   **Ne pas exécuter les étapes 3 à 6.**
 
 ### 3. Commit de sauvegarde
@@ -84,10 +83,9 @@ Si le working tree du projet cible est propre (rien à commiter) : passer à l'�
 
 ### 4. Lire la configuration existante
 
-- Lire `<cible>/.claude/zones.md` pour extraire **toutes** les paires alias → dossier réel.
-  - Si la table est vide ou le fichier absent : demander "Alias de la zone ?" et "Chemin absolu de la racine ?"
-- Lire `<cible>/.claude/commands/start.md` et `<cible>/.claude/commands/close.md` existants pour extraire les substitutions déjà présentes (toutes les lignes alias/racine de la table des zones).
-- Construire la liste complète des paires `{{ALIAS}}` / `{{RACINE}}` à partir des deux sources (zones.md + fichiers existants). En cas de conflit : zones.md fait autorité.
+- Lire `<cible>/.claude/zones.md` pour vérifier qu'il existe et contient au moins une paire alias → dossier réel.
+  - Si la table est vide ou le fichier absent : demander "Alias de la zone ?" et "Chemin absolu de la racine ?", puis créer/compléter `zones.md`.
+- `start.md` et `close.md` ne contiennent plus de table figée : ils lisent `zones.md` directement au moment de l'exécution. Aucune substitution n'est donc nécessaire dans ces fichiers.
 
 ### 5. Mettre à jour les fichiers de protocole
 
@@ -116,14 +114,14 @@ Pour `start.md` et `close.md`, avant d'écraser, déterminer le contenu à réin
      Le contenu retenu selon la réponse (tout, rien, ou le sous-ensemble choisi) devient le contenu
      à réinjecter.
 
-Pour chacun des fichiers suivants, copier depuis le kit et réappliquer **toutes** les substitutions de la liste construite à l'étape 4 :
+Pour chacun des fichiers suivants, copier tel quel depuis le kit (aucune substitution requise, ces fichiers lisent `zones.md` directement) :
 
-| Fichier kit | Destination | Placeholders à substituer |
-|-------------|-------------|--------------------------|
-| `templates/.claude/commands/start.md` | `<cible>/.claude/commands/start.md` | toutes les paires `{{ALIAS}}` / `{{RACINE}}` |
-| `templates/.claude/commands/close.md` | `<cible>/.claude/commands/close.md` | toutes les paires `{{ALIAS}}` / `{{RACINE}}` |
-| `templates/.claude/commands/create_memory.md` | `<cible>/.claude/commands/create_memory.md` | _(aucun)_ |
-| `templates/ollama_call.sh` | `<cible>/ollama_call.sh` | _(aucun)_ |
+| Fichier kit | Destination |
+|-------------|-------------|
+| `templates/.claude/commands/start.md` | `<cible>/.claude/commands/start.md` |
+| `templates/.claude/commands/close.md` | `<cible>/.claude/commands/close.md` |
+| `templates/.claude/commands/create_memory.md` | `<cible>/.claude/commands/create_memory.md` |
+| `templates/ollama_call.sh` | `<cible>/ollama_call.sh` |
 
 Pour `start.md` et `close.md`, une fois le fichier copié : réinjecter le contenu retenu ci-dessus
 entre les marqueurs `SPECIFICITES PROJET` du fichier nouvellement copié.
@@ -180,4 +178,4 @@ git -C <cible> commit -m "update: protocole vibecoding — zone <alias> — kit 
 ### 9. Confirmer
 
 Répondre uniquement :
-"✅ Update <alias> terminé (kit <version>). Fichiers mis à jour : start.md, close.md, init_projet.md, update.md, CLAUDE.md, ollama_call.sh. Sections/blocs "Spécificités projet" préservés."
+"✅ Update <alias> terminé (kit <version>). Fichiers mis à jour : start.md, close.md, create_memory.md, CLAUDE.md, ollama_call.sh. Sections/blocs "Spécificités projet" préservés."

@@ -12,7 +12,7 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - **Déploiement** : copie template vers projets via `/init`, tracking dans DEPLOYMENTS.md
 
 ## État actuel
-Kit v2.12 en production. `/init_projet` inversé (aligné sur `/update` v2.9) : lancement depuis le kit, argument = projet cible, avec nouvelle étape de liste des fichiers modifiés avant confirmation. 7 projets déployés (DEPLOYMENTS.md), dont TableauDeBord (nouveau). Asymétrie mineure non tranchée entre les deux copies d'`init_projet.md` (ligne Q5) — voir signals.md.
+Kit v2.13 en production. `/close` crée désormais automatiquement le README manquant du projet cible. `/update` corrigé (références obsolètes au mécanisme de substitution de placeholders retirées, incohérences objectif/étapes sur les fichiers copiés vers les projets cibles). 9 projets déployés (DEPLOYMENTS.md), tous mis à jour vers kit v2.13 via `/update all`.
 
 ## Décisions structurantes
 - 2026-06-29 : JeGeekUtile v2.3 déployé avec support C:\Users\raph6\Documents
@@ -26,3 +26,6 @@ Kit v2.12 en production. `/init_projet` inversé (aligné sur `/update` v2.9) : 
 - 2026-07-03 : `/update` inversé — se lance depuis le repo du kit, argument = chemin absolu du projet cible (au lieu de l'inverse)
 - 2026-07-14 : `ollama_call.sh` réécrit sans dépendance `jq` (python), modèle par défaut `gemma4:e4b` ; `/update` corrigé pour propager ce fichier ; 6 projets déployés synchronisés en v2.10
 - 2026-07-17 : `/init_projet` inversé — même logique que `/update` (lancement depuis le kit, argument = projet cible) ; ajout d'une étape de liste des fichiers modifiés avant confirmation ; TableauDeBord initialisé comme 7e projet déployé
+- 2026-07-17 : `/close` crée automatiquement le README du projet cible s'il est absent (au lieu de demander confirmation)
+- 2026-07-17 : `/update` corrigé — suppression du mécanisme de substitution `{{ALIAS}}`/`{{RACINE}}` obsolète dans la doc (start.md/close.md lisent `zones.md` directement) ; correction des mentions erronées d'`init_projet.md`/`update.md` comme fichiers copiés vers les projets cibles
+- 2026-07-17 : `/update all` exécuté sur les 9 projets déployés (kit v2.13), IA-TSA migré vers le mécanisme "Spécificités projet" (jamais fait auparavant)

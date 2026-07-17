@@ -71,7 +71,7 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
 7. Mettre à jour `README.md` à la racine du projet :
    - Refléter l'état actuel du projet (section "État actuel" de `contexte.md`).
    - Ne pas modifier les sections stables (objectif, stack, structure) sauf changement explicite.
-   - Si le README n'existe pas encore : ne pas le créer sans demander.
+   - Si le README n'existe pas encore : le créer avec les sections standard (objectif, stack, structure, état actuel).
 
 8. Bumper la version dans `CHANGELOG.md` :
    - Lire la dernière entrée de `CHANGELOG.md` pour extraire la version actuelle (ex: `v2.2`).

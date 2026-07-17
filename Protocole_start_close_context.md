@@ -313,6 +313,14 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 
 # Changelog
 
+## v2.13 — 2026-07-17
+
+**`/close`**
+- Si le `README.md` du projet cible n'existe pas encore : création automatique (objectif, stack, structure, état actuel) au lieu de demander confirmation.
+
+**`/update`**
+- Suppression des références obsolètes au mécanisme de substitution `{{ALIAS}}`/`{{RACINE}}` dans `start.md`/`close.md` (ces fichiers lisent `zones.md` directement depuis une version antérieure du kit). Correction de l'objectif, du message de confirmation et de la liste de fichiers copiés en mode initialisation, qui mentionnaient à tort `init_projet.md`/`update.md` comme fichiers propagés vers les projets cibles.
+
 ## v2.12 — 2026-07-17
 
 **`/init_projet`**
