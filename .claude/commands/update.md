@@ -8,7 +8,7 @@ model: sonnet
 
 ## Objectif
 
-Mettre à jour les fichiers de protocole (`start.md`, `close.md`, `create_memory.md`, `ollama_call.sh`, `CLAUDE.md`) d'un projet cible à partir de la dernière version du kit. Se lance depuis le repo du kit. Ne touche pas aux fichiers spécifiques au projet cible (`_contexte/`, `zones.md`, la section "Données sensibles" et la section "Spécificités projet" de `CLAUDE.md`, le bloc `SPECIFICITES PROJET` de `start.md`/`close.md`).
+Mettre à jour les fichiers de protocole (`start.md`, `close.md`, `create_memory.md`, `ollama_call.py`, `CLAUDE.md`) d'un projet cible à partir de la dernière version du kit. Se lance depuis le repo du kit. Ne touche pas aux fichiers spécifiques au projet cible (`_contexte/`, `zones.md`, la section "Données sensibles" et la section "Spécificités projet" de `CLAUDE.md`, le bloc `SPECIFICITES PROJET` de `start.md`/`close.md`).
 
 ## Procédure
 
@@ -62,7 +62,7 @@ Vérifier que `<cible>/.claude/commands/start.md` et `<cible>/.claude/commands/c
      - `templates/.claude/commands/close.md` → `<cible>/.claude/commands/close.md`
      - `templates/.claude/commands/create_memory.md` → `<cible>/.claude/commands/create_memory.md`
      - `templates/.claude/zones.md` → `<cible>/.claude/zones.md`
-     - `templates/ollama_call.sh` → `<cible>/ollama_call.sh`
+     - `templates/ollama_call.py` → `<cible>/ollama_call.py`
   6. Pour `<cible>/.claude/CLAUDE.md` :
      - Si absent : copier depuis le kit.
      - Si présent : merger — identifier les sections du kit absentes du fichier existant et les ajouter en fin de fichier. Ne jamais supprimer ni modifier les sections existantes.
@@ -75,7 +75,7 @@ Vérifier que `<cible>/.claude/commands/start.md` et `<cible>/.claude/commands/c
 Avant toute modification, effectuer un commit de l'état actuel du projet cible :
 
 ```bash
-git -C <cible> add .claude/commands/ .claude/CLAUDE.md ollama_call.sh
+git -C <cible> add .claude/commands/ .claude/CLAUDE.md ollama_call.py
 git -C <cible> commit -m "backup: avant update protocole vibecoding"
 ```
 
@@ -121,7 +121,7 @@ Pour chacun des fichiers suivants, copier tel quel depuis le kit (aucune substit
 | `templates/.claude/commands/start.md` | `<cible>/.claude/commands/start.md` |
 | `templates/.claude/commands/close.md` | `<cible>/.claude/commands/close.md` |
 | `templates/.claude/commands/create_memory.md` | `<cible>/.claude/commands/create_memory.md` |
-| `templates/ollama_call.sh` | `<cible>/ollama_call.sh` |
+| `templates/ollama_call.py` | `<cible>/ollama_call.py` |
 
 Pour `start.md` et `close.md`, une fois le fichier copié : réinjecter le contenu retenu ci-dessus
 entre les marqueurs `SPECIFICITES PROJET` du fichier nouvellement copié.
@@ -171,11 +171,11 @@ entre les marqueurs `SPECIFICITES PROJET` du fichier nouvellement copié.
 ### 8. Commit
 
 ```bash
-git -C <cible> add .claude/commands/ .claude/CLAUDE.md ollama_call.sh
+git -C <cible> add .claude/commands/ .claude/CLAUDE.md ollama_call.py
 git -C <cible> commit -m "update: protocole vibecoding — zone <alias> — kit <version>"
 ```
 
 ### 9. Confirmer
 
 Répondre uniquement :
-"✅ Update <alias> terminé (kit <version>). Fichiers mis à jour : start.md, close.md, create_memory.md, CLAUDE.md, ollama_call.sh. Sections/blocs "Spécificités projet" préservés."
+"✅ Update <alias> terminé (kit <version>). Fichiers mis à jour : start.md, close.md, create_memory.md, CLAUDE.md, ollama_call.py. Sections/blocs "Spécificités projet" préservés."

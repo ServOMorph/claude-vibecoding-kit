@@ -12,13 +12,13 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - **Déploiement** : copie template vers projets via `/init`, tracking dans DEPLOYMENTS.md
 
 ## État actuel
-Kit v2.13 en production. `/close` crée désormais automatiquement le README manquant du projet cible. `/update` corrigé (références obsolètes au mécanisme de substitution de placeholders retirées, incohérences objectif/étapes sur les fichiers copiés vers les projets cibles). 9 projets déployés (DEPLOYMENTS.md), tous mis à jour vers kit v2.13 via `/update all`.
+- Kit v2.14 : la délégation Ollama utilise désormais `ollama_call.py`, compatible Windows sans Bash ni WSL.
+- Les commandes `/init_projet` et `/update`, les templates et la documentation propagent ce lanceur Python.
+- Onze projets sont enregistrés dans `DEPLOYMENTS.md` ; leur propagation v2.14 reste à effectuer explicitement.
+- `jeux_vibecoder` reçoit déjà le lanceur, sans commit car son dépôt contenait des travaux non liés.
+- Le README reste affecté par une corruption d'encodage historique hors les lignes corrigées.
 
 ## Décisions structurantes
-- 2026-06-29 : JeGeekUtile v2.3 déployé avec support C:\Users\raph6\Documents
-- 2026-06-21 : v2.3 release — amélioration robustesse close/start
-- 2026-04-10 : Adoption token economy stricte (max 3 sections par file)
-- 2026-01-15 : Multizone support implémenté
 - 2026-07-03 : Règles de roadmap intégrées à CLAUDE.md (pas de commande /roadmap) pour s'appliquer même hors démarrage de commande explicite
 - 2026-07-03 : Contenu des phases de roadmap précisé — tests intégrés à la phase fonctionnelle, refacto en phase dédiée seulement si dette technique visible et trop large pour la suivante
 - 2026-07-03 : `/update all` ajouté (mode batch), pause ciblée par projet uniquement si migration "Spécificités projet" nécessaire
@@ -29,3 +29,4 @@ Kit v2.13 en production. `/close` crée désormais automatiquement le README man
 - 2026-07-17 : `/close` crée automatiquement le README du projet cible s'il est absent (au lieu de demander confirmation)
 - 2026-07-17 : `/update` corrigé — suppression du mécanisme de substitution `{{ALIAS}}`/`{{RACINE}}` obsolète dans la doc (start.md/close.md lisent `zones.md` directement) ; correction des mentions erronées d'`init_projet.md`/`update.md` comme fichiers copiés vers les projets cibles
 - 2026-07-17 : `/update all` exécuté sur les 9 projets déployés (kit v2.13), IA-TSA migré vers le mécanisme "Spécificités projet" (jamais fait auparavant)
+- 2026-07-17 : `ollama_call.py` remplace le lanceur Bash pour une délégation Ollama compatible Windows sans Bash ni WSL.

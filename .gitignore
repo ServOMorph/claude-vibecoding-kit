@@ -6,5 +6,9 @@ Thumbs.db
 .vscode/
 *.swp
 
+# Python bytecode
+__pycache__/
+*.py[cod]
+
 # Local deployments registry
 DEPLOYMENTS.md

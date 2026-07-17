@@ -177,11 +177,11 @@ ollama serve                                     # démarrer le service (si non 
 
 Dépendance : `python` ou `python3` sur le PATH (utilisé par le script pour le JSON, pas de `jq` requis).
 
-Script : voir `templates/ollama_call.sh`.
+Script : voir `templates/ollama_call.py`.
 
 > **Test de sanité :** avant d'intégrer Ollama dans un workflow, vérifier que le script répond :
 > ```bash
-> ./ollama_call.sh "Réponds uniquement : OK"
+> python ollama_call.py "Réponds uniquement : OK"
 > # Attendu : OK
 > ```
 
@@ -190,7 +190,7 @@ Script : voir `templates/ollama_call.sh`.
 Dans Claude Code, Claude construit le prompt et délègue directement :
 
 ```bash
-./ollama_call.sh "Génère un commit message conventionnel pour : ajout validation email"
+python ollama_call.py "Génère un commit message conventionnel pour : ajout validation email"
 ```
 
 Claude récupère le résultat et l'intègre. Il ne traite pas lui-même la tâche.
@@ -199,32 +199,32 @@ Claude récupère le résultat et l'intègre. Il ne traite pas lui-même la tâc
 
 ### Post réseaux sociaux
 ```bash
-./ollama_call.sh "Tu es rédacteur [RÉSEAU]. Écris un post sur : [SUJET]. Ton : [TON]. Contraintes : [LONGUEUR, FORMAT]."
+python ollama_call.py "Tu es rédacteur [RÉSEAU]. Écris un post sur : [SUJET]. Ton : [TON]. Contraintes : [LONGUEUR, FORMAT]."
 ```
 
 ### Commit message
 ```bash
-./ollama_call.sh "Génère un commit message au format conventionnel (type(scope): description) pour ce changement : [DIFF OU DESCRIPTION]"
+python ollama_call.py "Génère un commit message au format conventionnel (type(scope): description) pour ce changement : [DIFF OU DESCRIPTION]"
 ```
 
 ### Changelog / release notes
 ```bash
-./ollama_call.sh "Transforme ces commits en release notes lisibles, sans jargon technique : [LISTE DE COMMITS]"
+python ollama_call.py "Transforme ces commits en release notes lisibles, sans jargon technique : [LISTE DE COMMITS]"
 ```
 
 ### Données de test
 ```bash
-./ollama_call.sh "Génère 10 entrées JSON valides pour ce schéma : [SCHÉMA]. Retourne uniquement le JSON brut, sans commentaire."
+python ollama_call.py "Génère 10 entrées JSON valides pour ce schéma : [SCHÉMA]. Retourne uniquement le JSON brut, sans commentaire."
 ```
 
 ### Pré-digest de logs
 ```bash
-./ollama_call.sh "Résume ces logs en 5 lignes max. Identifie le type d'erreur et sa fréquence : [LOGS]"
+python ollama_call.py "Résume ces logs en 5 lignes max. Identifie le type d'erreur et sa fréquence : [LOGS]"
 ```
 
 ### Email type / rapport récurrent
 ```bash
-./ollama_call.sh "Rédige un email [CONTEXTE] à partir de ces éléments : [POINTS CLÉS]. Ton : [TON]. Sois concis."
+python ollama_call.py "Rédige un email [CONTEXTE] à partir de ces éléments : [POINTS CLÉS]. Ton : [TON]. Sois concis."
 ```
 
 ## Règle de délégation
@@ -259,7 +259,7 @@ claude-vibecoding-kit/
     ├── _contexte/
     │   ├── contexte.md
     │   └── signals.md
-    ├── ollama_call.sh
+    ├── ollama_call.py
     └── roadmap_TEMPLATE.md
 ```
 
@@ -273,7 +273,7 @@ claude-vibecoding-kit/
 | `{{STACK}}` | Stack technique, liste courte |
 | `{{DATE}}` | Date du jour, AAAA-MM-JJ |
 
-Les placeholders apparaissent dans `templates/_contexte/*.md`, `templates/.claude/commands/*.md` et `templates/.claude/zones.md`. `CLAUDE.md`, `ollama_call.sh` et `roadmap_TEMPLATE.md` sont génériques, copiés tels quels.
+Les placeholders apparaissent dans `templates/_contexte/*.md`, `templates/.claude/commands/*.md` et `templates/.claude/zones.md`. `CLAUDE.md`, `ollama_call.py` et `roadmap_TEMPLATE.md` sont génériques, copiés tels quels.
 
 Procédure : voir `templates/.claude/commands/init_projet.md`.
 
@@ -288,7 +288,7 @@ Procédure : voir `templates/.claude/commands/init_projet.md`.
 
 # /update — Mise à jour des fichiers de protocole
 
-Lancée depuis le repo du kit, avec en argument le chemin absolu du projet cible (ou `all`). Met à jour `start.md`, `close.md`, `CLAUDE.md` et `ollama_call.sh` dans ce projet à partir de la dernière version du kit. Ne touche pas à `_contexte/`, `zones.md`, ni à la section "Données sensibles" et la section "Spécificités projet" de `CLAUDE.md`, ni au bloc `SPECIFICITES PROJET` de `start.md`/`close.md`. Un commit de sauvegarde est effectué dans le repo du projet cible avant toute modification.
+Lancée depuis le repo du kit, avec en argument le chemin absolu du projet cible (ou `all`). Met à jour `start.md`, `close.md`, `CLAUDE.md` et `ollama_call.py` dans ce projet à partir de la dernière version du kit. Ne touche pas à `_contexte/`, `zones.md`, ni à la section "Données sensibles" et la section "Spécificités projet" de `CLAUDE.md`, ni au bloc `SPECIFICITES PROJET` de `start.md`/`close.md`. Un commit de sauvegarde est effectué dans le repo du projet cible avant toute modification.
 
 `init_projet.md` et `update.md` ne sont pas déployés dans les projets — ils restent dans le kit.
 
@@ -312,6 +312,11 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 ---
 
 # Changelog
+
+## v2.14 — 2026-07-17
+
+**Délégation Ollama**
+- `ollama_call.py` remplace le lanceur Bash : exécution via `python ollama_call.py "<prompt>"`, compatible Windows sans WSL, avec sortie UTF-8. `/init_projet`, `/update` et `CLAUDE.md` sont alignés ; les bytecodes Python sont ignorés par Git.
 
 ## v2.13 — 2026-07-17
 

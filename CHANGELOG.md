@@ -3,6 +3,12 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v2.14 — 2026-07-17
+
+### Corrigé
+- La délégation Ollama repose désormais sur `ollama_call.py`, un lanceur Python compatible Windows, sans dépendance à Bash ou WSL. La sortie est écrite en UTF-8 pour éviter les erreurs d'encodage de la console Windows.
+- `/init_projet`, `/update`, `CLAUDE.md` et la documentation propagent et utilisent ce nouveau lanceur. Les fichiers bytecode Python sont ignorés par Git.
+
 ## v2.13 — 2026-07-17
 
 ### Modifié

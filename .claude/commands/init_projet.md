@@ -44,7 +44,7 @@ La racine du projet cible ne doit jamais être demandée si $ARGUMENTS est fourn
   (sauf zone supplémentaire, voir Q5)
 - `templates/.claude/zones.md` → `$ARGUMENTS/.claude/zones.md`
   (sauf zone supplémentaire : ajouter une ligne `| alias | dossier |` à la table existante)
-- `templates/ollama_call.sh` → `$ARGUMENTS/ollama_call.sh`, puis `chmod +x ollama_call.sh`
+- `templates/ollama_call.py` → `$ARGUMENTS/ollama_call.py`
 - `<kit>/Protocole_start_close_context.md` → `$ARGUMENTS/_docs/protocole_vibecoding.md`
 
 Ne pas copier `roadmap_TEMPLATE.md` (utilisé uniquement à la création d'un chantier).
@@ -66,7 +66,7 @@ Dans tous les fichiers copiés sous `_contexte/`, `.claude/commands/` et `.claud
 Dans le dépôt du projet cible ($ARGUMENTS) :
 
 ```bash
-git -C "$ARGUMENTS" add .claude/ _contexte/ ollama_call.sh _docs/
+git -C "$ARGUMENTS" add .claude/ _contexte/ ollama_call.py _docs/
 git -C "$ARGUMENTS" commit -m "init: protocole vibecoding — zone <alias>"
 ```
 

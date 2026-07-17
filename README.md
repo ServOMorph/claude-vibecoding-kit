@@ -61,7 +61,7 @@ claude-vibecoding-kit/
     â”œâ”€â”€ _contexte/
     â”‚   â”œâ”€â”€ contexte.md                   # contexte stable du projet
     â”‚   â””â”€â”€ signals.md                    # actions ouvertes, blocages, derniÃ¨re session
-    â”œâ”€â”€ ollama_call.sh                    # dÃ©lÃ©gation vers modÃ¨le local
+    â”œâ”€â”€ ollama_call.py                    # dÃ©lÃ©gation vers modÃ¨le local
     â””â”€â”€ roadmap_TEMPLATE.md               # template pour chantiers multi-phases
 ```
 
@@ -77,3 +77,6 @@ L'historique des versions est consignÃ© dans `CHANGELOG.md`.
 - Git
 - (Optionnel) [Ollama](https://ollama.com) + `python`/`python3` pour la dÃ©lÃ©gation locale
 
+## État actuel
+
+Kit v2.14 : la délégation Ollama utilise `python ollama_call.py "<prompt>"`, sans dépendance à Bash ni WSL. La propagation vers les projets déjà déployés reste à effectuer explicitement via `/update`.
