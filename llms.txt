@@ -1,0 +1,53 @@
+# claude-vibecoding-kit
+
+> Kit de protocole Claude Code pour le vibecoding long : commandes /start, /close, /init_projet, /update, /create_memory qui persistent le contexte entre sessions. Zéro infrastructure, multi-zones, délégation locale Ollama optionnelle.
+
+## Quoi
+
+Protocole destiné aux projets développés avec Claude Code sur de longues périodes. Il résout la perte de contexte entre sessions en matérialisant un contexte stable (`contexte.md`), un journal d'actions ouvertes et de blocages (`signals.md`), une mémoire projet persistante (`memory.md`) et des règles permanentes (`CLAUDE.md`). Toutes ces ressources sont du Markdown pur, lues par l'agent IA au démarrage de chaque session.
+
+## Stack
+
+- Claude Code (agent IA, shell)
+- Markdown (fichiers de contexte)
+- Python 3, bibliothèque standard uniquement (`urllib`, `json`, `os`, `sys`)
+- Ollama (optionnel, pour déléguer des tâches répétitives à un modèle local)
+
+## Points d'entrée
+
+- `/init_projet <chemin>` : initialise le protocole dans un nouveau projet (5 questions, copie des templates, commit initial).
+- `/start [zone]` : charge le contexte d'une zone en début de session.
+- `/close [zone]` : sauvegarde l'état en fin de session, met à jour les fichiers de contexte, committe.
+- `/update` : met à jour les fichiers du protocole dans un projet déjà initialisé, sans toucher aux données projet.
+- `/create_memory` : ajoute une entrée dans la mémoire projet persistante.
+- `templates/ollama_call.py` : lanceur Python de délégation vers Ollama (`python ollama_call.py "<prompt>"`).
+
+## Structure
+
+- `Protocole_start_close_context.md` : documentation complète (stratégie de contexte, modèles, formats canoniques, intégration Ollama).
+- `CHANGELOG.md` : historique des versions.
+- `templates/` : patron complet à copier dans un projet cible (`.claude/commands/`, `_contexte/`, `ollama_call.py`, `roadmap_TEMPLATE.md`).
+- `base_connaissances/` : audit reproductible des projets déployés (frictions terrain, patterns, propositions d'amélioration).
+- `tests/test_ollama_call.py` : suite unittest du lanceur Ollama.
+
+## Concepts clés
+
+- **Zone** : sous-projet dans un dépôt multi-zones, référencé par un alias dans `.claude/zones.md`.
+- **Contexte** (`_contexte/contexte.md`) : informations stables du projet (objectif, décisions structurantes, état des outils).
+- **Signals** (`_contexte/signals.md`) : actions ouvertes, blocages, dernière session, échéances — priorité absolue au démarrage.
+- **Mémoire** (`.claude/memory.md`) : entrées persistantes ajoutées au fil de l'eau via `/create_memory`.
+- **Règles** (`.claude/CLAUDE.md`) : instructions appliquées à toutes les conversations.
+
+## Dépendances
+
+Aucune dépendance Python externe (stdlib uniquement).
+
+## Licence
+
+MIT.
+
+## Liens
+
+- Dépôt : https://github.com/ServOMorph/claude-vibecoding-kit
+- Documentation interne : `Protocole_start_close_context.md`
+- Historique : `CHANGELOG.md`
