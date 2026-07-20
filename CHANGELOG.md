@@ -3,6 +3,12 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v2.20 — 2026-07-20
+
+### Ajouté
+- Phase 1 de `roadmap_agents.md` close : `note_conception_create_agent.md` livre l'analyse de la mécanique zones/start/close/update, l'arborescence d'un agent (`<dossier>/agent_role.md` + `<dossier>/_contexte/`), le format de la charte, et l'insertion prévue de l'étape 2b dans `start.md` (chargement automatique de la charte).
+- Nouveau dossier `_docs/` à la racine du kit, dédié à la documentation générée ; première pièce : `roadmap_agents_explained.html`, vulgarisation de `roadmap_agents.md` pour un lecteur novice.
+
 ## v2.19 — 2026-07-20
 
 ### Ajouté

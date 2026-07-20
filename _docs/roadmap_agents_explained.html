@@ -1,0 +1,734 @@
+<title>Roadmap « Template de création d'agent » — expliquée pas à pas</title>
+<style>
+  :root {
+    --bg: #F4F6F9;
+    --surface: #FFFFFF;
+    --surface-2: #EDF1F7;
+    --ink: #19212F;
+    --ink-2: #47546B;
+    --ink-3: #78869E;
+    --line: #DBE2EC;
+    --line-strong: #C4CEDC;
+    --accent: #2F5AA8;
+    --accent-2: #3E6FC4;
+    --accent-soft: #E4EBF7;
+    --warn: #8E5E10;
+    --warn-soft: #F7EDD6;
+    --warn-line: #E5CB93;
+    --danger: #9E3A35;
+    --danger-soft: #F4E1DE;
+    --danger-line: #E1B0AB;
+    --ok: #2B6B50;
+    --ok-soft: #DDECE3;
+    --ok-line: #A7CDB7;
+    --shadow: 0 1px 2px rgba(20,32,54,.04), 0 8px 24px rgba(20,32,54,.06);
+
+    --font-display: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Times New Roman', serif;
+    --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+    --maxw: 720px;
+    --maxw-wide: 940px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #11141B;
+      --surface: #191E29;
+      --surface-2: #212734;
+      --ink: #E8ECF4;
+      --ink-2: #AFBACD;
+      --ink-3: #7E8CA5;
+      --line: #2A313E;
+      --line-strong: #3A424F;
+      --accent: #82A8EA;
+      --accent-2: #9CBAF0;
+      --accent-soft: #1E2A43;
+      --warn: #E1B461;
+      --warn-soft: #302710;
+      --warn-line: #574A24;
+      --danger: #E5938B;
+      --danger-soft: #331F1D;
+      --danger-line: #55322E;
+      --ok: #82CBA6;
+      --ok-soft: #142720;
+      --ok-line: #2C4A3A;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #F4F6F9; --surface: #FFFFFF; --surface-2: #EDF1F7;
+    --ink: #19212F; --ink-2: #47546B; --ink-3: #78869E;
+    --line: #DBE2EC; --line-strong: #C4CEDC;
+    --accent: #2F5AA8; --accent-2: #3E6FC4; --accent-soft: #E4EBF7;
+    --warn: #8E5E10; --warn-soft: #F7EDD6; --warn-line: #E5CB93;
+    --danger: #9E3A35; --danger-soft: #F4E1DE; --danger-line: #E1B0AB;
+    --ok: #2B6B50; --ok-soft: #DDECE3; --ok-line: #A7CDB7;
+    --shadow: 0 1px 2px rgba(20,32,54,.04), 0 8px 24px rgba(20,32,54,.06);
+  }
+  :root[data-theme="dark"] {
+    --bg: #11141B; --surface: #191E29; --surface-2: #212734;
+    --ink: #E8ECF4; --ink-2: #AFBACD; --ink-3: #7E8CA5;
+    --line: #2A313E; --line-strong: #3A424F;
+    --accent: #82A8EA; --accent-2: #9CBAF0; --accent-soft: #1E2A43;
+    --warn: #E1B461; --warn-soft: #302710; --warn-line: #574A24;
+    --danger: #E5938B; --danger-soft: #331F1D; --danger-line: #55322E;
+    --ok: #82CBA6; --ok-soft: #142720; --ok-line: #2C4A3A;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+  .wide { max-width: var(--maxw-wide); margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- header ---------- */
+  header.masthead {
+    border-bottom: 1px solid var(--line);
+    background:
+      radial-gradient(1200px 260px at 15% -40%, var(--accent-soft), transparent 70%);
+  }
+  .masthead-inner { max-width: var(--maxw-wide); margin: 0 auto; padding: 64px 24px 52px; }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 18px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .eyebrow::before {
+    content: ""; width: 26px; height: 1px; background: var(--accent); opacity: .6;
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(30px, 5.2vw, 46px);
+    line-height: 1.08;
+    letter-spacing: -.01em;
+    margin: 0 0 20px;
+    text-wrap: balance;
+    max-width: 16ch;
+  }
+  .lede {
+    font-size: clamp(17px, 2.4vw, 20px);
+    color: var(--ink-2);
+    max-width: 60ch;
+    margin: 0;
+  }
+  .meta-row {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px;
+  }
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: .02em;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    background: var(--surface);
+    color: var(--ink-2);
+    display: inline-flex; align-items: center; gap: 7px;
+  }
+  .chip .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+  .chip.warn .dot { background: var(--warn); }
+  .chip.date .dot { background: var(--danger); }
+
+  /* ---------- sections ---------- */
+  section { padding: 40px 0; }
+  section + section { border-top: 1px solid var(--line); }
+
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: 12px; letter-spacing: .13em; text-transform: uppercase;
+    color: var(--ink-3); margin: 0 0 10px;
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(23px, 3.4vw, 30px);
+    line-height: 1.15;
+    letter-spacing: -.01em;
+    margin: 0 0 18px;
+    text-wrap: balance;
+  }
+  h3 {
+    font-family: var(--font-body);
+    font-weight: 680;
+    font-size: 18px;
+    margin: 30px 0 8px;
+    letter-spacing: -.005em;
+  }
+  p { margin: 0 0 16px; }
+  strong { font-weight: 650; color: var(--ink); }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+  code, .mono {
+    font-family: var(--font-mono);
+    font-size: .86em;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    padding: .08em .38em;
+    border-radius: 5px;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin: 0 0 8px; }
+  li::marker { color: var(--ink-3); }
+
+  /* ---------- table of contents ---------- */
+  .toc {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 24px;
+    box-shadow: var(--shadow);
+  }
+  .toc h2 { font-size: 15px; font-family: var(--font-mono); text-transform: uppercase;
+    letter-spacing: .1em; color: var(--ink-3); margin: 0 0 14px; font-weight: 500; }
+  .toc ol { list-style: none; padding: 0; margin: 0; counter-reset: toc; }
+  .toc li { margin: 0; border-top: 1px solid var(--line); }
+  .toc li:first-child { border-top: none; }
+  .toc a {
+    display: flex; gap: 14px; align-items: baseline;
+    padding: 11px 4px; text-decoration: none; color: var(--ink);
+  }
+  .toc a:hover { color: var(--accent); }
+  .toc a .num {
+    font-family: var(--font-mono); font-size: 12px; color: var(--accent);
+    min-width: 24px;
+  }
+  .toc a .lbl { flex: 1; }
+  .toc a .hint { color: var(--ink-3); font-size: 14px; }
+
+  /* ---------- callouts ---------- */
+  .callout {
+    border: 1px solid var(--line);
+    border-left-width: 3px;
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin: 22px 0;
+    background: var(--surface);
+    font-size: 15.5px;
+  }
+  .callout .c-head {
+    font-weight: 650; font-size: 13px; letter-spacing: .02em;
+    display: flex; align-items: center; gap: 8px; margin-bottom: 6px;
+    text-transform: uppercase; letter-spacing: .06em;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout.warn { border-left-color: var(--warn); background: var(--warn-soft); border-color: var(--warn-line); }
+  .callout.warn .c-head { color: var(--warn); }
+  .callout.danger { border-left-color: var(--danger); background: var(--danger-soft); border-color: var(--danger-line); }
+  .callout.danger .c-head { color: var(--danger); }
+  .callout.ok { border-left-color: var(--ok); background: var(--ok-soft); border-color: var(--ok-line); }
+  .callout.ok .c-head { color: var(--ok); }
+  .callout.info { border-left-color: var(--accent); background: var(--accent-soft); border-color: transparent; }
+  .callout.info .c-head { color: var(--accent); }
+  .ico { width: 15px; height: 15px; flex: none; }
+
+  /* ---------- glossary ---------- */
+  .glossary { display: grid; gap: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); }
+  .gterm { display: grid; grid-template-columns: 200px 1fr; gap: 20px; padding: 16px 20px; background: var(--surface); border-top: 1px solid var(--line); }
+  .gterm:first-child { border-top: none; }
+  .gterm dt { font-family: var(--font-mono); font-size: 13.5px; color: var(--accent); font-weight: 600; }
+  .gterm dd { margin: 0; color: var(--ink-2); font-size: 15px; }
+  @media (max-width: 620px) { .gterm { grid-template-columns: 1fr; gap: 4px; } }
+
+  /* ---------- comparison ---------- */
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 26px 0; }
+  @media (max-width: 680px) { .compare { grid-template-columns: 1fr; } }
+  .compare .card {
+    border: 1px solid var(--line); border-radius: 14px; padding: 20px; background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+  .compare .card.yes { border-color: var(--ok-line); }
+  .compare .card.no { border-color: var(--danger-line); opacity: .96; }
+  .card-tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-family: var(--font-mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: .08em;
+    padding: 4px 10px; border-radius: 999px; margin-bottom: 12px; font-weight: 600;
+  }
+  .card.yes .card-tag { color: var(--ok); background: var(--ok-soft); }
+  .card.no .card-tag { color: var(--danger); background: var(--danger-soft); }
+  .compare h3 { margin: 0 0 10px; font-size: 17px; }
+  .compare ul { margin: 0; font-size: 14.5px; color: var(--ink-2); }
+
+  /* ---------- file tree ---------- */
+  .tree {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 20px 22px; font-family: var(--font-mono); font-size: 14px; line-height: 1.9;
+    overflow-x: auto; box-shadow: var(--shadow); color: var(--ink-2);
+  }
+  .tree .dir { color: var(--accent); font-weight: 600; }
+  .tree .file { color: var(--ink); }
+  .tree .cmt { color: var(--ink-3); }
+  .tree .new { color: var(--ok); }
+
+  /* ---------- phases timeline ---------- */
+  .phases { position: relative; margin-top: 8px; }
+  .phase {
+    position: relative;
+    padding-left: 58px;
+    padding-bottom: 34px;
+  }
+  .phase::before { /* vertical line */
+    content: ""; position: absolute; left: 19px; top: 6px; bottom: -6px;
+    width: 2px; background: var(--line-strong);
+  }
+  .phase:last-child::before { display: none; }
+  .phase .node {
+    position: absolute; left: 0; top: 0;
+    width: 40px; height: 40px; border-radius: 50%;
+    display: grid; place-items: center;
+    font-family: var(--font-mono); font-weight: 700; font-size: 15px;
+    background: var(--surface); color: var(--accent);
+    border: 2px solid var(--accent);
+    z-index: 1;
+  }
+  .phase.ph-event .node { border-color: var(--danger); color: var(--danger); }
+  .phase-card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+    padding: 22px 24px; box-shadow: var(--shadow);
+  }
+  .phase-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 4px; }
+  .phase-head h3 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 700; }
+  .status {
+    font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 999px; font-weight: 600;
+    background: var(--surface-2); color: var(--ink-3); border: 1px solid var(--line);
+  }
+  .status.todo { color: var(--warn); background: var(--warn-soft); border-color: var(--warn-line); }
+  .when {
+    font-family: var(--font-mono); font-size: 12px; color: var(--ink-3);
+    margin-left: auto;
+  }
+  .lbl-inline {
+    display: block; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--ink-3); margin: 18px 0 6px;
+  }
+  .checkpoint {
+    margin-top: 16px; padding: 12px 16px; border-radius: 10px;
+    border: 1px dashed var(--line-strong); background: var(--surface-2);
+    font-size: 14px; color: var(--ink-2); display: flex; gap: 10px; align-items: flex-start;
+  }
+  .checkpoint b { color: var(--ink); }
+
+  /* ---------- steps flow ---------- */
+  .flow { display: flex; flex-direction: column; gap: 0; margin: 22px 0; }
+  .flow-step {
+    display: grid; grid-template-columns: 34px 1fr; gap: 16px; align-items: start;
+    position: relative; padding-bottom: 18px;
+  }
+  .flow-step::before {
+    content: ""; position: absolute; left: 16px; top: 30px; bottom: -4px; width: 2px; background: var(--line-strong);
+  }
+  .flow-step:last-child { padding-bottom: 0; }
+  .flow-step:last-child::before { display: none; }
+  .flow-num {
+    width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center;
+    font-family: var(--font-mono); font-weight: 700; font-size: 14px;
+    background: var(--accent-soft); color: var(--accent); z-index: 1; border: 1px solid var(--line);
+  }
+  .flow-step.stop .flow-num { background: var(--danger-soft); color: var(--danger); }
+  .flow-body { padding-top: 4px; }
+  .flow-body .t { font-weight: 620; }
+  .flow-body .d { color: var(--ink-2); font-size: 15px; }
+
+  /* ---------- decisions grid ---------- */
+  .dgrid { display: grid; gap: 14px; margin: 24px 0; }
+  .dcard {
+    display: grid; grid-template-columns: 46px 1fr; gap: 18px;
+    border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+  .dcard .dn {
+    font-family: var(--font-display); font-size: 26px; font-weight: 700; color: var(--accent);
+    line-height: 1;
+  }
+  .dcard h3 { margin: 0 0 5px; font-size: 16.5px; }
+  .dcard p { margin: 0; font-size: 15px; color: var(--ink-2); }
+
+  hr.soft { border: none; border-top: 1px solid var(--line); margin: 34px 0; }
+
+  footer {
+    border-top: 1px solid var(--line); padding: 34px 0 60px; color: var(--ink-3); font-size: 14px;
+  }
+  footer .wrap { display: flex; flex-direction: column; gap: 6px; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    a, .toc a { transition: color .15s ease; }
+  }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+</style>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="eyebrow">claude-vibecoding-kit · guide pédagogique</p>
+    <h1>La roadmap « création d'agent », expliquée pas à pas</h1>
+    <p class="lede">Ce document décortique, pour un lecteur qui découvre le projet, l'objectif de la roadmap, chacune de ses quatre phases, et surtout <em>pourquoi</em> chaque décision a été prise — avec les pièges et les mises en garde qui vont avec.</p>
+    <div class="meta-row">
+      <span class="chip"><span class="dot"></span>Kit v2.18</span>
+      <span class="chip warn"><span class="dot"></span>4 phases · statut TODO</span>
+      <span class="chip date"><span class="dot"></span>Échéance démo : 25/07/2026</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section id="toc" style="border-top:none;">
+    <nav class="toc" aria-label="Sommaire">
+      <h2>Sommaire</h2>
+      <ol>
+        <li><a href="#contexte"><span class="num">00</span><span class="lbl">De quoi on parle</span><span class="hint">le kit, le problème</span></a></li>
+        <li><a href="#vocabulaire"><span class="num">01</span><span class="lbl">Le vocabulaire minimum</span><span class="hint">zone, charte, /start…</span></a></li>
+        <li><a href="#idee"><span class="num">02</span><span class="lbl">L'idée centrale : agent = zone à rôle</span><span class="hint">et ce que ce n'est pas</span></a></li>
+        <li><a href="#robert"><span class="num">03</span><span class="lbl">Le banc d'essai : robert-ia</span><span class="hint">et la deadline du 25/07</span></a></li>
+        <li><a href="#decisions"><span class="num">04</span><span class="lbl">Les 6 décisions de conception</span><span class="hint">revue par un 2ᵉ modèle</span></a></li>
+        <li><a href="#phases"><span class="num">05</span><span class="lbl">Les 4 phases, en détail</span><span class="hint">le cœur de la roadmap</span></a></li>
+        <li><a href="#frictions"><span class="num">06</span><span class="lbl">Points de friction & mises en garde</span><span class="hint">à lire avant de coder</span></a></li>
+        <li><a href="#recap"><span class="num">07</span><span class="lbl">Récapitulatif</span><span class="hint">en une image</span></a></li>
+      </ol>
+    </nav>
+  </section>
+
+  <section id="contexte">
+    <p class="kicker">00 — De quoi on parle</p>
+    <h2>Un kit pour ne jamais perdre le fil d'un projet</h2>
+    <p><strong>claude-vibecoding-kit</strong> est une boîte à outils qui aide à travailler sur des projets de code étalés sur plusieurs sessions avec un assistant IA. Son problème central : une IA <em>oublie tout</em> entre deux sessions. Le kit règle ça avec deux commandes rituelles.</p>
+    <ul>
+      <li><code>/start</code> — au début d'une session, recharge tout le contexte du projet (où on en est, ce qui reste à faire).</li>
+      <li><code>/close</code> — à la fin, écrit un résumé propre, met à jour les fichiers de mémoire et fait un commit git.</li>
+    </ul>
+    <p>La mémoire du projet est rangée dans des fichiers texte simples (pas dans l'IA). Un projet peut aussi être découpé en <strong>zones</strong> — des sous-parties qui ont chacune leur propre mémoire.</p>
+    <p>La roadmap expliquée ici pose une question neuve : <strong>et si une « zone » pouvait avoir un rôle précis, comme un membre d'équipe ?</strong> C'est ça, un « agent » dans ce kit. Le but final : une commande <code>/create_agent</code> qui fabrique ces agents à la demande.</p>
+    <div class="callout info">
+      <div class="c-head">À retenir</div>
+      <p>« Agent » ici ne veut pas dire un robot autonome. Ça veut dire : <strong>un dossier avec un rôle écrit et sa propre mémoire</strong>. Toute la roadmap tourne autour de cette définition.</p>
+    </div>
+  </section>
+
+  <section id="vocabulaire">
+    <p class="kicker">01 — Le vocabulaire minimum</p>
+    <h2>Sept mots à connaître pour tout comprendre</h2>
+    <p>Le reste du document utilise ces termes en boucle. Voici la traduction en langage courant.</p>
+    <dl class="glossary">
+      <div class="gterm"><dt>zone</dt><dd>Une sous-partie d'un projet qui a sa propre mémoire. Comparable à un classeur dédié dans une armoire. On la « lance » avec <code>/start nom-de-la-zone</code>.</dd></div>
+      <div class="gterm"><dt>alias</dt><dd>Le nom court d'une zone (ex. <code>com</code>). C'est ce qu'on tape après <code>/start</code>. La correspondance alias → vrai dossier est écrite dans un fichier <code>zones.md</code>.</dd></div>
+      <div class="gterm"><dt>_contexte/</dt><dd>Le dossier-mémoire d'une zone. Il contient <code>signals.md</code> (ce qui est en cours, urgent) et <code>contexte.md</code> (le stable : objectif, décisions).</dd></div>
+      <div class="gterm"><dt>charte</dt><dd>Le fichier <code>agent_role.md</code> qui décrit le rôle d'un agent : sa mission, ce qu'il a le droit de toucher, ce qu'il produit. Comme une fiche de poste.</dd></div>
+      <div class="gterm"><dt>/update</dt><dd>Met à jour la « mécanique » du kit dans un projet déjà installé, sans toucher à sa mémoire perso. Comme une mise à jour logicielle qui laisse vos documents intacts.</dd></div>
+      <div class="gterm"><dt>roadmap</dt><dd>Un fichier qui découpe un gros chantier en phases numérotées. Une seule phase « en cours » à la fois.</dd></div>
+      <div class="gterm"><dt>/compact</dt><dd>Une commande qui compresse la conversation pour libérer de la place. Les « checkpoints » de la roadmap demandent de le faire entre deux phases.</dd></div>
+    </dl>
+  </section>
+
+  <section id="idee">
+    <p class="kicker">02 — L'idée centrale</p>
+    <h2>Un agent est une « zone à rôle » — pas un robot autonome</h2>
+    <p>C'est la décision fondatrice, et la source de confusion numéro un. Le kit réutilise une brique qui existe déjà (la zone) et lui ajoute juste un rôle écrit. Il ne crée <em>pas</em> un mécanisme technique nouveau et compliqué.</p>
+
+    <div class="compare">
+      <div class="card yes">
+        <span class="card-tag"><svg class="ico" viewBox="0 0 20 20" fill="currentColor"><path d="M8 13.2 4.5 9.7l1.4-1.4L8 10.4l6.1-6.1 1.4 1.4z"/></svg>Ce que c'est</span>
+        <h3>Une zone à rôle</h3>
+        <ul>
+          <li>Un simple <strong>sous-dossier</strong> dans le projet.</li>
+          <li>Une <strong>charte</strong> <code>agent_role.md</code> qui dit son rôle et son périmètre.</li>
+          <li>Sa propre mémoire <code>_contexte/</code>.</li>
+          <li>Enregistré comme zone → piloté par les <code>/start</code> et <code>/close</code> qui existent déjà.</li>
+        </ul>
+      </div>
+      <div class="card no">
+        <span class="card-tag"><svg class="ico" viewBox="0 0 20 20" fill="currentColor"><path d="M10 8.6 6.4 5 5 6.4 8.6 10 5 13.6 6.4 15 10 11.4 13.6 15 15 13.6 11.4 10 15 6.4 13.6 5z"/></svg>Ce que ce n'est PAS</span>
+        <h3>Un « subagent » Claude Code</h3>
+        <ul>
+          <li>Pas un fichier <code>.claude/agents/*.md</code>.</li>
+          <li>Pas un contexte isolé lancé par un outil technique dédié.</li>
+          <li>Pas d'autonomie ni d'exécution parallèle réelle.</li>
+          <li>Si ce besoin apparaît un jour, ce sera une <strong>décision séparée</strong> — jamais un glissement silencieux.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <div class="c-head">Mise en garde — piège de nommage</div>
+      <p>Le projet d'essai (robert-ia) contient déjà un fichier <code>AGENTS.md</code> à sa racine (un standard multi-agents sans rapport). Pour éviter toute confusion, la charte s'appelle <strong><code>agent_role.md</code></strong>, jamais <code>agent.md</code>, et elle vit <em>dans</em> le dossier de l'agent (ex. <code>COM/agent_role.md</code>), pas à la racine.</p>
+    </div>
+  </section>
+
+  <section id="robert">
+    <p class="kicker">03 — Le banc d'essai</p>
+    <h2>Pourquoi robert-ia, et pourquoi une deadline</h2>
+    <p>On ne fabrique pas une commande générique dans le vide. La roadmap se sert d'un projet réel, <strong>robert-ia</strong>, pour créer deux vrais agents et voir ce qui marche avant de généraliser. C'est la démarche « je le fais à la main une fois, ensuite j'automatise ».</p>
+    <p>Une <strong>démonstration publique de robert-ia est prévue le samedi 25 juillet 2026</strong> (Moulin du Sud, Génissac). Cette date impose un ordre non négociable :</p>
+    <ul>
+      <li>Les deux agents de robert-ia — <strong>COM</strong> (communication de l'événement) et <strong>MEMORY</strong> (préparation du contexte pour la démo) — doivent être <strong>opérationnels avant le 25/07</strong>.</li>
+      <li>La transformation en commande réutilisable <code>/create_agent</code> peut, elle, attendre <em>après</em> l'événement.</li>
+    </ul>
+    <div class="callout info">
+      <div class="c-head">Pourquoi cet ordre compte</div>
+      <p>Faire d'abord à la main (Phase 2) puis généraliser (Phase 3) garantit que le template final encode ce qui a <em>vraiment</em> fonctionné, pas ce qu'on imaginait sur le papier. La deadline force ce séquencement au lieu de le laisser dériver.</p>
+    </div>
+  </section>
+
+  <section id="decisions">
+    <p class="kicker">04 — Les 6 décisions de conception</p>
+    <h2>Ce qu'une revue critique a permis de verrouiller</h2>
+    <p>Avant d'écrire la moindre ligne, le plan a été soumis à un second modèle (Fable 5) pour le critiquer. Cette relecture a produit six décisions concrètes. Les voici en clair — elles reviennent partout dans les phases.</p>
+
+    <div class="dgrid">
+      <div class="dcard"><div class="dn">1</div><div>
+        <h3>La charte s'appelle <code>agent_role.md</code></h3>
+        <p>Jamais <code>agent.md</code>. Évite la collision avec le standard <code>AGENTS.md</code>. Changement gratuit maintenant, très coûteux une fois déployé sur ~12 projets.</p>
+      </div></div>
+      <div class="dcard"><div class="dn">2</div><div>
+        <h3><code>/update</code> ne touche jamais aux sous-zones</h3>
+        <p>La mémoire d'un agent (<code>COM/_contexte/</code>…) est intouchable par les mises à jour du kit, exactement comme la mémoire de la zone racine. À écrire noir sur blanc avant toute généralisation.</p>
+      </div></div>
+      <div class="dcard"><div class="dn">3</div><div>
+        <h3>Unicité des alias contrôlée</h3>
+        <p><code>/create_agent</code> lit <code>zones.md</code> <em>avant</em> d'écrire et refuse si l'alias existe déjà (il propose une variante). Jamais d'écrasement silencieux d'une zone existante.</p>
+      </div></div>
+      <div class="dcard"><div class="dn">4</div><div>
+        <h3>La charte est chargée automatiquement</h3>
+        <p>Une charte n'a de valeur que si <code>/start</code> l'affiche au démarrage, avant le reste. Sinon, c'est du décor que personne ne lit.</p>
+      </div></div>
+      <div class="dcard"><div class="dn">5</div><div>
+        <h3>Périmètre déclaratif, pas isolé</h3>
+        <p>Rien n'empêche <em>techniquement</em> un agent d'écrire hors de son dossier. Le périmètre est une convention écrite, vérifiée <em>après coup</em> par <code>/close</code>. On ne prétend pas à une isolation réelle.</p>
+      </div></div>
+      <div class="dcard"><div class="dn">6</div><div>
+        <h3>La rétrospective produit un fichier</h3>
+        <p>L'analyse de fin de commande doit <strong>écrire</strong> un fichier versionné (<code>ameliorations_create_agent.md</code>), pas juste s'afficher dans le chat — sinon elle sera ignorée après un ou deux usages.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <section id="idee-tree" style="border-top:none; padding-top:0;">
+    <h3>À quoi ressemble un agent sur le disque</h3>
+    <p>Concrètement, créer un agent revient à poser cette petite arborescence dans le projet :</p>
+  </section>
+</div>
+
+<div class="wide">
+  <div class="tree" role="img" aria-label="Arborescence d'un agent : un dossier contenant agent_role.md et un sous-dossier _contexte avec signals.md et contexte.md">
+&lt;projet&gt;/
+├─ <span class="dir">COM/</span>                      <span class="cmt"># le dossier de l'agent (= son périmètre)</span>
+│  ├─ <span class="file new">agent_role.md</span>          <span class="cmt"># la charte : rôle, périmètre, invariants</span>
+│  └─ <span class="dir">_contexte/</span>             <span class="cmt"># la mémoire propre à l'agent</span>
+│     ├─ <span class="file">signals.md</span>          <span class="cmt"># ce qui est en cours / urgent</span>
+│     └─ <span class="file">contexte.md</span>         <span class="cmt"># le stable : objectif, décisions</span>
+│
+└─ <span class="dir">.claude/</span>
+   └─ <span class="file">zones.md</span>              <span class="cmt"># + 1 ligne : | com | .../COM |  (alias → dossier)</span>
+  </div>
+</div>
+
+<div class="wrap">
+  <section id="phases">
+    <p class="kicker">05 — Le cœur de la roadmap</p>
+    <h2>Les quatre phases, dans l'ordre</h2>
+    <p>Chaque phase se termine par un <strong>checkpoint</strong> : on s'arrête, on fait <code>/compact</code>, et on ne démarre la suivante qu'après confirmation écrite. C'est ce qui empêche de tout mélanger sur une longue durée.</p>
+
+    <div class="phases">
+
+      <!-- PHASE 1 -->
+      <div class="phase">
+        <div class="node">1</div>
+        <div class="phase-card">
+          <div class="phase-head">
+            <h3>Analyse & conception</h3>
+            <span class="status todo">TODO</span>
+            <span class="when">avant tout code</span>
+          </div>
+          <p>Comprendre comment fonctionne déjà le kit, puis <em>dessiner sur le papier</em> le modèle d'agent — sans encore rien créer.</p>
+          <span class="lbl-inline">Ce qu'on fait</span>
+          <ul>
+            <li>Analyser la mécanique existante (zones, <code>/start</code>, <code>/close</code>, <code>/update</code>) et voir où un agent vient se greffer sans rien casser.</li>
+            <li>Spécifier le format de la charte <code>agent_role.md</code>.</li>
+            <li>Fixer l'arborescence d'un agent (le schéma ci-dessus).</li>
+            <li>Décider comment <code>/start</code> chargera la charte automatiquement (décision 4).</li>
+            <li>Décider comment enregistrer la zone dans <code>zones.md</code> avec contrôle d'unicité (décision 3).</li>
+          </ul>
+          <span class="lbl-inline">Pourquoi ça compte</span>
+          <p style="margin:0;">Concevoir avant de coder évite de bâtir une commande bancale qu'il faudrait défaire sur douze projets. Le livrable est une <strong>note de conception écrite</strong>, validée avant de continuer.</p>
+          <div class="checkpoint"><span>⏸</span><span><b>Checkpoint</b> — faire <code>/compact</code>, attendre l'accord écrit avant la Phase 2.</span></div>
+        </div>
+      </div>
+
+      <!-- PHASE 2 -->
+      <div class="phase ph-event">
+        <div class="node">2</div>
+        <div class="phase-card">
+          <div class="phase-head">
+            <h3>Mise en pratique dans robert-ia</h3>
+            <span class="status todo">TODO</span>
+            <span class="when" style="color:var(--danger);">à finir avant le 25/07</span>
+          </div>
+          <p>Créer <em>à la main</em> les deux vrais agents, et produire les livrables réels de l'événement. C'est la phase sous contrainte de temps.</p>
+          <span class="lbl-inline">Ce qu'on fait</span>
+          <ul>
+            <li>Créer <code>COM/</code> (rôle : communication) et <code>MEMORY/</code> (rôle : contexte de la démo), chacun avec charte + <code>_contexte/</code>.</li>
+            <li>Enregistrer les deux zones (alias <code>com</code>, <code>memory</code>) après avoir vérifié qu'ils sont libres.</li>
+            <li>Vérifier concrètement que <code>/start com</code>, <code>/close com</code>, etc. fonctionnent.</li>
+            <li>Agent COM : rédiger la communication WhatsApp de l'événement (lieu, date, don au Moulin du Sud).</li>
+            <li>Agent MEMORY : ajuster le contexte de robert-ia pour la démo.</li>
+            <li>Vérifier que rien n'a été touché hors du périmètre de chaque agent.</li>
+          </ul>
+          <span class="lbl-inline">Pourquoi ça compte</span>
+          <p style="margin:0;">On valide le modèle sur du concret et on livre pour l'événement <em>en même temps</em>. Ce qui marche ici deviendra le template.</p>
+          <div class="checkpoint"><span>⏸</span><span><b>Checkpoint</b> — faire <code>/compact</code>, attendre l'accord écrit avant la Phase 3.</span></div>
+        </div>
+      </div>
+
+      <!-- PHASE 3 -->
+      <div class="phase">
+        <div class="node">3</div>
+        <div class="phase-card">
+          <div class="phase-head">
+            <h3>Généralisation en commande <code>/create_agent</code></h3>
+            <span class="status todo">TODO</span>
+            <span class="when">après l'événement</span>
+          </div>
+          <p>Transformer le geste manuel de la Phase 2 en une commande réutilisable, intégrée au kit et propageable à tous les projets.</p>
+          <span class="lbl-inline">Ce qu'on fait</span>
+          <ul>
+            <li>Écrire la commande <code>create_agent.md</code> (crée dossier + charte + <code>_contexte/</code> + enregistre la zone), <strong>avec contrôle d'unicité de l'alias</strong> (décision 3).</li>
+            <li>Créer un template de charte à partir de ce qui a marché.</li>
+            <li>Ajouter dans <code>/start</code> le chargement automatique de la charte (décision 4).</li>
+            <li>Écrire explicitement dans <code>/update</code> qu'il ne touche jamais aux sous-zones (décision 2).</li>
+            <li>Ajouter l'étape finale obligatoire : recommander de passer sur Opus, analyser le déroulé et <strong>écrire</strong> <code>ameliorations_create_agent.md</code> (décision 6).</li>
+            <li>Synchroniser la doc (<code>/doc_sync</code>), le <code>CHANGELOG</code>, le suivi de déploiement.</li>
+          </ul>
+          <span class="lbl-inline">Pourquoi ça compte</span>
+          <p style="margin:0;">C'est le vrai livrable du kit : une capacité durable, pas un coup unique. C'est aussi la phase la plus risquée (voir §06).</p>
+          <div class="checkpoint"><span>⏸</span><span><b>Checkpoint</b> — faire <code>/compact</code>, attendre l'accord écrit avant la Phase 4.</span></div>
+        </div>
+      </div>
+
+      <!-- PHASE 4 -->
+      <div class="phase">
+        <div class="node">4</div>
+        <div class="phase-card">
+          <div class="phase-head">
+            <h3>Rétrospective & améliorations</h3>
+            <span class="status todo">TODO</span>
+            <span class="when">bilan</span>
+          </div>
+          <p>Prendre du recul sur tout le parcours (Phases 1 à 3) pour améliorer l'outil qu'on vient de fabriquer.</p>
+          <span class="lbl-inline">Ce qu'on fait</span>
+          <ul>
+            <li>(Sur Opus) Analyser l'ensemble du workflow : ce qui a frotté, ce qui a bien marché.</li>
+            <li>Proposer des améliorations concrètes du template et de la charte.</li>
+            <li>Consigner par écrit les propositions retenues / écartées ; implémenter ou renvoyer à une session dédiée.</li>
+          </ul>
+          <span class="lbl-inline">Pourquoi ça compte</span>
+          <p style="margin:0;">Sans trace écrite, les leçons se perdent. Cette phase transforme l'expérience en amélioration réelle du kit.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="start-flow">
+    <p class="kicker">Zoom</p>
+    <h2>Le petit changement dans <code>/start</code></h2>
+    <p>La décision 4 (charte chargée automatiquement) se traduit par une seule étape ajoutée au démarrage. Voici la séquence, avec la nouveauté en évidence.</p>
+    <div class="flow">
+      <div class="flow-step"><div class="flow-num">1</div><div class="flow-body"><div class="t">Résoudre la zone</div><div class="d">Traduire l'alias tapé (<code>com</code>) en vrai dossier via <code>zones.md</code>.</div></div></div>
+      <div class="flow-step"><div class="flow-num">2</div><div class="flow-body"><div class="t">Vérifier la mémoire</div><div class="d">S'assurer que <code>_contexte/signals.md</code> et <code>contexte.md</code> existent.</div></div></div>
+      <div class="flow-step"><div class="flow-num" style="background:var(--ok-soft);color:var(--ok);border-color:var(--ok-line);">2b</div><div class="flow-body"><div class="t" style="color:var(--ok);">NOUVEAU — charger la charte</div><div class="d">Si <code>agent_role.md</code> existe dans le dossier, l'afficher <em>avant</em> le reste. Effet neutre pour une zone sans charte.</div></div></div>
+      <div class="flow-step"><div class="flow-num">3</div><div class="flow-body"><div class="t">Charger le contexte</div><div class="d"><code>signals.md</code>, puis <code>contexte.md</code>, puis la roadmap éventuelle.</div></div></div>
+      <div class="flow-step"><div class="flow-num">4</div><div class="flow-body"><div class="t">Afficher &amp; démarrer</div><div class="d">Montrer les signaux en cours et le point d'attention immédiat.</div></div></div>
+    </div>
+    <div class="callout info">
+      <div class="c-head">Le point rassurant</div>
+      <p>Cette étape 2b sera poussée sur <strong>tous</strong> les projets par <code>/update</code>, même ceux sans aucun agent. Aucun risque : le fichier <code>agent_role.md</code> n'existant pas ailleurs, l'étape ne fait tout simplement rien.</p>
+    </div>
+  </section>
+
+  <section id="alias-flow">
+    <p class="kicker">Zoom</p>
+    <h2>Le garde-fou anti-collision d'alias</h2>
+    <p>La décision 3 protège une zone existante contre l'écrasement. Voici ce que fait <code>/create_agent</code> avant d'écrire quoi que ce soit.</p>
+    <div class="flow">
+      <div class="flow-step"><div class="flow-num">1</div><div class="flow-body"><div class="t">Déduire l'alias</div><div class="d">Par défaut, le nom du dossier en minuscules : <code>COM</code> → <code>com</code>.</div></div></div>
+      <div class="flow-step"><div class="flow-num">2</div><div class="flow-body"><div class="t">Lire <code>zones.md</code></div><div class="d">Regarder tous les alias déjà pris dans le projet.</div></div></div>
+      <div class="flow-step stop"><div class="flow-num">3</div><div class="flow-body"><div class="t" style="color:var(--danger);">Si l'alias existe déjà → refuser</div><div class="d">On ne réécrit pas la ligne. On propose une variante (<code>com2</code>) ou on demande un autre nom.</div></div></div>
+      <div class="flow-step"><div class="flow-num">4</div><div class="flow-body"><div class="t">Si libre → écrire</div><div class="d">Ajouter la ligne <code>| com | .../COM |</code> à <code>zones.md</code>.</div></div></div>
+    </div>
+  </section>
+
+  <section id="frictions">
+    <p class="kicker">06 — À lire avant de coder</p>
+    <h2>Points de friction &amp; mises en garde</h2>
+    <p>Voici les endroits où ça peut mal tourner, et les précautions déjà prévues.</p>
+
+    <div class="callout danger">
+      <div class="c-head">Friction — le périmètre n'est pas une barrière</div>
+      <p>C'est la limite la plus importante à comprendre. Un agent a un dossier « à lui », mais <strong>rien ne l'empêche techniquement d'écrire ailleurs</strong>. Le périmètre est une <em>convention écrite</em> dans la charte, contrôlée <em>après coup</em> par <code>/close</code> (via un <code>git status</code> limité au dossier). Il ne faut jamais présenter ça comme une vraie isolation : un agent mal cadré peut déborder.</p>
+    </div>
+
+    <div class="callout warn">
+      <div class="c-head">Mise en garde — ne pas écraser une zone existante</div>
+      <p>Sans le contrôle d'unicité (décision 3), créer un agent dont l'alias est déjà pris réécrirait silencieusement une zone existante et corromprait sa mémoire. Le garde-fou doit être en place <strong>dès la Phase 2</strong> (à la main) et codé en Phase 3.</p>
+    </div>
+
+    <div class="callout warn">
+      <div class="c-head">Mise en garde — <code>/update</code> et les sous-zones</div>
+      <p>Les mises à jour du kit ne doivent jamais toucher la mémoire des agents. Bonne nouvelle vérifiée lors de la conception : <code>/update</code> ne cible que la racine <code>.claude/</code> et le <code>_contexte/</code> racine — il ne connaît donc pas les <code>_contexte/</code> des agents. Le risque est déjà nul <strong>tant qu'aucune charte n'est posée à la racine</strong>. À réaffirmer explicitement dans la doc avant tout <code>/update all</code>.</p>
+    </div>
+
+    <div class="callout warn">
+      <div class="c-head">Mise en garde — la charte inutile si non chargée</div>
+      <p>Une charte que <code>/start</code> n'affiche pas ne sert à rien : personne ne la lit, le périmètre devient décoratif. L'étape 2b n'est donc pas un détail — c'est ce qui rend tout le dispositif réel.</p>
+    </div>
+
+    <div class="callout warn">
+      <div class="c-head">Mise en garde — la rétrospective qui s'évapore</div>
+      <p>Une analyse de fin de course qui ne fait que s'afficher dans le chat est perdue à la session suivante. La règle : elle <strong>écrit</strong> un fichier. Sinon, elle sera vite ignorée.</p>
+    </div>
+
+    <div class="callout danger">
+      <div class="c-head">Friction — la pression du calendrier</div>
+      <p>La deadline du 25/07 pousse à bâcler la Phase 2 ou à sauter directement à la commande générique. C'est le contraire de la logique de la roadmap. L'ordre « d'abord à la main, ensuite j'automatise » doit être tenu : la généralisation (Phases 3-4) attend <em>après</em> l'événement.</p>
+    </div>
+
+    <div class="callout info">
+      <div class="c-head">Règle de discipline — ne pas cocher soi-même la roadmap</div>
+      <p>Les cases et statuts <code>[TODO]</code>/<code>[FAIT]</code> de la roadmap ne se modifient pas en cours de session. C'est la commande <code>/close</code> qui les met à jour, pour garantir que l'état affiché reste toujours vrai.</p>
+    </div>
+  </section>
+
+  <section id="recap">
+    <p class="kicker">07 — Récapitulatif</p>
+    <h2>Toute la roadmap en une phrase par phase</h2>
+    <ol>
+      <li><strong>Phase 1 — Concevoir :</strong> dessiner le modèle d'agent et écrire une note de conception, sans rien créer.</li>
+      <li><strong>Phase 2 — Pratiquer :</strong> créer à la main les agents COM &amp; MEMORY dans robert-ia et livrer pour la démo du 25/07.</li>
+      <li><strong>Phase 3 — Généraliser :</strong> transformer le geste en commande <code>/create_agent</code> intégrée au kit, avec ses garde-fous.</li>
+      <li><strong>Phase 4 — Améliorer :</strong> faire le bilan par écrit et corriger le template.</li>
+    </ol>
+    <p>Fil rouge : <strong>une brique simple (la zone) à qui on donne un rôle écrit</strong>, éprouvée sur un cas réel avant d'être outillée — avec, à chaque étape, un garde-fou contre les deux vrais dangers : écraser une mémoire existante, et confondre une convention avec une barrière technique.</p>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div>Document pédagogique généré à partir de <span class="mono">roadmap_agents.md</span> et de la note de conception (Phase 1).</div>
+    <div>claude-vibecoding-kit · kit v2.18 · établi le 2026-07-20.</div>
+  </div>
+</footer>

@@ -34,19 +34,19 @@ Il ne s'agit **pas** d'un subagent Claude Code (`.claude/agents/*.md`, Task tool
 
 ---
 
-## Phase 1 — Analyse du kit + conception du modèle d'agent [TODO]
-- [ ] Analyser la mécanique existante zones / `start.md` / `close.md` / `init_projet.md` / `update.md` et consigner comment un agent s'y greffe sans casser l'existant.
-- [ ] Spécifier le format de la charte `agent_role.md` (rôle, périmètre, dossier de sortie, permissions déclaratives, invariants).
-- [ ] Décider l'arborescence d'un agent : `<dossier>/agent_role.md` + `<dossier>/_contexte/{signals,contexte}.md`.
-- [ ] Trancher le chargement automatique de la charte par `/start` (décision 4) : étape à ajouter dans `start.md` pour charger et afficher `agent_role.md` avant `signals.md`.
-- [ ] Décider comment `/create_agent` enregistre la zone dans `<projet>/.claude/zones.md` (ajout de ligne, alias = nom du dossier), **avec contrôle d'unicité de l'alias** (décision 3).
-- [ ] Livrable : note de conception courte (`base_connaissances/` ou racine kit) validée avant de coder quoi que ce soit.
+## Phase 1 — Analyse du kit + conception du modèle d'agent [FAIT]
+- [x] Analyser la mécanique existante zones / `start.md` / `close.md` / `init_projet.md` / `update.md` et consigner comment un agent s'y greffe sans casser l'existant.
+- [x] Spécifier le format de la charte `agent_role.md` (rôle, périmètre, dossier de sortie, permissions déclaratives, invariants).
+- [x] Décider l'arborescence d'un agent : `<dossier>/agent_role.md` + `<dossier>/_contexte/{signals,contexte}.md`.
+- [x] Trancher le chargement automatique de la charte par `/start` (décision 4) : étape à ajouter dans `start.md` pour charger et afficher `agent_role.md` avant `signals.md`.
+- [x] Décider comment `/create_agent` enregistre la zone dans `<projet>/.claude/zones.md` (ajout de ligne, alias = nom du dossier), **avec contrôle d'unicité de l'alias** (décision 3).
+- [x] Livrable : note de conception courte (`base_connaissances/` ou racine kit) validée avant de coder quoi que ce soit. → `note_conception_create_agent.md` (racine du kit).
 
 **⏸ Checkpoint** — Demander à l'utilisateur de faire `/compact` avant de continuer. Attendre sa réponse écrite. Ne pas commencer la phase suivante sans confirmation.
 
 ---
 
-## Phase 2 — Mise en pratique : les 2 agents dans robert-ia + livrables événement [TODO]
+## Phase 2 — Mise en pratique : les 2 agents dans robert-ia + livrables événement [EN COURS]
 - [ ] Créer `D:\ServOMorph\robert-ia\COM\` : `agent_role.md` (rôle = communication événement) + `_contexte/`.
 - [ ] Créer `D:\ServOMorph\robert-ia\MEMORY\` : `agent_role.md` (rôle = gestion du contexte/mémoire de robert) + `_contexte/`.
 - [ ] Enregistrer les 2 zones dans `robert-ia\.claude\zones.md` (alias `com`, `memory`), après vérification que ces alias ne sont pas déjà pris (décision 3).

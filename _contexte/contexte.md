@@ -12,8 +12,9 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - **Déploiement** : copie template vers projets via `/init`, tracking dans DEPLOYMENTS.md
 
 ## État actuel
-- Kit v2.18. `roadmap_agents.md` créée : template de création d'agent (« zone à rôle ») en cours de conception, expérimenté sur robert-ia (démo du 25/07/2026). Phase 1 non lancée.
-- 9 projets restent à propager vers v2.18 : Appli_TSA_SDI_TDAH, JeGeekUtile, SérénIATech_dev, VisioAide, TableauDeBord, IA-TSA, La Rev, IA_V7, jeux_vibecoder.
+- Kit v2.20 (à confirmer par le bump de cette session). `roadmap_agents.md` : Phase 1 (analyse + conception) terminée, livrable `note_conception_create_agent.md`. Phase 2 (agents COM/MEMORY dans robert-ia) en cours, à finaliser avant le 25/07/2026.
+- `_docs/` créé à la racine du kit : premier fichier `roadmap_agents_explained.html`, vulgarisation de la roadmap agents pour un lecteur novice.
+- 9 projets restent à propager vers la dernière version du kit : Appli_TSA_SDI_TDAH, JeGeekUtile, SérénIATech_dev, VisioAide, TableauDeBord, IA-TSA, La Rev, IA_V7, jeux_vibecoder.
 - `base_connaissances/` créé : audit des 11 projets déployés + `ANALYSE.md` (10 frictions, 7 patterns terrain) + `PROPOSITIONS_AMELIORATION.md` (16 propositions priorisées) — Lot 1 partiellement mis en œuvre (F1 fait), reste à trancher.
 - Le README reste affecté par une corruption d'encodage historique hors les lignes corrigées.
 
@@ -31,3 +32,5 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - 2026-07-17 : `/update` intègre une étape de vérification post-update (7 contrôles) avant confirmation ; échec → statut `⚠️` avec détail, en individuel comme en mode batch.
 - 2026-07-20 : nouvelle initiative « template de création d'agent » — un agent = une zone à rôle (dossier + charte `agent_role.md` + `_contexte/` propre, enregistrée dans `zones.md`, pilotée par `/start`/`/close`), explicitement pas un subagent Claude Code. Expérimentée d'abord sur robert-ia (agents COM et MEMORY pour la démo du 25/07/2026), généralisée ensuite en commande `/create_agent`.
 - 2026-07-20 : revue critique du plan par un second modèle (Fable 5) avant tout code (prompt utilisé ponctuellement, non conservé sur disque), 6 décisions de conception actées : charte `agent_role.md` (anti-collision `AGENTS.md`), `/update` n'touche jamais les `_contexte/` de sous-zones, unicité d'alias contrôlée dans `zones.md`, charte chargée automatiquement par `/start`, périmètre déclaratif (pas d'isolation technique réelle), rétrospective de fin de commande avec sortie écrite obligatoire.
+- 2026-07-20 : Phase 1 de `roadmap_agents.md` close — note de conception écrite (`note_conception_create_agent.md`), arborescence d'agent et format de charte figés, insertion de l'étape 2b dans `start.md` (chargement de `agent_role.md` avant `signals.md`) actée pour la Phase 3.
+- 2026-07-20 : dossier `_docs/` introduit à la racine du kit, à la demande de l'utilisateur, comme emplacement pour la documentation générée (première pièce : `roadmap_agents_explained.html`).
