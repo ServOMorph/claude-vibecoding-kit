@@ -87,7 +87,7 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit v2.18 : la délégation Ollama utilise `python ollama_call.py "<prompt>"`, sans dépendance à Bash ni WSL. Le lanceur gère les délais et réponses API invalides ; sa suite de tests couvre aussi un appel local réel optionnel. `base_connaissances/` contient un audit des 11 projets déployés (frictions, patterns terrain, propositions d'amélioration du kit). `/update` corrigé (DEPLOYMENTS.md fiable, migration automatique du contenu spécifique projet, vérification post-update) et testé sur 2 projets ; propagation aux 9 restants en cours.
+Kit v2.19 : la délégation Ollama utilise `python ollama_call.py "<prompt>"`, sans dépendance à Bash ni WSL. Le lanceur gère les délais et réponses API invalides ; sa suite de tests couvre aussi un appel local réel optionnel. `base_connaissances/` contient un audit des 11 projets déployés (frictions, patterns terrain, propositions d'amélioration du kit). `/update` corrigé (DEPLOYMENTS.md fiable, migration automatique du contenu spécifique projet, vérification post-update) et testé sur 2 projets ; propagation aux 9 restants en cours. Nouvelle initiative en conception : `roadmap_agents.md` définit un template de création d'agent (« zone à rôle » pilotable par `/start`/`/close`), expérimenté sur robert-ia.
 
 ## Vérifier le lanceur Ollama
 

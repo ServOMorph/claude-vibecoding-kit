@@ -3,6 +3,11 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v2.19 — 2026-07-20
+
+### Ajouté
+- `roadmap_agents.md` : cadrage et roadmap d'un futur template de création d'agent (« zone à rôle » : dossier + charte `agent_role.md` + `_contexte/` propre, piloté par `/start`/`/close`), expérimenté sur robert-ia. 6 décisions de conception actées après revue critique croisée (Fable 5) : nommage anti-collision `agent_role.md`, préservation des `_contexte/` de sous-zones par `/update`, unicité d'alias dans `zones.md`, chargement automatique de la charte par `/start`, périmètre déclaratif, rétrospective à sortie écrite obligatoire.
+
 ## v2.18 — 2026-07-17
 
 ### Corrigé
