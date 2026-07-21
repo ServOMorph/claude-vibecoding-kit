@@ -3,6 +3,26 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v2.22 — 2026-07-21
+
+### Modifié
+- Phase 4 de `roadmap_agents.md` (rétrospective bootstrap agents) : `create_agent.md` (kit + template) capte désormais le **rôle durable** de l'agent (rejette une formulation en tâche unique, friction observée sur COM) et demande si l'agent doit **écrire hors de son dossier** (friction observée sur MEMORY/`backend/`). Nouveau placeholder `{{ECRITURE_ETENDUE}}` dans `agent_role_TEMPLATE.md`.
+- `ameliorations_create_agent.md` créé à la racine du kit : journal des frictions et améliorations de la commande (sortie concrète, décision 6 du cadrage).
+
+### Corrigé
+- `templates/.claude/commands/update.md` désynchronisé de sa paire miroir `.claude/commands/update.md` depuis la Phase 3 (mention des zones-agents absente côté template) — resynchronisé.
+- `# Changelog` de `Protocole_start_close_context.md` : entrées manquantes v2.19, v2.20, v2.21 rajoutées (miroir de `CHANGELOG.md`).
+
+## v2.21 — 2026-07-21
+
+### Ajouté
+- Phases 2 et 3 de `roadmap_agents.md` closes : agents COM et MEMORY créés dans robert-ia (mise en pratique) ; commande `/create_agent <dossier> [rôle]` généralisée dans le kit (`templates/.claude/commands/create_agent.md` + `templates/agent_role_TEMPLATE.md`, charte générique paramétrée par rôle, contrôle d'unicité d'alias, étape finale de rétrospective écrite dans `ameliorations_create_agent.md`).
+- `start.md` (kit + template) : nouvelle étape 2b, chargement automatique de `agent_role.md` avant `signals.md` pour les zones-agents.
+- `update.md` : documente explicitement que `/update` ne touche jamais les `_contexte/`/`agent_role.md` des zones-agents (déjà vrai de fait, désormais noir sur blanc).
+
+### Décidé
+- `/create_agent` n'est pas propagée par `/update` — reste dans le kit, copie manuelle selon les projets où elle est voulue.
+
 ## v2.20 — 2026-07-20
 
 ### Ajouté

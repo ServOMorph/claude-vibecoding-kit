@@ -122,6 +122,8 @@ Structure fixe. Taille maximale par section indiquée — à respecter pour cont
 > **Frontmatter :** le fichier `.claude/commands/start.md` porte `model: haiku` — la ligne "/start → Haiku" de la table des modèles est appliquée automatiquement.
 
 Charge `signals.md`, `contexte.md`, et `roadmap*.md` si présente — sans fichier manifest intermédiaire.
+Étape 2b : si `<dossier>/agent_role.md` existe (zone-agent créée via `/create_agent`), la charger et
+l'afficher intégralement avant `signals.md`. Absent pour une zone racine classique.
 
 Voir `templates/.claude/commands/start.md`.
 
@@ -131,6 +133,22 @@ Voir `templates/.claude/commands/start.md`.
 > **Frontmatter :** le fichier `.claude/commands/close.md` porte `model: sonnet` et `allowed-tools` autorisant `git status/diff/add/commit` — plus de prompts de permission au commit de clôture.
 
 Voir `templates/.claude/commands/close.md`.
+
+
+# /create_agent <dossier> [rôle]
+
+> **Frontmatter :** `.claude/commands/create_agent.md` porte `model: sonnet`. Commande volontairement
+> **non propagée** par `/update` — elle reste dans le kit et se copie manuellement dans les projets où
+> elle est voulue.
+
+Crée un agent (« zone à rôle » : `agent_role.md` + `_contexte/` propre, enregistrée dans `zones.md`,
+pilotable par `/start`/`/close`) dans le projet courant. Charte générée depuis
+`templates/agent_role_TEMPLATE.md`, paramétrée par le rôle fourni en argument — jamais de rôle
+générique inventé par défaut. Contrôle d'unicité de l'alias avant écriture dans `zones.md`. Étape
+finale obligatoire : recommander de passer sur Opus pour une rétrospective à sortie écrite dans
+`ameliorations_create_agent.md` (racine du projet).
+
+Voir `templates/.claude/commands/create_agent.md` et `templates/agent_role_TEMPLATE.md`.
 
 
 # ROADMAP.md
@@ -266,11 +284,13 @@ claude-vibecoding-kit/
     │   └── commands/
     │       ├── start.md
     │       ├── close.md
-    │       └── create_memory.md
+    │       ├── create_memory.md
+    │       └── create_agent.md         <- non propagé par /update, copie manuelle
     ├── _contexte/
     │   ├── contexte.md
     │   └── signals.md
     ├── ollama_call.py
+    ├── agent_role_TEMPLATE.md
     └── roadmap_TEMPLATE.md
 ```
 
@@ -325,6 +345,35 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 ---
 
 # Changelog
+
+## v2.22 — 2026-07-21
+
+**`/create_agent` (Phase 4 roadmap_agents)**
+- Capte le rôle durable de l'agent (rejette une formulation en tâche unique) et demande si l'agent écrit hors de son dossier (placeholder `{{ECRITURE_ETENDUE}}` dans la charte).
+- `ameliorations_create_agent.md` : journal des frictions/améliorations de la commande.
+
+**Corrections doc**
+- `update.md` (kit/templates) resynchronisé (divergence depuis la Phase 3).
+- Ce changelog complété rétroactivement (v2.19-v2.21 manquantes).
+
+## v2.21 — 2026-07-21
+
+**`/create_agent` (Phases 2-3 roadmap_agents)**
+- Commande `/create_agent <dossier> [rôle]` généralisée : crée un agent (zone à rôle = charte `agent_role.md` + `_contexte/` propre, piloté par `/start`/`/close`), contrôle d'unicité d'alias, étape finale de rétrospective écrite dans `ameliorations_create_agent.md`. Template `agent_role_TEMPLATE.md`. Non propagée par `/update` (copie manuelle).
+- `start.md` : étape 2b, chargement automatique de `agent_role.md` avant `signals.md` pour les zones-agents.
+- `update.md` : documente que `/update` ne touche jamais les `_contexte/`/`agent_role.md` des sous-zones.
+- Mise en pratique : agents COM et MEMORY créés dans robert-ia (démo du 25/07/2026).
+
+## v2.20 — 2026-07-20
+
+**Roadmap agents (Phase 1)**
+- `note_conception_create_agent.md` : analyse de la mécanique zones/start/close/update, arborescence d'un agent (`<dossier>/agent_role.md` + `<dossier>/_contexte/`), format de la charte, insertion de l'étape 2b dans `start.md`.
+- Nouveau dossier `_docs/` (documentation générée) ; première pièce : `roadmap_agents_explained.html`.
+
+## v2.19 — 2026-07-20
+
+**Roadmap agents (cadrage)**
+- `roadmap_agents.md` : cadrage et roadmap d'un template de création d'agent (« zone à rôle »), expérimenté sur robert-ia. 6 décisions actées après revue croisée (Fable 5) : nommage `agent_role.md`, préservation des `_contexte/` de sous-zones par `/update`, unicité d'alias, chargement automatique de la charte, périmètre déclaratif, rétrospective à sortie écrite.
 
 ## v2.18 — 2026-07-17
 

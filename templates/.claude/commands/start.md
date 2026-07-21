@@ -24,6 +24,10 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
    Si absents : proposer d'initialiser la structure `_contexte/` pour cette zone (créer
    `contexte.md` et `signals.md` vides) et s'arrêter.
 
+2b. Si `<dossier>/agent_role.md` existe : le charger et l'afficher intégralement,
+    avant `signals.md`. Ce fichier n'existe que pour les zones-agents ; une zone
+    racine classique n'en a pas.
+
 3. Charger dans l'ordre :
    1. `_contexte/signals.md` — actions ouvertes, blocages, dernière session (priorité absolue)
    2. `_contexte/contexte.md` — contexte stable

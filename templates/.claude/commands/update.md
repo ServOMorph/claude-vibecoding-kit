@@ -8,7 +8,7 @@ model: sonnet
 
 ## Objectif
 
-Mettre à jour les fichiers de protocole (`start.md`, `close.md`, `create_memory.md`, `ollama_call.py`, `CLAUDE.md`) d'un projet cible à partir de la dernière version du kit. Se lance depuis le repo du kit. Ne touche pas aux fichiers spécifiques au projet cible (`_contexte/`, `zones.md`, la section "Données sensibles" et la section "Spécificités projet" de `CLAUDE.md`, le bloc `SPECIFICITES PROJET` de `start.md`/`close.md`).
+Mettre à jour les fichiers de protocole (`start.md`, `close.md`, `create_memory.md`, `ollama_call.py`, `CLAUDE.md`) d'un projet cible à partir de la dernière version du kit. Se lance depuis le repo du kit. Ne touche pas aux fichiers spécifiques au projet cible (`_contexte/`, `zones.md`, la section "Données sensibles" et la section "Spécificités projet" de `CLAUDE.md`, le bloc `SPECIFICITES PROJET` de `start.md`/`close.md`). Cela inclut les zones-agents créées par `/create_agent` : `/update` ne cible que `<cible>/.claude/` et `<cible>/_contexte/` racine, donc `<dossier_agent>/agent_role.md` et `<dossier_agent>/_contexte/` (ex. `COM/_contexte/`, `MEMORY/_contexte/`) ne sont jamais lus ni modifiés.
 
 ## Procédure
 
@@ -119,7 +119,7 @@ entre les marqueurs `SPECIFICITES PROJET` du fichier nouvellement copié.
 
 `init_projet.md` et `update.md` ne sont pas copiés dans les projets — ils restent dans le kit.
 
-**Ne pas écraser** `<cible>/_contexte/` ni `<cible>/.claude/zones.md`.
+**Ne pas écraser** `<cible>/_contexte/` ni `<cible>/.claude/zones.md`. De même, ne jamais toucher aux `_contexte/` et `agent_role.md` des zones-agents (sous-dossiers du projet enregistrés dans `zones.md` via `/create_agent`) : `/update` ne parcourt que `<cible>/.claude/` et `<cible>/_contexte/` racine, aucun autre dossier du projet.
 
 ### 6. Mettre à jour CLAUDE.md (partiel)
 

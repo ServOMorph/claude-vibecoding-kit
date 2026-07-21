@@ -47,33 +47,33 @@ Il ne s'agit **pas** d'un subagent Claude Code (`.claude/agents/*.md`, Task tool
 ---
 
 ## Phase 2 — Mise en pratique : les 2 agents dans robert-ia + livrables événement [EN COURS]
-- [ ] Créer `D:\ServOMorph\robert-ia\COM\` : `agent_role.md` (rôle = communication événement) + `_contexte/`.
-- [ ] Créer `D:\ServOMorph\robert-ia\MEMORY\` : `agent_role.md` (rôle = gestion du contexte/mémoire de robert) + `_contexte/`.
-- [ ] Enregistrer les 2 zones dans `robert-ia\.claude\zones.md` (alias `com`, `memory`), après vérification que ces alias ne sont pas déjà pris (décision 3).
-- [ ] Vérifier concrètement : `/start com`, `/start memory`, `/close com`, `/close memory` fonctionnent.
-- [ ] Agent COM : produire la communication WhatsApp de l'événement (lieu, date, don Moulin du Sud), stockée dans `COM/`.
-- [ ] Agent MEMORY : ajuster le contexte de robert-ia pour la démo, artefacts dans `MEMORY/`.
-- [ ] Vérifier que rien hors périmètre de chaque agent n'a été touché.
+- [x] Créer `D:\ServOMorph\robert-ia\COM\` : `agent_role.md` (rôle = communication événement) + `_contexte/`.
+- [x] Créer `D:\ServOMorph\robert-ia\MEMORY\` : `agent_role.md` (rôle = gestion du contexte/mémoire de robert) + `_contexte/`.
+- [x] Enregistrer les 2 zones dans `robert-ia\.claude\zones.md` (alias `com`, `memory`), après vérification que ces alias ne sont pas déjà pris (décision 3).
+- [x] Vérifier concrètement : `/start com`, `/start memory`, `/close com`, `/close memory` fonctionnent. → Vérification mécanique (résolution d'alias + présence `_contexte/`) : `start.md`/`close.md` de robert-ia sont génériques, aucune modification nécessaire pour que les 2 zones fonctionnent.
+- [x] Agent COM : produire la communication WhatsApp de l'événement (lieu, date, don Moulin du Sud), stockée dans `COM/`. → `COM/message_whatsapp_25072026.md` (heure de l'événement non fournie, à compléter).
+- [x] Agent MEMORY : ajuster le contexte de robert-ia pour la démo, artefacts dans `MEMORY/`. → Pivot décidé par l'utilisateur : au lieu de modifier `backend/` directement (hors périmètre déclaré de MEMORY, code de prod synchronisé sur Linux), MEMORY produit `MEMORY/prompt_multi_contexte_knowledge.md`, un prompt de passation pour l'agent en charge du code de robert-ia (mécanisme `ROBERT_LIEU` + `backend/knowledge/<lieu>.txt`, préservant le contexte Nérigean existant).
+- [x] Vérifier que rien hors périmètre de chaque agent n'a été touché. → Seuls `COM/`, `MEMORY/` et `robert-ia\.claude\zones.md` (enregistrement des zones, attendu) ont été modifiés.
 
 **⏸ Checkpoint** — Demander à l'utilisateur de faire `/compact` avant de continuer. Attendre sa réponse écrite. Ne pas commencer la phase suivante sans confirmation.
 
 ---
 
-## Phase 3 — Généralisation : commande `/create_agent` + template dans le kit [TODO]
-- [ ] Écrire `templates/.claude/commands/create_agent.md` (argument = dossier cible ; crée dossier + charte + `_contexte/` + enregistre la zone), **avec contrôle d'unicité de l'alias avant écriture dans `zones.md`** (décision 3).
-- [ ] Créer le template de charte `templates/agent_role_TEMPLATE.md` à partir de ce qui a marché sur robert-ia.
-- [ ] Ajouter dans `start.md` (kit + template) l'étape de chargement automatique de `agent_role.md` avant `signals.md` (décision 4).
-- [ ] Écrire explicitement dans `update.md` que les `_contexte/` des sous-zones ne sont jamais touchés par `/update` (décision 2), avant tout `/update all`.
-- [ ] Intégrer dans la commande l'**étape finale obligatoire** : recommander à l'utilisateur de passer sur **Opus**, analyser le workflow qui vient de se dérouler, et **écrire/mettre à jour `ameliorations_create_agent.md`** (sortie concrète, décision 6) — pas seulement un affichage chat.
-- [ ] Copier la commande dans le kit lui-même (`.claude/commands/create_agent.md`) pour qu'elle soit utilisable ici.
-- [ ] Décider si `/update` propage `create_agent.md` aux projets (cohérence avec start/close/create_memory).
-- [ ] `/doc_sync`, mise à jour `CHANGELOG.md` / `DEPLOYMENTS.md` si impacté.
+## Phase 3 — Généralisation : commande `/create_agent` + template dans le kit [FAIT]
+- [x] Écrire `templates/.claude/commands/create_agent.md` (argument = dossier cible ; crée dossier + charte + `_contexte/` + enregistre la zone), **avec contrôle d'unicité de l'alias avant écriture dans `zones.md`** (décision 3). Copiée aussi dans `.claude/commands/create_agent.md` du kit.
+- [x] Créer le template de charte `templates/agent_role_TEMPLATE.md`, générique et paramétré par rôle (pas centré sur un cas d'usage précis, cf. correctif appliqué à `COM/agent_role.md` de robert-ia).
+- [x] Ajouter dans `start.md` (kit + template) l'étape de chargement automatique de `agent_role.md` avant `signals.md` (décision 4).
+- [x] Écrire explicitement dans `update.md` que les `_contexte/` des sous-zones ne sont jamais touchés par `/update` (décision 2), avant tout `/update all`.
+- [x] Intégrer dans la commande l'**étape finale obligatoire** : recommander à l'utilisateur de passer sur **Opus**, analyser le workflow qui vient de se dérouler, et **écrire/mettre à jour `ameliorations_create_agent.md`** (sortie concrète, décision 6) — pas seulement un affichage chat. → Étape 10 ajoutée, fichier situé à la racine du projet où `/create_agent` est invoqué.
+- [x] Copier la commande dans le kit lui-même (`.claude/commands/create_agent.md`) pour qu'elle soit utilisable ici.
+- [x] Décider si `/update` propage `create_agent.md` aux projets (cohérence avec start/close/create_memory). → Décision de l'utilisateur : non, `/update` ne propage pas `create_agent.md`. La commande reste disponible dans le kit (`templates/.claude/commands/create_agent.md`) et se copie manuellement dans les projets où elle est voulue.
+- [x] `/doc_sync`, mise à jour `CHANGELOG.md` / `DEPLOYMENTS.md` si impacté. → `doc_sync.md` (table miroir + `create_agent.md`), `README.md`, `Protocole_start_close_context.md`, `CHANGELOG.md` (v2.21) mis à jour. `DEPLOYMENTS.md` non touché (règle de `/doc_sync` : ne reflète que les déploiements projets, pas les changements du kit).
 
 **⏸ Checkpoint** — Demander à l'utilisateur de faire `/compact` avant de continuer. Attendre sa réponse écrite. Ne pas commencer la phase suivante sans confirmation.
 
 ---
 
-## Phase 4 — Rétrospective du workflow + propositions d'amélioration [TODO]
-- [ ] (Sur Opus) Analyser l'ensemble du workflow bootstrap (Phases 1-3) : ce qui a friction, ce qui a bien marché.
-- [ ] Proposer des améliorations concrètes du template `/create_agent` et de la charte.
-- [ ] Consigner les propositions retenues/écartées ; implémenter celles retenues ou les renvoyer à une session dédiée.
+## Phase 4 — Rétrospective du workflow + propositions d'amélioration [FAIT]
+- [x] (Sur Opus) Analyser l'ensemble du workflow bootstrap (Phases 1-3). → Constat central : la commande `/create_agent` n'a jamais tourné (COM/MEMORY créés manuellement en Phase 2 avant la commande) ; template validé sur le principe, pas sur l'exécution. Frictions réelles : conflit périmètre/rôle (MEMORY/`backend/`), charte trop centrée tâche (COM).
+- [x] Proposer des améliorations concrètes du template `/create_agent` et de la charte. → P1 (rôle durable), P2 (écriture hors dossier), P3 (test end-to-end), P4 (contexte agent dédié), P5 (incohérence template).
+- [x] Consigner les propositions retenues/écartées ; implémenter celles retenues ou les renvoyer à une session dédiée. → Journal `ameliorations_create_agent.md`. Implémentées : P1, P2 (`create_agent.md` kit+template, `agent_role_TEMPLATE.md`, placeholder `{{ECRITURE_ETENDUE}}`). Écartées : P4 (faible valeur), P5 (sans objet — template générique correct). Reportée : P3 (validation end-to-end de la commande, session dédiée).
