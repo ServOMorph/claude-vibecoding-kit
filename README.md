@@ -13,7 +13,7 @@ Résout le problème structurel du vibecoding : **le contexte est perdu à chaqu
 - `/init_projet` — initialise le protocole dans un nouveau projet en quelques questions
 - `/update` — met à jour les fichiers de protocole dans un projet déjà initialisé, sans toucher aux données projet
 - `/create_memory` — ajoute une entrée dans la mémoire projet persistante (`.claude/memory.md`)
-- `/create_agent <dossier> [rôle]` — crée un agent (zone à rôle : charte `agent_role.md` + `_contexte/` propre, pilotable par `/start`/`/close`) ; non propagée par `/update`, copie manuelle projet par projet
+- `/create_agent <chemin_projet_cible> <dossier> [rôle]` — crée un agent (zone à rôle : charte `agent_role.md` + `_contexte/` propre, pilotable par `/start`/`/close`) dans un projet cible ; s'exécute toujours depuis le kit, n'est jamais copiée dans les projets cibles
 - `CLAUDE.md` — règles permanentes appliquées à toutes les conversations
 - Support multi-zones (plusieurs sous-projets dans un même repo)
 - Intégration Ollama pour les tâches répétitives sans envoyer de données en cloud
@@ -63,8 +63,7 @@ claude-vibecoding-kit/
     │       ├── start.md                  # commande /start
     │       ├── close.md                  # commande /close
     │       ├── update.md                 # commande /update
-    │       ├── create_memory.md          # commande /create_memory
-    │       └── create_agent.md           # commande /create_agent (non propagée par /update)
+    │       └── create_memory.md          # commande /create_memory
     ├── _contexte/
     │   ├── contexte.md                   # contexte stable du projet
     │   └── signals.md                    # actions ouvertes, blocages, dernière session
@@ -91,7 +90,7 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit v2.22 : la délégation Ollama utilise `python ollama_call.py "<prompt>"`, sans dépendance à Bash ni WSL. Le lanceur gère les délais et réponses API invalides ; sa suite de tests couvre aussi un appel local réel optionnel. `base_connaissances/` contient un audit des 11 projets déployés (frictions, patterns terrain, propositions d'amélioration du kit). `/update` corrigé (DEPLOYMENTS.md fiable, migration automatique du contenu spécifique projet, vérification post-update) et testé sur 2 projets ; propagation aux 9 restants en cours. `roadmap_agents.md` : les 4 phases sont terminées — commande `/create_agent` généralisée (charte générique paramétrée par rôle, `templates/agent_role_TEMPLATE.md`, capture du rôle durable et du périmètre d'écriture), mise en pratique sur robert-ia (agents COM et MEMORY, démo du 25/07/2026), non propagée par `/update` (copie manuelle), rétrospective consignée dans `ameliorations_create_agent.md` (validation end-to-end de la commande reportée). `_docs/` héberge de la documentation générée, dont une vulgarisation complète de cette roadmap pour un lecteur novice.
+Kit v2.23 : la délégation Ollama utilise `python ollama_call.py "<prompt>"`, sans dépendance à Bash ni WSL. Le lanceur gère les délais et réponses API invalides ; sa suite de tests couvre aussi un appel local réel optionnel. `base_connaissances/` contient un audit des 11 projets déployés (frictions, patterns terrain, propositions d'amélioration du kit). `/update` corrigé (DEPLOYMENTS.md fiable, migration automatique du contenu spécifique projet, vérification post-update) et testé sur 3 projets ; propagation aux 8 restants en cours. `roadmap_agents.md` : les 4 phases sont terminées — commande `/create_agent` s'exécute toujours depuis le kit (projet cible en argument, jamais copiée dans les projets cibles), vérifie que le projet cible sait charger la charte avant de créer l'agent. Premier test end-to-end réel effectué (agent `web` dans La Rev), période de test ouverte et tracée dans `TEST_CREATE_AGENT_RESULTS.md`, frictions et propositions consignées dans `ameliorations_create_agent.md`. `_docs/` héberge de la documentation générée, dont une vulgarisation complète de cette roadmap pour un lecteur novice.
 
 ## Vérifier le lanceur Ollama
 

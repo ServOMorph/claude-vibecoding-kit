@@ -1,9 +1,10 @@
 # Signals — claude-vibecoding-kit (MAJ 2026-07-21)
 
 ## Actions ouvertes
-- [P2|ouvert] Valider `/create_agent` end-to-end : la commande n'a jamais été exécutée réellement (COM/MEMORY dans robert-ia ont été créés à la main en Phase 2, avant que la commande existe). P1 (rôle durable) et P2 (périmètre d'écriture, `{{ECRITURE_ETENDUE}}`) implémentées mais non vérifiées en conditions réelles. fait quand: un agent a été créé via `/create_agent` dans un projet réel, `ameliorations_create_agent.md` mis à jour avec le résultat. réf: `ameliorations_create_agent.md` ; `.claude/commands/create_agent.md`
-- [P1|en cours] Propager `/update` (kit v2.18) aux 9 projets restants : Appli_TSA_SDI_TDAH, JeGeekUtile, SérénIATech_dev, VisioAide, TableauDeBord, IA-TSA, La Rev, IA_V7, jeux_vibecoder. Test concluant sur robert-ia et Jeu pour Nino (2/11, vérification post-update passée sans anomalie). fait quand: les 9 projets restants sont à jour (kit v2.18), `ollama_call.py` tracké par git et référencé dans leur CLAUDE.md, `DEPLOYMENTS.md` reflète la vraie version pour chacun. réf: `.claude/commands/update.md` ; `DEPLOYMENTS.md`
+- [P1|en cours] Période de test end-to-end de `/create_agent` : Test 1 (agent `web` dans La Rev) terminé, friction majeure trouvée et corrigée (P6 : vérification préalable du `start.md` du projet cible). Propositions P7-P10 identifiées et différées (contexte.md enrichi, garde-fou d'écriture par validation, charte comme prompt de spécialisation testé, apprentissage automatique des agents). fait quand: plusieurs agents testés sur différents projets/rôles, synthèse remplie dans `TEST_CREATE_AGENT_RESULTS.md`, décision explicite de clôturer la période de test. réf: `TEST_CREATE_AGENT_RESULTS.md` ; `ameliorations_create_agent.md`
+- [P1|en cours] Propager `/update` aux 8 projets restants : Appli_TSA_SDI_TDAH, JeGeekUtile, SérénIATech_dev, VisioAide, TableauDeBord, IA-TSA, IA_V7, jeux_vibecoder. Test concluant sur robert-ia, Jeu pour Nino et La Rev (3/11, vérification post-update passée sans anomalie à chaque fois). fait quand: les 8 projets restants sont à jour (kit courant), `ollama_call.py` tracké par git et référencé dans leur CLAUDE.md, `DEPLOYMENTS.md` reflète la vraie version pour chacun. réf: `.claude/commands/update.md` ; `DEPLOYMENTS.md`
 - [P2|ouvert] Décider quelles propositions de `base_connaissances/PROPOSITIONS_AMELIORATION.md` mettre en œuvre, en commençant par le Lot 1 (corrections légères : `/close` signale les résidus non commités, section Données sensibles activée, règle "Opus avant refacto", gate de phase, compression des signals vides — le point DEPLOYMENTS.md du Lot 1 est déjà fait, voir Décisions). fait quand: décision actée pour chaque proposition restante du Lot 1 (retenue/écartée) et, si retenue, implémentée. réf: `base_connaissances/PROPOSITIONS_AMELIORATION.md`
+- [P2|ouvert] Propositions P7-P10 sur `/create_agent`/`agent_role.md` à trancher dans des sessions dédiées : P7 (analyse du projet cible pour un `contexte.md` pertinent), P8 (garde-fou d'écriture par validation écrite, non spécifiable en l'état — contredit la décision 5 "périmètre déclaratif, pas isolé"), P9 (charte comme prompt de spécialisation, testée sur tokens/alignement/vitesse), P10 (apprentissage automatique des agents — tension directe avec la règle "mémoire jamais écrite automatiquement"). fait quand: chaque proposition tranchée (retenue/écartée) avec une session de conception dédiée si retenue. réf: `ameliorations_create_agent.md`
 
 ## Questions ouvertes
 - Aucune
@@ -15,10 +16,12 @@
 - Aucun
 
 ## Contexte chaud
-- `roadmap_agents.md` : les 4 phases sont `[FAIT]`. `/create_agent` généralisée (kit + template), mais jamais exécutée réellement — COM/MEMORY dans robert-ia ont été créés à la main avant que la commande existe. P1 (rôle durable) et P2 (question périmètre d'écriture, placeholder `{{ECRITURE_ETENDUE}}`) ajoutées en Phase 4 suite à des frictions réellement observées, non encore vérifiées à l'usage. Détail dans `ameliorations_create_agent.md`.
-- Divergence de paire miroir détectée et corrigée cette session : `templates/.claude/commands/update.md` n'avait jamais reçu la modification Phase 3 de `.claude/commands/update.md` (mention des zones-agents). À garder en tête : les paires miroir listées dans `doc_sync.md` peuvent diverger silencieusement si `/doc_sync` n'est pas relancé juste après une édition.
+- `TEST_CREATE_AGENT_RESULTS.md` créé à la racine du kit : journal réutilisable pour toute la période de test de `/create_agent`, un test = une entrée. Ne pas le confondre avec `ameliorations_create_agent.md` (sortie de l'étape 10 de la commande, orientée frictions/propositions cumulées) — les deux se complètent.
+- `/create_agent` a changé de modèle d'exécution cette session : elle ne se copie plus jamais dans les projets cibles, elle s'exécute toujours depuis le kit avec le projet cible en argument (`<chemin_projet_cible> <dossier> [rôle]`). `templates/.claude/commands/create_agent.md` supprimée en conséquence.
+- Friction majeure découverte lors du Test 1 : un agent créé dans un projet dont le `start.md` n'a pas l'étape 2b (chargement de charte) n'affiche jamais sa charte à `/start` — aucune erreur, juste un silence. Corrigée par l'ajout d'une étape 2b de vérification préalable dans `/create_agent` (P6). À surveiller sur les prochains tests.
+- `roadmap_agents.md` : les 4 phases restent `[FAIT]` (pas de nouvelle phase ouverte cette session — le test relève du suivi post-roadmap, tracé dans `TEST_CREATE_AGENT_RESULTS.md`/`ameliorations_create_agent.md`, pas dans la roadmap elle-même).
 - `.claude/commands/update.md` (kit) : migration automatique du contenu "Spécificités projet" détecté, étape 9 "Vérification post-update" (7 contrôles) avant confirmation, statut `⚠️` en mode batch si un contrôle échoue.
-- `DEPLOYMENTS.md` (hors git) : robert-ia et Jeu pour Nino à v2.17 (réellement propagé et vérifié), les 9 autres restent à leur version réelle antérieure (v2.13 ou v2.10) jusqu'à leur tour.
+- `DEPLOYMENTS.md` (hors git) : robert-ia, Jeu pour Nino et La Rev à jour (v2.17/v2.22, réellement propagé et vérifié), les 8 autres restent à leur version réelle antérieure (v2.13 ou v2.10) jusqu'à leur tour.
 - `base_connaissances/` créé : `INDEX.md` + une fiche par projet déployé + `ANALYSE.md` (frictions F1-F10, patterns terrain) + `PROPOSITIONS_AMELIORATION.md`. Reproductible via le script `collect_kb.py` (dans le scratchpad de session, pas encore intégré au kit — proposition 3.4).
 - `processus-base-connaissances-markdown.md` : fichier vide non tracké à la racine, origine inconnue, toujours pas clarifié.
 - `README.md` : corruption d'encodage pré-existante (double UTF-8) — à traiter dans une session dédiée si gênant.
@@ -30,24 +33,27 @@
 # Session du 2026-07-21
 
 ## Décisions prises
-- Phases 2, 3 et 4 de `roadmap_agents.md` closes — les 4 phases sont désormais `[FAIT]`.
-- `/create_agent` n'est pas propagée par `/update` (décision utilisateur, session précédente, confirmée).
-- Phase 4 (rétrospective, sur Opus) : constat que la commande n'a jamais tourné réellement ; P1 (rôle durable) et P2 (question périmètre d'écriture) retenues et implémentées ; P4 et P5 écartées.
+- `/create_agent` s'exécute désormais toujours depuis le kit, projet cible en argument (chemin absolu) ; n'est plus jamais copiée dans les projets cibles (copie miroir `templates/.claude/commands/create_agent.md` supprimée).
+- P6 implémentée : nouvelle étape 2b, `/create_agent` vérifie que le `start.md` du projet cible charge la charte avant de créer l'agent, sinon avertit et demande confirmation.
+- P7-P10 tranchées comme différées, hors périmètre incrémental de `/create_agent` (sessions de conception dédiées si retenues) ; P8 jugée non spécifiable en l'état (contredit la décision 5 du cadrage).
 
 ## Livrables produits ou modifiés
-- `.claude/commands/create_agent.md` + `templates/.claude/commands/create_agent.md` : étape 1 enrichie (rôle durable, périmètre d'écriture).
-- `templates/agent_role_TEMPLATE.md` : placeholder `{{ECRITURE_ETENDUE}}`.
-- `ameliorations_create_agent.md` (racine du kit) : créé — journal des frictions/améliorations, sortie concrète de la Phase 4.
-- `templates/.claude/commands/update.md` : resynchronisé sur sa paire miroir (divergence Phase 3 non détectée).
-- `Protocole_start_close_context.md` : changelog complété (v2.19-v2.21 manquantes) + entrée v2.22.
-- `CHANGELOG.md`, `README.md`, `roadmap_agents.md` : mis à jour.
+- `.claude/commands/create_agent.md` : réécrite (argument chemin projet cible, étape 2b P6).
+- `templates/.claude/commands/create_agent.md` : supprimée.
+- `templates/agent_role_TEMPLATE.md` : agent autorisé à écrire son propre `_contexte/`.
+- `.claude/commands/doc_sync.md`, `.claude/commands/update.md` (+ miroir templates) : mis à jour en cohérence.
+- `TEST_CREATE_AGENT_RESULTS.md` (racine du kit) : créé — journal réutilisable de la période de test.
+- `ameliorations_create_agent.md` : Test 1 consigné, arbitrage P6-P10.
+- Premier agent réel créé : `D:\ServOMorph\La Rev\WEB` (agent `web`), `contexte.md` enrichi par analyse du projet cible.
+- `D:\ServOMorph\La Rev` mis à jour via `/update` (v2.13 → v2.22), 2 commits dans son propre repo.
+- `DEPLOYMENTS.md`, `CHANGELOG.md` (v2.23), `Protocole_start_close_context.md`, `README.md` : mis à jour.
 
 ## Hypothèses validées / invalidées
-- INVALIDE : la validation de `/create_agent` supposée acquise après la Phase 3 -> en réalité jamais exécutée, la création COM/MEMORY ayant précédé la commande. Pivot : action ouverte P3 (test end-to-end) ajoutée aux signals.
-- VALIDE : les paires miroir de `doc_sync.md` peuvent diverger silencieusement si `/doc_sync` n'est pas relancé juste après une édition (cas réel trouvé sur `update.md`).
+- VALIDE : sans vérification préalable, `/create_agent` peut créer un agent dont la charte ne s'affichera jamais (`start.md` du projet cible obsolète) — confirmé concrètement sur La Rev, corrigé par la nouvelle étape 2b.
+- VALIDE : la charte (`agent_role.md`) dans son ensemble fait office de "prompt de spécialisation" de l'agent, pas seulement le champ Rôle — confirmé en discussion, creusé plus tard (P9).
 
 ## Prochaine étape exacte
-Valider `/create_agent` en créant un agent réel avec la commande (P3), avant de considérer le template pleinement fiable.
+Test 2 de `/create_agent` (autre projet/rôle) pour continuer la période de test, ou clôturer la période si jugée suffisante.
 
 ## Question bloquante pour la session suivante
 Aucune

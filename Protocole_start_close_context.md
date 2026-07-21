@@ -135,20 +135,23 @@ Voir `templates/.claude/commands/start.md`.
 Voir `templates/.claude/commands/close.md`.
 
 
-# /create_agent <dossier> [rôle]
+# /create_agent <chemin_projet_cible> <dossier> [rôle]
 
 > **Frontmatter :** `.claude/commands/create_agent.md` porte `model: sonnet`. Commande volontairement
-> **non propagée** par `/update` — elle reste dans le kit et se copie manuellement dans les projets où
-> elle est voulue.
+> **jamais copiée** dans les projets cibles — elle reste dans le kit et s'exécute toujours depuis lui,
+> le projet cible étant fourni en premier argument (chemin absolu).
 
-Crée un agent (« zone à rôle » : `agent_role.md` + `_contexte/` propre, enregistrée dans `zones.md`,
-pilotable par `/start`/`/close`) dans le projet courant. Charte générée depuis
-`templates/agent_role_TEMPLATE.md`, paramétrée par le rôle fourni en argument — jamais de rôle
-générique inventé par défaut. Contrôle d'unicité de l'alias avant écriture dans `zones.md`. Étape
-finale obligatoire : recommander de passer sur Opus pour une rétrospective à sortie écrite dans
-`ameliorations_create_agent.md` (racine du projet).
+Crée un agent (« zone à rôle » : `agent_role.md` + `_contexte/` propre, enregistrée dans
+`<projet_cible>/zones.md`, pilotable par `/start`/`/close`) dans un projet cible externe. Vérifie
+d'abord (étape 2b) que le `start.md` du projet cible charge bien la charte automatiquement — sinon
+avertit et demande confirmation, plutôt que de créer un agent silencieusement inopérant. Charte
+générée depuis `templates/agent_role_TEMPLATE.md`, paramétrée par le rôle fourni en argument — jamais
+de rôle générique inventé par défaut. Contrôle d'unicité de l'alias avant écriture dans `zones.md`.
+Étape finale obligatoire : recommander de passer sur Opus pour une rétrospective à sortie écrite dans
+`ameliorations_create_agent.md` (racine du kit, jamais dans le projet cible).
 
-Voir `templates/.claude/commands/create_agent.md` et `templates/agent_role_TEMPLATE.md`.
+Voir `.claude/commands/create_agent.md` et `templates/agent_role_TEMPLATE.md` (aucune copie dans
+`templates/.claude/commands/` : la commande n'est pas destinée à être copiée dans un projet).
 
 
 # ROADMAP.md
@@ -284,8 +287,7 @@ claude-vibecoding-kit/
     │   └── commands/
     │       ├── start.md
     │       ├── close.md
-    │       ├── create_memory.md
-    │       └── create_agent.md         <- non propagé par /update, copie manuelle
+    │       └── create_memory.md
     ├── _contexte/
     │   ├── contexte.md
     │   └── signals.md
@@ -345,6 +347,14 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 ---
 
 # Changelog
+
+## v2.23 — 2026-07-21
+
+**`/create_agent` (premier test end-to-end réel, agent `web` dans La Rev)**
+- Réécrite pour s'exécuter toujours depuis le kit, projet cible en premier argument (`<chemin_projet_cible> <dossier> [rôle]`) ; n'est plus jamais copiée dans les projets cibles. Copie miroir `templates/.claude/commands/create_agent.md` supprimée.
+- Étape 2b (P6) : vérifie que le `start.md` du projet cible charge la charte automatiquement avant de créer l'agent, sinon avertit et demande confirmation.
+- `agent_role_TEMPLATE.md` : agent autorisé à mettre à jour son propre `_contexte/` via `/start`/`/close`.
+- `TEST_CREATE_AGENT_RESULTS.md` : journal réutilisable de test créé. Propositions P7-P10 différées (contexte.md enrichi, garde-fou d'écriture, charte comme prompt de spécialisation, apprentissage automatique des agents).
 
 ## v2.22 — 2026-07-21
 

@@ -35,3 +35,56 @@ le principe, pas sur l'exécution end-to-end. Validation réelle = créer un 3e 
 - P3 retenue mais non exécutée cette session (validation end-to-end reportée).
 - P5 abandonnée à l'implémentation : sans objet. Le template est générique, `AGENTS.md/CLAUDE.md`
   (les deux cas possibles) est correct ; l'incohérence était côté instance robert-ia, pas côté template.
+
+## 2026-07-21 — agent web (La Rev) — premier test end-to-end réel (P3)
+
+Détail complet du déroulé dans `TEST_CREATE_AGENT_RESULTS.md` (Test 1). Ce qui a bien fonctionné :
+la commande, réécrite pour prendre un projet cible en argument et s'exécuter toujours depuis le
+kit, résout correctement un projet externe, vérifie l'unicité de l'alias, écrit l'arborescence et
+enregistre la zone.
+
+Frictions marquantes de ce premier run réel :
+- `create_agent.md` (kit) prenait en argument uniquement `<dossier> [rôle]`, en supposant une
+  exécution depuis le projet cible. Réécrite pour accepter `<chemin_projet_cible> <dossier>
+  [rôle]` et s'exécuter depuis le kit — décision utilisateur : la commande ne doit jamais être
+  copiée dans les projets cibles. La copie miroir `templates/.claude/commands/create_agent.md`
+  (destinée à l'usage local) a été supprimée en conséquence, `doc_sync.md`/`update.md` mis à jour.
+- `agent_role_TEMPLATE.md` ne mentionnait pas explicitement le droit d'écrire dans son propre
+  `_contexte/`, alors que ce cycle est nécessaire à `/start`/`/close`. Ligne ajoutée au template.
+- **Friction majeure** : le bénéfice principal de la charte (chargement automatique par `/start`,
+  décision 4 du cadrage) est silencieusement absent si le projet cible n'a pas reçu `/update`
+  depuis la Phase 3 du kit (étape 2b de `start.md`). `/create_agent` ne le vérifie pas. Constaté
+  concrètement sur La Rev (kit v2.13) : `/start web` n'affichait pas la charte. Corrigé en
+  lançant `/update` sur La Rev avant de retester — fonctionne après coup.
+- Le `contexte.md` généré par le template reste un stub générique ; une vraie valeur nécessite une
+  analyse manuelle du projet cible (faite hors procédure sur demande explicite pour cet agent).
+
+Propositions ouvertes (non implémentées, à trancher dans une session dédiée) :
+- P6 — `/create_agent` devrait vérifier que le projet cible a un `start.md` à jour (étape 2b
+  présente) avant de créer l'agent, ou au minimum avertir si ce n'est pas le cas.
+- P7 — Enrichir l'étape 5 d'une sous-étape d'analyse du projet cible pour produire un `contexte.md`
+  réellement pertinent, au lieu du stub générique actuel.
+- P8 — Mécanisme de garde-fou pour l'écriture hors dossier : validation écrite dans un fichier
+  tenu en lecture seule pour le LLM, plutôt que la simple liste de chemins actuelle
+  (`{{ECRITURE_ETENDUE}}`). Idée soulevée par l'utilisateur, non spécifiée.
+- P9 (hors périmètre de `/create_agent`) — Travail dédié sur `agent_role.md` comme "prompt de
+  spécialisation" de l'agent (au-delà du champ Rôle), testé sur trois axes : économie de tokens,
+  alignement, rapidité/efficacité.
+- P10 (hors périmètre) — Idée d'un système d'apprentissage automatique des agents au fil de leur
+  usage (accès à `/create_memory` ou équivalent) ; tension avec la règle actuelle du kit
+  (mémoire jamais écrite automatiquement, uniquement via `/create_memory` déclenché par
+  l'utilisateur). À concevoir séparément si retenu.
+
+### Arbitrage du 2026-07-21 sur P6-P10
+P6 retenue et implémentée immédiatement (faible effort, risque faible, corrige directement la
+friction majeure observée). P7 retenue mais différée (valeur moyenne, alourdit chaque création).
+P8 non spécifiable en l'état : un fichier "lecture seule pour le LLM" n'a pas de portée technique
+réelle sans hook/permission OS, ce qui contredirait la décision 5 du cadrage (périmètre déclaratif,
+pas isolé) — à clarifier avant tout chiffrage. P9 et P10 renvoyées à des sessions de conception
+dédiées, hors périmètre incrémental de `/create_agent` (P10 entre en tension directe avec la règle
+du kit sur la mémoire jamais écrite automatiquement).
+
+- P6 [implémentée] — `create_agent.md` (kit) : nouvelle étape 2b, vérifie que
+  `<projet_cible>/.claude/commands/start.md` contient le chargement automatique de la charte avant
+  de créer l'agent ; sinon avertit et demande confirmation explicite plutôt que de créer
+  silencieusement un agent inopérant.

@@ -7,6 +7,7 @@
 - Dossier de sortie : {{DOSSIER_AGENT}}/
 - Peut lire : {{DOSSIER_AGENT}}/, racine du projet (README, AGENTS.md/CLAUDE.md) pour contexte
 - Peut écrire : {{DOSSIER_AGENT}}/ et ses sous-dossiers{{ECRITURE_ETENDUE}}
+- Peut mettre à jour son propre `_contexte/` (signals.md, contexte.md) via /start et /close
 - Ne doit pas toucher : racine du projet, `_contexte/` d'autres zones, dossiers de code applicatif sauf mention explicite ci-dessus
 
 ## Invariants

@@ -3,6 +3,21 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v2.23 — 2026-07-21
+
+### Modifié
+- `/create_agent` réécrite pour s'exécuter toujours depuis le kit et prendre le projet cible en premier argument (`<chemin_projet_cible> <dossier> [rôle]`), au lieu de résoudre le working directory courant. Décision utilisateur : la commande n'est plus jamais copiée dans les projets cibles.
+- Nouvelle étape 2b : vérifie que le `start.md` du projet cible charge bien la charte automatiquement avant de créer l'agent ; sinon avertit et demande confirmation explicite (P6, friction observée lors du premier test end-to-end réel — friction déjà rencontrée sur La Rev, corrigée après coup via `/update`).
+- `agent_role_TEMPLATE.md` : précise que l'agent peut mettre à jour son propre `_contexte/` via `/start`/`/close`.
+
+### Supprimé
+- `templates/.claude/commands/create_agent.md` (copie miroir devenue incohérente avec la commande qui ne se copie plus dans les projets). `doc_sync.md` et `update.md` mis à jour en conséquence.
+
+### Ajouté
+- `TEST_CREATE_AGENT_RESULTS.md` (racine du kit) : journal réutilisable pour la période de test end-to-end de `/create_agent`, un test par entrée.
+- Premier test end-to-end réel de `/create_agent` (agent `web` créé dans La Rev) : détail dans `TEST_CREATE_AGENT_RESULTS.md` et `ameliorations_create_agent.md`. Propositions P6 (implémentée) à P10 (différées, hors périmètre incrémental) consignées.
+- `/update` exécuté sur La Rev (v2.13 → v2.22 au moment de l'update), corrigeant l'absence de l'étape 2b dans son `start.md`.
+
 ## v2.22 — 2026-07-21
 
 ### Modifié

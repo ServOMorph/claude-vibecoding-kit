@@ -40,7 +40,6 @@ ne s'applique à eux, car ce sont des définitions de commande, pas des instance
 | `commands/create_memory.md` | `commands/create_memory.md` |
 | `commands/init_projet.md` | `commands/init_projet.md` |
 | `commands/update.md` | `commands/update.md` |
-| `commands/create_agent.md` | `commands/create_agent.md` |
 | `CLAUDE.md` | `CLAUDE.md` |
 
 Pour chaque paire :

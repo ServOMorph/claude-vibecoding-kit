@@ -1,5 +1,9 @@
 # Archive des décisions — claude-vibecoding-kit
 
+## Décisions archivées le 2026-07-21 (session test create_agent)
+
+- 2026-07-17 : proposition 1.1 (F1) implémentée — `/update` réécrit désormais version/date d'une ligne `DEPLOYMENTS.md` existante au lieu de l'ignorer.
+
 ## Décisions archivées le 2026-07-21
 
 - 2026-07-14 : `ollama_call.sh` réécrit sans dépendance `jq` (python), modèle par défaut `gemma4:e4b` ; `/update` corrigé pour propager ce fichier ; 6 projets déployés synchronisés en v2.10

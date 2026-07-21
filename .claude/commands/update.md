@@ -117,7 +117,7 @@ Pour chacun des fichiers suivants, copier tel quel depuis le kit (aucune substit
 Pour `start.md` et `close.md`, une fois le fichier copié : réinjecter le contenu retenu ci-dessus
 entre les marqueurs `SPECIFICITES PROJET` du fichier nouvellement copié.
 
-`init_projet.md` et `update.md` ne sont pas copiés dans les projets — ils restent dans le kit.
+`init_projet.md`, `update.md` et `create_agent.md` ne sont pas copiés dans les projets — ils restent dans le kit. `create_agent.md` s'exécute toujours depuis le kit et prend le projet cible en argument (chemin absolu).
 
 **Ne pas écraser** `<cible>/_contexte/` ni `<cible>/.claude/zones.md`. De même, ne jamais toucher aux `_contexte/` et `agent_role.md` des zones-agents (sous-dossiers du projet enregistrés dans `zones.md` via `/create_agent`) : `/update` ne parcourt que `<cible>/.claude/` et `<cible>/_contexte/` racine, aucun autre dossier du projet.
 
