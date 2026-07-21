@@ -3,6 +3,20 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v2.26 — 2026-07-21
+
+### Ajouté
+- `AGENTS_REGISTRY.md` (racine du kit, hors git — cf. `.gitignore`) : registre centralisé de tous les agents créés, tous projets confondus (alias, projet, chemin absolu, rôle, date de création, verdict, retex résumé avec renvoi vers `TEST_CREATE_AGENT_RESULTS.md`/`ameliorations_create_agent.md`). Peuplé rétroactivement avec les 4 agents existants (com, memory, web, linkedin).
+- `/create_agent` : nouvelle étape 10, ajoute automatiquement une ligne à `AGENTS_REGISTRY.md` à chaque création d'agent (verdict initial "à évaluer", à mettre à jour manuellement ensuite). Étape de rétrospective Opus renumérotée en étape 11.
+
+## v2.25 — 2026-07-21
+
+### Ajouté
+- `/cherche_meilleure_action [décision]` (kit uniquement, non propagée) : commande d'aide à la décision. Charge le contexte réel de la zone (`signals.md`, `contexte.md`, `roadmap`), énumère les options candidates sans en inventer, les évalue selon des critères explicites (impact, effort, risque, dépendances, urgence, alignement), applique les garde-fous d'honnêteté de `CLAUDE.md` (méta-travail, prompt theater, option sans valeur), recommande une action et se termine par une question de confirmation à l'utilisateur. Modèle : Opus.
+
+### Corrigé
+- `/create_agent` : première ligne du frontmatter corrompue (`u---`) rétablie en `---` — le YAML de la commande était cassé.
+
 ## v2.24 — 2026-07-21
 
 ### Ajouté

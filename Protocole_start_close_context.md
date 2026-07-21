@@ -349,6 +349,18 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 
 # Changelog
 
+## v2.26 — 2026-07-21
+
+**Registre centralisé des agents**
+- `AGENTS_REGISTRY.md` (hors git, comme `DEPLOYMENTS.md`) : liste tous les agents créés tous projets confondus (alias, projet, chemin absolu, rôle, créé le, verdict, retex résumé). Peuplé rétroactivement (com, memory, web, linkedin).
+- `/create_agent` étape 10 (nouvelle) : ajoute une ligne au registre à chaque création, verdict initial "à évaluer". Rétrospective Opus renumérotée étape 11.
+
+## v2.25 — 2026-07-21
+
+**Nouvelle commande `/cherche_meilleure_action` (kit uniquement)**
+- Aide à la décision quand on ne sait pas quoi faire ensuite : charge `signals.md`/`contexte.md`/`roadmap` de la zone, énumère les options réelles (sans en inventer), les évalue (impact, effort, risque, dépendances, urgence, alignement), applique les garde-fous d'honnêteté de `CLAUDE.md`, recommande une action et pose la décision à l'utilisateur en confirmation. Modèle Opus. Non propagée par `/update`.
+- Correctif : frontmatter de `create_agent.md` (`u---` → `---`).
+
 ## v2.24 — 2026-07-21
 
 **Lot 1 de `PROPOSITIONS_AMELIORATION.md` (propositions 1.3, 1.7, 2.4, 2.5, 3.1)**

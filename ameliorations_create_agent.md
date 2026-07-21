@@ -88,3 +88,30 @@ du kit sur la mémoire jamais écrite automatiquement).
   `<projet_cible>/.claude/commands/start.md` contient le chargement automatique de la charte avant
   de créer l'agent ; sinon avertit et demande confirmation explicite plutôt que de créer
   silencieusement un agent inopérant.
+
+## 2026-07-21 — agent linkedin (SérénIATech_dev) — Test 2, conversion d'une zone existante
+
+Détail complet dans `TEST_CREATE_AGENT_RESULTS.md` (Test 2). Différence majeure avec Test 1 : la
+zone `linkedin` (`Communication/Linkedin`) était **déjà enregistrée** dans `zones.md`, avec un
+`_contexte/` réel et mature (pas un stub). La procédure `/create_agent` ne couvre pas ce cas
+(étape 4 refuse par principe un alias déjà pris ; étape 5 écraserait `_contexte/` avec le
+template générique). Décisions utilisateur ad hoc pour ce test : ne pas toucher `zones.md` ni
+`signals.md`/`contexte.md` existants, ajouter uniquement `agent_role.md` + une section de renvoi
+en fin de `contexte.md`.
+
+Étape 2b déclenchée normalement : `start.md` de SérénIATech_dev (v2.13) n'avait pas le chargement
+de charte. Corrigé par un `/update` individuel du projet (v2.13 → v2.24) avant de créer l'agent —
+confirme que la friction P6 est bien détectée par la vérification, pas seulement documentée après
+coup comme sur La Rev.
+
+Friction nouvelle observée : `{{ALIAS_RACINE}}` (« première ligne de zones.md ») n'a de sens que
+si cette première ligne est la zone racine du projet. Ici la première ligne est `administratif`
+(une zone parmi d'autres, le projet n'a pas d'alias racine explicite) — le champ "Zone parente"
+de la charte générée est donc trompeur. Non corrigé pour ce test, à trancher :
+
+- P11 — Clarifier `{{ALIAS_RACINE}}` : soit exiger qu'un projet ait un alias racine explicite
+  avant d'utiliser `/create_agent`, soit reformuler le champ "Zone parente" de la charte pour ne
+  plus supposer que la première ligne de `zones.md` est forcément la racine.
+- P12 — Ajouter un chemin explicite dans `/create_agent` pour convertir une zone déjà enregistrée
+  en agent (charte seule, sans toucher `zones.md`/`_contexte/` existants), au lieu de traiter ce
+  cas uniquement par déviation manuelle comme ici.

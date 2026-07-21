@@ -105,7 +105,17 @@ prend le projet cible en premier argument.
 9. Confirmer : "✅ Agent <alias> créé dans <projet_cible>/<dossier>. Lancer
    /start <alias> depuis <projet_cible> pour commencer."
 
-10. Étape finale obligatoire : recommander à l'utilisateur de passer sur le
+10. Ajouter une ligne à `<racine du kit>/AGENTS_REGISTRY.md` (créer le fichier
+    avec son en-tête standard s'il n'existe pas encore) :
+    ```
+    | <alias> | <nom du projet cible> | <chemin absolu du dossier agent> | <rôle> | {{DATE}} | à évaluer | Premier lancement, pas encore de retour d'expérience. |
+    ```
+    Ce fichier est local (hors git, cf. `.gitignore`) : il centralise tous les
+    agents tous projets confondus, avec leur chemin absolu — jamais propagé ni
+    committé dans le kit. La colonne "Verdict"/"Retex" est mise à jour
+    manuellement par la suite, au fil des retours d'usage de l'agent.
+
+11. Étape finale obligatoire : recommander à l'utilisateur de passer sur le
     modèle Opus pour analyser à froid le déroulement de cette création d'agent
     (frictions rencontrées, informations manquantes, ambiguïtés de la charte
     générée). Que l'utilisateur donne suite ou non dans l'immédiat, écrire ou

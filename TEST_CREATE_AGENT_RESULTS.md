@@ -72,6 +72,60 @@ Réserve : `/create_agent` doit être utilisée uniquement sur un projet déjà 
 
 <!-- Ajouter une nouvelle section "## Test N — agent <nom> (<projet>)" pour chaque nouveau test. -->
 
+## Test 2 — agent linkedin (SérénIATech_dev)
+
+- **Date** : 2026-07-21
+- **Projet cible** : `C:\Users\raph6\Documents\SerenIATech\SérénIATech_dev`
+- **Dossier agent** : `Communication\Linkedin` (alias `linkedin`)
+- **Rôle annoncé (avant lancement)** : spécialiste de la communication sur LinkedIn
+- **Particularité** : contrairement au Test 1, la zone existait déjà (alias `linkedin` déjà
+  enregistré dans `zones.md`, `_contexte/` réel et mature) — pas une création ex nihilo.
+
+### Déroulé pas à pas
+| Étape procédure | Attendu | Observé | Friction ? |
+|---|---|---|---|
+| 1 — Arguments | Chemin + dossier + rôle durable | OK, rôle jugé durable directement | Non |
+| 2 — Résolution projet cible | Vérifier `zones.md` | OK | Non |
+| 2b — Vérif `start.md` cible | Chargement charte présent ? | Absent (kit v2.13) : averti, utilisateur a choisi de lancer `/update` d'abord plutôt que de continuer avec risque | Oui — friction P6 redétectée, corrigée en amont (voir ci-dessous) |
+| 3-4 — Alias + unicité | Refuser si alias déjà pris | Alias `linkedin` déjà présent : procédure standard aurait refusé. Décision manuelle : c'est le cas voulu (même zone), pas une collision — zones.md non modifié | Oui — procédure ne prévoit pas ce cas (voir P12) |
+| 5 — Arborescence | 3 fichiers écrits | Seul `agent_role.md` créé ; `_contexte/signals.md`/`contexte.md` existants conservés (décision utilisateur), section de renvoi ajoutée en fin de `contexte.md` | Oui — décision manuelle hors procédure standard |
+| 6 — Ligne zones.md | Ajout | Non applicable, ligne déjà présente | Non |
+| 7 — Rappel périmètre déclaratif | Affiché | OK | Non |
+| 8-9 — Liste + confirmation | Standard | OK | Non |
+| 10 — Rappel Opus + journal | Entrée `ameliorations_create_agent.md` | Faite dans la foulée (cette session) | Non |
+
+### Frictions observées
+- **Friction P6 reconfirmée** : `start.md` de SérénIATech_dev (v2.13) ne chargeait pas la charte.
+  Contrairement à La Rev (où la friction avait été découverte après coup), ici la vérification de
+  l'étape 2b l'a détectée *avant* la création — comportement correctif qui marche comme prévu.
+  Résolu par un `/update` individuel du projet (v2.13 → v2.24, tous les contrôles post-update
+  passent) avant de relancer la création de l'agent.
+- **Friction nouvelle (P11)** : `{{ALIAS_RACINE}}` = « première ligne de `zones.md` » n'a de sens
+  que si cette ligne est effectivement la zone racine. Ici la première ligne est `administratif`
+  (une zone parmi d'autres) — le champ « Zone parente » de la charte générée est trompeur.
+- **Friction nouvelle (P12)** : la procédure ne prévoit aucun chemin pour convertir une zone déjà
+  enregistrée en agent (elle suppose toujours une création neuve, refuse même l'alias existant).
+  Traité ici par déviation manuelle validée par l'utilisateur (charte seule, `_contexte/` et
+  `zones.md` intouchés) plutôt que par la procédure telle qu'écrite.
+
+### Ce qui a bien fonctionné
+- La détection de l'étape 2b a fonctionné comme prévu : avertissement clair, confirmation demandée
+  avant de continuer, aucune création silencieuse d'un agent inopérant.
+- Une fois `/update` fait, `agent_role.md` peut être ajouté sans toucher au reste de la zone —
+  la séparation charte / `_contexte/` du modèle d'agent se prête bien à cette conversion a
+  posteriori, même si la procédure écrite ne la documente pas encore.
+
+### Verdict
+- [ ] Commande utilisable telle quelle
+- [x] Commande utilisable avec réserves (préciser)
+- [ ] Commande à corriger avant réutilisation
+
+Réserve : cas de conversion d'une zone existante non couvert par la procédure (P12) ; champ
+`{{ALIAS_RACINE}}` peu fiable sur un projet sans alias racine explicite (P11). Aucun des deux
+n'a bloqué le test, traités par décision manuelle documentée.
+
+---
+
 ## Synthèse (à remplir en fin de période de test)
 
 - Nombre de tests réalisés :

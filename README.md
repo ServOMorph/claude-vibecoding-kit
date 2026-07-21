@@ -14,6 +14,7 @@ Résout le problème structurel du vibecoding : **le contexte est perdu à chaqu
 - `/update` — met à jour les fichiers de protocole dans un projet déjà initialisé, sans toucher aux données projet
 - `/create_memory` — ajoute une entrée dans la mémoire projet persistante (`.claude/memory.md`)
 - `/create_agent <chemin_projet_cible> <dossier> [rôle]` — crée un agent (zone à rôle : charte `agent_role.md` + `_contexte/` propre, pilotable par `/start`/`/close`) dans un projet cible ; s'exécute toujours depuis le kit, n'est jamais copiée dans les projets cibles
+- `/cherche_meilleure_action [décision]` — commande d'aide à la décision (kit uniquement) : analyse le contexte réel de la zone, évalue les options selon des critères explicites, recommande une action et demande confirmation ; à invoquer quand on ne sait pas quoi faire ensuite
 - `CLAUDE.md` — règles permanentes appliquées à toutes les conversations
 - Support multi-zones (plusieurs sous-projets dans un même repo)
 - Intégration Ollama pour les tâches répétitives sans envoyer de données en cloud
@@ -51,6 +52,7 @@ claude-vibecoding-kit/
 ├── Protocole_start_close_context.md   # documentation complète
 ├── CHANGELOG.md                          # historique des versions
 ├── DEPLOYMENTS.md                        # registre des projets initialisés (ignoré par git)
+├── AGENTS_REGISTRY.md                    # registre des agents créés (ignoré par git)
 ├── tests/                                # suite unittest du lanceur Ollama
 ├── base_connaissances/                   # audit des projets déployés (index, fiches, analyse, propositions)
 ├── _docs/                                # documentation générée (ex. vulgarisation de roadmaps)
@@ -90,7 +92,7 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit v2.24 : Lot 1 de `base_connaissances/PROPOSITIONS_AMELIORATION.md` entièrement implémenté — `/close` signale les résidus non commités en fin de session, section "Données sensibles" de `CLAUDE.md` activée (question posée par `/init_projet`/`/update`), section "Modèles recommandés" ajoutée à `CLAUDE.md`, benchmark reproductible admis comme gate de phase, `signals.md` compressé (sections vides omises, décisions limitées à 5 lignes). La délégation Ollama utilise `python ollama_call.py "<prompt>"`, sans dépendance à Bash ni WSL. `/update` corrigé (DEPLOYMENTS.md fiable, migration automatique du contenu spécifique projet, vérification post-update) et testé sur 3 projets ; propagation aux 8 restants en cours. `roadmap_agents.md` : les 4 phases sont terminées — commande `/create_agent` s'exécute toujours depuis le kit (projet cible en argument, jamais copiée dans les projets cibles), vérifie que le projet cible sait charger la charte avant de créer l'agent. Premier test end-to-end réel effectué (agent `web` dans La Rev), période de test ouverte et tracée dans `TEST_CREATE_AGENT_RESULTS.md`, frictions et propositions consignées dans `ameliorations_create_agent.md`. `_docs/` héberge de la documentation générée, dont une vulgarisation complète de cette roadmap pour un lecteur novice.
+Kit v2.26 : `AGENTS_REGISTRY.md` (registre local de tous les agents créés tous projets confondus, alimenté par l'étape 10 de `/create_agent`). v2.25 : ajout de `/cherche_meilleure_action` (aide à la décision, kit uniquement — analyse le contexte de la zone et recommande une action quand on hésite). Lot 1 de `base_connaissances/PROPOSITIONS_AMELIORATION.md` entièrement implémenté — `/close` signale les résidus non commités en fin de session, section "Données sensibles" de `CLAUDE.md` activée (question posée par `/init_projet`/`/update`), section "Modèles recommandés" ajoutée à `CLAUDE.md`, benchmark reproductible admis comme gate de phase, `signals.md` compressé (sections vides omises, décisions limitées à 5 lignes). La délégation Ollama utilise `python ollama_call.py "<prompt>"`, sans dépendance à Bash ni WSL. `/update` corrigé (DEPLOYMENTS.md fiable, migration automatique du contenu spécifique projet, vérification post-update) et testé sur 3 projets ; propagation aux 8 restants en cours. `roadmap_agents.md` : les 4 phases sont terminées — commande `/create_agent` s'exécute toujours depuis le kit (projet cible en argument, jamais copiée dans les projets cibles), vérifie que le projet cible sait charger la charte avant de créer l'agent. Premier test end-to-end réel effectué (agent `web` dans La Rev), période de test ouverte et tracée dans `TEST_CREATE_AGENT_RESULTS.md`, frictions et propositions consignées dans `ameliorations_create_agent.md`. `_docs/` héberge de la documentation générée, dont une vulgarisation complète de cette roadmap pour un lecteur novice.
 
 ## Vérifier le lanceur Ollama
 

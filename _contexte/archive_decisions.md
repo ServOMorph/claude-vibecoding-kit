@@ -1,5 +1,11 @@
 # Archive des décisions — claude-vibecoding-kit
 
+## Décisions archivées le 2026-07-21 (session /cherche_meilleure_action + AGENTS_REGISTRY)
+
+- 2026-07-20 : nouvelle initiative « template de création d'agent » — un agent = une zone à rôle (dossier + charte `agent_role.md` + `_contexte/` propre, enregistrée dans `zones.md`, pilotée par `/start`/`/close`), explicitement pas un subagent Claude Code. Expérimentée d'abord sur robert-ia (agents COM et MEMORY pour la démo du 25/07/2026), généralisée ensuite en commande `/create_agent`.
+- 2026-07-20 : revue critique du plan par un second modèle (Fable 5) avant tout code, 6 décisions de conception actées : charte `agent_role.md` (anti-collision `AGENTS.md`), `/update` n'touche jamais les `_contexte/` de sous-zones, unicité d'alias contrôlée dans `zones.md`, charte chargée automatiquement par `/start`, périmètre déclaratif, rétrospective de fin de commande avec sortie écrite obligatoire.
+- 2026-07-20 : Phase 1 de `roadmap_agents.md` close — note de conception écrite, arborescence d'agent et format de charte figés, insertion de l'étape 2b dans `start.md` actée pour la Phase 3.
+
 ## Décisions archivées le 2026-07-21 (session Lot 1 PROPOSITIONS_AMELIORATION)
 
 - 2026-07-17 : `/update` migre désormais automatiquement tout contenu "Spécificités projet" détecté (lignes ou sections orphelines) sans poser de question — décision actée après un cas réel sur robert-ia (sections opérationnelles placées hors de la zone dédiée).

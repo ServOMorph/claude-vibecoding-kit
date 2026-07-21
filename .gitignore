@@ -12,3 +12,6 @@ __pycache__/
 
 # Local deployments registry
 DEPLOYMENTS.md
+
+# Local agents registry (chemins absolus locaux)
+AGENTS_REGISTRY.md
