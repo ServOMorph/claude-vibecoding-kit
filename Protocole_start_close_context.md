@@ -38,6 +38,7 @@ Faire `/close`+`/start` entre chaque phase serait sur-ingénié. Faire `/compact
 | Écrire un plan / roadmap | Opus |
 | Appliquer un plan | Sonnet |
 | Debug | Opus (voir note) |
+| Phase de refacto ou migration structurelle | Opus |
 | Tâche isolée, sans dépendances, sans effet de bord possible | Haiku |
 
 > **Note modèles de debug :** Utiliser **Opus** par défaut pour le debug. Pour les bugs complexes impliquant plusieurs couches, préférer Opus en mode extended thinking si disponible.
@@ -347,6 +348,16 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 ---
 
 # Changelog
+
+## v2.24 — 2026-07-21
+
+**Lot 1 de `PROPOSITIONS_AMELIORATION.md` (propositions 1.3, 1.7, 2.4, 2.5, 3.1)**
+- `/close` : nouvelle étape 11, bilan des résidus non commités (`git status --short`), purement informatif.
+- `/close` étape 4 : sections vides de `signals.md` omises entièrement (au lieu de titre sans puce) ; recréées seulement si elles redeviennent non vides. Gabarit `templates/_contexte/signals.md` allégé en conséquence.
+- `/close` étape 5 : limite de 5 lignes par entrée de "Décisions structurantes".
+- `CLAUDE.md` : section "Données sensibles" activée — `/init_projet` pose la question (Q6) à l'initialisation, `/update` la pose une fois si jamais renseignée (skip en mode batch, statut `⚠️`) ; rappel générique ajouté (secret jamais en dur, stockage hors git, accès par API).
+- `CLAUDE.md` : nouvelle section "Modèles recommandés" (résumé de la table ci-dessus, dont la règle refacto/migration → Opus).
+- `CLAUDE.md` section Roadmap : un benchmark reproductible à N cas verrouillés peut servir de gate de phase pour un comportement critique difficile à tester unitairement.
 
 ## v2.23 — 2026-07-21
 

@@ -1,5 +1,10 @@
 # Archive des décisions — claude-vibecoding-kit
 
+## Décisions archivées le 2026-07-21 (session Lot 1 PROPOSITIONS_AMELIORATION)
+
+- 2026-07-17 : `/update` migre désormais automatiquement tout contenu "Spécificités projet" détecté (lignes ou sections orphelines) sans poser de question — décision actée après un cas réel sur robert-ia (sections opérationnelles placées hors de la zone dédiée).
+- 2026-07-17 : `/update` intègre une étape de vérification post-update (7 contrôles) avant confirmation ; échec → statut `⚠️` avec détail, en individuel comme en mode batch.
+
 ## Décisions archivées le 2026-07-21 (session test create_agent)
 
 - 2026-07-17 : proposition 1.1 (F1) implémentée — `/update` réécrit désormais version/date d'une ligne `DEPLOYMENTS.md` existante au lieu de l'ignorer.

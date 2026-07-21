@@ -3,6 +3,19 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v2.24 — 2026-07-21
+
+### Ajouté
+- `/close` : nouvelle étape 11, bilan des résidus non commités (`git status --short`) en fin de session, purement informatif — sans action automatique (Lot 1, proposition 1.3).
+- `CLAUDE.md` : section "Données sensibles" activée — `/init_projet` pose désormais une question dédiée (Q6) et `/update` la pose une fois si la section n'a jamais été renseignée ; rappel générique ajouté ("jamais de secret en dur, stockage hors git, accès via service/API") (Lot 1, proposition 1.7).
+- `CLAUDE.md` : nouvelle section "Modèles recommandés" (Haiku start / Sonnet close / Opus plans-debug / Opus refacto-migration structurelle) (Lot 1, proposition 2.4).
+- `CLAUDE.md` : section Roadmap, "Contenu des phases" — un benchmark reproductible à N cas verrouillés peut servir de gate de phase pour un comportement critique difficile à tester unitairement (Lot 1, proposition 2.5).
+
+### Modifié
+- `/close` étape 4 : les sections vides de `signals.md` (Questions ouvertes, Échéances, Blocages, Contexte chaud) sont désormais omises entièrement plutôt qu'affichées sans puce ; recréées seulement si elles redeviennent non vides.
+- `/close` étape 5 : limite de 5 lignes par entrée de "Décisions structurantes" dans `contexte.md`.
+- `templates/_contexte/signals.md` : sections vides retirées du gabarit initial (ne restent que "Actions ouvertes" et "Dernière session").
+
 ## v2.23 — 2026-07-21
 
 ### Modifié

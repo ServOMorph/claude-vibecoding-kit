@@ -30,6 +30,8 @@ Initialiser le protocole vibecoding dans le projet cible à partir de ce kit de 
 5. Première zone de ce projet, ou zone supplémentaire ?
    - Si supplémentaire : `.claude/commands/start.md` et `close.md` existent déjà.
      Ajouter une ligne `{{ALIAS}} | {{RACINE}}` à leur table des zones au lieu de copier ces fichiers.
+6. Des dossiers/fichiers sensibles à déclarer (registre nominatif, credentials, données clients) ?
+   Si oui, les lister ; sinon répondre "Aucun".
 
 La racine du projet cible ne doit jamais être demandée si $ARGUMENTS est fourni.
 
@@ -60,6 +62,7 @@ Dans tous les fichiers copiés sous `_contexte/`, `.claude/commands/` et `.claud
 | `{{OBJECTIF}}` | Objectif du projet (réponse Q2) |
 | `{{STACK}}` | Stack technique (réponse Q3) |
 | `{{DATE}}` | Date du jour (AAAA-MM-JJ) |
+| `{{DONNEES_SENSIBLES}}` | Réponse Q6, en liste à puces ; "Aucun déclaré." si réponse négative |
 
 ### 5. Commit initial (si réponse "oui" à Q4)
 

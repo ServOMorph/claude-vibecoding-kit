@@ -24,6 +24,12 @@
 - Code fonctionnel uniquement
 - Pas de commentaires décoratifs
 
+## Modèles recommandés
+- `/start` : Haiku
+- `/close` : Sonnet
+- Plans, debug complexe : Opus
+- Phase de refacto ou migration structurelle : Opus
+
 ## Roadmap
 
 ### Quand créer une roadmap
@@ -52,6 +58,9 @@ Si aucun de ces critères n'est rempli, le signaler avant de créer le fichier.
     contournement temporaire, structure bancale) qui compliquerait la phase suivante
   - le refacto est trop large pour être absorbé silencieusement dans la phase suivante
   Sinon, ne pas insérer de phase dédiée : signaler l'opportunité sans forcer une phase.
+- Quand une phase produit un comportement critique difficile à tester unitairement
+  (anonymisation, prompt système, pipeline), le gate peut être un benchmark reproductible
+  à N cas verrouillés plutôt que des tests unitaires classiques.
 
 ## Contrôle du contexte
 
@@ -63,7 +72,10 @@ Lire `.claude/memory.md` en début de chaque session si le fichier existe. Ce fi
 
 ## Données sensibles
 
-Certains dossiers ou fichiers peuvent contenir des données sensibles (informations clients, données personnelles, fichiers financiers). Les lister ici pour interdire toute lecture ou écriture sans instruction explicite :
+Rappel : jamais de secret en dur dans le code ou les prompts — stockage hors git, accès via service/API.
+
+Dossiers ou fichiers contenant des données sensibles (registre nominatif, credentials, données clients, fichiers financiers) à ne jamais lire ni écrire sans instruction explicite :
+Aucun déclaré.
 
 <!-- Exemple :
 - Chemin/vers/dossier_sensible

@@ -143,6 +143,13 @@ entre les marqueurs `SPECIFICITES PROJET` du fichier nouvellement copié.
   "Spécificités projet" (en sous-section `###` si ce sont des sections entières), sans demander
   confirmation. Signaler dans la réponse finale le contenu déplacé, pour information.
 - **Conserver** en tout état de cause la section "Données sensibles" du fichier existant.
+  - Si cette section ne contient aucune ligne sous le rappel générique (jamais renseignée) :
+    poser une fois la question "Des dossiers/fichiers sensibles à déclarer ? (registre nominatif,
+    credentials, données clients)" et inscrire la réponse (ou "Aucun déclaré." si négative) avant
+    de conserver la section. En mode batch (étape 0), ne pas poser la question : laisser la section
+    vide telle quelle et signaler "⚠️ <alias> — Données sensibles non renseignées, à compléter
+    manuellement" dans le résumé du projet.
+  - Si elle contient déjà du texte (y compris "Aucun déclaré.") : ne pas reposer la question.
 - **Remplacer** toutes les autres sections par celles du kit.
 - Écraser `<cible>/.claude/CLAUDE.md` avec le résultat fusionné.
 

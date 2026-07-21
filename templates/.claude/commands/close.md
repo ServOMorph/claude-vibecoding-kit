@@ -51,7 +51,7 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
    - Écraser la section "Dernière session" avec la synthèse de l'étape 3 (date du jour dans le titre).
    - Mettre à jour les priorités [P1/P2] sur les actions ouvertes.
    - Supprimer les entrées "Contexte chaud" périmées. Ajouter les nouvelles informations volatiles.
-   - Sections sans contenu : laisser le titre sans puce.
+   - Sections sans contenu : omettre entièrement le titre (le recréer seulement si elle redevient non vide).
    - **Invariant :** chaque action ouverte doit comporter :
      - `fait quand: <critère observable en 1 ligne>` — condition concrète permettant de clore l'action
      - `réf: <fichier(s) ou contexte clé>` — où trouver le contexte nécessaire
@@ -59,7 +59,7 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
 
 5. Mettre à jour `<dossier>/_contexte/contexte.md` :
    - Réécrire intégralement la section "État actuel" (5 lignes max).
-   - Ajouter les décisions actées à "Décisions structurantes" (append only).
+   - Ajouter les décisions actées à "Décisions structurantes" (append only, 5 lignes max par entrée — le détail va dans `archive_decisions.md` ou le commit).
    - Si la liste dépasse 10 entrées : archiver les plus anciennes dans `_contexte/archive_decisions.md`.
    - Ne pas toucher à "Objectif" sauf décision explicite. Ne pas toucher à "Stack" sauf changement technique.
    - Si rien n'a changé : ne pas toucher au fichier.
@@ -108,7 +108,14 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
       survenir avec l'étape 9, mais à vérifier via `git status` après coup) : les inclure dans
       ce même commit, jamais dans un commit séparé.
 
-11. Afficher en fin de réponse en grand format : ✌️😎
+11. Afficher un bilan des résidus non commités :
+    ```bash
+    git status --short
+    ```
+    S'il reste des fichiers non commités : ajouter à la synthèse finale une ligne
+    "résidus non commités : N fichiers". Pas d'action automatique — uniquement rendre visible.
+
+12. Afficher en fin de réponse en grand format : ✌️😎
 
 <!-- SPECIFICITES PROJET : DEBUT (préservé par /update, ne pas toucher hors de ce bloc) -->
 <!-- Convention : toute règle liée à une étape précise de la Procédure ci-dessus doit la
