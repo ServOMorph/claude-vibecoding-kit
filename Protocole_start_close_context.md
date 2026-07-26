@@ -143,13 +143,19 @@ Voir `templates/.claude/commands/close.md`.
 > le projet cible étant fourni en premier argument (chemin absolu).
 
 Crée un agent (« zone à rôle » : `agent_role.md` + `_contexte/` propre, enregistrée dans
-`<projet_cible>/zones.md`, pilotable par `/start`/`/close`) dans un projet cible externe. Vérifie
-d'abord (étape 2b) que le `start.md` du projet cible charge bien la charte automatiquement — sinon
-avertit et demande confirmation, plutôt que de créer un agent silencieusement inopérant. Charte
-générée depuis `templates/agent_role_TEMPLATE.md`, paramétrée par le rôle fourni en argument — jamais
-de rôle générique inventé par défaut. Contrôle d'unicité de l'alias avant écriture dans `zones.md`.
-Étape finale obligatoire : recommander de passer sur Opus pour une rétrospective à sortie écrite dans
-`ameliorations_create_agent.md` (racine du kit, jamais dans le projet cible).
+`<projet_cible>/zones.md`, pilotable par `/start`/`/close`) dans un projet cible externe. Procédure en
+phases ancrées : `[PREFLIGHT]` résout l'argument et vérifie que le `start.md` du projet cible charge
+bien la charte automatiquement (sinon avertit et demande confirmation, plutôt que de créer un agent
+silencieusement inopérant) ; `[COLLECTE]` pose une question unique groupée (rôle durable — jamais
+inventé par défaut, périmètre d'écriture, confirmation du mode) puis analyse la stack du projet cible
+si le résultat sera utilisé ; `[ECRITURE]` écrit tous les fichiers d'un coup, en distinguant mode
+**création** (nouvel alias, contrôle d'unicité avant écriture dans `zones.md`) et mode **conversion**
+(alias déjà présent pointant vers le dossier demandé : complète sans jamais toucher `zones.md` ni un
+`signals.md` existant) ; `[SORTIE]` récapitule et recommande Opus pour la phase `[AUDIT]`. Charte
+générée depuis `templates/agent_role_TEMPLATE.md`. Étape `[ECRITURE]` alimente aussi
+`ameliorations_create_agent.md` (racine du kit, jamais dans le projet cible) à chaque création.
+`[AUDIT]` : analyse à froid de la commande elle-même (jamais automatique, Opus imposé) sur demande
+explicite seulement.
 
 Voir `.claude/commands/create_agent.md` et `templates/agent_role_TEMPLATE.md` (aucune copie dans
 `templates/.claude/commands/` : la commande n'est pas destinée à être copiée dans un projet).
@@ -348,6 +354,16 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 ---
 
 # Changelog
+
+## v3.0 — 2026-07-26
+
+**`/create_agent` réécrite en phases nommées + mode conversion**
+- Procédure restructurée en phases ancrées `[PREFLIGHT]`/`[COLLECTE]`/`[ECRITURE]`/`[SORTIE]`/`[AUDIT]` ; tous les renvois internes citent l'ancre de phase, plus de numéro d'étape. Une seule question groupée en `[COLLECTE]` (rôle, périmètre d'écriture, confirmation du mode).
+- Mode **conversion** (P12) : une zone déjà enregistrée dans `zones.md` pointant vers le dossier demandé est complétée (`agent_role.md` + `_contexte/` manquants) sans jamais toucher `zones.md` ni un `signals.md` déjà présent ; mise à jour de la stack de `contexte.md` proposée seulement si vide/générique.
+- `{{STACK}}` (P13) analysée uniquement quand le résultat sera utilisé (création, ou conversion sans stack exploitable déjà présente) — évite le rescan systématique du projet cible.
+- `{{ALIAS_RACINE}}` (P11) : retenu seulement si la première ligne de `zones.md` est bien la racine du projet ; sinon la ligne "Zone parente" est omise de la charte plutôt que laissée vide.
+- Nouvelle phase `[AUDIT]` : analyse à froid de la commande elle-même (pertinence, économie de tokens, construction, régression), sur demande explicite uniquement, modèle Opus imposé, sortie obligatoire dans `ameliorations_create_agent.md`.
+- `agent_role_TEMPLATE.md` : placeholder `{{NOM_AGENT}}` renommé `{{DOSSIER_AGENT}}` (doublon supprimé).
 
 ## v2.26 — 2026-07-21
 

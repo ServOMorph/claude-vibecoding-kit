@@ -3,6 +3,16 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v3.0 — 2026-07-26
+
+### Modifié
+- `.claude/commands/create_agent.md` réécrite : procédure structurée en phases nommées (`[PREFLIGHT]`/`[COLLECTE]`/`[ECRITURE]`/`[SORTIE]`/`[AUDIT]`), tous les renvois internes utilisent désormais l'ancre de phase plutôt qu'un numéro d'étape. Une seule interaction utilisateur groupée en `[COLLECTE]` au lieu de plusieurs questions séquentielles.
+- Mode **conversion** formalisé (P12) : détection explicite d'une zone déjà enregistrée dans `zones.md` pointant vers le dossier demandé ; ne crée que ce qui manque (`agent_role.md`, `_contexte/`), ne touche jamais `zones.md` ni un `signals.md` déjà présent, propose la mise à jour de la section stack de `contexte.md` seulement si vide/générique.
+- Analyse de `{{STACK}}` (P13) conditionnée au mode et à l'état de `contexte.md` — plus de scan systématique du projet cible en mode conversion si le contexte existe déjà.
+- Règle `{{ALIAS_RACINE}}` (P11) : ne retient la première ligne de `zones.md` que si elle correspond effectivement à la racine du projet cible ; sinon la ligne "Zone parente" est omise de la charte générée plutôt que laissée vide.
+- Nouvelle phase `[AUDIT]` : analyse à froid de `create_agent.md` elle-même (pertinence des ajouts, économie de tokens, construction, régression), déclenchée uniquement sur demande explicite et seulement sur le modèle Opus ; sortie obligatoire dans `ameliorations_create_agent.md`.
+- `templates/agent_role_TEMPLATE.md` : placeholder `{{NOM_AGENT}}` renommé en `{{DOSSIER_AGENT}}` (doublon supprimé, un seul placeholder pour le nom du dossier).
+
 ## v2.26 — 2026-07-21
 
 ### Ajouté

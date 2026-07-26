@@ -46,7 +46,7 @@ Il ne s'agit **pas** d'un subagent Claude Code (`.claude/agents/*.md`, Task tool
 
 ---
 
-## Phase 2 — Mise en pratique : les 2 agents dans robert-ia + livrables événement [EN COURS]
+## Phase 2 — Mise en pratique : les 2 agents dans robert-ia + livrables événement [FAIT]
 - [x] Créer `D:\ServOMorph\robert-ia\COM\` : `agent_role.md` (rôle = communication événement) + `_contexte/`.
 - [x] Créer `D:\ServOMorph\robert-ia\MEMORY\` : `agent_role.md` (rôle = gestion du contexte/mémoire de robert) + `_contexte/`.
 - [x] Enregistrer les 2 zones dans `robert-ia\.claude\zones.md` (alias `com`, `memory`), après vérification que ces alias ne sont pas déjà pris (décision 3).

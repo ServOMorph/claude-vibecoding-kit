@@ -1,7 +1,27 @@
 # Améliorations — /create_agent
 
 Journal des frictions et améliorations de la commande `/create_agent` et de la charte `agent_role.md`.
-Sortie concrète de l'étape 10 de la commande et des rétrospectives de `roadmap_agents.md` (décision 6 du cadrage).
+Sortie concrète de l'étape [ECRITURE] de la commande et des rétrospectives de `roadmap_agents.md` (décision 6 du cadrage).
+
+## Propositions ouvertes
+
+- P7 — Enrichir la sous-étape stack pour produire un `contexte.md` réellement pertinent (au-delà
+  du stub générique). Partiellement couvert depuis la révision du 2026-07-26 de `create_agent.md`
+  (analyse conditionnelle du projet cible), à confirmer sur un prochain test.
+- P8 — Garde-fou d'écriture hors dossier : non spécifiable en l'état (pas de portée technique sans
+  hook/permission OS), contredirait le périmètre déclaratif. À reclarifier avant tout chiffrage.
+- P9 (hors périmètre) — `agent_role.md` comme prompt de spécialisation (tokens, alignement,
+  efficacité). Session de conception dédiée.
+- P10 (hors périmètre) — Apprentissage automatique des agents au fil de l'usage ; tension directe
+  avec la règle du kit (mémoire jamais écrite automatiquement). À concevoir séparément si retenu.
+- P11 — [Implémentée le 2026-07-26] `{{ALIAS_RACINE}}` : la commande ne retient plus la première
+  ligne de `zones.md` par défaut, seulement si elle correspond effectivement à la racine du projet.
+- P12 — [Implémentée le 2026-07-26] Mode conversion explicite pour une zone déjà enregistrée
+  (charte seule, sans toucher `zones.md`/`_contexte/` existants) — intégré à l'étape [PREFLIGHT]/[ECRITURE].
+- P13 — [Implémentée le 2026-07-26] Analyse du projet cible pour `{{STACK}}`, désormais conditionnée
+  au mode et à l'état de `contexte.md` (évite le scan systématique en conversion).
+
+## Historique
 
 ## 2026-07-21 — Rétrospective Phases 1-3 (bootstrap, agents COM + MEMORY de robert-ia)
 
@@ -115,3 +135,23 @@ de la charte générée est donc trompeur. Non corrigé pour ce test, à tranche
 - P12 — Ajouter un chemin explicite dans `/create_agent` pour convertir une zone déjà enregistrée
   en agent (charte seule, sans toucher `zones.md`/`_contexte/` existants), au lieu de traiter ce
   cas uniquement par déviation manuelle comme ici.
+
+## 2026-07-26 — agent design (D:\ServOMorph\jeu_zombies)
+
+Création d'un agent DESIGN (design artistique et UX de Nox Protocol), périmètre limité à `DESIGN/`.
+
+A bien fonctionné : étape 2b OK (le `start.md` de jeu_zombies charge bien `agent_role.md`),
+template `agent_role_TEMPLATE.md` directement exploitable, `{{ALIAS_RACINE}}` correct ici
+(première ligne de `zones.md` = `jeu_zombies`, vraie racine).
+
+Frictions :
+- P12 rencontrée à nouveau : l'alias `design` existait déjà dans `zones.md` et pointait sur un
+  dossier `DESIGN/` vide (zone déclarée sans charte ni `_contexte/`). L'étape 4 ne prévoit que
+  "refuser / renommer" ; ici la bonne action était de compléter la zone existante sans toucher
+  `zones.md`. Traité par question explicite à l'utilisateur. Confirme la nécessité de P12.
+- P13 — `{{STACK}}` est figé à "Hérite de la stack du projet parent." (étape 5). Insuffisant :
+  l'utilisateur a dû demander explicitement d'analyser le projet cible pour renseigner la stack
+  réelle dans `contexte.md`. Or c'est précisément ce qui rend l'agent économe en tokens ensuite
+  (pas besoin de re-scanner le projet à chaque session). Proposition : ajouter à l'étape 5 une
+  analyse du projet cible (README, fichiers de config type `project.godot`/`package.json`,
+  arborescence, docs de cadrage) pour produire un `{{STACK}}` réel, filtré par le rôle de l'agent.
