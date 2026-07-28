@@ -12,11 +12,10 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - **Déploiement** : copie template vers projets via `/init`, tracking dans DEPLOYMENTS.md
 
 ## État actuel
-- Kit v3.0. `/create_agent` réécrite en phases ancrées (`[PREFLIGHT]`/`[COLLECTE]`/`[ECRITURE]`/`[SORTIE]`/`[AUDIT]`) : mode conversion explicite (P12), `{{STACK}}` conditionnelle (P13), `{{ALIAS_RACINE}}` durcie (P11), toutes implémentées.
-- Nouvelle phase `[AUDIT]` : analyse à froid de `create_agent.md` elle-même, jamais automatique, Opus imposé, sortie dans `ameliorations_create_agent.md`.
+- Kit v3.1. `CLAUDE.md` (kit + template) : section "Tests manuels" (`tests_manuels.md`, file d'attente de contrôles manuels) et sous-section "Déclencheurs de vérification" (règles mécaniques anti-affirmation-non-vérifiée) ajoutées.
+- `/create_agent` réécrite en phases ancrées (`[PREFLIGHT]`/`[COLLECTE]`/`[ECRITURE]`/`[SORTIE]`/`[AUDIT]`) : mode conversion explicite (P12), `{{STACK}}` conditionnelle (P13), `{{ALIAS_RACINE}}` durcie (P11), toutes implémentées. Mode conversion non encore validé en conditions réelles — Test 3 à faire.
+- `jeu_zombies` (v2.26 déployé) en retard sur le kit — `/update` à lancer pour récupérer les nouvelles règles `CLAUDE.md`.
 - `AGENTS_REGISTRY.md` (hors git) centralise 5 agents (com, memory, web, linkedin, design).
-- Mode conversion de la commande réécrite non encore validé en conditions réelles (agent `design` traité manuellement) — Test 3 à faire.
-- `roadmap_agents.md` Phase 2 : statut corrigé `[FAIT]` (incohérence pré-existante).
 
 ## Décisions structurantes
 _Décisions antérieures au 2026-07-26 (session create_agent v3.0) archivées dans `_contexte/archive_decisions.md`._
@@ -30,3 +29,4 @@ _Décisions antérieures au 2026-07-26 (session create_agent v3.0) archivées da
 - 2026-07-21 : `AGENTS_REGISTRY.md` créé pour centraliser agents + retex — décision utilisateur : un seul fichier, hors git (paths locaux, repo public MIT), au prix de ne pas partager les retex si le kit s'ouvre un jour à d'autres contributeurs.
 - 2026-07-26 : `/create_agent` réécrite en phases nommées ancrées (au lieu de numéros d'étape) par un agent externe, relue et corrigée. P11/P12/P13 implémentées. Décision utilisateur : ajouter une phase `[AUDIT]` dédiée à l'analyse à froid de la commande elle-même, jamais automatique, Opus imposé.
 - 2026-07-26 : agent `design` créé dans `jeu_zombies/DESIGN` (design artistique/UX complet du jeu) — cas de conversion d'une zone déjà enregistrée, traité manuellement ; `contexte.md` alimenté avec la stack réelle du projet (Godot 4.5, GDD) plutôt que le stub générique.
+- 2026-07-28 : `CLAUDE.md` (kit + template) enrichi de deux sections — "Tests manuels" (`tests_manuels.md`, chemin relatif générique après refus d'un chemin absolu jeu_zombies-spécifique) et "Déclencheurs de vérification" sous "Honnêteté" (règles mécaniques suite à une affirmation non vérifiée en session sur le contenu de `DEPLOYMENTS.md`). Kit v3.1.

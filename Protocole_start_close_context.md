@@ -355,6 +355,14 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 
 # Changelog
 
+## v3.1 — 2026-07-28
+
+**Section "Tests manuels" dans `CLAUDE.md`**
+- Kit + template : nouvelle règle de comportement — `tests_manuels.md` (racine du projet) sert de file d'attente exhaustive des contrôles manuels non validés. Ajout systématique d'un test en attente, suppression immédiate de sa section après validation, vidage intégral du fichier (sans titre ni consignes) une fois tous les tests validés.
+
+**Déclencheurs de vérification dans `CLAUDE.md`**
+- Kit + template, section "Honnêteté" : sous-section "Déclencheurs de vérification" — nommer un fichier oblige à l'avoir lu dans la session ; les chiffres/états de `signals.md`/`contexte.md` sont datés, à revérifier avant d'être énoncés au présent ; vocabulaire de vérification (« vérifié », « confirmé », « contrôlé ») réservé à un appel d'outil réel ; par défaut, question plutôt qu'affirmation d'absence. Introduites après une affirmation non vérifiée en session.
+
 ## v3.0 — 2026-07-26
 
 **`/create_agent` réécrite en phases nommées + mode conversion**

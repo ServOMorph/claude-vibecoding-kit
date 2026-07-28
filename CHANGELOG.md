@@ -3,6 +3,12 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v3.1 — 2026-07-28
+
+### Ajouté
+- `CLAUDE.md` (kit + template) : nouvelle section "Tests manuels" — utiliser `tests_manuels.md` (racine du projet) comme file d'attente exhaustive des contrôles manuels non validés ; ajout systématique d'un test en attente, suppression immédiate de sa section une fois validé, vidage intégral du fichier quand tous les tests sont validés.
+- `CLAUDE.md` (kit + template), section "Honnêteté" : nouvelle sous-section "Déclencheurs de vérification" — règles mécaniques (nommer un fichier implique l'avoir lu dans la session, chiffres de `signals.md`/`contexte.md` datés donc à revérifier, vocabulaire de vérification réservé à un appel d'outil réel, absence d'information à questionner plutôt qu'affirmer), suite à une affirmation non vérifiée faite en session.
+
 ## v3.0 — 2026-07-26
 
 ### Modifié
