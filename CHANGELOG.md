@@ -3,6 +3,11 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v3.2 — 2026-07-30
+
+### Modifié
+- `.claude/commands/create_agent.md` : le dossier de l'agent (créé ou converti) est désormais normalisé en MAJUSCULES pour une meilleure reconnaissance visuelle dans l'arborescence du projet ; l'alias de zone reste en minuscules. En mode conversion, un dossier existant à la casse non conforme est renommé (`git mv` si suivi par git) et le chemin mis à jour dans `zones.md`.
+
 ## v3.1 — 2026-07-28
 
 ### Ajouté

@@ -355,6 +355,12 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 
 # Changelog
 
+## v3.2 — 2026-07-30
+
+**`/create_agent` — dossier d'agent en MAJUSCULES**
+- Le dossier de l'agent (créé ou converti) est normalisé en MAJUSCULES pour une meilleure reconnaissance visuelle dans l'arborescence du projet ; l'alias de zone (utilisé par `/start`/`/close`) reste en minuscules, inchangé.
+- Mode conversion : si le dossier existant a une casse non conforme, il est renommé (`git mv` si suivi par git) avant toute écriture, et le chemin correspondant mis à jour dans `zones.md` (l'alias ne change pas).
+
 ## v3.1 — 2026-07-28
 
 **Section "Tests manuels" dans `CLAUDE.md`**

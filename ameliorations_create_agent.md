@@ -155,3 +155,39 @@ Frictions :
   (pas besoin de re-scanner le projet à chaque session). Proposition : ajouter à l'étape 5 une
   analyse du projet cible (README, fichiers de config type `project.godot`/`package.json`,
   arborescence, docs de cadrage) pour produire un `{{STACK}}` réel, filtré par le rôle de l'agent.
+
+## 2026-07-30 — agent explo (D:\ServOMorph\crea_zik)
+
+Création d'un agent explo (recherches/explorations sonores : synthèse, DSP, composition
+algorithmique), périmètre limité à `explo/`. Mode création, alias absent de `zones.md`.
+
+A bien fonctionné : [PREFLIGHT] a résolu le chemin cité entre guillemets sans ambiguïté, `start.md`
+de crea_zik charge déjà `agent_role.md` (pas de warning), `{{ALIAS_RACINE}}` correct (première
+ligne de `zones.md` = `crea_zik`, vraie racine du projet). Le rôle fourni par l'utilisateur était
+déjà formulé de façon durable (pas de tâche unique) — aucune reformulation nécessaire.
+
+L'analyse [COLLECTE] du projet cible (README.md, `_docs/index_recherches_audio.md`, AGENTS.md) a
+produit un bloc `{{STACK}}` réellement exploitable dès la création (contrainte "pas de son externe",
+moteurs Csound 7/pyo/Faust, recherches déjà produites à consulter) — confirme la valeur de P13
+implémentée le 2026-07-26. Aucune friction nouvelle observée.
+
+## 2026-07-30 — agent editeur (D:\ServOMorph\crea_zik)
+
+Création de l'agent EDITEUR (éditeur de son et de musique du projet : Sound Designer, Music
+Composer, Adaptive Lab, Analyse & Export), premier test de la règle « dossier agent en
+MAJUSCULES » ajoutée le jour même à `create_agent.md`.
+
+A bien fonctionné : dossier `EDITEUR` créé directement en majuscules (mode création, pas de
+renommage à tester ici) ; alias dérivé en minuscules (`editeur`) sans confusion. [COLLECTE] a
+identifié `_docs/specification_ui_studio_audio.md` en plus du README pour produire un `{{STACK}}`
+détaillé (architecture UI/backend, navigation cible, packaging).
+
+Friction confirmée (pas nouvelle) : le rôle « créer l'éditeur » impliquait d'écrire dans le code
+applicatif existant (`frontend/`, `backend/`), hors du dossier de l'agent — la question groupée de
+l'étape [COLLECTE] sur le périmètre d'écriture a correctement capté ce besoin plutôt que de
+supposer par défaut un périmètre limité à `EDITEUR/`. `{{ECRITURE_ETENDUE}}` et la liste "Ne doit
+pas toucher" de la charte mis à jour en conséquence.
+
+Non testé ici : le cas de renommage d'un dossier existant à la casse non conforme (mode
+conversion) — aucun projet actuel n'a de dossier d'agent en minuscules à convertir pour vérifier
+cette branche ajoutée à `create_agent.md`.

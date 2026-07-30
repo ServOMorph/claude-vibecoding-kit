@@ -27,6 +27,11 @@ elle s'exécute toujours depuis le kit, projet cible en premier argument.
      s'arrêter.
    - Dossier absent : demander "Nom du dossier pour ce nouvel agent ?" et
      s'arrêter.
+   - Normaliser le nom du dossier en MAJUSCULES (meilleure reconnaissance
+     visuelle dans l'arborescence du projet) — s'applique en mode création
+     comme en mode conversion (renommage du dossier existant si sa casse
+     diffère). L'alias de zone (dérivé à l'étape 4) reste en minuscules,
+     indépendamment de cette normalisation.
 
 2. Vérifier `<projet_cible>/.claude/zones.md`. Absent → s'arrêter, le projet
    n'a pas encore été initialisé via `/init_projet`.
@@ -111,7 +116,12 @@ elle s'exécute toujours depuis le kit, projet cible en premier argument.
      vide/générique, proposer d'y insérer le bloc produit en [COLLECTE] et
      attendre l'accord.
    - `_contexte/signals.md` présent : ne jamais le toucher.
-   - `zones.md` : jamais modifié (la ligne existe déjà).
+   - `zones.md` : jamais modifié, sauf renommage du dossier (casse) — dans ce
+     cas, mettre à jour uniquement le chemin de la ligne existante, l'alias
+     ne change pas.
+   - Dossier existant dont la casse n'est pas déjà en majuscules : le
+     renommer avant toute écriture (`git mv` si le dossier est suivi par
+     git), puis répercuter le nouveau chemin dans `zones.md`.
 
 8. Ajouter une ligne à `<racine du kit>/AGENTS_REGISTRY.md` (créer le fichier
    avec son en-tête standard s'il n'existe pas) :
