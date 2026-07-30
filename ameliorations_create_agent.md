@@ -191,3 +191,24 @@ pas toucher" de la charte mis à jour en conséquence.
 Non testé ici : le cas de renommage d'un dossier existant à la casse non conforme (mode
 conversion) — aucun projet actuel n'a de dossier d'agent en minuscules à convertir pour vérifier
 cette branche ajoutée à `create_agent.md`.
+
+## 2026-07-30 — agent documentation (Moulin du Sud)
+
+Création de l'agent DOCUMENTATION (centraliser/structurer la doc du projet en .md, base de
+connaissance interne façon RAG léger), mode création simple, aucun `_docs`/README exploitable
+pour `{{STACK}}` (projet vibecoding pur, pas de code applicatif) → "Hérite de la stack du projet
+parent." signalé sans forcer un contenu.
+
+Friction nouvelle : l'argument passé à la commande contenait, en plus du rôle durable, une
+demande de recherche web/GitHub sur les systèmes de doc type RAG et une demande d'implémentation
+ultérieure comme template dans le kit — deux tâches hors périmètre de `/create_agent`. Traité par
+question groupée : rôle durable extrait et confirmé séparément, recherche explicitement reportée
+à une session `/start documentation` dédiée plutôt qu'enchaînée dans le même appel de commande.
+Aucune ligne de la commande n'a besoin de changer pour ce cas — c'est un usage détourné de
+l'argument, pas une lacune de la procédure.
+
+Point à surveiller (pas encore une proposition P<n>, pas assez d'occurrences) : le template
+`agent_role.md` limite la lecture à « dossier agent + racine (README, AGENTS.md/CLAUDE.md) »,
+alors que le rôle même d'un agent documentaliste est de lire l'ensemble du projet pour agréger.
+La charte générée reste donc silencieuse sur ce point — periscope déclaratif, pas bloquant
+techniquement, mais à corriger si un deuxième agent de ce type confirme le besoin.

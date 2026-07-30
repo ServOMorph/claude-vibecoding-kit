@@ -68,12 +68,23 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
    session (statuts des tâches et phases). Mettre à jour si périmée.
    Invariant : ce que lira le prochain `/start` doit être vrai.
 
-7. Mettre à jour `README.md` à la racine du projet :
+7. Base de connaissances (`DOCUMENTATION/`), si la zone fermée n'est pas `documentation` elle-même :
+   - Si `<racine du projet>/DOCUMENTATION/INDEX.md` n'existe pas (pas d'agent documentaire sur ce
+     projet) : ignorer cette étape.
+   - Sinon : évaluer si la session a produit une information utile aux autres zones du projet
+     (décision transversale, référence externe stable, donnée métier durable) — pas une info propre
+     à cette seule zone.
+   - Si oui : proposer à l'utilisateur l'entrée à ajouter/mettre à jour dans `DOCUMENTATION/`
+     (fichier concerné + ligne d'`INDEX.md`) et attendre confirmation avant d'écrire — cette zone
+     n'a pas la main sur le dossier d'une autre zone.
+   - Si non : ne rien faire, ne pas le mentionner dans le bilan.
+
+8. Mettre à jour `README.md` à la racine du projet :
    - Refléter l'état actuel du projet (section "État actuel" de `contexte.md`).
    - Ne pas modifier les sections stables (objectif, stack, structure) sauf changement explicite.
    - Si le README n'existe pas encore : le créer avec les sections standard (objectif, stack, structure, état actuel).
 
-8. Bumper la version dans `CHANGELOG.md` :
+9. Bumper la version dans `CHANGELOG.md` :
    - Lire la dernière entrée de `CHANGELOG.md` pour extraire la version actuelle (ex: `v2.2`).
    - Déterminer le type de bump à partir de la synthèse de l'étape 3 :
      - **major** si : structure de `_contexte/` modifiée, placeholder renommé ou supprimé, commande supprimée
@@ -88,12 +99,12 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
      ```
    - Ne pas modifier les entrées existantes.
 
-9. Avant de committer, relire les étapes 3 à 8 une par une et confirmer explicitement que chacune
+10. Avant de committer, relire les étapes 3 à 9 une par une et confirmer explicitement que chacune
    a été exécutée (pas seulement planifiée). Si une étape a une commande associée (script de build,
    régénération de vue, etc.) et qu'elle n'a pas encore été lancée dans cette session, l'exécuter
    maintenant, avant le commit — jamais après.
 
-10. Effectuer un commit git :
+11. Effectuer un commit git :
     ```bash
     git diff --name-only          # vérifier tous les fichiers modifiés pendant la session
     git status                    # confirmer l'état du repo
@@ -105,23 +116,23 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
       plutôt qu'un commit partiel laissant le repo dans un état incohérent.
     - Ne pas inclure de fichiers sans lien avec la session.
     - Si une commande de génération a modifié des fichiers après le commit (cas non censé
-      survenir avec l'étape 9, mais à vérifier via `git status` après coup) : les inclure dans
+      survenir avec l'étape 10, mais à vérifier via `git status` après coup) : les inclure dans
       ce même commit, jamais dans un commit séparé.
 
-11. Afficher un bilan des résidus non commités :
+12. Afficher un bilan des résidus non commités :
     ```bash
     git status --short
     ```
     S'il reste des fichiers non commités : ajouter à la synthèse finale une ligne
     "résidus non commités : N fichiers". Pas d'action automatique — uniquement rendre visible.
 
-12. Afficher en fin de réponse en grand format : ✌️😎
+13. Afficher en fin de réponse en grand format : ✌️😎
 
 <!-- SPECIFICITES PROJET : DEBUT (préservé par /update, ne pas toucher hors de ce bloc) -->
 <!-- Convention : toute règle liée à une étape précise de la Procédure ci-dessus doit la
      référencer explicitement par son numéro (ex: "Étape 6 : ..."), plutôt que compter sur la
      position physique de cette zone (toujours en fin de fichier). -->
 
-Étape 8bis (entre l'étape 8 et l'étape 9) : lancer la commande `/doc_sync` pour synchroniser la
+Étape 9bis (entre l'étape 9 et l'étape 10) : lancer la commande `/doc_sync` pour synchroniser la
 documentation du kit avant le commit.
 <!-- SPECIFICITES PROJET : FIN -->

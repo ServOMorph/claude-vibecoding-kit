@@ -12,14 +12,13 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - **Déploiement** : copie template vers projets via `/init`, tracking dans DEPLOYMENTS.md
 
 ## État actuel
-- Kit v3.2. `/create_agent` : dossier de l'agent (créé ou converti) normalisé en MAJUSCULES, alias en minuscules ; mode conversion renomme le dossier existant à la casse non conforme et met à jour `zones.md`.
-- Mode conversion de `/create_agent` toujours pas validé end-to-end telle qu'écrite (Test 3 à faire) ; le renommage majuscule en conversion non plus (pas de cas réel disponible).
-- `jeu_zombies` (v2.26 déployé) en retard sur le kit — `/update` à lancer pour récupérer les nouvelles règles `CLAUDE.md`.
-- `AGENTS_REGISTRY.md` (hors git) centralise 7 agents (com, memory, web, linkedin, design, explo, editeur).
+- Kit v3.3. Base de connaissances `DOCUMENTATION/` (progressive disclosure) introduite comme feature générale, non encore testée en conditions réelles. `AGENTS.md` introduit (équivalent CLAUDE.md pour agents non-Claude), jamais créé automatiquement.
+- `/create_agent` : dossier normalisé en MAJUSCULES, alias en minuscules ; mode conversion pas encore validé end-to-end (Test 3 à faire).
+- `jeu_zombies` (v2.26 déployé) en retard sur le kit v3.3 — `/update` à lancer.
+- `AGENTS_REGISTRY.md` (hors git) centralise 8 agents (com, memory, web, linkedin, design, explo, editeur, documentation).
 
 ## Décisions structurantes
-_Décisions antérieures au 2026-07-30 (session /create_agent MAJUSCULES) archivées dans `_contexte/archive_decisions.md`._
-- 2026-07-21 : décision utilisateur — `/create_agent` ne se copie plus jamais dans les projets cibles, elle s'exécute toujours depuis le kit avec le projet cible en argument. Revient sur la décision Phase 3 (copie manuelle projet par projet).
+_Décisions antérieures au 2026-07-30 (session base de connaissances) archivées dans `_contexte/archive_decisions.md`._
 - 2026-07-21 : premier test end-to-end réel de `/create_agent` (agent `web`, La Rev) — friction majeure trouvée (charte silencieusement non chargée si `start.md` cible obsolète) et corrigée (P6). Ouverture d'une période de test tracée dans `TEST_CREATE_AGENT_RESULTS.md`.
 - 2026-07-21 : Lot 1 de `PROPOSITIONS_AMELIORATION.md` implémenté (1.3, 1.7, 2.4, 2.5, 3.1) — décision utilisateur de tout retenir, aucune n'a justifié d'être écartée. Kit v2.24.
 - 2026-07-21 : Test 2 `/create_agent` — conversion d'une zone déjà mature (`linkedin`, SérénIATech_dev) en agent, cas non couvert par la procédure standard ; traité par déviation manuelle validée par l'utilisateur (charte seule, `_contexte/`/`zones.md` existants préservés). Frictions P11/P12 consignées, non tranchées.
@@ -29,3 +28,4 @@ _Décisions antérieures au 2026-07-30 (session /create_agent MAJUSCULES) archiv
 - 2026-07-26 : agent `design` créé dans `jeu_zombies/DESIGN` (design artistique/UX complet du jeu) — cas de conversion d'une zone déjà enregistrée, traité manuellement ; `contexte.md` alimenté avec la stack réelle du projet (Godot 4.5, GDD) plutôt que le stub générique.
 - 2026-07-28 : `CLAUDE.md` (kit + template) enrichi de deux sections — "Tests manuels" (`tests_manuels.md`, chemin relatif générique après refus d'un chemin absolu jeu_zombies-spécifique) et "Déclencheurs de vérification" sous "Honnêteté" (règles mécaniques suite à une affirmation non vérifiée en session sur le contenu de `DEPLOYMENTS.md`). Kit v3.1.
 - 2026-07-30 : `/create_agent` — dossier de l'agent normalisé en MAJUSCULES (création et conversion), alias inchangé (minuscules) — décision utilisateur pour la reconnaissance visuelle dans l'arborescence. Testé en mode création sur l'agent `editeur` (crea_zik, périmètre étendu à `frontend/`/`backend/`). Kit v3.2.
+- 2026-07-30 : base de connaissances `DOCUMENTATION/` (pattern progressive disclosure, validé par recherche web) adoptée comme feature générale du kit — d'abord implémentée dans Moulin du Sud (agent `documentation`), puis dans `templates/.claude/commands/close.md` (étape 7 conditionnelle) et `templates/.claude/CLAUDE.md`. `AGENTS.md` introduit en parallèle comme équivalent CLAUDE.md pour agents non-Claude, jamais créé automatiquement (`/init_projet` Q7, `/update` étape 7, toujours sur confirmation). Kit v3.3.

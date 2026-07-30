@@ -3,6 +3,16 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v3.3 — 2026-07-30
+
+### Ajouté
+- Base de connaissances `DOCUMENTATION/` (pattern "progressive disclosure" : `INDEX.md` catalogue + docs individuels) introduite comme feature générale du kit. `templates/.claude/commands/close.md` : nouvelle étape 7 conditionnelle proposant une entrée/MAJ dans `DOCUMENTATION/` en fin de session (jamais automatique, sur confirmation). `templates/.claude/CLAUDE.md` : nouvelle section "Base de connaissances".
+- `templates/AGENTS.md` : nouveau template, équivalent `CLAUDE.md` pour les agents non-Claude (Codex, ChatGPT, Gemini...). Jamais créé automatiquement : `/init_projet` (nouvelle question 7) et `/update` (nouvelle étape 7) le proposent sur confirmation explicite à chaque exécution (sautée en mode batch `all`), et ne l'écrasent jamais s'il existe déjà.
+
+### Modifié
+- `.claude/commands/update.md` : renumérotation des étapes 8→11 suite à l'insertion de l'étape 7 (AGENTS.md).
+- `templates/.claude/commands/close.md` : renumérotation des étapes 8→13 suite à l'insertion de l'étape 7 (base de connaissances).
+
 ## v3.2 — 2026-07-30
 
 ### Modifié

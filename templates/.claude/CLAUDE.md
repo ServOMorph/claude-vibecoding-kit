@@ -80,6 +80,15 @@ Ne jamais écrire dans le dossier `memory/` ni dans aucun système de mémoire p
 ### Mémoire projet
 Lire `.claude/memory.md` en début de chaque session si le fichier existe. Ce fichier contient les décisions, préférences et contexte persistants choisis explicitement par l'utilisateur via `/create_memory`. Ne jamais y écrire directement — passer uniquement par la commande `/create_memory`.
 
+## Base de connaissances
+
+Si le projet dispose d'une zone `DOCUMENTATION/` (agent dédié, cf. `agent_role.md`), elle centralise
+la documentation métier du projet en fichiers .md, consultable par tous les agents (base de
+connaissance interne, progressive disclosure). Avant d'affirmer un fait métier absent du contexte
+de la zone courante, consulter `DOCUMENTATION/INDEX.md` (catalogue, une ligne par document) puis
+n'ouvrir que le(s) document(s) pertinent(s) — jamais tout le dossier. Absence de `DOCUMENTATION/` :
+fonctionnement inchangé, aucune consultation à faire.
+
 ## Données sensibles
 
 Rappel : jamais de secret en dur dans le code ou les prompts — stockage hors git, accès via service/API.

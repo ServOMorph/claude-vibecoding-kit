@@ -328,7 +328,7 @@ Procédure : voir `templates/.claude/commands/init_projet.md`.
 
 # /update — Mise à jour des fichiers de protocole
 
-Lancée depuis le repo du kit, avec en argument le chemin absolu du projet cible (ou `all`). Met à jour `start.md`, `close.md`, `CLAUDE.md` et `ollama_call.py` dans ce projet à partir de la dernière version du kit. Ne touche pas à `_contexte/`, `zones.md`, ni à la section "Données sensibles" et la section "Spécificités projet" de `CLAUDE.md`, ni au bloc `SPECIFICITES PROJET` de `start.md`/`close.md`. Un commit de sauvegarde est effectué dans le repo du projet cible avant toute modification.
+Lancée depuis le repo du kit, avec en argument le chemin absolu du projet cible (ou `all`). Met à jour `start.md`, `close.md`, `CLAUDE.md` et `ollama_call.py` dans ce projet à partir de la dernière version du kit, et propose (sur confirmation, jamais automatique) de créer `AGENTS.md` si absent. Ne touche pas à `_contexte/`, `zones.md`, ni à la section "Données sensibles" et la section "Spécificités projet" de `CLAUDE.md`, ni au bloc `SPECIFICITES PROJET` de `start.md`/`close.md`, ni à un `AGENTS.md` déjà présent. Un commit de sauvegarde est effectué dans le repo du projet cible avant toute modification.
 
 `init_projet.md` et `update.md` ne sont pas déployés dans les projets — ils restent dans le kit.
 
@@ -354,6 +354,17 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 ---
 
 # Changelog
+
+## v3.3 — 2026-07-30
+
+**Base de connaissances `DOCUMENTATION/`**
+- Pattern "progressive disclosure" (`INDEX.md` catalogue + docs individuels, jamais de suppression — archivage à la place) introduit comme feature générale du kit, d'abord implémenté dans un projet (Moulin du Sud, agent `documentation`).
+- `templates/.claude/commands/close.md` : nouvelle étape 7 conditionnelle — si `DOCUMENTATION/INDEX.md` existe et que la session a produit une info utile aux autres zones, propose une entrée/MAJ avant de l'écrire (jamais automatique). Renumérotation 8→13.
+- `templates/.claude/CLAUDE.md` : nouvelle section "Base de connaissances".
+
+**`AGENTS.md` — équivalent `CLAUDE.md` pour agents non-Claude**
+- `templates/AGENTS.md` : nouveau template (Codex, ChatGPT, Gemini...), pointe vers `DOCUMENTATION/INDEX.md` si présent.
+- Jamais créé automatiquement : `/init_projet` (nouvelle question 7) et `/update` (nouvelle étape 7) le proposent sur confirmation à chaque exécution, sautée en mode batch `all` (projet signalé `⚠️` plutôt que bloqué). Un `AGENTS.md` déjà présent n'est jamais écrasé (contenu organique possible). Renumérotation 8→11 dans `update.md`.
 
 ## v3.2 — 2026-07-30
 

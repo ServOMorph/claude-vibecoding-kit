@@ -8,7 +8,7 @@ model: sonnet
 
 ## Objectif
 
-Mettre à jour les fichiers de protocole (`start.md`, `close.md`, `create_memory.md`, `ollama_call.py`, `CLAUDE.md`) d'un projet cible à partir de la dernière version du kit. Se lance depuis le repo du kit. Ne touche pas aux fichiers spécifiques au projet cible (`_contexte/`, `zones.md`, la section "Données sensibles" et la section "Spécificités projet" de `CLAUDE.md`, le bloc `SPECIFICITES PROJET` de `start.md`/`close.md`). Cela inclut les zones-agents créées par `/create_agent` : `/update` ne cible que `<cible>/.claude/` et `<cible>/_contexte/` racine, donc `<dossier_agent>/agent_role.md` et `<dossier_agent>/_contexte/` (ex. `COM/_contexte/`, `MEMORY/_contexte/`) ne sont jamais lus ni modifiés.
+Mettre à jour les fichiers de protocole (`start.md`, `close.md`, `create_memory.md`, `ollama_call.py`, `CLAUDE.md`, et `AGENTS.md` sur confirmation) d'un projet cible à partir de la dernière version du kit. Se lance depuis le repo du kit. Ne touche pas aux fichiers spécifiques au projet cible (`_contexte/`, `zones.md`, la section "Données sensibles" et la section "Spécificités projet" de `CLAUDE.md`, le bloc `SPECIFICITES PROJET` de `start.md`/`close.md`, un `AGENTS.md` déjà présent). Cela inclut les zones-agents créées par `/create_agent` : `/update` ne cible que `<cible>/.claude/` et `<cible>/_contexte/` racine, donc `<dossier_agent>/agent_role.md` et `<dossier_agent>/_contexte/` (ex. `COM/_contexte/`, `MEMORY/_contexte/`) ne sont jamais lus ni modifiés.
 
 ## Procédure
 
@@ -22,21 +22,22 @@ Si `$ARGUMENTS` vaut `all` (comparaison insensible à la casse) : basculer en mo
 3. Pour chaque projet, dans l'ordre du tableau :
    a. Vérifier que le chemin existe et contient un `.git`.
       - Si non : noter "❌ <alias> — échec (chemin introuvable ou non-git)" et passer au projet suivant.
-   b. Exécuter silencieusement les étapes 1 à 9 de la procédure standard ci-dessous, avec :
+   b. Exécuter silencieusement les étapes 1 à 10 de la procédure standard ci-dessous, avec :
       - projet cible = chemin de la ligne
       - kit = working directory courant (celui de l'étape 0)
-      - Pas de confirmation intermédiaire, pas d'exécution de l'étape 10 individuelle.
+      - Pas de confirmation intermédiaire, pas d'exécution de l'étape 11 individuelle.
       - Si l'étape 5 ou 6 détecte des lignes ou sections candidates "spécificités projet" non
         migrées, elles sont migrées automatiquement sans interrompre le batch (voir étapes 5 et 6).
-      - Toute erreur pendant les étapes 1 à 8 est capturée : noter "❌ <alias> — échec (<raison>)",
+      - Étape 7 (AGENTS.md) : ne jamais poser la question, voir étape 7.
+      - Toute erreur pendant les étapes 1 à 9 est capturée : noter "❌ <alias> — échec (<raison>)",
         passer au projet suivant sans interrompre le batch.
-      - Si l'étape 9 (vérification) détecte un ou plusieurs échecs : noter
+      - Si l'étape 10 (vérification) détecte un ou plusieurs échecs : noter
         "⚠️ <alias> — mis à jour avec réserves (kit <ancienne version> → <version>) : <détail des échecs>".
       - Sinon, succès : noter "✅ <alias> — mis à jour (kit <ancienne version> → <version>)".
-4. Étape finale (remplace l'étape 10 individuelle) : afficher un résumé unique, une ligne par projet,
+4. Étape finale (remplace l'étape 11 individuelle) : afficher un résumé unique, une ligne par projet,
    dans l'ordre du tableau DEPLOYMENTS.md.
 
-**Ne pas exécuter les étapes 1 à 10 décrites plus bas telles quelles en mode batch** — elles restent
+**Ne pas exécuter les étapes 1 à 11 décrites plus bas telles quelles en mode batch** — elles restent
 la procédure standard, appelée en interne pour chaque projet à l'étape 0.3.b.
 
 ### 1. Résoudre les chemins
@@ -153,7 +154,21 @@ entre les marqueurs `SPECIFICITES PROJET` du fichier nouvellement copié.
 - **Remplacer** toutes les autres sections par celles du kit.
 - Écraser `<cible>/.claude/CLAUDE.md` avec le résultat fusionné.
 
-### 7. Vérifier l'entrée dans DEPLOYMENTS.md
+### 7. AGENTS.md (optionnel)
+
+- Si `<cible>/AGENTS.md` existe déjà : ne jamais l'écraser ni le modifier automatiquement (il peut
+  contenir du contenu organique ajouté par Codex ou un autre agent). Ne rien faire, ne pas poser de
+  question.
+- Si absent : demander "Créer AGENTS.md dans <cible> ? C'est l'équivalent de CLAUDE.md pour les
+  agents non-Claude (Codex, ChatGPT, Gemini...) — utile seulement si ce projet est aussi piloté par
+  un autre outil qu'Claude Code. (oui/non)"
+  - Réponse "oui" : copier `templates/AGENTS.md` → `<cible>/AGENTS.md`.
+  - Réponse "non" : ne rien créer.
+- En mode batch (étape 0) : ne jamais poser la question. Si `AGENTS.md` est absent, ne rien créer et
+  signaler "⚠️ <alias> — AGENTS.md absent, non créé (question sautée en mode batch)" dans le résumé
+  du projet.
+
+### 8. Vérifier l'entrée dans DEPLOYMENTS.md
 
 - Lire `DEPLOYMENTS.md` (racine du kit, working directory).
 - Chercher une ligne contenant le chemin absolu de `<cible>`.
@@ -162,16 +177,18 @@ entre les marqueurs `SPECIFICITES PROJET` du fichier nouvellement copié.
   ```
   | <nom du dossier de <cible>> | <chemin absolu de <cible>> | <alias> | <version kit> | <date du jour> |
   ```
-- Si présente : réécrire ses colonnes "Version kit" et "Date init" avec la nouvelle version et la date du jour (conserver les autres colonnes telles quelles). Noter l'ancienne version pour l'étape 9 / le résumé batch.
+- Si présente : réécrire ses colonnes "Version kit" et "Date init" avec la nouvelle version et la date du jour (conserver les autres colonnes telles quelles). Noter l'ancienne version pour l'étape 10 / le résumé batch.
 
-### 8. Commit
+### 9. Commit
 
 ```bash
 git -C <cible> add .claude/commands/ .claude/CLAUDE.md ollama_call.py
 git -C <cible> commit -m "update: protocole vibecoding — zone <alias> — kit <version>"
 ```
 
-### 9. Vérification post-update
+Si `AGENTS.md` a été créé à l'étape 7 : l'ajouter aussi à ce commit (`git -C <cible> add AGENTS.md`).
+
+### 10. Vérification post-update
 
 Avant de confirmer, exécuter ces contrôles sur `<cible>` et collecter les échecs éventuels :
 
@@ -195,11 +212,12 @@ Avant de confirmer, exécuter ces contrôles sur `<cible>` et collecter les éch
 7. **DEPLOYMENTS.md** : la ligne de `<cible>` porte bien la nouvelle version et la date du jour.
 
 Si un contrôle échoue : ne pas corriger silencieusement — consigner l'échec précis (contrôle,
-raison) pour l'afficher à l'étape 10. En mode batch, un échec de vérification bascule le statut du
+raison) pour l'afficher à l'étape 11. En mode batch, un échec de vérification bascule le statut du
 projet de "✅" à "⚠️" dans le résumé final, avec le détail du contrôle en échec.
 
-### 10. Confirmer
+### 11. Confirmer
 
 Répondre uniquement :
 "✅ Update <alias> terminé (kit <ancienne version> → <version>). Fichiers mis à jour : start.md, close.md, create_memory.md, CLAUDE.md, ollama_call.py. Sections/blocs "Spécificités projet" préservés."
-Si l'étape 9 a détecté un ou plusieurs échecs : remplacer "✅" par "⚠️" et lister chaque échec sur une ligne dédiée après la confirmation.
+Si `AGENTS.md` a été créé à l'étape 7, l'ajouter à la liste des fichiers mis à jour.
+Si l'étape 10 a détecté un ou plusieurs échecs : remplacer "✅" par "⚠️" et lister chaque échec sur une ligne dédiée après la confirmation.

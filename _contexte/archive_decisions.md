@@ -1,5 +1,9 @@
 # Archive des décisions — claude-vibecoding-kit
 
+## Décisions archivées le 2026-07-30 (session base de connaissances)
+
+- 2026-07-21 : décision utilisateur — `/create_agent` ne se copie plus jamais dans les projets cibles, elle s'exécute toujours depuis le kit avec le projet cible en argument. Revient sur la décision Phase 3 (copie manuelle projet par projet).
+
 ## Décisions archivées le 2026-07-30 (session /create_agent MAJUSCULES + agent editeur)
 
 - 2026-07-21 : Phase 3 de `roadmap_agents.md` close — `/create_agent` généralisée (kit + template), charte générique `agent_role_TEMPLATE.md`, étape 2b dans `start.md`, `update.md` documente l'exclusion des zones-agents. Décision utilisateur : `/create_agent` n'est pas propagée par `/update`, copie manuelle projet par projet.

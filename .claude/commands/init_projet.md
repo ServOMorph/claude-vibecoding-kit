@@ -32,6 +32,9 @@ Initialiser le protocole vibecoding dans le projet cible à partir de ce kit de 
      Ajouter une ligne `{{ALIAS}} | {{RACINE}}` à leur table des zones au lieu de copier ces fichiers.
 6. Des dossiers/fichiers sensibles à déclarer (registre nominatif, credentials, données clients) ?
    Si oui, les lister ; sinon répondre "Aucun".
+7. Créer `AGENTS.md` ? C'est l'équivalent de `CLAUDE.md` pour les agents non-Claude (Codex, ChatGPT,
+   Gemini...) — utile seulement si le projet est aussi piloté par un autre outil qu'Claude Code.
+   Jamais créé automatiquement, toujours demandé. (oui/non)
 
 La racine du projet cible ne doit jamais être demandée si $ARGUMENTS est fourni.
 
@@ -48,6 +51,8 @@ La racine du projet cible ne doit jamais être demandée si $ARGUMENTS est fourn
   (sauf zone supplémentaire : ajouter une ligne `| alias | dossier |` à la table existante)
 - `templates/ollama_call.py` → `$ARGUMENTS/ollama_call.py`
 - `<kit>/Protocole_start_close_context.md` → `$ARGUMENTS/_docs/protocole_vibecoding.md`
+- `templates/AGENTS.md` → `$ARGUMENTS/AGENTS.md`
+  (seulement si réponse "oui" à Q7 ; si déjà présent : demander avant d'écraser)
 
 Ne pas copier `roadmap_TEMPLATE.md` (utilisé uniquement à la création d'un chantier).
 

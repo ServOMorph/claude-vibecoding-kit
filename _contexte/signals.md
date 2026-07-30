@@ -1,21 +1,50 @@
 # Signals — claude-vibecoding-kit (MAJ 2026-07-30)
 
 ## Actions ouvertes
+- [P1|ouvert] Tester en conditions réelles la base de connaissances `DOCUMENTATION/` : étape 7 de `/close` (template, proposition conditionnelle), question AGENTS.md de `/update`/`/init_projet`. Aucun des deux n'a encore tourné réellement — implémentation faite sur analyse de code, pas exercée. fait quand: un `/close` sur une zone de Moulin du Sud (autre que `documentation`) déclenche l'étape 7 comme prévu, et un `/update`/`/init_projet` réel pose la question AGENTS.md. réf: `templates/.claude/commands/close.md`, `.claude/commands/update.md`, `.claude/commands/init_projet.md`
 - [P1|ouvert] Test 3 réel de `/create_agent` en mode conversion, sur la version réécrite (phases ancrées). Aucun test n'a encore exercé cette branche telle qu'écrite : l'agent `design` (jeu_zombies) était un cas de conversion mais traité manuellement, pas via la procédure. fait quand: `/create_agent` lancée sur un alias déjà enregistré et le comportement conforme à `[PREFLIGHT]`/`[ECRITURE]` (pas de modif `zones.md`/`signals.md` existant) vérifié en conditions réelles. réf: `.claude/commands/create_agent.md`, `TEST_CREATE_AGENT_RESULTS.md`
 - [P2|ouvert] Tester le renommage automatique du dossier d'agent en mode conversion (règle MAJUSCULES ajoutée le 2026-07-30) : aucun agent existant actuellement en minuscules pour exercer cette branche. fait quand: `/create_agent` lancée en mode conversion sur un dossier à la casse non conforme, renommage + mise à jour de `zones.md` vérifiés en conditions réelles. réf: `.claude/commands/create_agent.md`, `ameliorations_create_agent.md`
 - [P2|ouvert] Propositions P7-P10 sur `/create_agent`/`agent_role.md` restant à trancher (P11/P12/P13 implémentées le 2026-07-26) : P7 (partiellement couvert par l'analyse stack conditionnelle, confirmé sur l'agent `explo` et l'agent `editeur`), P8 (garde-fou d'écriture, non spécifiable en l'état), P9 (charte comme prompt de spécialisation), P10 (apprentissage automatique des agents, tension avec la règle mémoire). fait quand: chaque proposition tranchée (retenue/écartée), implémentée si retenue. réf: `ameliorations_create_agent.md`
 - [P2|ouvert] Décider quelles propositions des Lots 2-4 de `base_connaissances/PROPOSITIONS_AMELIORATION.md` mettre en œuvre (Lot 1 clos). Lot 3 = 1.4+2.2, 1.5, 1.6 ; Lot 4 = 2.1, 2.3, 3.2-A, 3.4. fait quand: décision actée pour chaque proposition restante, implémentée si retenue. réf: `base_connaissances/PROPOSITIONS_AMELIORATION.md`
-- [P2|ouvert] `jeu_zombies` (déployé v2.26, `D:\ServOMorph\jeu_zombies`) en retard sur le kit (v3.2) — n'a pas encore la section "Tests manuels" ni "Déclencheurs de vérification" de `CLAUDE.md`. Propagation reportée par l'utilisateur le 2026-07-28. fait quand: `/update` lancé sur jeu_zombies et `.claude/CLAUDE.md` du projet reflète le contenu v3.2. réf: `DEPLOYMENTS.md`, `.claude/CLAUDE.md`
+- [P2|ouvert] `jeu_zombies` (déployé v2.26, `D:\ServOMorph\jeu_zombies`) en retard sur le kit (v3.3) — n'a pas encore la section "Tests manuels" ni "Déclencheurs de vérification" de `CLAUDE.md`, ni la base de connaissances. Propagation reportée par l'utilisateur le 2026-07-28. fait quand: `/update` lancé sur jeu_zombies et `.claude/CLAUDE.md` du projet reflète le contenu v3.3. réf: `DEPLOYMENTS.md`, `.claude/CLAUDE.md`
 
 ## Contexte chaud
-- Kit en v3.2 (bump minor). `/create_agent` : dossier de l'agent (créé ou converti) normalisé en MAJUSCULES pour la reconnaissance visuelle ; alias de zone toujours en minuscules. Testé en mode création sur l'agent `editeur` (crea_zik) — pas encore testé en mode conversion (renommage d'un dossier existant).
-- `processus-base-connaissances-markdown.md` : fichier vide non tracké, origine inconnue, toujours pas clarifié.
+- Kit en v3.3 (bump minor). Base de connaissances `DOCUMENTATION/` (progressive disclosure : `INDEX.md` catalogue + docs individuels) introduite comme feature générale du kit, d'abord implémentée dans Moulin du Sud (agent `documentation` créé, `INDEX.md` encore vide).
+- `AGENTS.md` introduit comme équivalent `CLAUDE.md` pour agents non-Claude (Codex, ChatGPT, Gemini) — jamais créé automatiquement, toujours sur confirmation explicite (`/init_projet` Q7, `/update` étape 7), jamais écrasé s'il existe déjà.
+- `/create_agent` : dossier de l'agent (créé ou converti) normalisé en MAJUSCULES pour la reconnaissance visuelle ; alias de zone toujours en minuscules. Testé en mode création sur l'agent `editeur` (crea_zik) et `documentation` (Moulin du Sud) — pas encore testé en mode conversion (renommage d'un dossier existant).
 - `README.md` : corruption d'encodage pré-existante (double UTF-8) — à traiter si gênant.
 
 ## Dernière session (2026-07-30)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
 
-# Session du 2026-07-30
+# Session du 2026-07-30 (base de connaissances)
+
+## Décisions prises
+- Système de base de connaissances `.md` (pattern "progressive disclosure" : `INDEX.md` catalogue + docs individuels, jamais de suppression, archivage à la place) validé — d'abord implémenté dans Moulin du Sud (agent `documentation`), puis généralisé au kit.
+- `/close` (template) : nouvelle étape 7 conditionnelle proposant une entrée/MAJ dans `DOCUMENTATION/` en fin de session, jamais automatique (confirmation utilisateur requise, la zone fermée n'a pas la main sur le dossier d'une autre zone).
+- `AGENTS.md` introduit comme équivalent `CLAUDE.md` pour agents non-Claude — jamais créé automatiquement : `/init_projet` (Q7) et `/update` (étape 7) posent la question à chaque fois, sautée en mode batch, jamais écrasé s'il existe déjà.
+- Kit bumpé en v3.3.
+
+## Livrables produits ou modifiés
+- `templates/.claude/commands/close.md` : étape 7 (base de connaissances), renumérotation 8→13.
+- `templates/.claude/CLAUDE.md`, `.claude/CLAUDE.md` (Moulin du Sud) : section "Base de connaissances" ajoutée.
+- `templates/AGENTS.md` : nouveau template.
+- `.claude/commands/init_projet.md` : Q7 + copie conditionnelle `AGENTS.md`.
+- `.claude/commands/update.md` : étape 7 (AGENTS.md optionnel, jamais écrasé), renumérotation 8→11.
+- `ameliorations_create_agent.md`, `AGENTS_REGISTRY.md` (hors git) : entrée agent `documentation`.
+- Hors dépôt kit (Moulin du Sud) : agent `documentation` créé (`agent_role.md`, `_contexte/`, `DOCUMENTATION/INDEX.md`), `AGENTS.md` créé, `.claude/close.md`/`CLAUDE.md` alignés sur le kit.
+
+## Hypothèses validées / invalidées
+- VALIDE (recherche web/GitHub) : la progressive disclosure (`INDEX.md` + docs ciblés) est le pattern documenté en 2026 pour ce cas d'usage, cohérent avec le principe déjà appliqué par `signals.md`/`contexte.md`.
+- EN ATTENTE : aucun test réel — `DOCUMENTATION/INDEX.md` de Moulin du Sud est vide, l'étape 7 de `/close` et la question AGENTS.md de `/update`/`/init_projet` n'ont jamais tourné en conditions réelles.
+
+## Prochaine étape exacte
+Remplir `DOCUMENTATION/` de Moulin du Sud via `/start documentation` ; tester `/close` sur une autre zone de Moulin du Sud pour valider l'étape 7 en conditions réelles.
+
+## Question bloquante pour la session suivante
+Aucune
+
+# Session du 2026-07-30 (agents MAJUSCULES)
 
 ## Décisions prises
 - `/create_agent` : dossier de l'agent (créé ou converti) normalisé en MAJUSCULES pour la reconnaissance visuelle dans l'arborescence ; l'alias de zone reste en minuscules.

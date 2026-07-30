@@ -17,6 +17,8 @@ Résout le problème structurel du vibecoding : **le contexte est perdu à chaqu
 - `/cherche_meilleure_action [décision]` — commande d'aide à la décision (kit uniquement) : analyse le contexte réel de la zone, évalue les options selon des critères explicites, recommande une action et demande confirmation ; à invoquer quand on ne sait pas quoi faire ensuite
 - `/doc_sync` — synchronise toute la documentation du kit (commandes, templates, structure) après une modification
 - `CLAUDE.md` — règles permanentes appliquées à toutes les conversations
+- `AGENTS.md` (optionnel, sur confirmation) — équivalent `CLAUDE.md` pour les agents non-Claude (Codex, ChatGPT, Gemini...)
+- Base de connaissances `DOCUMENTATION/` (optionnelle, via agent dédié créé par `/create_agent`) — documentation métier du projet en `.md`, consultée par tous les agents (`INDEX.md` catalogue + progressive disclosure)
 - Support multi-zones (plusieurs sous-projets dans un même repo)
 - Intégration Ollama pour les tâches répétitives sans envoyer de données en cloud
 
@@ -72,7 +74,8 @@ claude-vibecoding-kit/
     │   └── signals.md                    # actions ouvertes, blocages, dernière session
     ├── ollama_call.py                    # délégation vers modèle local
     ├── agent_role_TEMPLATE.md            # template de charte pour /create_agent
-    └── roadmap_TEMPLATE.md               # template pour chantiers multi-phases
+    ├── roadmap_TEMPLATE.md               # template pour chantiers multi-phases
+    └── AGENTS.md                         # équivalent CLAUDE.md pour agents non-Claude (Codex, ChatGPT...), sur confirmation
 ```
 
 ## Documentation
