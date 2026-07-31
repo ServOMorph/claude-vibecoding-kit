@@ -151,8 +151,10 @@ inventé par défaut, périmètre d'écriture, confirmation du mode) puis analys
 si le résultat sera utilisé ; `[ECRITURE]` écrit tous les fichiers d'un coup, en distinguant mode
 **création** (nouvel alias, contrôle d'unicité avant écriture dans `zones.md`) et mode **conversion**
 (alias déjà présent pointant vers le dossier demandé : complète sans jamais toucher `zones.md` ni un
-`signals.md` existant) ; `[SORTIE]` récapitule et recommande Opus pour la phase `[AUDIT]`. Charte
-générée depuis `templates/agent_role_TEMPLATE.md`. Étape `[ECRITURE]` alimente aussi
+`signals.md` existant) ; `[SORTIE]` propose (une seule fois par appel) de copier dans le presse-papier
+un message court de mise à jour pour l'agent racine du projet cible, résumant les agents créés — jamais
+écrit dans les fichiers du projet cible —, puis récapitule et recommande Opus pour la phase `[AUDIT]`.
+Charte générée depuis `templates/agent_role_TEMPLATE.md`. Étape `[ECRITURE]` alimente aussi
 `ameliorations_create_agent.md` (racine du kit, jamais dans le projet cible) à chaque création.
 `[AUDIT]` : analyse à froid de la commande elle-même (jamais automatique, Opus imposé) sur demande
 explicite seulement.
@@ -354,6 +356,11 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 ---
 
 # Changelog
+
+## v3.5 — 2026-07-31
+
+**`/create_agent` — message de mise à jour presse-papier pour l'agent racine**
+- Nouvelle étape `[SORTIE]` (étape 10) : propose de copier dans le presse-papier un message court résumant les agents créés lors de l'appel, à destination de l'agent racine du projet cible (une seule fois même en création en lot, rien écrit dans les fichiers du projet cible). Récapitulatif final renuméroté 10→11, `[AUDIT]` 11→12.
 
 ## v3.4 — 2026-07-31
 

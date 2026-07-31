@@ -1,25 +1,49 @@
-# Signals — claude-vibecoding-kit (MAJ 2026-07-31 bis)
+# Signals — claude-vibecoding-kit (MAJ 2026-07-31 ter)
 
 ## Actions ouvertes
 - [P1|ouvert] `/init_projet` ne gère pas `GEMINI.md` (équivalent CLAUDE.md pour Gemini) — seulement `AGENTS.md`. Demandé explicitement lors de l'init d'Open_Code_Apprentissage, créé manuellement hors procédure standard. fait quand: `/init_projet` propose la création de `GEMINI.md` au même titre que `AGENTS.md` (question dédiée ou fusionnée), template ajouté sous `templates/`. réf: `.claude/commands/init_projet.md`, `D:\ServOMorph\Open_Code_Apprentissage\GEMINI.md`
 - [P2|ouvert] Trancher les points ouverts de `note_conception_pause_agents.md` (position exacte dans `/init_projet`, contenu de la question, enchaînement ou non sur `/create_agent`, persistance de l'échange, articulation avec Q5) puis implémenter si retenu. Cadrage initial acté le 2026-07-31 : nouvelle étape dans `/init_projet` (pas `/create_agent`), déclenchement systématique, cette note est un document seul, aucune implémentation faite. fait quand: chaque point tranché, `/init_projet` modifié si retenu. réf: `note_conception_pause_agents.md`
 - [P1|ouvert] Tester en conditions réelles la base de connaissances `DOCUMENTATION/` : étape 7 de `/close` (template, proposition conditionnelle), question AGENTS.md de `/update`/`/init_projet`. Aucun des deux n'a encore tourné réellement — implémentation faite sur analyse de code, pas exercée. fait quand: un `/close` sur une zone de Moulin du Sud (autre que `documentation`) déclenche l'étape 7 comme prévu, et un `/update`/`/init_projet` réel pose la question AGENTS.md. réf: `templates/.claude/commands/close.md`, `.claude/commands/update.md`, `.claude/commands/init_projet.md`
 - [P1|ouvert] Test 3 réel de `/create_agent` en mode conversion, sur la version réécrite (phases ancrées). Aucun test n'a encore exercé cette branche telle qu'écrite : l'agent `design` (jeu_zombies) était un cas de conversion mais traité manuellement, pas via la procédure. fait quand: `/create_agent` lancée sur un alias déjà enregistré et le comportement conforme à `[PREFLIGHT]`/`[ECRITURE]` (pas de modif `zones.md`/`signals.md` existant) vérifié en conditions réelles. réf: `.claude/commands/create_agent.md`, `TEST_CREATE_AGENT_RESULTS.md`
+- [P2|ouvert] Tester l'étape 10 de `/create_agent` (message presse-papier pour l'agent racine, ajoutée le 2026-07-31) via un appel réel de la commande — cette session, le message a été généré et copié manuellement (`Set-Clipboard`) hors du flux de la commande, jamais via `[SORTIE]` tel qu'écrit. fait quand: `/create_agent` lancée en conditions réelles, question presse-papier posée et exécutée par la commande elle-même. réf: `.claude/commands/create_agent.md` (étape 10)
 - [P2|ouvert] Tester le renommage automatique du dossier d'agent en mode conversion (règle MAJUSCULES ajoutée le 2026-07-30) : aucun agent existant actuellement en minuscules pour exercer cette branche. fait quand: `/create_agent` lancée en mode conversion sur un dossier à la casse non conforme, renommage + mise à jour de `zones.md` vérifiés en conditions réelles. réf: `.claude/commands/create_agent.md`, `ameliorations_create_agent.md`
 - [P2|ouvert] Propositions P7-P10 sur `/create_agent`/`agent_role.md` restant à trancher (P11/P12/P13 implémentées le 2026-07-26) : P7 (partiellement couvert par l'analyse stack conditionnelle, confirmé sur l'agent `explo` et l'agent `editeur`), P8 (garde-fou d'écriture, non spécifiable en l'état), P9 (charte comme prompt de spécialisation), P10 (apprentissage automatique des agents, tension avec la règle mémoire). fait quand: chaque proposition tranchée (retenue/écartée), implémentée si retenue. réf: `ameliorations_create_agent.md`
 - [P2|ouvert] Décider quelles propositions des Lots 2-4 de `base_connaissances/PROPOSITIONS_AMELIORATION.md` mettre en œuvre (Lot 1 clos). Lot 3 = 1.4+2.2, 1.5, 1.6 ; Lot 4 = 2.1, 2.3, 3.2-A, 3.4. fait quand: décision actée pour chaque proposition restante, implémentée si retenue. réf: `base_connaissances/PROPOSITIONS_AMELIORATION.md`
-- [P2|ouvert] `jeu_zombies` (déployé v2.26, `D:\ServOMorph\jeu_zombies`) en retard sur le kit (v3.3) — n'a pas encore la section "Tests manuels" ni "Déclencheurs de vérification" de `CLAUDE.md`, ni la base de connaissances. Propagation reportée par l'utilisateur le 2026-07-28. fait quand: `/update` lancé sur jeu_zombies et `.claude/CLAUDE.md` du projet reflète le contenu v3.3. réf: `DEPLOYMENTS.md`, `.claude/CLAUDE.md`
+- [P2|ouvert] `jeu_zombies` (déployé v2.26, `D:\ServOMorph\jeu_zombies`) en retard sur le kit (v3.5) — n'a pas encore la section "Tests manuels" ni "Déclencheurs de vérification" de `CLAUDE.md`, ni la base de connaissances. Propagation reportée par l'utilisateur le 2026-07-28. fait quand: `/update` lancé sur jeu_zombies et `.claude/CLAUDE.md` du projet reflète le contenu à jour. réf: `DEPLOYMENTS.md`, `.claude/CLAUDE.md`
 
 ## Contexte chaud
-- Kit en v3.4 (bump minor). Base de connaissances `DOCUMENTATION/` (progressive disclosure : `INDEX.md` catalogue + docs individuels) introduite comme feature générale du kit, d'abord implémentée dans Moulin du Sud (agent `documentation` créé, `INDEX.md` encore vide).
+- Kit en v3.5 (bump minor). `/create_agent` : nouvelle étape `[SORTIE]` (10) proposant de copier dans le presse-papier un message de mise à jour pour l'agent racine du projet cible (jamais écrit dans les fichiers du projet cible) — demande explicite de l'utilisateur après une première tentative d'écriture directe dans `signals.md`, annulée. Récapitulatif final renuméroté 10→11, `[AUDIT]` 11→12.
+- Agents `dev`/`design` créés dans `jeu_espace` (projet externe) via `/create_agent`, en lot : `dev` étendu au code Godot racine (scripts/, scenes/, project.godot), `design` restreint à son propre dossier.
 - `AGENTS.md` introduit comme équivalent `CLAUDE.md` pour agents non-Claude (Codex, ChatGPT, Gemini) — jamais créé automatiquement, toujours sur confirmation explicite (`/init_projet` Q7, `/update` étape 7), jamais écrasé s'il existe déjà.
-- `/create_agent` : dossier de l'agent (créé ou converti) normalisé en MAJUSCULES pour la reconnaissance visuelle ; alias de zone toujours en minuscules. Testé en mode création sur l'agent `editeur` (crea_zik) et `documentation` (Moulin du Sud) — pas encore testé en mode conversion (renommage d'un dossier existant).
+- `/create_agent` : dossier de l'agent (créé ou converti) normalisé en MAJUSCULES pour la reconnaissance visuelle ; alias de zone toujours en minuscules. Testé en mode création sur plusieurs projets — pas encore testé en mode conversion (renommage d'un dossier existant).
 - `README.md` : corruption d'encodage pré-existante (double UTF-8) — à traiter si gênant.
-- Nouveau déploiement : `jeu_espace` (zone racine `orchestrateur`, jeu 3D Godot en orbite terrestre) — seule la racine créée, 3 agents envisagés (orchestrateur/codeur/design) pas encore créés.
-- Anomalie de process constatée et corrigée cette session : les clôtures du 2026-07-30/07-31 n'avaient pas commité `create_agent.md`/`ameliorations_create_agent.md` malgré un message de commit annonçant la session close. À surveiller sur les prochaines clôtures (étape 12 de `/close`).
 
 ## Dernière session (2026-07-31)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
+
+# Session du 2026-07-31 (étape presse-papier /create_agent + agents dev/design jeu_espace)
+
+## Décisions prises
+- `/create_agent` : nouvelle étape `[SORTIE]` proposant de copier dans le presse-papier un message de mise à jour pour l'agent racine, plutôt que de l'écrire dans `signals.md` du projet cible (demande explicite de l'utilisateur, revert de la première approche).
+- Agents `dev`/`design` créés dans jeu_espace (projet externe), question groupée sur le périmètre d'écriture (dev étendu au code Godot racine, design restreint à son dossier).
+- Kit bumpé en v3.5 (minor) via `/doc_sync`.
+
+## Livrables produits ou modifiés
+- `.claude/commands/create_agent.md` : étape 10 (presse-papier) ajoutée, renumérotation 10→11/11→12.
+- `CHANGELOG.md`, `Protocole_start_close_context.md` : entrées v3.5 ajoutées (miroir vérifié).
+- `ameliorations_create_agent.md` : entrée agents dev/design (jeu_espace).
+- `AGENTS_REGISTRY.md` (hors git) : entrées dev/design ajoutées.
+- Hors dépôt kit (jeu_espace) : agents `dev`/`design` créés (agent_role.md + `_contexte/`), `zones.md` mis à jour ; modification initiale de `_contexte/signals.md` (message pour l'orchestrateur) annulée sur demande utilisateur.
+
+## Hypothèses validées / invalidées
+- VALIDE : l'ajout de l'étape presse-papier n'a pas nécessité de bump major (structure `_contexte/` inchangée).
+- EN ATTENTE : l'étape 10 n'a jamais été exercée via un appel réel de `/create_agent` — message généré et copié manuellement, hors du flux de la commande.
+
+## Prochaine étape exacte
+Tester l'étape 10 (presse-papier) lors d'un prochain appel réel de `/create_agent` ; trancher les actions P1 en attente (GEMINI.md, test réel base de connaissances, Test 3 conversion).
+
+## Question bloquante pour la session suivante
+Aucune
 
 # Session du 2026-07-31 (init jeu_espace + rattrapage commits)
 

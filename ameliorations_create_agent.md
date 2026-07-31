@@ -23,6 +23,23 @@ Sortie concrète de l'étape [ECRITURE] de la commande et des rétrospectives de
 
 ## Historique
 
+## 2026-07-31 — agents dev, design (jeu_espace)
+
+Deuxième création en lot de plusieurs agents dans un même appel (après notes/narrateur/data).
+Mode création simple pour les 2, alias absents de `zones.md`, alias racine correct
+(`orchestrateur`, première ligne de `zones.md` = racine réelle du projet, vérifié).
+
+Périmètre : question groupée unique posée pour les 2 agents (une sous-question par agent,
+un seul appel) plutôt que 2 questions séparées — réponse : `dev` étendu aux dossiers de code
+Godot à la racine (scripts/, scenes/, project.godot — aucun de ces dossiers n'existe encore,
+extension déclarative anticipée), `design` restreint au périmètre par défaut.
+
+`{{STACK}}` filtré par rôle à partir de `_contexte/contexte.md` de la zone racine et de
+`_DOCS/idée de base.txt` (pas de `project.godot` ni de `README.md` à la racine du projet à ce
+stade) : bloc technique (Godot 4, résolution, contrôle caméra, mécaniques cockpit/coupole,
+orbite) pour `dev` ; bloc visuel (assets 2D Codex, low poly, environnement réaliste, coupole)
+pour `design` — deux blocs distincts plutôt que le même stack brut pour les deux agents.
+
 ## 2026-07-31 — agents notes, narrateur, data (Open_Code_Apprentissage)
 
 Première création en lot de 3 agents dans un même appel (jusqu'ici toujours un agent par

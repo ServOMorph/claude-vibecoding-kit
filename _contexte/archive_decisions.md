@@ -1,5 +1,9 @@
 # Archive des décisions — claude-vibecoding-kit
 
+## Décisions archivées le 2026-07-31 (session étape presse-papier /create_agent + agents dev/design jeu_espace)
+
+- 2026-07-21 : Test 2 `/create_agent` — conversion d'une zone déjà mature (`linkedin`, SérénIATech_dev) en agent, cas non couvert par la procédure standard ; traité par déviation manuelle validée par l'utilisateur (charte seule, `_contexte/`/`zones.md` existants préservés). Frictions P11/P12 consignées, non tranchées.
+
 ## Décisions archivées le 2026-07-31 (session /init_projet jeu_espace)
 
 - 2026-07-21 : Lot 1 de `PROPOSITIONS_AMELIORATION.md` implémenté (1.3, 1.7, 2.4, 2.5, 3.1) — décision utilisateur de tout retenir, aucune n'a justifié d'être écartée. Kit v2.24.

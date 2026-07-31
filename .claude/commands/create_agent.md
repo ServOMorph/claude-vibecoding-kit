@@ -142,7 +142,18 @@ elle s'exécute toujours depuis le kit, projet cible en premier argument.
 
 ## [SORTIE]
 
-10. Un seul récapitulatif :
+10. Demander à l'utilisateur : "Copier dans le presse-papier un message de mise à
+    jour pour l'agent racine (`{{ALIAS_RACINE}}`), résumant les agents créés
+    cette session (o/n) ?" Ne poser qu'une fois par appel, même si plusieurs
+    agents ont été créés en lot. Si oui : générer un message court (5-10 lignes
+    max, optimisé tokens — liste des agents créés, alias, rôle en une ligne,
+    périmètre étendu le cas échéant) et le copier dans le presse-papier
+    (`Set-Clipboard`) — ne rien écrire dans les fichiers du projet cible.
+    `{{ALIAS_RACINE}}` non déterminable (cf. règle de l'étape 7) : poser la
+    question sans résoudre automatiquement la cible, demander le nom de la zone
+    racine à mentionner dans le message.
+
+11. Un seul récapitulatif :
     - Fichiers créés / laissés intacts (liens cliquables, chemin absolu).
     - Rappel : le périmètre défini dans `agent_role.md` est déclaratif, pas
       une isolation technique — `/close` en vérifie a posteriori le respect
@@ -158,7 +169,7 @@ elle s'exécute toujours depuis le kit, projet cible en premier argument.
 
 ## [AUDIT] — analyse de la commande elle-même, jamais automatique
 
-11. Cette phase ne s'exécute **pas** dans le flux normal d'une création
+12. Cette phase ne s'exécute **pas** dans le flux normal d'une création
     d'agent. Elle ne se déclenche que si l'utilisateur la demande
     explicitement, après une modification de `create_agent.md` ou après une
     création qui a mal tourné.

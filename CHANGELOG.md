@@ -3,6 +3,11 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v3.5 — 2026-07-31
+
+### Ajouté
+- `.claude/commands/create_agent.md` : nouvelle étape `[SORTIE]` (étape 10) — propose de copier dans le presse-papier un message court de mise à jour pour l'agent racine du projet cible, résumant les agents créés lors de l'appel (une seule fois même en création en lot) ; n'écrit rien dans les fichiers du projet cible. Renumérotation du récapitulatif final (10→11) et de la phase `[AUDIT]` (11→12).
+
 ## v3.4 — 2026-07-31
 
 ### Corrigé
