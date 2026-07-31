@@ -3,6 +3,12 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v3.4 — 2026-07-31
+
+### Corrigé
+- `.claude/commands/create_agent.md` : suppression d'une ligne parasite (`" pl"`) introduite accidentellement, corrompant le marqueur de fin de bloc "Spécificités projet".
+- Rattrapage de commit : rétrospectives de sessions antérieures (agents notes/narrateur/data sur Open_Code_Apprentissage, agent communication sur Moulin du Sud) restées non commitées malgré des clôtures annoncées comme terminées, désormais intégrées au dépôt.
+
 ## v3.3 — 2026-07-30
 
 ### Ajouté

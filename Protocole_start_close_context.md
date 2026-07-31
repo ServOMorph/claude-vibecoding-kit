@@ -355,6 +355,12 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 
 # Changelog
 
+## v3.4 — 2026-07-31
+
+**Corrections**
+- `.claude/commands/create_agent.md` : ligne parasite (`" pl"`) corrompant le marqueur de fin "Spécificités projet" supprimée.
+- Rattrapage de commit : rétrospectives de sessions antérieures restées non commitées (`ameliorations_create_agent.md`, `note_conception_pause_agents.md`) désormais intégrées au dépôt.
+
 ## v3.3 — 2026-07-30
 
 **Base de connaissances `DOCUMENTATION/`**

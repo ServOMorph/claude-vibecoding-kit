@@ -23,6 +23,30 @@ Sortie concrète de l'étape [ECRITURE] de la commande et des rétrospectives de
 
 ## Historique
 
+## 2026-07-31 — agents notes, narrateur, data (Open_Code_Apprentissage)
+
+Première création en lot de 3 agents dans un même appel (jusqu'ici toujours un agent par
+session). Mode création simple pour les 3, alias absents de `zones.md`, alias racine correct
+(`orchestrateur`, première ligne de `zones.md` = racine réelle du projet). Rôles déjà validés
+avec l'utilisateur en amont (décision consignée dans `contexte.md` de la zone orchestrateur
+avant même l'appel de `/create_agent`) — aucune reformulation nécessaire à [COLLECTE].
+
+Périmètre : question groupée unique posée pour les 3 agents à la fois plutôt que 3 questions
+séparées (économie de tokens) — réponse : périmètre par défaut pour les 3, aucune extension.
+
+`{{STACK}}` limité : projet jeune, pas de README ni de fichier de config type `package.json`
+à la racine, seul `ollama_call.py` exploitable. Bloc stack réduit à "Python, Ollama local
+(gemma4:12b) via ollama_call.py à la racine" plutôt que le stub générique "Hérite de la stack
+du projet parent" — jugé plus utile pour l'agent `data` en particulier.
+
+Anomalie hors périmètre de la commande, signalée mais non corrigée ici : `signals.md` de la
+zone orchestrateur et `.claude/CLAUDE.md` du projet affirment que `ollama_call.py` utilise
+`gemma4:e4b` par défaut ; le code réel (ligne 17) utilise `gemma4:12b`. Renvoyé à l'action P3
+déjà ouverte dans `signals.md` de la zone orchestrateur.
+
+## 2026-07-30 — agent documentation (crea_zik)
+Création directe, sans friction. Rôle durable clair dès la demande initiale (doc du projet, priorité inventaire des styles musicaux en lien avec l'éditeur). Périmètre resserré à `DOCUMENTATION/` uniquement sur choix explicite de l'utilisateur, malgré la présence d'un `_docs/` existant à la racine — signalé dans `contexte.md` comme référence hors périmètre d'écriture. `{{ALIAS_RACINE}}` correctement résolu (`crea_zik`, première ligne de `zones.md` = racine du projet).
+
 ## 2026-07-21 — Rétrospective Phases 1-3 (bootstrap, agents COM + MEMORY de robert-ia)
 
 ### Constat central
@@ -212,3 +236,18 @@ Point à surveiller (pas encore une proposition P<n>, pas assez d'occurrences) :
 alors que le rôle même d'un agent documentaliste est de lire l'ensemble du projet pour agréger.
 La charte générée reste donc silencieuse sur ce point — periscope déclaratif, pas bloquant
 techniquement, mais à corriger si un deuxième agent de ce type confirme le besoin.
+
+## 2026-07-30 — agent communication (Moulin du Sud)
+
+Création de l'agent COMMUNICATION (gérer toute la communication du projet), mode création simple.
+Dossier `COMMUNICATION/` existait déjà (vide, créé en amont par l'utilisateur) mais l'alias
+`communication` était absent de `zones.md` — traité en mode création normale, pas en conversion
+(la conversion ne s'applique qu'à un alias déjà enregistré).
+
+A bien fonctionné : `{{ALIAS_RACINE}}` correct (première ligne de `zones.md` = `moulin_du_sud`,
+vraie racine). L'analyse [COLLECTE] a exploité l'agent `documentation` déjà en place (son
+`agent_role.md` et `DOCUMENTATION/INDEX.md`) pour produire un `{{STACK}}` réel : identité du lieu,
+huit axes, règle de signature de charte, deux exclusions de périmètre à ne pas communiquer comme
+actives (accueil handicap hors V1, association/partenariats pas encore en place), et les sources
+canoniques (VISION/CHARTE/PRESENTATION/DECISIONS_METIER) à consulter avant toute production.
+Aucune friction nouvelle observée.

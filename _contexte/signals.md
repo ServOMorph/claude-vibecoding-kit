@@ -1,8 +1,8 @@
-# Signals — claude-vibecoding-kit (MAJ 2026-07-31)
+# Signals — claude-vibecoding-kit (MAJ 2026-07-31 bis)
 
 ## Actions ouvertes
 - [P1|ouvert] `/init_projet` ne gère pas `GEMINI.md` (équivalent CLAUDE.md pour Gemini) — seulement `AGENTS.md`. Demandé explicitement lors de l'init d'Open_Code_Apprentissage, créé manuellement hors procédure standard. fait quand: `/init_projet` propose la création de `GEMINI.md` au même titre que `AGENTS.md` (question dédiée ou fusionnée), template ajouté sous `templates/`. réf: `.claude/commands/init_projet.md`, `D:\ServOMorph\Open_Code_Apprentissage\GEMINI.md`
-- [P2|ouvert] Rédiger un fichier documentant le pattern "pause de réflexion sur le nombre/rôle des agents avant `/create_agent`", exercé lors de l'init d'Open_Code_Apprentissage (3 agents discutés et validés par échange avec l'utilisateur avant toute création), en vue d'une éventuelle nouvelle fonctionnalité du kit. Session dédiée demandée par l'utilisateur, pas immédiate. fait quand: fichier rédigé et étudié en session dédiée sur le kit. réf: `D:\ServOMorph\Open_Code_Apprentissage\_DOCS\but du projet.txt` (points 8-10), `D:\ServOMorph\Open_Code_Apprentissage\_contexte\signals.md`
+- [P2|ouvert] Trancher les points ouverts de `note_conception_pause_agents.md` (position exacte dans `/init_projet`, contenu de la question, enchaînement ou non sur `/create_agent`, persistance de l'échange, articulation avec Q5) puis implémenter si retenu. Cadrage initial acté le 2026-07-31 : nouvelle étape dans `/init_projet` (pas `/create_agent`), déclenchement systématique, cette note est un document seul, aucune implémentation faite. fait quand: chaque point tranché, `/init_projet` modifié si retenu. réf: `note_conception_pause_agents.md`
 - [P1|ouvert] Tester en conditions réelles la base de connaissances `DOCUMENTATION/` : étape 7 de `/close` (template, proposition conditionnelle), question AGENTS.md de `/update`/`/init_projet`. Aucun des deux n'a encore tourné réellement — implémentation faite sur analyse de code, pas exercée. fait quand: un `/close` sur une zone de Moulin du Sud (autre que `documentation`) déclenche l'étape 7 comme prévu, et un `/update`/`/init_projet` réel pose la question AGENTS.md. réf: `templates/.claude/commands/close.md`, `.claude/commands/update.md`, `.claude/commands/init_projet.md`
 - [P1|ouvert] Test 3 réel de `/create_agent` en mode conversion, sur la version réécrite (phases ancrées). Aucun test n'a encore exercé cette branche telle qu'écrite : l'agent `design` (jeu_zombies) était un cas de conversion mais traité manuellement, pas via la procédure. fait quand: `/create_agent` lancée sur un alias déjà enregistré et le comportement conforme à `[PREFLIGHT]`/`[ECRITURE]` (pas de modif `zones.md`/`signals.md` existant) vérifié en conditions réelles. réf: `.claude/commands/create_agent.md`, `TEST_CREATE_AGENT_RESULTS.md`
 - [P2|ouvert] Tester le renommage automatique du dossier d'agent en mode conversion (règle MAJUSCULES ajoutée le 2026-07-30) : aucun agent existant actuellement en minuscules pour exercer cette branche. fait quand: `/create_agent` lancée en mode conversion sur un dossier à la casse non conforme, renommage + mise à jour de `zones.md` vérifiés en conditions réelles. réf: `.claude/commands/create_agent.md`, `ameliorations_create_agent.md`
@@ -11,13 +11,39 @@
 - [P2|ouvert] `jeu_zombies` (déployé v2.26, `D:\ServOMorph\jeu_zombies`) en retard sur le kit (v3.3) — n'a pas encore la section "Tests manuels" ni "Déclencheurs de vérification" de `CLAUDE.md`, ni la base de connaissances. Propagation reportée par l'utilisateur le 2026-07-28. fait quand: `/update` lancé sur jeu_zombies et `.claude/CLAUDE.md` du projet reflète le contenu v3.3. réf: `DEPLOYMENTS.md`, `.claude/CLAUDE.md`
 
 ## Contexte chaud
-- Kit en v3.3 (bump minor). Base de connaissances `DOCUMENTATION/` (progressive disclosure : `INDEX.md` catalogue + docs individuels) introduite comme feature générale du kit, d'abord implémentée dans Moulin du Sud (agent `documentation` créé, `INDEX.md` encore vide).
+- Kit en v3.4 (bump minor). Base de connaissances `DOCUMENTATION/` (progressive disclosure : `INDEX.md` catalogue + docs individuels) introduite comme feature générale du kit, d'abord implémentée dans Moulin du Sud (agent `documentation` créé, `INDEX.md` encore vide).
 - `AGENTS.md` introduit comme équivalent `CLAUDE.md` pour agents non-Claude (Codex, ChatGPT, Gemini) — jamais créé automatiquement, toujours sur confirmation explicite (`/init_projet` Q7, `/update` étape 7), jamais écrasé s'il existe déjà.
 - `/create_agent` : dossier de l'agent (créé ou converti) normalisé en MAJUSCULES pour la reconnaissance visuelle ; alias de zone toujours en minuscules. Testé en mode création sur l'agent `editeur` (crea_zik) et `documentation` (Moulin du Sud) — pas encore testé en mode conversion (renommage d'un dossier existant).
 - `README.md` : corruption d'encodage pré-existante (double UTF-8) — à traiter si gênant.
+- Nouveau déploiement : `jeu_espace` (zone racine `orchestrateur`, jeu 3D Godot en orbite terrestre) — seule la racine créée, 3 agents envisagés (orchestrateur/codeur/design) pas encore créés.
+- Anomalie de process constatée et corrigée cette session : les clôtures du 2026-07-30/07-31 n'avaient pas commité `create_agent.md`/`ameliorations_create_agent.md` malgré un message de commit annonçant la session close. À surveiller sur les prochaines clôtures (étape 12 de `/close`).
 
 ## Dernière session (2026-07-31)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
+
+# Session du 2026-07-31 (init jeu_espace + rattrapage commits)
+
+## Décisions prises
+- `/init_projet` exécuté sur `D:\ServOMorph\jeu_espace` (zone `orchestrateur`, repo sous git, `AGENTS.md` créé sur confirmation) d'après `_DOCS/idée de base.txt`.
+- Corruption accidentelle (`" pl"` parasite avant un commentaire) corrigée dans `.claude/commands/create_agent.md`, détectée lors du contrôle `git status` avant clôture.
+- Décision utilisateur : inclure dans le commit de clôture les changements non commités de sessions antérieures (`ameliorations_create_agent.md`, `note_conception_pause_agents.md`) plutôt que les laisser en suspens.
+
+## Livrables produits ou modifiés
+- Hors dépôt kit (`jeu_espace`) : `.claude/CLAUDE.md`, `.claude/zones.md`, `.claude/commands/start.md`, `.claude/commands/close.md`, `_contexte/contexte.md`, `_contexte/signals.md`, `ollama_call.py`, `_docs/protocole_vibecoding.md`, `AGENTS.md`. Commit initial fait dans ce repo.
+- `DEPLOYMENTS.md` (hors git) : entrée ajoutée pour jeu_espace / orchestrateur / v3.3.
+- `.claude/commands/create_agent.md` : corruption corrigée.
+- `ameliorations_create_agent.md`, `note_conception_pause_agents.md` : commités cette session (contenu de sessions antérieures, non modifié).
+- `CHANGELOG.md` : entrée v3.4.
+
+## Hypothèses validées / invalidées
+- EN ATTENTE : gap `GEMINI.md` (action P1) toujours ouvert, non retraité — jeu_espace n'en avait pas besoin.
+- INVALIDE : les clôtures précédentes n'avaient pas réellement tout commité malgré leur message — `create_agent.md`/`ameliorations_create_agent.md` restaient en souffrance.
+
+## Prochaine étape exacte
+Sur jeu_espace : décider si `/create_agent` est lancé pour `codeur` et `design`. Sur le kit : surveiller les résidus non commités aux prochaines clôtures.
+
+## Question bloquante pour la session suivante
+Aucune
 
 # Session du 2026-07-31 (init Open_Code_Apprentissage)
 
