@@ -1,6 +1,8 @@
-# Signals — claude-vibecoding-kit (MAJ 2026-07-30)
+# Signals — claude-vibecoding-kit (MAJ 2026-07-31)
 
 ## Actions ouvertes
+- [P1|ouvert] `/init_projet` ne gère pas `GEMINI.md` (équivalent CLAUDE.md pour Gemini) — seulement `AGENTS.md`. Demandé explicitement lors de l'init d'Open_Code_Apprentissage, créé manuellement hors procédure standard. fait quand: `/init_projet` propose la création de `GEMINI.md` au même titre que `AGENTS.md` (question dédiée ou fusionnée), template ajouté sous `templates/`. réf: `.claude/commands/init_projet.md`, `D:\ServOMorph\Open_Code_Apprentissage\GEMINI.md`
+- [P2|ouvert] Rédiger un fichier documentant le pattern "pause de réflexion sur le nombre/rôle des agents avant `/create_agent`", exercé lors de l'init d'Open_Code_Apprentissage (3 agents discutés et validés par échange avec l'utilisateur avant toute création), en vue d'une éventuelle nouvelle fonctionnalité du kit. Session dédiée demandée par l'utilisateur, pas immédiate. fait quand: fichier rédigé et étudié en session dédiée sur le kit. réf: `D:\ServOMorph\Open_Code_Apprentissage\_DOCS\but du projet.txt` (points 8-10), `D:\ServOMorph\Open_Code_Apprentissage\_contexte\signals.md`
 - [P1|ouvert] Tester en conditions réelles la base de connaissances `DOCUMENTATION/` : étape 7 de `/close` (template, proposition conditionnelle), question AGENTS.md de `/update`/`/init_projet`. Aucun des deux n'a encore tourné réellement — implémentation faite sur analyse de code, pas exercée. fait quand: un `/close` sur une zone de Moulin du Sud (autre que `documentation`) déclenche l'étape 7 comme prévu, et un `/update`/`/init_projet` réel pose la question AGENTS.md. réf: `templates/.claude/commands/close.md`, `.claude/commands/update.md`, `.claude/commands/init_projet.md`
 - [P1|ouvert] Test 3 réel de `/create_agent` en mode conversion, sur la version réécrite (phases ancrées). Aucun test n'a encore exercé cette branche telle qu'écrite : l'agent `design` (jeu_zombies) était un cas de conversion mais traité manuellement, pas via la procédure. fait quand: `/create_agent` lancée sur un alias déjà enregistré et le comportement conforme à `[PREFLIGHT]`/`[ECRITURE]` (pas de modif `zones.md`/`signals.md` existant) vérifié en conditions réelles. réf: `.claude/commands/create_agent.md`, `TEST_CREATE_AGENT_RESULTS.md`
 - [P2|ouvert] Tester le renommage automatique du dossier d'agent en mode conversion (règle MAJUSCULES ajoutée le 2026-07-30) : aucun agent existant actuellement en minuscules pour exercer cette branche. fait quand: `/create_agent` lancée en mode conversion sur un dossier à la casse non conforme, renommage + mise à jour de `zones.md` vérifiés en conditions réelles. réf: `.claude/commands/create_agent.md`, `ameliorations_create_agent.md`
@@ -14,8 +16,31 @@
 - `/create_agent` : dossier de l'agent (créé ou converti) normalisé en MAJUSCULES pour la reconnaissance visuelle ; alias de zone toujours en minuscules. Testé en mode création sur l'agent `editeur` (crea_zik) et `documentation` (Moulin du Sud) — pas encore testé en mode conversion (renommage d'un dossier existant).
 - `README.md` : corruption d'encodage pré-existante (double UTF-8) — à traiter si gênant.
 
-## Dernière session (2026-07-30)
+## Dernière session (2026-07-31)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
+
+# Session du 2026-07-31 (init Open_Code_Apprentissage)
+
+## Décisions prises
+- `/init_projet` exécuté sur `D:\ServOMorph\Open_Code_Apprentissage` (zone `orchestrateur`, repo déjà sous git) — reformulation + questions préalables avant lancement, conformément à la demande explicite de l'utilisateur dans le fichier `but du projet.txt` du projet cible.
+- 3 agents validés pour ce projet après discussion (pas de création lancée cette session) : `notes`, `NARRATEUR`, `data`.
+- `GEMINI.md` créé manuellement sur demande explicite, hors procédure standard `/init_projet` (qui ne gère qu'`AGENTS.md`) — gap consigné en action ouverte.
+
+## Livrables produits ou modifiés
+- Hors dépôt kit (`Open_Code_Apprentissage`) : `.claude/CLAUDE.md`, `.claude/zones.md`, `.claude/commands/start.md`, `.claude/commands/close.md`, `_contexte/contexte.md`, `_contexte/signals.md`, `ollama_call.py` (modèle par défaut `gemma4:12b`), `AGENTS.md`, `GEMINI.md`, `_DOCS/protocole_vibecoding.md`. Commit initial fait dans ce repo.
+- `DEPLOYMENTS.md` (hors git) : entrée ajoutée pour Open_Code_Apprentissage / orchestrateur / v3.3.
+- `README.md` : section "État actuel" corrigée — restait bloquée à v3.2, ne mentionnait pas les ajouts v3.3 (base de connaissances, AGENTS.md) de la session précédente. Correction documentaire, pas de bump (aucun template/commande déployé modifié).
+- Aucun fichier de commande/template du kit modifié cette session.
+
+## Hypothèses validées / invalidées
+- VALIDE : la procédure de reformulation + questions avant lancement (demandée par l'utilisateur pour ce projet précis) s'intègre sans friction dans `/init_projet` tel qu'il existe.
+- EN ATTENTE : la pause de réflexion sur le nombre d'agents avant `/create_agent` n'est pour l'instant qu'un pattern ad hoc suivi manuellement dans cette session, pas une étape formalisée du kit.
+
+## Prochaine étape exacte
+Sur Open_Code_Apprentissage : lancer `/create_agent` pour les 3 agents validés (notes, NARRATEUR, data). Sur le kit : session dédiée pour formaliser GEMINI.md dans `/init_projet` et documenter le pattern "pause réflexion agents".
+
+## Question bloquante pour la session suivante
+Aucune
 
 # Session du 2026-07-30 (base de connaissances)
 

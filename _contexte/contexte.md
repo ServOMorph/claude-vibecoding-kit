@@ -12,14 +12,14 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - **Déploiement** : copie template vers projets via `/init`, tracking dans DEPLOYMENTS.md
 
 ## État actuel
-- Kit v3.3. Base de connaissances `DOCUMENTATION/` (progressive disclosure) introduite comme feature générale, non encore testée en conditions réelles. `AGENTS.md` introduit (équivalent CLAUDE.md pour agents non-Claude), jamais créé automatiquement.
+- Kit v3.3 (aucun changement de code cette session). Base de connaissances `DOCUMENTATION/` et `AGENTS.md` introduits, non encore testés en conditions réelles.
+- `/init_projet` exercé sur Open_Code_Apprentissage (zone `orchestrateur`) : gap détecté — pas de support `GEMINI.md`, `GEMINI.md` créé manuellement hors procédure.
 - `/create_agent` : dossier normalisé en MAJUSCULES, alias en minuscules ; mode conversion pas encore validé end-to-end (Test 3 à faire).
 - `jeu_zombies` (v2.26 déployé) en retard sur le kit v3.3 — `/update` à lancer.
 - `AGENTS_REGISTRY.md` (hors git) centralise 8 agents (com, memory, web, linkedin, design, explo, editeur, documentation).
 
 ## Décisions structurantes
-_Décisions antérieures au 2026-07-30 (session base de connaissances) archivées dans `_contexte/archive_decisions.md`._
-- 2026-07-21 : premier test end-to-end réel de `/create_agent` (agent `web`, La Rev) — friction majeure trouvée (charte silencieusement non chargée si `start.md` cible obsolète) et corrigée (P6). Ouverture d'une période de test tracée dans `TEST_CREATE_AGENT_RESULTS.md`.
+_Décisions antérieures au 2026-07-31 (session init Open_Code_Apprentissage) archivées dans `_contexte/archive_decisions.md`._
 - 2026-07-21 : Lot 1 de `PROPOSITIONS_AMELIORATION.md` implémenté (1.3, 1.7, 2.4, 2.5, 3.1) — décision utilisateur de tout retenir, aucune n'a justifié d'être écartée. Kit v2.24.
 - 2026-07-21 : Test 2 `/create_agent` — conversion d'une zone déjà mature (`linkedin`, SérénIATech_dev) en agent, cas non couvert par la procédure standard ; traité par déviation manuelle validée par l'utilisateur (charte seule, `_contexte/`/`zones.md` existants préservés). Frictions P11/P12 consignées, non tranchées.
 - 2026-07-21 : nouvelle commande `/cherche_meilleure_action` créée (kit uniquement, modèle Opus) — décision utilisateur : sortie = recommandation unique + question de confirmation, jamais de décision tranchée seule par la commande.
@@ -29,3 +29,4 @@ _Décisions antérieures au 2026-07-30 (session base de connaissances) archivée
 - 2026-07-28 : `CLAUDE.md` (kit + template) enrichi de deux sections — "Tests manuels" (`tests_manuels.md`, chemin relatif générique après refus d'un chemin absolu jeu_zombies-spécifique) et "Déclencheurs de vérification" sous "Honnêteté" (règles mécaniques suite à une affirmation non vérifiée en session sur le contenu de `DEPLOYMENTS.md`). Kit v3.1.
 - 2026-07-30 : `/create_agent` — dossier de l'agent normalisé en MAJUSCULES (création et conversion), alias inchangé (minuscules) — décision utilisateur pour la reconnaissance visuelle dans l'arborescence. Testé en mode création sur l'agent `editeur` (crea_zik, périmètre étendu à `frontend/`/`backend/`). Kit v3.2.
 - 2026-07-30 : base de connaissances `DOCUMENTATION/` (pattern progressive disclosure, validé par recherche web) adoptée comme feature générale du kit — d'abord implémentée dans Moulin du Sud (agent `documentation`), puis dans `templates/.claude/commands/close.md` (étape 7 conditionnelle) et `templates/.claude/CLAUDE.md`. `AGENTS.md` introduit en parallèle comme équivalent CLAUDE.md pour agents non-Claude, jamais créé automatiquement (`/init_projet` Q7, `/update` étape 7, toujours sur confirmation). Kit v3.3.
+- 2026-07-31 : `/init_projet` exécuté sur Open_Code_Apprentissage (zone `orchestrateur`) avec reformulation + questions préalables demandées explicitement par l'utilisateur avant tout lancement. 3 agents validés par échange (notes, NARRATEUR, data) avant toute création — pattern noté comme piste de feature kit. Gap découvert : `/init_projet` ne gère pas `GEMINI.md` (créé manuellement sur demande).
