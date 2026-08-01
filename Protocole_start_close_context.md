@@ -357,6 +357,12 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 
 # Changelog
 
+## v3.6 — 2026-08-01
+
+**`GEMINI.md` — équivalent `CLAUDE.md` spécifique à Gemini**
+- `templates/GEMINI.md` : nouveau template.
+- `/init_projet` (nouvelle question 8) et `/update` (étape 7 étendue, renommée "AGENTS.md et GEMINI.md") le proposent sur confirmation à chaque exécution, sautée en mode batch `all`. Un `GEMINI.md` déjà présent n'est jamais écrasé. Numérotation d'`update.md` inchangée (les deux fichiers traités dans la même étape 7).
+
 ## v3.5 — 2026-07-31
 
 **`/create_agent` — message de mise à jour presse-papier pour l'agent racine**
@@ -377,7 +383,7 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 
 **`AGENTS.md` — équivalent `CLAUDE.md` pour agents non-Claude**
 - `templates/AGENTS.md` : nouveau template (Codex, ChatGPT, Gemini...), pointe vers `DOCUMENTATION/INDEX.md` si présent.
-- Jamais créé automatiquement : `/init_projet` (nouvelle question 7) et `/update` (nouvelle étape 7) le proposent sur confirmation à chaque exécution, sautée en mode batch `all` (projet signalé `⚠️` plutôt que bloqué). Un `AGENTS.md` déjà présent n'est jamais écrasé (contenu organique possible). Renumérotation 8→11 dans `update.md`.
+- Jamais créé automatiquement : `/init_projet` (nouvelle question 7) et `/update` (nouvelle étape 7) le proposent sur confirmation à chaque exécution, sautée en mode batch `all` (projet signalé `⚠️` plutôt que bloqué). Un `AGENTS.md` déjà présent n'est jamais écrasé (contenu organique possible). Renumérotation 8→11 dans `update.md`. (v3.6 : étape 7 étendue à `GEMINI.md`, même logique, numérotation inchangée.)
 
 ## v3.2 — 2026-07-30
 

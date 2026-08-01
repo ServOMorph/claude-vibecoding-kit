@@ -8,7 +8,7 @@ model: sonnet
 
 ## Objectif
 
-Mettre à jour les fichiers de protocole (`start.md`, `close.md`, `create_memory.md`, `ollama_call.py`, `CLAUDE.md`, et `AGENTS.md` sur confirmation) d'un projet cible à partir de la dernière version du kit. Se lance depuis le repo du kit. Ne touche pas aux fichiers spécifiques au projet cible (`_contexte/`, `zones.md`, la section "Données sensibles" et la section "Spécificités projet" de `CLAUDE.md`, le bloc `SPECIFICITES PROJET` de `start.md`/`close.md`, un `AGENTS.md` déjà présent). Cela inclut les zones-agents créées par `/create_agent` : `/update` ne cible que `<cible>/.claude/` et `<cible>/_contexte/` racine, donc `<dossier_agent>/agent_role.md` et `<dossier_agent>/_contexte/` (ex. `COM/_contexte/`, `MEMORY/_contexte/`) ne sont jamais lus ni modifiés.
+Mettre à jour les fichiers de protocole (`start.md`, `close.md`, `create_memory.md`, `ollama_call.py`, `CLAUDE.md`, et `AGENTS.md`/`GEMINI.md` sur confirmation) d'un projet cible à partir de la dernière version du kit. Se lance depuis le repo du kit. Ne touche pas aux fichiers spécifiques au projet cible (`_contexte/`, `zones.md`, la section "Données sensibles" et la section "Spécificités projet" de `CLAUDE.md`, le bloc `SPECIFICITES PROJET` de `start.md`/`close.md`, un `AGENTS.md` déjà présent). Cela inclut les zones-agents créées par `/create_agent` : `/update` ne cible que `<cible>/.claude/` et `<cible>/_contexte/` racine, donc `<dossier_agent>/agent_role.md` et `<dossier_agent>/_contexte/` (ex. `COM/_contexte/`, `MEMORY/_contexte/`) ne sont jamais lus ni modifiés.
 
 ## Procédure
 
@@ -28,7 +28,7 @@ Si `$ARGUMENTS` vaut `all` (comparaison insensible à la casse) : basculer en mo
       - Pas de confirmation intermédiaire, pas d'exécution de l'étape 11 individuelle.
       - Si l'étape 5 ou 6 détecte des lignes ou sections candidates "spécificités projet" non
         migrées, elles sont migrées automatiquement sans interrompre le batch (voir étapes 5 et 6).
-      - Étape 7 (AGENTS.md) : ne jamais poser la question, voir étape 7.
+      - Étape 7 (AGENTS.md et GEMINI.md) : ne jamais poser les questions, voir étape 7.
       - Toute erreur pendant les étapes 1 à 9 est capturée : noter "❌ <alias> — échec (<raison>)",
         passer au projet suivant sans interrompre le batch.
       - Si l'étape 10 (vérification) détecte un ou plusieurs échecs : noter
@@ -154,8 +154,9 @@ entre les marqueurs `SPECIFICITES PROJET` du fichier nouvellement copié.
 - **Remplacer** toutes les autres sections par celles du kit.
 - Écraser `<cible>/.claude/CLAUDE.md` avec le résultat fusionné.
 
-### 7. AGENTS.md (optionnel)
+### 7. AGENTS.md et GEMINI.md (optionnels)
 
+**AGENTS.md**
 - Si `<cible>/AGENTS.md` existe déjà : ne jamais l'écraser ni le modifier automatiquement (il peut
   contenir du contenu organique ajouté par Codex ou un autre agent). Ne rien faire, ne pas poser de
   question.
@@ -166,6 +167,17 @@ entre les marqueurs `SPECIFICITES PROJET` du fichier nouvellement copié.
   - Réponse "non" : ne rien créer.
 - En mode batch (étape 0) : ne jamais poser la question. Si `AGENTS.md` est absent, ne rien créer et
   signaler "⚠️ <alias> — AGENTS.md absent, non créé (question sautée en mode batch)" dans le résumé
+  du projet.
+
+**GEMINI.md**
+- Si `<cible>/GEMINI.md` existe déjà : ne jamais l'écraser ni le modifier automatiquement (il peut
+  contenir du contenu organique ajouté par Gemini). Ne rien faire, ne pas poser de question.
+- Si absent : demander "Créer GEMINI.md dans <cible> ? Équivalent de CLAUDE.md spécifique à Gemini —
+  utile seulement si Gemini intervient aussi sur ce projet. (oui/non)"
+  - Réponse "oui" : copier `templates/GEMINI.md` → `<cible>/GEMINI.md`.
+  - Réponse "non" : ne rien créer.
+- En mode batch (étape 0) : ne jamais poser la question. Si `GEMINI.md` est absent, ne rien créer et
+  signaler "⚠️ <alias> — GEMINI.md absent, non créé (question sautée en mode batch)" dans le résumé
   du projet.
 
 ### 8. Vérifier l'entrée dans DEPLOYMENTS.md
@@ -187,6 +199,7 @@ git -C <cible> commit -m "update: protocole vibecoding — zone <alias> — kit 
 ```
 
 Si `AGENTS.md` a été créé à l'étape 7 : l'ajouter aussi à ce commit (`git -C <cible> add AGENTS.md`).
+Si `GEMINI.md` a été créé à l'étape 7 : l'ajouter aussi à ce commit (`git -C <cible> add GEMINI.md`).
 
 ### 10. Vérification post-update
 
@@ -219,5 +232,5 @@ projet de "✅" à "⚠️" dans le résumé final, avec le détail du contrôle
 
 Répondre uniquement :
 "✅ Update <alias> terminé (kit <ancienne version> → <version>). Fichiers mis à jour : start.md, close.md, create_memory.md, CLAUDE.md, ollama_call.py. Sections/blocs "Spécificités projet" préservés."
-Si `AGENTS.md` a été créé à l'étape 7, l'ajouter à la liste des fichiers mis à jour.
+Si `AGENTS.md` et/ou `GEMINI.md` ont été créés à l'étape 7, les ajouter à la liste des fichiers mis à jour.
 Si l'étape 10 a détecté un ou plusieurs échecs : remplacer "✅" par "⚠️" et lister chaque échec sur une ligne dédiée après la confirmation.

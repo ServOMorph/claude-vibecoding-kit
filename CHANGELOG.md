@@ -3,6 +3,13 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v3.6 — 2026-08-01
+
+### Ajouté
+- `templates/GEMINI.md` : nouveau template, équivalent `CLAUDE.md` spécifique à Gemini.
+- `.claude/commands/init_projet.md` : nouvelle question 8 proposant la création de `GEMINI.md` (jamais automatique, jamais écrasé s'il existe déjà — même logique que la question 7 sur `AGENTS.md`).
+- `.claude/commands/update.md` : étape 7 renommée "AGENTS.md et GEMINI.md (optionnels)", traite désormais les deux fichiers en parallèle (numérotation des étapes inchangée).
+
 ## v3.5 — 2026-07-31
 
 ### Ajouté

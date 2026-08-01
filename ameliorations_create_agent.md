@@ -23,6 +23,19 @@ Sortie concrète de l'étape [ECRITURE] de la commande et des rétrospectives de
 
 ## Historique
 
+## 2026-08-01 — agent orchestrateur (SérénIATech_dev)
+
+Création d'une zone-agent à la **racine du projet** (l'agent EST la zone racine, pas un
+sous-dossier) — cas de figure : conversion de la racine en agent orchestrateur. Traité en
+procédure manuelle sur place : `agent_role.md` à la racine, `_contexte/` racine complété
+(objectif + stack), alias `orchestrateur` ajouté dans `zones.md` pointant vers la racine,
+ligne "Zone parente" supprimée (pas de parent : l'agent est la racine elle-même).
+
+Périmètre : recommandation "racine + Orga/" retenue (équilibre entre efficacité et respect
+des périmètres des zones-agents). `start.md` du projet chargeait déjà `agent_role.md` (étape 2b)
+— aucune modification nécessaire. Friction notée : `{{DOSSIER_AGENT}}`/`{{ALIAS_RACINE}}` du
+template pensés pour un sous-dossier, non adaptés au cas "agent = racine".
+
 ## 2026-07-31 — agents dev, design (jeu_espace)
 
 Deuxième création en lot de plusieurs agents dans un même appel (après notes/narrateur/data).

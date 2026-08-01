@@ -12,9 +12,8 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - **Déploiement** : copie template vers projets via `/init`, tracking dans DEPLOYMENTS.md
 
 ## État actuel
-- Kit v3.5 : `/create_agent` dotée d'une nouvelle étape `[SORTIE]` (message presse-papier pour l'agent racine du projet cible), jamais testée via un appel réel de la commande.
-- Agents `dev`/`design` créés dans `jeu_espace` (projet externe) — les 3 agents envisagés (orchestrateur/dev/design) sont désormais actifs.
-- Gap `GEMINI.md` toujours ouvert (P1) : pas retraité cette session.
+- Kit v3.6 : `GEMINI.md` intégré au workflow `/init_projet`/`/update`, sur le même modèle qu'`AGENTS.md` — gap P1 résolu, jamais encore testé via un appel réel.
+- Étape 7 de `/close` (base de connaissances) validée en conditions réelles pour la première fois, sur Moulin du Sud.
 - `/create_agent` : mode conversion pas encore validé end-to-end (Test 3 à faire).
 - `jeu_zombies` (v2.26 déployé) toujours en retard sur le kit — `/update` à lancer.
 
@@ -30,3 +29,4 @@ _Décisions antérieures au 2026-07-21 (Test 2 `/create_agent`) archivées dans 
 - 2026-07-31 : `/init_projet` exécuté sur Open_Code_Apprentissage (zone `orchestrateur`) avec reformulation + questions préalables demandées explicitement par l'utilisateur avant tout lancement. 3 agents validés par échange (notes, NARRATEUR, data) avant toute création — pattern noté comme piste de feature kit. Gap découvert : `/init_projet` ne gère pas `GEMINI.md` (créé manuellement sur demande).
 - 2026-07-31 : `/init_projet` exécuté sur `jeu_espace` (zone `orchestrateur`) — jeu 3D Godot, orbite terrestre réaliste, 3 agents envisagés (orchestrateur/codeur/design), `AGENTS.md` créé (Codex mentionné pour les assets). Corruption accidentelle (`" pl"` parasite) corrigée dans `create_agent.md` ; rattrapage de commit pour des retros de sessions antérieures (agents notes/narrateur/data, communication) restées non commitées malgré des clôtures précédentes.
 - 2026-07-31 : Agents `dev`/`design` créés dans jeu_espace via `/create_agent` (question groupée périmètre : dev étendu au code Godot racine, design restreint à son dossier). `/create_agent` étape `[SORTIE]` enrichie d'un message presse-papier pour l'agent racine (demande explicite utilisateur, après annulation d'une première approche écrivant directement dans `signals.md` du projet cible). Kit v3.5.
+- 2026-08-01 : `GEMINI.md` intégré à `/init_projet` (Q8) et `/update` (étape 7 étendue), sur le même modèle qu'`AGENTS.md` — gap ouvert depuis le 2026-07-31 résolu. Étape 7 de `/close` (base de connaissances) validée en conditions réelles pour la première fois sur Moulin du Sud (zone tierce). Kit v3.6.

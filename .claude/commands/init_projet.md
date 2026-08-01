@@ -35,6 +35,8 @@ Initialiser le protocole vibecoding dans le projet cible à partir de ce kit de 
 7. Créer `AGENTS.md` ? C'est l'équivalent de `CLAUDE.md` pour les agents non-Claude (Codex, ChatGPT,
    Gemini...) — utile seulement si le projet est aussi piloté par un autre outil qu'Claude Code.
    Jamais créé automatiquement, toujours demandé. (oui/non)
+8. Créer `GEMINI.md` ? Équivalent de `CLAUDE.md` spécifique à Gemini — utile seulement si Gemini
+   intervient aussi sur ce projet. Jamais créé automatiquement, toujours demandé. (oui/non)
 
 La racine du projet cible ne doit jamais être demandée si $ARGUMENTS est fourni.
 
@@ -53,6 +55,8 @@ La racine du projet cible ne doit jamais être demandée si $ARGUMENTS est fourn
 - `<kit>/Protocole_start_close_context.md` → `$ARGUMENTS/_docs/protocole_vibecoding.md`
 - `templates/AGENTS.md` → `$ARGUMENTS/AGENTS.md`
   (seulement si réponse "oui" à Q7 ; si déjà présent : demander avant d'écraser)
+- `templates/GEMINI.md` → `$ARGUMENTS/GEMINI.md`
+  (seulement si réponse "oui" à Q8 ; si déjà présent : demander avant d'écraser)
 
 Ne pas copier `roadmap_TEMPLATE.md` (utilisé uniquement à la création d'un chantier).
 

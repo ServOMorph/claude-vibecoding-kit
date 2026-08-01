@@ -17,7 +17,7 @@ Résout le problème structurel du vibecoding : **le contexte est perdu à chaqu
 - `/cherche_meilleure_action [décision]` — commande d'aide à la décision (kit uniquement) : analyse le contexte réel de la zone, évalue les options selon des critères explicites, recommande une action et demande confirmation ; à invoquer quand on ne sait pas quoi faire ensuite
 - `/doc_sync` — synchronise toute la documentation du kit (commandes, templates, structure) après une modification
 - `CLAUDE.md` — règles permanentes appliquées à toutes les conversations
-- `AGENTS.md` (optionnel, sur confirmation) — équivalent `CLAUDE.md` pour les agents non-Claude (Codex, ChatGPT, Gemini...)
+- `AGENTS.md` / `GEMINI.md` (optionnels, sur confirmation) — équivalents `CLAUDE.md` pour les agents non-Claude (Codex, ChatGPT, Gemini...)
 - Base de connaissances `DOCUMENTATION/` (optionnelle, via agent dédié créé par `/create_agent`) — documentation métier du projet en `.md`, consultée par tous les agents (`INDEX.md` catalogue + progressive disclosure)
 - Support multi-zones (plusieurs sous-projets dans un même repo)
 - Intégration Ollama pour les tâches répétitives sans envoyer de données en cloud
@@ -75,7 +75,8 @@ claude-vibecoding-kit/
     ├── ollama_call.py                    # délégation vers modèle local
     ├── agent_role_TEMPLATE.md            # template de charte pour /create_agent
     ├── roadmap_TEMPLATE.md               # template pour chantiers multi-phases
-    └── AGENTS.md                         # équivalent CLAUDE.md pour agents non-Claude (Codex, ChatGPT...), sur confirmation
+    ├── AGENTS.md                         # équivalent CLAUDE.md pour agents non-Claude (Codex, ChatGPT...), sur confirmation
+    └── GEMINI.md                         # équivalent CLAUDE.md spécifique à Gemini, sur confirmation
 ```
 
 ## Documentation
@@ -95,6 +96,8 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 **Aucune dépendance externe Python.** Le lanceur Ollama utilise uniquement la bibliothèque standard (`urllib`, `json`, `os`, `sys`). Aucun `requirements.txt` nécessaire.
 
 ## État actuel
+
+Kit v3.6 : `GEMINI.md` intégré au workflow `/init_projet` (nouvelle question 8) et `/update` (étape 7 étendue à `GEMINI.md`, en plus d'`AGENTS.md`) — même logique : jamais créé automatiquement, jamais écrasé s'il existe déjà. Nouveau template `templates/GEMINI.md`. Par ailleurs, l'étape 7 de `/close` (base de connaissances) a été validée en conditions réelles pour la première fois, sur une zone tierce (Moulin du Sud) dont la session a produit une décision transversale ajoutée à `DOCUMENTATION/`.
 
 Kit v3.5 : `.claude/commands/create_agent.md` — nouvelle étape `[SORTIE]` proposant de copier dans le presse-papier un message court de mise à jour pour l'agent racine du projet cible, résumant les agents créés lors de l'appel (jamais écrit dans les fichiers du projet cible). Récapitulatif final renuméroté 10→11, `[AUDIT]` 11→12. Jamais encore testée via un appel réel de la commande.
 
