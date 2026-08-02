@@ -1,6 +1,7 @@
-# Signals — claude-vibecoding-kit (MAJ 2026-08-01)
+# Signals — claude-vibecoding-kit (MAJ 2026-08-02)
 
 ## Actions ouvertes
+- [P2|ouvert] Test en cours (depuis 2026-08-02) : `git push` automatique après le commit de `/close`, ajouté manuellement (hors template kit) dans `.claude/commands/close.md` de `Appli_TSA_SDI_TDAH` et `VisioAide` uniquement — les deux ont un remote GitHub. Trancher d'ici quelques temps : garder ou pas ; si gardé, propager au template `templates/.claude/commands/close.md` et aux autres projets déployés, sauf ceux sans repo git distant (public ou privé). fait quand: décision actée (garder/écarter) et, si retenue, template + `/update` sur les projets concernés. réf: `D:\ServOMorph\Appli_TSA_SDI_TDAH\.claude\commands\close.md`, `D:\ServOMorph\VisioAide\.claude\commands\close.md`, `DEPLOYMENTS.md`
 - [P2|ouvert] Trancher les points ouverts de `note_conception_pause_agents.md` (position exacte dans `/init_projet`, contenu de la question, enchaînement ou non sur `/create_agent`, persistance de l'échange, articulation avec Q5) puis implémenter si retenu. Cadrage initial acté le 2026-07-31 : nouvelle étape dans `/init_projet` (pas `/create_agent`), déclenchement systématique, cette note est un document seul, aucune implémentation faite. fait quand: chaque point tranché, `/init_projet` modifié si retenu. réf: `note_conception_pause_agents.md`
 - [P1|ouvert] Tester en conditions réelles la question AGENTS.md/GEMINI.md de `/update`/`/init_projet` (étape 7 de `/close` déjà validée le 2026-08-01, voir Contexte chaud). fait quand: un `/update`/`/init_projet` réel pose la question AGENTS.md et/ou GEMINI.md et le comportement (jamais automatique, jamais écrasé) est conforme. réf: `.claude/commands/update.md`, `.claude/commands/init_projet.md`
 - [P1|ouvert] Test 3 réel de `/create_agent` en mode conversion, sur la version réécrite (phases ancrées). Aucun test n'a encore exercé cette branche telle qu'écrite : l'agent `design` (jeu_zombies) était un cas de conversion mais traité manuellement, pas via la procédure. fait quand: `/create_agent` lancée sur un alias déjà enregistré et le comportement conforme à `[PREFLIGHT]`/`[ECRITURE]` (pas de modif `zones.md`/`signals.md` existant) vérifié en conditions réelles. réf: `.claude/commands/create_agent.md`, `TEST_CREATE_AGENT_RESULTS.md`
@@ -11,14 +12,35 @@
 - [P2|ouvert] `jeu_zombies` (déployé v2.26, `D:\ServOMorph\jeu_zombies`) en retard sur le kit (v3.6) — n'a pas encore la section "Tests manuels" ni "Déclencheurs de vérification" de `CLAUDE.md`, ni la base de connaissances. Propagation reportée par l'utilisateur le 2026-07-28. fait quand: `/update` lancé sur jeu_zombies et `.claude/CLAUDE.md` du projet reflète le contenu à jour. réf: `DEPLOYMENTS.md`, `.claude/CLAUDE.md`
 
 ## Contexte chaud
+- Test `git push` automatique après `/close` démarré le 2026-08-02 sur 3 zones : le kit lui-même, `Appli_TSA_SDI_TDAH`, `VisioAide` (les trois ont un remote GitHub). Ajouté directement dans chaque `close.md` (bloc "Spécificités projet"), jamais dans le template. Ce `/close` du kit est la toute première exécution réelle de l'étape 11bis. Kit v3.7.
 - Kit en v3.6 (bump minor). `GEMINI.md` intégré au workflow `/init_projet` (Q8) et `/update` (étape 7 étendue) sur le même modèle qu'`AGENTS.md` : jamais créé automatiquement, jamais écrasé s'il existe déjà. `templates/GEMINI.md` créé. Feature codée mais jamais exercée via un appel réel des commandes (action P1 ouverte, cf. ci-dessus).
 - Base de connaissances `DOCUMENTATION/` (étape 7 de `/close`) validée en conditions réelles pour la première fois le 2026-08-01, sur un `/close` de la zone `moulin_du_sud` (projet externe) : deux entrées ajoutées dans `DOCUMENTATION/DECISIONS_METIER.md`/`INDEX.md` sans que la zone fermée soit `documentation`. Reste ouvert : la question AGENTS.md/GEMINI.md de `/update`/`/init_projet`.
 - `AGENTS.md` introduit comme équivalent `CLAUDE.md` pour agents non-Claude (Codex, ChatGPT, Gemini) — jamais créé automatiquement, toujours sur confirmation explicite (`/init_projet` Q7, `/update` étape 7), jamais écrasé s'il existe déjà.
 - `/create_agent` : dossier de l'agent (créé ou converti) normalisé en MAJUSCULES pour la reconnaissance visuelle ; alias de zone toujours en minuscules. Testé en mode création sur plusieurs projets — pas encore testé en mode conversion (renommage d'un dossier existant).
 - `README.md` : corruption d'encodage pré-existante (double UTF-8) — à traiter si gênant.
 
-## Dernière session (2026-08-01)
+## Dernière session (2026-08-02)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
+
+# Session du 2026-08-02 (test git push après /close)
+
+## Décisions prises
+- `git push` automatique après le commit de `/close` ajouté en test sur 3 zones : le kit lui-même, `Appli_TSA_SDI_TDAH`, `VisioAide` — décision utilisateur confirmée (push, pas pull) via question explicite.
+- Ajout fait directement dans chaque `close.md` (bloc "Spécificités projet"), pas dans le template — la propagation reste à trancher après observation.
+
+## Livrables produits ou modifiés
+- `.claude/commands/close.md` (kit) : `allowed-tools` + étape 11bis (git push) ajoutés.
+- `_contexte/signals.md` : action ouverte P2 ajoutée pour trancher garder/écarter/propager.
+- Hors dépôt kit : `D:\ServOMorph\Appli_TSA_SDI_TDAH\.claude\commands\close.md`, `D:\ServOMorph\VisioAide\.claude\commands\close.md` modifiés à l'identique.
+
+## Hypothèses validées / invalidées
+- EN ATTENTE : ce `/close` est la première exécution réelle du `git push` (kit) — comportement à observer dans le bilan de fin de commande.
+
+## Prochaine étape exacte
+Observer les prochains `/close` sur les 3 zones test ; trancher garder/écarter d'ici quelques temps et, si retenu, propager au template + `/update` sur les projets avec remote git.
+
+## Question bloquante pour la session suivante
+Aucune
 
 # Session du 2026-08-01 (workflow GEMINI.md + rattrapage Moulin du Sud)
 

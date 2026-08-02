@@ -97,6 +97,8 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
+Kit v3.7 : `git push` automatique après le commit de `/close` ajouté en test sur 3 zones (le kit lui-même, `Appli_TSA_SDI_TDAH`, `VisioAide`) — ajouté directement dans chaque `close.md` (bloc "Spécificités projet"), pas dans le template. Décision de garder/écarter et de propager reportée, voir `_contexte/signals.md`.
+
 Kit v3.6 : `GEMINI.md` intégré au workflow `/init_projet` (nouvelle question 8) et `/update` (étape 7 étendue à `GEMINI.md`, en plus d'`AGENTS.md`) — même logique : jamais créé automatiquement, jamais écrasé s'il existe déjà. Nouveau template `templates/GEMINI.md`. Par ailleurs, l'étape 7 de `/close` (base de connaissances) a été validée en conditions réelles pour la première fois, sur une zone tierce (Moulin du Sud) dont la session a produit une décision transversale ajoutée à `DOCUMENTATION/`.
 
 Kit v3.5 : `.claude/commands/create_agent.md` — nouvelle étape `[SORTIE]` proposant de copier dans le presse-papier un message court de mise à jour pour l'agent racine du projet cible, résumant les agents créés lors de l'appel (jamais écrit dans les fichiers du projet cible). Récapitulatif final renuméroté 10→11, `[AUDIT]` 11→12. Jamais encore testée via un appel réel de la commande.

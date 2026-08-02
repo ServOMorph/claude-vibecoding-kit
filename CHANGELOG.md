@@ -3,6 +3,11 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v3.7 — 2026-08-02
+
+### Ajouté
+- `.claude/commands/close.md` (kit uniquement, hors template) : étape 11bis en test — `git push` automatique après le commit. Même ajout appliqué manuellement dans `Appli_TSA_SDI_TDAH` et `VisioAide` (hors dépôt kit). Décision garder/écarter/propager au template à trancher ultérieurement.
+
 ## v3.6 — 2026-08-01
 
 ### Ajouté

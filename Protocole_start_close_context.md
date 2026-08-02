@@ -357,6 +357,12 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 
 # Changelog
 
+## v3.7 — 2026-08-02
+
+**`git push` automatique après `/close` — en test**
+- `.claude/commands/close.md` (kit uniquement, hors template) : étape 11bis, exécute `git push` après le commit. Même ajout appliqué manuellement dans `Appli_TSA_SDI_TDAH` et `VisioAide` (hors dépôt kit).
+- Non propagé au template `templates/.claude/commands/close.md` : décision garder/écarter/propager reportée, voir `_contexte/signals.md`.
+
 ## v3.6 — 2026-08-01
 
 **`GEMINI.md` — équivalent `CLAUDE.md` spécifique à Gemini**

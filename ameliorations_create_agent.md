@@ -23,6 +23,19 @@ Sortie concrète de l'étape [ECRITURE] de la commande et des rétrospectives de
 
 ## Historique
 
+## 2026-08-02 — agent opencode (D:\ServOMorph\Roberto)
+
+Création de l'agent OPENCODE (orchestrer les tâches déléguées à l'outil OpenCode), mode création
+simple, alias absent de `zones.md`. `{{ALIAS_RACINE}}` correct (première ligne de `zones.md` =
+`roberto`, vraie racine). `start.md` de Roberto charge déjà `agent_role.md` (pas de warning).
+
+Friction (pas nouvelle, P1) : rôle initial fourni dans l'argument de la commande formulé de façon
+circulaire ("gérer l'agent OPENCODE"), reformulé sur question explicite vers le rôle durable réel.
+
+`{{STACK}}` : projet Roberto (Macrodesk, app Python de macros clavier/souris) sans rapport
+technique avec le rôle de l'agent (orchestration d'un outil externe, OpenCode) — aucune information
+exploitable trouvée pour filtrer par rôle, "Hérite de la stack du projet parent." signalé tel quel.
+
 ## 2026-08-01 — agent orchestrateur (SérénIATech_dev)
 
 Création d'une zone-agent à la **racine du projet** (l'agent EST la zone racine, pas un

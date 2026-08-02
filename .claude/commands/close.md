@@ -2,7 +2,7 @@
 description: Clôture la session d'une zone — synthèse, mise à jour du contexte, commit
 argument-hint: <zone>
 model: sonnet
-allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git add:*), Bash(git commit:*)
+allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git add:*), Bash(git commit:*), Bash(git push:*)
 ---
 
 # /close <zone>
@@ -135,4 +135,9 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
 
 Étape 9bis (entre l'étape 9 et l'étape 10) : lancer la commande `/doc_sync` pour synchroniser la
 documentation du kit avant le commit.
+
+Étape 11bis (après l'étape 11, commit) : exécuter `git push`. Fonctionnalité en test (2026-08-02,
+voir `_contexte/signals.md`). Si le push échoue (pas de remote tracking, conflit, réseau, etc.) :
+afficher l'erreur telle quelle dans le bilan de l'étape 12, ne pas tenter de résolution automatique
+(pas de force push, pas de pull/rebase automatique).
 <!-- SPECIFICITES PROJET : FIN -->
