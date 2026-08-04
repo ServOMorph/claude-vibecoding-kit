@@ -3,6 +3,14 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v3.8 — 2026-08-04
+
+### Ajouté
+- `git push` automatique (étape 11bis de `/close`) étendu à une 4ème zone en test : `crea_zik` (hors template, hors dépôt kit).
+
+### Corrigé
+- `.claude/commands/doc_sync.md` (kit) : corruption pré-existante du frontmatter (`a---` au lieu de `---`) corrigée.
+
 ## v3.7 — 2026-08-02
 
 ### Ajouté

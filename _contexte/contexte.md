@@ -12,16 +12,13 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - **Déploiement** : copie template vers projets via `/init`, tracking dans DEPLOYMENTS.md
 
 ## État actuel
-- Kit v3.6 : `GEMINI.md` intégré au workflow `/init_projet`/`/update`, sur le même modèle qu'`AGENTS.md` — gap P1 résolu, jamais encore testé via un appel réel.
+- Kit v3.8 : `git push` automatique après `/close` (étape 11bis, hors template) en test sur 4 zones — kit, `Appli_TSA_SDI_TDAH`, `VisioAide`, `crea_zik`. Décision garder/écarter toujours en attente.
 - Étape 7 de `/close` (base de connaissances) validée en conditions réelles pour la première fois, sur Moulin du Sud.
 - `/create_agent` : mode conversion pas encore validé end-to-end (Test 3 à faire).
 - `jeu_zombies` (v2.26 déployé) toujours en retard sur le kit — `/update` à lancer.
 
 ## Décisions structurantes
-_Décisions antérieures au 2026-07-21 (Test 2 `/create_agent`) archivées dans `_contexte/archive_decisions.md`._
-- 2026-07-21 : nouvelle commande `/cherche_meilleure_action` créée (kit uniquement, modèle Opus) — décision utilisateur : sortie = recommandation unique + question de confirmation, jamais de décision tranchée seule par la commande.
-- 2026-07-21 : `AGENTS_REGISTRY.md` créé pour centraliser agents + retex — décision utilisateur : un seul fichier, hors git (paths locaux, repo public MIT), au prix de ne pas partager les retex si le kit s'ouvre un jour à d'autres contributeurs.
-- 2026-07-26 : `/create_agent` réécrite en phases nommées ancrées (au lieu de numéros d'étape) par un agent externe, relue et corrigée. P11/P12/P13 implémentées. Décision utilisateur : ajouter une phase `[AUDIT]` dédiée à l'analyse à froid de la commande elle-même, jamais automatique, Opus imposé.
+_Décisions antérieures au 2026-07-26 (agent `design` jeu_zombies) archivées dans `_contexte/archive_decisions.md`._
 - 2026-07-26 : agent `design` créé dans `jeu_zombies/DESIGN` (design artistique/UX complet du jeu) — cas de conversion d'une zone déjà enregistrée, traité manuellement ; `contexte.md` alimenté avec la stack réelle du projet (Godot 4.5, GDD) plutôt que le stub générique.
 - 2026-07-28 : `CLAUDE.md` (kit + template) enrichi de deux sections — "Tests manuels" (`tests_manuels.md`, chemin relatif générique après refus d'un chemin absolu jeu_zombies-spécifique) et "Déclencheurs de vérification" sous "Honnêteté" (règles mécaniques suite à une affirmation non vérifiée en session sur le contenu de `DEPLOYMENTS.md`). Kit v3.1.
 - 2026-07-30 : `/create_agent` — dossier de l'agent normalisé en MAJUSCULES (création et conversion), alias inchangé (minuscules) — décision utilisateur pour la reconnaissance visuelle dans l'arborescence. Testé en mode création sur l'agent `editeur` (crea_zik, périmètre étendu à `frontend/`/`backend/`). Kit v3.2.
@@ -30,3 +27,5 @@ _Décisions antérieures au 2026-07-21 (Test 2 `/create_agent`) archivées dans 
 - 2026-07-31 : `/init_projet` exécuté sur `jeu_espace` (zone `orchestrateur`) — jeu 3D Godot, orbite terrestre réaliste, 3 agents envisagés (orchestrateur/codeur/design), `AGENTS.md` créé (Codex mentionné pour les assets). Corruption accidentelle (`" pl"` parasite) corrigée dans `create_agent.md` ; rattrapage de commit pour des retros de sessions antérieures (agents notes/narrateur/data, communication) restées non commitées malgré des clôtures précédentes.
 - 2026-07-31 : Agents `dev`/`design` créés dans jeu_espace via `/create_agent` (question groupée périmètre : dev étendu au code Godot racine, design restreint à son dossier). `/create_agent` étape `[SORTIE]` enrichie d'un message presse-papier pour l'agent racine (demande explicite utilisateur, après annulation d'une première approche écrivant directement dans `signals.md` du projet cible). Kit v3.5.
 - 2026-08-01 : `GEMINI.md` intégré à `/init_projet` (Q8) et `/update` (étape 7 étendue), sur le même modèle qu'`AGENTS.md` — gap ouvert depuis le 2026-07-31 résolu. Étape 7 de `/close` (base de connaissances) validée en conditions réelles pour la première fois sur Moulin du Sud (zone tierce). Kit v3.6.
+- 2026-08-02 : `git push` automatique (étape 11bis de `/close`) ajouté en test sur 3 zones avec remote GitHub (kit, `Appli_TSA_SDI_TDAH`, `VisioAide`), hors template. Kit v3.7.
+- 2026-08-04 : `git push` automatique étendu à une 4ème zone, `crea_zik`. Corruption pré-existante de `.claude/commands/doc_sync.md` (frontmatter `a---`) corrigée. Kit v3.8.

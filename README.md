@@ -97,7 +97,7 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit v3.7 : `git push` automatique après le commit de `/close` ajouté en test sur 3 zones (le kit lui-même, `Appli_TSA_SDI_TDAH`, `VisioAide`) — ajouté directement dans chaque `close.md` (bloc "Spécificités projet"), pas dans le template. Décision de garder/écarter et de propager reportée, voir `_contexte/signals.md`.
+Kit v3.8 : `git push` automatique après le commit de `/close` en test sur 4 zones (le kit lui-même, `Appli_TSA_SDI_TDAH`, `VisioAide`, `crea_zik`) — ajouté directement dans chaque `close.md` (bloc "Spécificités projet"), pas dans le template. Décision de garder/écarter et de propager reportée, voir `_contexte/signals.md`.
 
 Kit v3.6 : `GEMINI.md` intégré au workflow `/init_projet` (nouvelle question 8) et `/update` (étape 7 étendue à `GEMINI.md`, en plus d'`AGENTS.md`) — même logique : jamais créé automatiquement, jamais écrasé s'il existe déjà. Nouveau template `templates/GEMINI.md`. Par ailleurs, l'étape 7 de `/close` (base de connaissances) a été validée en conditions réelles pour la première fois, sur une zone tierce (Moulin du Sud) dont la session a produit une décision transversale ajoutée à `DOCUMENTATION/`.
 

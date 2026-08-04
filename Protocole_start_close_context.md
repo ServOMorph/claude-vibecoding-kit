@@ -357,6 +357,12 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 
 # Changelog
 
+## v3.8 — 2026-08-04
+
+**`git push` automatique — extension du test à `crea_zik`**
+- `.claude/commands/close.md` de `crea_zik` (hors dépôt kit) : même ajout que les 3 zones précédentes (allowed-tools + étape complémentaire git push). 4 zones en test au total, décision garder/écarter toujours en attente.
+- Correctif : corruption pré-existante du frontmatter de `.claude/commands/doc_sync.md` (kit) réparée.
+
 ## v3.7 — 2026-08-02
 
 **`git push` automatique après `/close` — en test**
