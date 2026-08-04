@@ -131,7 +131,7 @@ Voir `templates/.claude/commands/start.md`.
 
 # /close [zone]
 
-> **Frontmatter :** le fichier `.claude/commands/close.md` porte `model: sonnet` et `allowed-tools` autorisant `git status/diff/add/commit` — plus de prompts de permission au commit de clôture.
+> **Frontmatter :** le fichier `.claude/commands/close.md` porte `model: sonnet` et `allowed-tools` autorisant `git status/diff/add/commit/push` — plus de prompts de permission au commit ni au push de clôture.
 
 Voir `templates/.claude/commands/close.md`.
 
@@ -356,6 +356,12 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 ---
 
 # Changelog
+
+## v3.9 — 2026-08-04
+
+**`git push` automatique — décision "garder" actée, propagation**
+- `templates/.claude/commands/close.md` et `.claude/commands/close.md` (kit) : `git push` intégré comme étape native (12) de la procédure — retrait de l'ancien hack "Spécificités projet" 11bis. Renumérotation 12→13 (bilan résidus), 13→14 (emoji final).
+- Propagé à 15 projets déployés avec remote git (`close.md` modifié via script one-shot, commité dans les 15, poussé dans 14). `Lieux_Hybrides` (Moulin du Sud) reste en commit local, upstream non configuré sur décision explicite. `SérénIATech_dev` (pas de remote) et `Open_Code_Apprentissage` (chemin introuvable) exclus.
 
 ## v3.8 — 2026-08-04
 

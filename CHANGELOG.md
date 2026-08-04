@@ -3,6 +3,14 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v3.9 — 2026-08-04
+
+### Ajouté
+- `git push` automatique (ex-étape 11bis en test) promu en étape native (12) de la procédure `/close` — décision "garder" actée. Intégré à `templates/.claude/commands/close.md` et `.claude/commands/close.md` du kit.
+
+### Modifié
+- Propagation du push automatique à 15 projets déployés avec remote git (`close.md` modifié, bloc "Spécificités projet"), commité dans les 15, poussé dans 14 (`Lieux_Hybrides` sans upstream configuré, laissé en commit local sur décision explicite).
+
 ## v3.8 — 2026-08-04
 
 ### Ajouté

@@ -1,7 +1,7 @@
 # Signals — claude-vibecoding-kit (MAJ 2026-08-04)
 
 ## Actions ouvertes
-- [P2|ouvert] Test en cours (depuis 2026-08-02) : `git push` automatique après le commit de `/close`, ajouté manuellement (hors template kit) dans `.claude/commands/close.md` de `Appli_TSA_SDI_TDAH`, `VisioAide`, et depuis le 2026-08-04 `crea_zik` — les trois ont un remote GitHub. Trancher d'ici quelques temps : garder ou pas ; si gardé, propager au template `templates/.claude/commands/close.md` et aux autres projets déployés, sauf ceux sans repo git distant (public ou privé). fait quand: décision actée (garder/écarter) et, si retenue, template + `/update` sur les projets concernés. réf: `D:\ServOMorph\Appli_TSA_SDI_TDAH\.claude\commands\close.md`, `D:\ServOMorph\VisioAide\.claude\commands\close.md`, `D:\ServOMorph\crea_zik\.claude\commands\close.md`, `DEPLOYMENTS.md`
+- [P2|ouvert] `DEPLOYMENTS.md` indique `Open_Code_Apprentissage` au chemin `D:\ServOMorph\Open_Code_Apprentissage`, introuvable lors d'un contrôle le 2026-08-04 — seuls `D:\ServOMorph\OpenCode` et `D:\ServOMorph\Test_OpenCode` existent. Probable renommage non répercuté dans `DEPLOYMENTS.md`, pas d'investigation faite au-delà du constat. fait quand: chemin réel confirmé et `DEPLOYMENTS.md` corrigé si besoin. réf: `DEPLOYMENTS.md`
 - [P2|ouvert] Trancher les points ouverts de `note_conception_pause_agents.md` (position exacte dans `/init_projet`, contenu de la question, enchaînement ou non sur `/create_agent`, persistance de l'échange, articulation avec Q5) puis implémenter si retenu. Cadrage initial acté le 2026-07-31 : nouvelle étape dans `/init_projet` (pas `/create_agent`), déclenchement systématique, cette note est un document seul, aucune implémentation faite. fait quand: chaque point tranché, `/init_projet` modifié si retenu. réf: `note_conception_pause_agents.md`
 - [P1|ouvert] Tester en conditions réelles la question AGENTS.md/GEMINI.md de `/update`/`/init_projet` (étape 7 de `/close` déjà validée le 2026-08-01, voir Contexte chaud). fait quand: un `/update`/`/init_projet` réel pose la question AGENTS.md et/ou GEMINI.md et le comportement (jamais automatique, jamais écrasé) est conforme. réf: `.claude/commands/update.md`, `.claude/commands/init_projet.md`
 - [P1|ouvert] Test 3 réel de `/create_agent` en mode conversion, sur la version réécrite (phases ancrées). Aucun test n'a encore exercé cette branche telle qu'écrite : l'agent `design` (jeu_zombies) était un cas de conversion mais traité manuellement, pas via la procédure. fait quand: `/create_agent` lancée sur un alias déjà enregistré et le comportement conforme à `[PREFLIGHT]`/`[ECRITURE]` (pas de modif `zones.md`/`signals.md` existant) vérifié en conditions réelles. réf: `.claude/commands/create_agent.md`, `TEST_CREATE_AGENT_RESULTS.md`
@@ -12,7 +12,9 @@
 - [P2|ouvert] `jeu_zombies` (déployé v2.26, `D:\ServOMorph\jeu_zombies`) en retard sur le kit (v3.6) — n'a pas encore la section "Tests manuels" ni "Déclencheurs de vérification" de `CLAUDE.md`, ni la base de connaissances. Propagation reportée par l'utilisateur le 2026-07-28. fait quand: `/update` lancé sur jeu_zombies et `.claude/CLAUDE.md` du projet reflète le contenu à jour. réf: `DEPLOYMENTS.md`, `.claude/CLAUDE.md`
 
 ## Contexte chaud
-- Test `git push` automatique après `/close` démarré le 2026-08-02, étendu le 2026-08-04 à `crea_zik` : 4 zones en test (le kit lui-même, `Appli_TSA_SDI_TDAH`, `VisioAide`, `crea_zik`, toutes avec remote GitHub). Ajouté directement dans chaque `close.md` (bloc "Spécificités projet"), jamais dans le template. Ce `/close` du kit est la toute première exécution réelle de l'étape 11bis. Kit v3.8.
+- `git push` automatique validé en conditions réelles (push confirmé sur les 4 zones test le 2026-08-04) : décision "garder" actée, intégré comme étape native (12) de `templates/.claude/commands/close.md` et du `close.md` du kit (retrait de l'ancien hack "Spécificités projet" 11bis). Kit v3.9.
+- Propagation faite à 15 projets déployés avec remote git : `close.md` modifié via un script one-shot (non versionné, scratchpad de session), commité dans les 15, poussé dans 14. `Lieux_Hybrides` (racine git de Moulin du Sud) reste en commit local — branche `main` sans upstream configuré, l'utilisateur a explicitement refusé le `--set-upstream` automatique le 2026-08-04. `SérénIATech_dev` (pas de remote) et `Open_Code_Apprentissage` (chemin introuvable, cf. action ouverte) exclus.
+- Le premier script de propagation a corrompu les accents des blocs insérés (bug encodage : lecture du `.ps1` sans BOM interprétée en codepage ANSI par PowerShell 5.1) — détecté et corrigé dans la même session sur les 15 fichiers avant tout commit.
 - Corruption pré-existante corrigée le 2026-08-04 dans `.claude/commands/doc_sync.md` (frontmatter `a---` au lieu de `---`), détectée via `git diff` avant commit — origine inconnue, non introduite cette session.
 - Kit en v3.6 (bump minor). `GEMINI.md` intégré au workflow `/init_projet` (Q8) et `/update` (étape 7 étendue) sur le même modèle qu'`AGENTS.md` : jamais créé automatiquement, jamais écrasé s'il existe déjà. `templates/GEMINI.md` créé. Feature codée mais jamais exercée via un appel réel des commandes (action P1 ouverte, cf. ci-dessus).
 - Base de connaissances `DOCUMENTATION/` (étape 7 de `/close`) validée en conditions réelles pour la première fois le 2026-08-01, sur un `/close` de la zone `moulin_du_sud` (projet externe) : deux entrées ajoutées dans `DOCUMENTATION/DECISIONS_METIER.md`/`INDEX.md` sans que la zone fermée soit `documentation`. Reste ouvert : la question AGENTS.md/GEMINI.md de `/update`/`/init_projet`.
@@ -22,6 +24,27 @@
 
 ## Dernière session (2026-08-04)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
+
+# Session du 2026-08-04 (décision garder + propagation git push à 15 projets)
+
+## Décisions prises
+- `git push` automatique après `/close` : décision "garder" actée (les 4 zones test ont bien poussé). Promu en étape native (12) du template et du `close.md` du kit, retrait de l'ancien hack "Spécificités projet".
+- Propagation faite aux 15 projets déployés avec remote git (sur 17 : `SérénIATech_dev` sans remote, `Open_Code_Apprentissage` introuvable, exclus). Commit dans les 15, push dans 14 — `Lieux_Hybrides` laissé en commit local sur refus explicite de configurer l'upstream.
+
+## Livrables produits ou modifiés
+- `templates/.claude/commands/close.md`, `.claude/commands/close.md` (kit) : étape push native, renumérotation 12→13→14.
+- 15 `close.md` externes modifiés + commités (`robert-ia`, `Jeu pour Nino`, `JeGeekUtile`, `TableauDeBord`, `IA-TSA`, `La Rev`, `IA_V7`, `jeux_vibecoder`, `AutoClaude`, `Projet_de_reve`, `jeu_zombies`, `site_internet_Sereniatech_V2`, `Moulin du Sud`/`Lieux_Hybrides`, `jeu_espace`, `Roberto`).
+- `README.md`, `CHANGELOG.md` (v3.9) mis à jour.
+
+## Hypothèses validées / invalidées
+- VALIDE : le push automatique fonctionne en conditions réelles (4/4 zones test).
+- INVALIDE (corrigée en session) : le script de propagation initial corrompait les accents insérés — bug de lecture d'encodage PowerShell, corrigé avant tout commit.
+
+## Prochaine étape exacte
+Configurer l'upstream de `Lieux_Hybrides` si le push y est souhaité (décision utilisateur en attente) ; vérifier au fil des prochains `/close` de chaque projet propagé que l'étape 12 fonctionne dans leur flux réel.
+
+## Question bloquante pour la session suivante
+Aucune
 
 # Session du 2026-08-04 (propagation git push crea_zik + correctif doc_sync.md)
 

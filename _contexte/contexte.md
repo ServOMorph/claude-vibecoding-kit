@@ -12,14 +12,14 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - **Déploiement** : copie template vers projets via `/init`, tracking dans DEPLOYMENTS.md
 
 ## État actuel
-- Kit v3.8 : `git push` automatique après `/close` (étape 11bis, hors template) en test sur 4 zones — kit, `Appli_TSA_SDI_TDAH`, `VisioAide`, `crea_zik`. Décision garder/écarter toujours en attente.
+- Kit v3.9 : `git push` automatique après `/close` — décision "garder" actée, étape native (12) du template et du `close.md` du kit, propagé à 15 projets déployés (commité dans les 15, poussé dans 14 ; `Lieux_Hybrides` en commit local, upstream non configuré).
 - Étape 7 de `/close` (base de connaissances) validée en conditions réelles pour la première fois, sur Moulin du Sud.
 - `/create_agent` : mode conversion pas encore validé end-to-end (Test 3 à faire).
 - `jeu_zombies` (v2.26 déployé) toujours en retard sur le kit — `/update` à lancer.
+- `DEPLOYMENTS.md` à vérifier pour `Open_Code_Apprentissage` (chemin introuvable, probable renommage).
 
 ## Décisions structurantes
-_Décisions antérieures au 2026-07-26 (agent `design` jeu_zombies) archivées dans `_contexte/archive_decisions.md`._
-- 2026-07-26 : agent `design` créé dans `jeu_zombies/DESIGN` (design artistique/UX complet du jeu) — cas de conversion d'une zone déjà enregistrée, traité manuellement ; `contexte.md` alimenté avec la stack réelle du projet (Godot 4.5, GDD) plutôt que le stub générique.
+_Décisions antérieures au 2026-07-28 (sections Tests manuels/Déclencheurs de vérification de CLAUDE.md) archivées dans `_contexte/archive_decisions.md`._
 - 2026-07-28 : `CLAUDE.md` (kit + template) enrichi de deux sections — "Tests manuels" (`tests_manuels.md`, chemin relatif générique après refus d'un chemin absolu jeu_zombies-spécifique) et "Déclencheurs de vérification" sous "Honnêteté" (règles mécaniques suite à une affirmation non vérifiée en session sur le contenu de `DEPLOYMENTS.md`). Kit v3.1.
 - 2026-07-30 : `/create_agent` — dossier de l'agent normalisé en MAJUSCULES (création et conversion), alias inchangé (minuscules) — décision utilisateur pour la reconnaissance visuelle dans l'arborescence. Testé en mode création sur l'agent `editeur` (crea_zik, périmètre étendu à `frontend/`/`backend/`). Kit v3.2.
 - 2026-07-30 : base de connaissances `DOCUMENTATION/` (pattern progressive disclosure, validé par recherche web) adoptée comme feature générale du kit — d'abord implémentée dans Moulin du Sud (agent `documentation`), puis dans `templates/.claude/commands/close.md` (étape 7 conditionnelle) et `templates/.claude/CLAUDE.md`. `AGENTS.md` introduit en parallèle comme équivalent CLAUDE.md pour agents non-Claude, jamais créé automatiquement (`/init_projet` Q7, `/update` étape 7, toujours sur confirmation). Kit v3.3.
@@ -29,3 +29,4 @@ _Décisions antérieures au 2026-07-26 (agent `design` jeu_zombies) archivées d
 - 2026-08-01 : `GEMINI.md` intégré à `/init_projet` (Q8) et `/update` (étape 7 étendue), sur le même modèle qu'`AGENTS.md` — gap ouvert depuis le 2026-07-31 résolu. Étape 7 de `/close` (base de connaissances) validée en conditions réelles pour la première fois sur Moulin du Sud (zone tierce). Kit v3.6.
 - 2026-08-02 : `git push` automatique (étape 11bis de `/close`) ajouté en test sur 3 zones avec remote GitHub (kit, `Appli_TSA_SDI_TDAH`, `VisioAide`), hors template. Kit v3.7.
 - 2026-08-04 : `git push` automatique étendu à une 4ème zone, `crea_zik`. Corruption pré-existante de `.claude/commands/doc_sync.md` (frontmatter `a---`) corrigée. Kit v3.8.
+- 2026-08-04 : décision "garder" actée pour `git push` automatique après validation réelle sur les 4 zones test. Promu en étape native (12) de `templates/.claude/commands/close.md` et `.claude/commands/close.md` (kit). Propagé à 15 projets déployés avec remote git (commit + push dans 14, `Lieux_Hybrides` en commit local sur décision explicite de ne pas configurer l'upstream). Kit v3.9.
