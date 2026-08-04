@@ -2,7 +2,7 @@
 description: Clôture la session d'une zone — synthèse, mise à jour du contexte, commit
 argument-hint: <zone>
 model: sonnet
-allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git add:*), Bash(git commit:*)
+allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git add:*), Bash(git commit:*), Bash(git push:*)
 ---
 
 # /close <zone>
@@ -119,14 +119,23 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
       survenir avec l'étape 10, mais à vérifier via `git status` après coup) : les inclure dans
       ce même commit, jamais dans un commit séparé.
 
-12. Afficher un bilan des résidus non commités :
+12. Exécuter `git push` :
+    ```bash
+    git push
+    ```
+    Si le projet n'a pas de remote configuré, ignorer cette étape silencieusement. Si le push
+    échoue (pas de remote tracking, conflit, réseau, etc.) : afficher l'erreur telle quelle dans
+    le bilan de l'étape 13, ne pas tenter de résolution automatique (pas de force push, pas de
+    pull/rebase automatique).
+
+13. Afficher un bilan des résidus non commités :
     ```bash
     git status --short
     ```
     S'il reste des fichiers non commités : ajouter à la synthèse finale une ligne
     "résidus non commités : N fichiers". Pas d'action automatique — uniquement rendre visible.
 
-13. Afficher en fin de réponse en grand format : ✌️😎
+14. Afficher en fin de réponse en grand format : ✌️😎
 
 <!-- SPECIFICITES PROJET : DEBUT (préservé par /update, ne pas toucher hors de ce bloc) -->
 <!-- Convention : toute règle liée à une étape précise de la Procédure ci-dessus doit la
