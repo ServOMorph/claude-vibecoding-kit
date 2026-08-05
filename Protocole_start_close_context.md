@@ -357,6 +357,12 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 
 # Changelog
 
+## v3.10 — 2026-08-05
+
+**Correctif propagation `git push` + corruption locale `close.md`**
+- Sur les 18 close.md concernés par le `git push` automatique (15 propagés en v3.9 + 3 zones test antérieures), l'instruction était restée dans le bloc "Spécificités projet" au lieu d'une étape native — corrigée et commitée dans les 18 (push laissé en attente de confirmation).
+- Corruption locale non commitée du `close.md` du kit (étape 11 effacée) détectée et restaurée.
+
 ## v3.9 — 2026-08-04
 
 **`git push` automatique — décision "garder" actée, propagation**

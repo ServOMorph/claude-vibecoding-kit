@@ -1,6 +1,8 @@
-# Signals — claude-vibecoding-kit (MAJ 2026-08-04)
+# Signals — claude-vibecoding-kit (MAJ 2026-08-05)
 
 ## Actions ouvertes
+- [P1|ouvert] Pousser (`git push`) les 18 commits locaux du correctif "étape push en dur dans Spécificités projet" si l'utilisateur confirme — actuellement en commit local uniquement (push non demandé le 2026-08-05). fait quand: `git push` exécuté et confirmé sur les 18 dépôts, ou décision explicite de ne pas pousser. réf: commits locaux `fix(close): étape git push promue en étape native de la procédure` sur robert-ia, Jeu pour Nino, Appli_TSA_SDI_TDAH, VisioAide, crea_zik, JeGeekUtile, TableauDeBord, IA-TSA, La Rev, IA_V7, jeux_vibecoder, AutoClaude, Projet_de_reve, jeu_zombies, site_internet_Sereniatech_V2, Lieux_Hybrides (Moulin du Sud), jeu_espace, Roberto
+- [P2|ouvert] Le correctif du 2026-08-05 a été commité sur la branche courante de chaque dépôt sans vérifier qu'il s'agissait de `main` — `jeu_zombies` (`feat/insertion-designs`) et `Appli_TSA_SDI_TDAH` (`v5.0`) sont sur des branches non-main. À vérifier que ce n'est pas gênant pour la propagation du correctif. fait quand: statut de ces deux branches (merge prévu vers main ou branche de travail durable) clarifié. réf: dépôts `jeu_zombies`, `Appli_TSA_SDI_TDAH`
 - [P2|ouvert] `DEPLOYMENTS.md` indique `Open_Code_Apprentissage` au chemin `D:\ServOMorph\Open_Code_Apprentissage`, introuvable lors d'un contrôle le 2026-08-04 — seuls `D:\ServOMorph\OpenCode` et `D:\ServOMorph\Test_OpenCode` existent. Probable renommage non répercuté dans `DEPLOYMENTS.md`, pas d'investigation faite au-delà du constat. fait quand: chemin réel confirmé et `DEPLOYMENTS.md` corrigé si besoin. réf: `DEPLOYMENTS.md`
 - [P2|ouvert] Trancher les points ouverts de `note_conception_pause_agents.md` (position exacte dans `/init_projet`, contenu de la question, enchaînement ou non sur `/create_agent`, persistance de l'échange, articulation avec Q5) puis implémenter si retenu. Cadrage initial acté le 2026-07-31 : nouvelle étape dans `/init_projet` (pas `/create_agent`), déclenchement systématique, cette note est un document seul, aucune implémentation faite. fait quand: chaque point tranché, `/init_projet` modifié si retenu. réf: `note_conception_pause_agents.md`
 - [P1|ouvert] Tester en conditions réelles la question AGENTS.md/GEMINI.md de `/update`/`/init_projet` (étape 7 de `/close` déjà validée le 2026-08-01, voir Contexte chaud). fait quand: un `/update`/`/init_projet` réel pose la question AGENTS.md et/ou GEMINI.md et le comportement (jamais automatique, jamais écrasé) est conforme. réf: `.claude/commands/update.md`, `.claude/commands/init_projet.md`
@@ -12,6 +14,8 @@
 - [P2|ouvert] `jeu_zombies` (déployé v2.26, `D:\ServOMorph\jeu_zombies`) en retard sur le kit (v3.6) — n'a pas encore la section "Tests manuels" ni "Déclencheurs de vérification" de `CLAUDE.md`, ni la base de connaissances. Propagation reportée par l'utilisateur le 2026-07-28. fait quand: `/update` lancé sur jeu_zombies et `.claude/CLAUDE.md` du projet reflète le contenu à jour. réf: `DEPLOYMENTS.md`, `.claude/CLAUDE.md`
 
 ## Contexte chaud
+- Bug de propagation corrigé le 2026-08-05 : le script one-shot du 2026-08-04 avait inséré l'instruction `git push` dans le bloc "Spécificités projet" des 15 close.md propagés au lieu d'une étape native numérotée comme dans le `close.md` du kit — les 3 zones test antérieures (`Appli_TSA_SDI_TDAH`, `VisioAide`, `crea_zik`) avaient le même défaut. Corrigé sur les 18 fichiers (insertion de l'étape "Exécuter `git push`" juste après le commit, renumérotation des étapes suivantes, bloc "Spécificités projet" revenu au gabarit vide), chacun commité séparément — push non fait (cf. action ouverte P1).
+- Corruption locale non commitée détectée et restaurée le 2026-08-05 dans `.claude/commands/close.md` (kit) : l'étape 11 "Effectuer un commit git" était localement remplacée par un caractère isolé "é" (jamais commitée dans l'historique du dépôt, donc sans impact avant cette session) — restaurée via `git checkout` en tout début de session.
 - `git push` automatique validé en conditions réelles (push confirmé sur les 4 zones test le 2026-08-04) : décision "garder" actée, intégré comme étape native (12) de `templates/.claude/commands/close.md` et du `close.md` du kit (retrait de l'ancien hack "Spécificités projet" 11bis). Kit v3.9.
 - Propagation faite à 15 projets déployés avec remote git : `close.md` modifié via un script one-shot (non versionné, scratchpad de session), commité dans les 15, poussé dans 14. `Lieux_Hybrides` (racine git de Moulin du Sud) reste en commit local — branche `main` sans upstream configuré, l'utilisateur a explicitement refusé le `--set-upstream` automatique le 2026-08-04. `SérénIATech_dev` (pas de remote) et `Open_Code_Apprentissage` (chemin introuvable, cf. action ouverte) exclus.
 - Le premier script de propagation a corrompu les accents des blocs insérés (bug encodage : lecture du `.ps1` sans BOM interprétée en codepage ANSI par PowerShell 5.1) — détecté et corrigé dans la même session sur les 15 fichiers avant tout commit.
@@ -22,8 +26,29 @@
 - `/create_agent` : dossier de l'agent (créé ou converti) normalisé en MAJUSCULES pour la reconnaissance visuelle ; alias de zone toujours en minuscules. Testé en mode création sur plusieurs projets — pas encore testé en mode conversion (renommage d'un dossier existant).
 - `README.md` : corruption d'encodage pré-existante (double UTF-8) — à traiter si gênant.
 
-## Dernière session (2026-08-04)
+## Dernière session (2026-08-05)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
+
+# Session du 2026-08-05 (correctif étape push native sur 18 projets + corruption close.md kit)
+
+## Décisions prises
+- Bug confirmé : sur les 18 close.md où le push automatique avait été activé (15 propagés le 2026-08-04 + 3 zones test antérieures), l'instruction restait dans le bloc "Spécificités projet" au lieu d'être une étape native, contrairement au close.md du kit. Corrigé sur les 18 fichiers, chacun commité isolément (seul close.md stagé, pas les autres fichiers en attente propres à chaque projet).
+- Corruption locale (non commitée, sans impact sur l'historique git) détectée dans `.claude/commands/close.md` du kit — étape 11 remplacée par un caractère isolé "é" — restaurée via `git checkout` avant toute autre action.
+
+## Livrables produits ou modifiés
+- 18 `close.md` externes corrigés et commités (push non fait, en attente confirmation) : robert-ia, Jeu pour Nino, Appli_TSA_SDI_TDAH, VisioAide, crea_zik, JeGeekUtile, TableauDeBord, IA-TSA, La Rev, IA_V7, jeux_vibecoder, AutoClaude, Projet_de_reve, jeu_zombies, site_internet_Sereniatech_V2, Lieux_Hybrides (Moulin du Sud), jeu_espace, Roberto.
+- `.claude/commands/close.md` (kit) : corruption locale restaurée (aucun diff résiduel, rien à commiter dessus).
+- `CHANGELOG.md`, `README.md` : bump v3.10.
+
+## Hypothèses validées / invalidées
+- VALIDE : les 18 fichiers partageaient exactement le même défaut, correction uniforme applicable sans cas particulier.
+- À NOTER (ni validé ni invalidé) : `jeu_zombies` commité sur `feat/insertion-designs`, `Appli_TSA_SDI_TDAH` sur `v5.0` — branches courantes de ces dépôts, non `main`, non modifiées par la session mais à surveiller.
+
+## Prochaine étape exacte
+Pousser les 18 commits locaux si l'utilisateur confirme (action P1 ouverte) ; sinon les laisser en attente.
+
+## Question bloquante pour la session suivante
+Aucune
 
 # Session du 2026-08-04 (décision garder + propagation git push à 15 projets)
 

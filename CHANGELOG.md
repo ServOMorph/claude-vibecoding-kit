@@ -3,6 +3,12 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v3.10 — 2026-08-05
+
+### Corrigé
+- Propagation v3.9 du `git push` automatique : l'instruction était restée dans le bloc "Spécificités projet" des 18 close.md concernés (15 propagés + 3 zones test antérieures) au lieu d'une étape native numérotée comme dans `close.md` du kit. Corrigée et commitée sur les 18 fichiers ; push laissé en attente de confirmation utilisateur.
+- Corruption locale non commitée du `close.md` du kit (étape 11 "Effectuer un commit git" effacée, jamais commitée) détectée et restaurée via `git checkout` en début de session.
+
 ## v3.9 — 2026-08-04
 
 ### Ajouté
