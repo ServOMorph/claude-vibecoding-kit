@@ -357,6 +357,11 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 
 # Changelog
 
+## v3.11 — 2026-08-08
+
+**Vérification et push réel des 18 dépôts en attente**
+- Vérification réelle (fetch + status) au lieu de se fier à l'état déclaré du 2026-08-05 : 13 des 18 dépôts avaient en réalité un commit local jamais poussé — poussés sur confirmation utilisateur. `Lieux_Hybrides` reste sans upstream, décision antérieure assumée.
+
 ## v3.10 — 2026-08-05
 
 **Correctif propagation `git push` + corruption locale `close.md`**

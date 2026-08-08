@@ -3,6 +3,11 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v3.11 — 2026-08-08
+
+### Corrigé
+- Vérification réelle (fetch + status) des 18 dépôts concernés par le correctif v3.10 : contrairement à l'état déclaré, 13 d'entre eux (robert-ia, Jeu pour Nino, JeGeekUtile, TableauDeBord, IA-TSA, La Rev, IA_V7, jeux_vibecoder, AutoClaude, Projet_de_reve, site_internet_Sereniatech_V2, jeu_espace, Roberto) avaient un commit local jamais poussé. Poussés sur confirmation utilisateur. `Lieux_Hybrides` reste sans upstream, décision antérieure assumée.
+
 ## v3.10 — 2026-08-05
 
 ### Corrigé

@@ -97,6 +97,8 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
+Kit v3.11 : vérification réelle (fetch + status) des 18 dépôts concernés par le correctif v3.10, au lieu de se fier à l'état déclaré du 2026-08-05 — 13 d'entre eux avaient en réalité un commit local jamais poussé. Poussés sur confirmation utilisateur, action de propagation close. `Lieux_Hybrides` (Moulin du Sud) reste sans upstream configuré, décision antérieure assumée.
+
 Kit v3.10 : correctif de la propagation v3.9 — l'instruction `git push` était restée dans le bloc "Spécificités projet" des 18 close.md concernés (15 propagés le 2026-08-04 + 3 zones test antérieures) au lieu d'une étape native numérotée comme dans le `close.md` du kit. Corrigée et commitée sur les 18 fichiers (étape "Exécuter `git push`" insérée après le commit, renumérotation, bloc "Spécificités projet" revenu au gabarit vide) ; push laissé en attente de confirmation utilisateur. Corruption locale non commitée du `close.md` du kit (étape 11 effacée) détectée et restaurée en début de session.
 
 Kit v3.9 : `git push` automatique après le commit de `/close` — décision "garder" actée après validation en conditions réelles sur 4 zones test, intégré comme étape native (12) de `templates/.claude/commands/close.md` et du `close.md` du kit. Propagé à 15 projets déployés disposant d'un remote git (bloc "Spécificités projet", script one-shot non versionné) ; commité et poussé dans 14 d'entre eux (`Lieux_Hybrides`/Moulin du Sud reste en commit local, sans upstream configuré, sur décision explicite). `SérénIATech_dev` (pas de remote) et `Open_Code_Apprentissage` (chemin introuvable, probable renommage en `OpenCode`) exclus de la propagation.

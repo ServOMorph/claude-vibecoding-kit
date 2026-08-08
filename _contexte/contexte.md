@@ -12,8 +12,7 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - **Déploiement** : copie template vers projets via `/init`, tracking dans DEPLOYMENTS.md
 
 ## État actuel
-- Kit v3.10 : correctif de la propagation v3.9 — l'étape `git push` était restée dans le bloc "Spécificités projet" des 18 close.md concernés (15 propagés + 3 zones test) au lieu d'une étape native ; corrigée et commitée dans les 18, push en attente de confirmation utilisateur.
-- Corruption locale non commitée du `close.md` du kit restaurée (étape 11 effacée localement, sans trace dans l'historique git).
+- Kit v3.11 : action P1 (push des 18 dépôts) close — vérification réelle du 2026-08-08 a montré que 13 des 18 dépôts n'étaient en réalité pas poussés malgré le commit du 2026-08-05 ; tous poussés cette session. `Lieux_Hybrides` reste sans upstream (décision antérieure assumée).
 - Étape 7 de `/close` (base de connaissances) validée en conditions réelles pour la première fois, sur Moulin du Sud.
 - `/create_agent` : mode conversion pas encore validé end-to-end (Test 3 à faire).
 - `jeu_zombies` (v2.26 déployé) toujours en retard sur le kit — `/update` à lancer.
@@ -31,3 +30,4 @@ _Décisions antérieures au 2026-07-30 (`/create_agent` MAJUSCULES) archivées d
 - 2026-08-04 : `git push` automatique étendu à une 4ème zone, `crea_zik`. Corruption pré-existante de `.claude/commands/doc_sync.md` (frontmatter `a---`) corrigée. Kit v3.8.
 - 2026-08-04 : décision "garder" actée pour `git push` automatique après validation réelle sur les 4 zones test. Promu en étape native (12) de `templates/.claude/commands/close.md` et `.claude/commands/close.md` (kit). Propagé à 15 projets déployés avec remote git (commit + push dans 14, `Lieux_Hybrides` en commit local sur décision explicite de ne pas configurer l'upstream). Kit v3.9.
 - 2026-08-05 : correctif de la propagation v3.9 — l'instruction `git push` était restée dans le bloc "Spécificités projet" des 18 close.md concernés au lieu d'une étape native, corrigée et commitée dans les 18 (push en attente). Corruption locale non commitée du `close.md` du kit restaurée. Kit v3.10.
+- 2026-08-08 : vérification réelle (fetch + status) des 18 dépôts + le kit — 13 dépôts avaient un commit local jamais poussé malgré l'apparence de clôture du 2026-08-05. Poussés sur confirmation utilisateur, action P1 close. `Lieux_Hybrides` reste sans upstream, assumé. Kit v3.11.
