@@ -1,6 +1,7 @@
-# Signals — claude-vibecoding-kit (MAJ 2026-08-08)
+# Signals — claude-vibecoding-kit (MAJ 2026-08-10)
 
 ## Actions ouvertes
+- [P2|ouvert] Trancher l'ajout d'une phase de code review dans le modèle de roadmap (`CLAUDE.md`, section Roadmap). Discussion ouverte le 2026-08-10 : proposition initiale "gate systématique en fin de phase" écartée par l'utilisateur (coût token trop élevé sur phases triviales), reformulée en "seuil conditionnel" (revue déclenchée seulement au-delà d'une taille de diff, sinon skip annoncé explicitement) + "tri des findings par sévérité" (bloquant = correction immédiate, mineur = reporté en action `signals.md`). Aucune validation finale, aucune modification de fichier faite. fait quand: utilisateur valide une combinaison, `.claude/CLAUDE.md` et `templates/.claude/CLAUDE.md` modifiés en miroir. réf: cette session (pas de fichier écrit)
 - [P2|ouvert] Le correctif du 2026-08-05 a été commité sur la branche courante de chaque dépôt sans vérifier qu'il s'agissait de `main` — `jeu_zombies` (`feat/insertion-designs`) et `Appli_TSA_SDI_TDAH` (`v5.1`, était `v5.0` le 2026-08-05) sont toujours sur des branches non-main ; les deux sont néanmoins synchronisés avec leur remote (vérifié le 2026-08-08). À vérifier que ce n'est pas gênant pour la propagation du correctif. fait quand: statut de ces deux branches (merge prévu vers main ou branche de travail durable) clarifié. réf: dépôts `jeu_zombies`, `Appli_TSA_SDI_TDAH`
 - [P2|ouvert] `DEPLOYMENTS.md` indique `Open_Code_Apprentissage` au chemin `D:\ServOMorph\Open_Code_Apprentissage`, introuvable lors d'un contrôle le 2026-08-04 — seuls `D:\ServOMorph\OpenCode` et `D:\ServOMorph\Test_OpenCode` existent. Probable renommage non répercuté dans `DEPLOYMENTS.md`, pas d'investigation faite au-delà du constat. fait quand: chemin réel confirmé et `DEPLOYMENTS.md` corrigé si besoin. réf: `DEPLOYMENTS.md`
 - [P2|ouvert] Trancher les points ouverts de `note_conception_pause_agents.md` (position exacte dans `/init_projet`, contenu de la question, enchaînement ou non sur `/create_agent`, persistance de l'échange, articulation avec Q5) puis implémenter si retenu. Cadrage initial acté le 2026-07-31 : nouvelle étape dans `/init_projet` (pas `/create_agent`), déclenchement systématique, cette note est un document seul, aucune implémentation faite. fait quand: chaque point tranché, `/init_projet` modifié si retenu. réf: `note_conception_pause_agents.md`
@@ -24,8 +25,26 @@
 - `/create_agent` : dossier de l'agent (créé ou converti) normalisé en MAJUSCULES pour la reconnaissance visuelle ; alias de zone toujours en minuscules. Testé en mode création sur plusieurs projets — pas encore testé en mode conversion (renommage d'un dossier existant).
 - `README.md` : corruption d'encodage pré-existante (double UTF-8) — à traiter si gênant.
 
-## Dernière session (2026-08-08)
+## Dernière session (2026-08-10)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
+
+# Session du 2026-08-10 (discussion code review dans les roadmaps, sans conclusion)
+
+## Décisions prises
+- Aucune décision actée. Discussion exploratoire sur l'ajout d'une phase de code review dans le modèle de roadmap, interrompue avant validation finale.
+
+## Livrables produits ou modifiés
+- Aucun (échange uniquement, aucun fichier de commande/template modifié).
+
+## Hypothèses validées / invalidées
+- INVALIDE (reconsidérée en séance) : ma proposition initiale de gate systématique en fin de phase — jugée trop coûteuse en tokens sur les phases triviales par l'utilisateur, remplacée par une proposition de seuil conditionnel.
+- EN ATTENTE : validation utilisateur de "seuil conditionnel + tri des findings par sévérité" avant toute modification de `CLAUDE.md`.
+
+## Prochaine étape exacte
+Si validation : rédiger la modification de la section Roadmap dans `.claude/CLAUDE.md` et `templates/.claude/CLAUDE.md` (miroir), définissant le seuil de déclenchement et la règle de tri des findings.
+
+## Question bloquante pour la session suivante
+L'utilisateur valide-t-il "seuil conditionnel + tri par sévérité" pour la revue de code dans les roadmaps, ou souhaite-t-il une autre combinaison ?
 
 # Session du 2026-08-08 (vérification et push réel des 18 dépôts en attente)
 
