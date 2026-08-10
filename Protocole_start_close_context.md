@@ -357,6 +357,12 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 
 # Changelog
 
+## v3.12 — 2026-08-10
+
+**Agent review (jeu_zombies) + expérimentation "synthèse agents pour l'orchestrateur"**
+- Agent `review` créé dans `jeu_zombies` (revue de code continue) via `/create_agent`.
+- Feature "synthèse agents pour l'orchestrateur" conçue et implémentée en expérimentation, limitée à `jeu_zombies` (hors dépôt kit) : chaque zone-agent écrit une synthèse à `/close` dans un fichier partagé, la zone racine la lit à `/start` et propose des actions. Suivie par `roadmap_synthese_agents.md` (jeu_zombies) ; aucun template du kit modifié, propagation conditionnée au bilan de sa Phase 3.
+
 ## v3.11 — 2026-08-08
 
 **Vérification et push réel des 18 dépôts en attente**

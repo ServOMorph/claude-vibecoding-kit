@@ -3,6 +3,12 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v3.12 — 2026-08-10
+
+### Ajouté
+- Agent `review` créé dans `jeu_zombies` (revue de code continue, sans production de code) via `/create_agent`.
+- Feature "synthèse agents pour l'orchestrateur" conçue et implémentée en expérimentation, limitée au projet `jeu_zombies` (hors dépôt kit) : chaque zone-agent écrit une synthèse à `/close` dans un fichier partagé, la zone racine la lit à `/start` et propose des actions. Suivie par `roadmap_synthese_agents.md` (jeu_zombies) ; propagation au kit conditionnée au bilan de sa Phase 3.
+
 ## v3.11 — 2026-08-08
 
 ### Corrigé

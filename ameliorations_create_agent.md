@@ -23,6 +23,14 @@ Sortie concrète de l'étape [ECRITURE] de la commande et des rétrospectives de
 
 ## Historique
 
+## 2026-08-10 — agent review (D:\ServOMorph\jeu_zombies)
+
+Création de l'agent REVIEW (revue de code continue, sans production de code), mode création simple,
+alias `review` absent de `zones.md`. `{{ALIAS_RACINE}}` correct (première ligne de `zones.md` =
+`jeu_zombies`, vraie racine). `start.md` de jeu_zombies charge déjà `agent_role.md` (pas de warning).
+Périmètre par défaut (REVIEW/ uniquement, pas d'extension). Stack filtrée sur le rôle : Godot 4.5,
+GDScript typé, `check.py` (QA), dossier `tests/`, roadmaps actives en référence.
+
 ## 2026-08-02 — agent opencode (D:\ServOMorph\Roberto)
 
 Création de l'agent OPENCODE (orchestrer les tâches déléguées à l'outil OpenCode), mode création

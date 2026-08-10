@@ -1,6 +1,7 @@
 # Signals — claude-vibecoding-kit (MAJ 2026-08-10)
 
 ## Actions ouvertes
+- [P2|ouvert] Expérimentation "synthèse agents pour l'orchestrateur" (chaque zone-agent écrit sa synthèse à `/close` dans un fichier partagé, la zone racine la lit à `/start` et propose des actions) implémentée uniquement dans `jeu_zombies` (hors dépôt kit) — `close.md`/`start.md`/`agent_role.md` de ce projet modifiés localement, roadmap dédiée créée. Pas encore testée en conditions réelles (Phase 2 de sa roadmap), pas propagée au kit. fait quand: bilan de Phase 3 de `roadmap_synthese_agents.md` (jeu_zombies) tranché (retenue → propager au kit, écartée → documenter pourquoi). réf: `D:\ServOMorph\jeu_zombies\roadmap_synthese_agents.md`
 - [P2|ouvert] Trancher l'ajout d'une phase de code review dans le modèle de roadmap (`CLAUDE.md`, section Roadmap). Discussion ouverte le 2026-08-10 : proposition initiale "gate systématique en fin de phase" écartée par l'utilisateur (coût token trop élevé sur phases triviales), reformulée en "seuil conditionnel" (revue déclenchée seulement au-delà d'une taille de diff, sinon skip annoncé explicitement) + "tri des findings par sévérité" (bloquant = correction immédiate, mineur = reporté en action `signals.md`). Aucune validation finale, aucune modification de fichier faite. fait quand: utilisateur valide une combinaison, `.claude/CLAUDE.md` et `templates/.claude/CLAUDE.md` modifiés en miroir. réf: cette session (pas de fichier écrit)
 - [P2|ouvert] Le correctif du 2026-08-05 a été commité sur la branche courante de chaque dépôt sans vérifier qu'il s'agissait de `main` — `jeu_zombies` (`feat/insertion-designs`) et `Appli_TSA_SDI_TDAH` (`v5.1`, était `v5.0` le 2026-08-05) sont toujours sur des branches non-main ; les deux sont néanmoins synchronisés avec leur remote (vérifié le 2026-08-08). À vérifier que ce n'est pas gênant pour la propagation du correctif. fait quand: statut de ces deux branches (merge prévu vers main ou branche de travail durable) clarifié. réf: dépôts `jeu_zombies`, `Appli_TSA_SDI_TDAH`
 - [P2|ouvert] `DEPLOYMENTS.md` indique `Open_Code_Apprentissage` au chemin `D:\ServOMorph\Open_Code_Apprentissage`, introuvable lors d'un contrôle le 2026-08-04 — seuls `D:\ServOMorph\OpenCode` et `D:\ServOMorph\Test_OpenCode` existent. Probable renommage non répercuté dans `DEPLOYMENTS.md`, pas d'investigation faite au-delà du constat. fait quand: chemin réel confirmé et `DEPLOYMENTS.md` corrigé si besoin. réf: `DEPLOYMENTS.md`
@@ -14,19 +15,31 @@
 - [P2|ouvert] `jeu_zombies` (déployé v2.26, `D:\ServOMorph\jeu_zombies`) en retard sur le kit (v3.6) — n'a pas encore la section "Tests manuels" ni "Déclencheurs de vérification" de `CLAUDE.md`, ni la base de connaissances. Propagation reportée par l'utilisateur le 2026-07-28. fait quand: `/update` lancé sur jeu_zombies et `.claude/CLAUDE.md` du projet reflète le contenu à jour. réf: `DEPLOYMENTS.md`, `.claude/CLAUDE.md`
 
 ## Contexte chaud
-- Vérification réelle du 2026-08-08 (au lieu de se fier à `signals.md` du 2026-08-05) : sur les 18 dépôts + le kit, seuls `VisioAide`, `crea_zik`, `Appli_TSA_SDI_TDAH`, `jeu_zombies` et le kit étaient déjà poussés. Les 13 autres (robert-ia, Jeu pour Nino, JeGeekUtile, TableauDeBord, IA-TSA, La Rev, IA_V7, jeux_vibecoder, AutoClaude, Projet_de_reve, site_internet_Sereniatech_V2, jeu_espace, Roberto) avaient chacun 1 commit local en avance sur leur remote — poussés cette session, tous synchronisés. `Lieux_Hybrides` reste sans upstream configuré (décision explicite antérieure de ne pas l'auto-configurer, cf. session 2026-08-04) — action considérée close, pas de relance sans nouvelle demande utilisateur.
-- `git push` automatique validé en conditions réelles (push confirmé sur les 4 zones test le 2026-08-04) : décision "garder" actée, intégré comme étape native (12) de `templates/.claude/commands/close.md` et du `close.md` du kit (retrait de l'ancien hack "Spécificités projet" 11bis). Kit v3.9.
-- Propagation faite à 15 projets déployés avec remote git : `close.md` modifié via un script one-shot (non versionné, scratchpad de session), commité dans les 15, poussé dans 14. `Lieux_Hybrides` (racine git de Moulin du Sud) reste en commit local — branche `main` sans upstream configuré, l'utilisateur a explicitement refusé le `--set-upstream` automatique le 2026-08-04. `SérénIATech_dev` (pas de remote) et `Open_Code_Apprentissage` (chemin introuvable, cf. action ouverte) exclus.
-- Le premier script de propagation a corrompu les accents des blocs insérés (bug encodage : lecture du `.ps1` sans BOM interprétée en codepage ANSI par PowerShell 5.1) — détecté et corrigé dans la même session sur les 15 fichiers avant tout commit.
-- Corruption pré-existante corrigée le 2026-08-04 dans `.claude/commands/doc_sync.md` (frontmatter `a---` au lieu de `---`), détectée via `git diff` avant commit — origine inconnue, non introduite cette session.
-- Kit en v3.6 (bump minor). `GEMINI.md` intégré au workflow `/init_projet` (Q8) et `/update` (étape 7 étendue) sur le même modèle qu'`AGENTS.md` : jamais créé automatiquement, jamais écrasé s'il existe déjà. `templates/GEMINI.md` créé. Feature codée mais jamais exercée via un appel réel des commandes (action P1 ouverte, cf. ci-dessus).
-- Base de connaissances `DOCUMENTATION/` (étape 7 de `/close`) validée en conditions réelles pour la première fois le 2026-08-01, sur un `/close` de la zone `moulin_du_sud` (projet externe) : deux entrées ajoutées dans `DOCUMENTATION/DECISIONS_METIER.md`/`INDEX.md` sans que la zone fermée soit `documentation`. Reste ouvert : la question AGENTS.md/GEMINI.md de `/update`/`/init_projet`.
-- `AGENTS.md` introduit comme équivalent `CLAUDE.md` pour agents non-Claude (Codex, ChatGPT, Gemini) — jamais créé automatiquement, toujours sur confirmation explicite (`/init_projet` Q7, `/update` étape 7), jamais écrasé s'il existe déjà.
-- `/create_agent` : dossier de l'agent (créé ou converti) normalisé en MAJUSCULES pour la reconnaissance visuelle ; alias de zone toujours en minuscules. Testé en mode création sur plusieurs projets — pas encore testé en mode conversion (renommage d'un dossier existant).
+- Agent `review` créé dans `jeu_zombies` via `/create_agent` (mode création, rôle : revue de code continue, sans production de code, périmètre par défaut `REVIEW/` uniquement).
 - `README.md` : corruption d'encodage pré-existante (double UTF-8) — à traiter si gênant.
 
 ## Dernière session (2026-08-10)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
+
+# Session du 2026-08-10 (agent review + expérimentation synthèse agents)
+
+## Décisions prises
+- Agent `review` créé dans `jeu_zombies` via `/create_agent` (rôle : revue de code continue, périmètre par défaut).
+- Feature "synthèse agents pour l'orchestrateur" conçue et implémentée en expérimentation, limitée à `jeu_zombies` : les zones-agents écrivent une synthèse à `/close` dans un fichier partagé, la zone racine la lit à `/start` et propose des actions. Propagation au kit explicitement différée à un bilan positif (Phase 3 de sa roadmap dédiée).
+
+## Livrables produits ou modifiés
+- `ameliorations_create_agent.md` : entrée agent `review` ajoutée.
+- `AGENTS_REGISTRY.md` (hors git) : entrée `review` ajoutée.
+- Hors dépôt kit (`jeu_zombies`) : `REVIEW/agent_role.md`, `REVIEW/_contexte/{signals,contexte}.md`, `_contexte/synthese_agents.md`, `roadmap_synthese_agents.md` créés ; `.claude/zones.md` (ligne review), `.claude/commands/close.md` (étape 7 + renumérotation), `.claude/commands/start.md` (étape 4c), `REVIEW/agent_role.md`, `DESIGN/agent_role.md` (exception de périmètre), `_contexte/signals.md` modifiés.
+
+## Hypothèses validées / invalidées
+- EN ATTENTE : la feature "synthèse agents" n'a pas encore tourné en conditions réelles (Phase 2 de `roadmap_synthese_agents.md`, jeu_zombies) — aucune validation empirique à ce stade.
+
+## Prochaine étape exacte
+Sur jeu_zombies : exécuter Phase 2 de `roadmap_synthese_agents.md` (`/close review`, `/close design`, `/start` racine réels). Sur le kit : décider la propagation après le bilan de Phase 3.
+
+## Question bloquante pour la session suivante
+Aucune.
 
 # Session du 2026-08-10 (discussion code review dans les roadmaps, sans conclusion)
 
