@@ -1,6 +1,7 @@
-# Signals — claude-vibecoding-kit (MAJ 2026-08-10)
+# Signals — claude-vibecoding-kit (MAJ 2026-08-11)
 
 ## Actions ouvertes
+- [P2|ouvert] Valider ou invalider la commande locale `/create_agent` de `jeu_espace` (permet à l'orchestrateur de créer des agents lui-même, sans passer par le kit — cf. `D:\ServOMorph\jeu_espace\.claude\commands\create_agent.md`). Créée le 2026-08-11, jamais testée en conditions réelles à ce stade. fait quand: retour d'expérience après usage réel, décision garder/écarter/propager au kit actée (échéance indicative ~2026-08-25). réf: `D:\ServOMorph\jeu_espace\.claude\commands\create_agent.md`
 - [P2|ouvert] Expérimentation "synthèse agents pour l'orchestrateur" (chaque zone-agent écrit sa synthèse à `/close` dans un fichier partagé, la zone racine la lit à `/start` et propose des actions) implémentée uniquement dans `jeu_zombies` (hors dépôt kit) — `close.md`/`start.md`/`agent_role.md` de ce projet modifiés localement, roadmap dédiée créée. Pas encore testée en conditions réelles (Phase 2 de sa roadmap), pas propagée au kit. fait quand: bilan de Phase 3 de `roadmap_synthese_agents.md` (jeu_zombies) tranché (retenue → propager au kit, écartée → documenter pourquoi). réf: `D:\ServOMorph\jeu_zombies\roadmap_synthese_agents.md`
 - [P2|ouvert] Trancher l'ajout d'une phase de code review dans le modèle de roadmap (`CLAUDE.md`, section Roadmap). Discussion ouverte le 2026-08-10 : proposition initiale "gate systématique en fin de phase" écartée par l'utilisateur (coût token trop élevé sur phases triviales), reformulée en "seuil conditionnel" (revue déclenchée seulement au-delà d'une taille de diff, sinon skip annoncé explicitement) + "tri des findings par sévérité" (bloquant = correction immédiate, mineur = reporté en action `signals.md`). Aucune validation finale, aucune modification de fichier faite. fait quand: utilisateur valide une combinaison, `.claude/CLAUDE.md` et `templates/.claude/CLAUDE.md` modifiés en miroir. réf: cette session (pas de fichier écrit)
 - [P2|ouvert] Le correctif du 2026-08-05 a été commité sur la branche courante de chaque dépôt sans vérifier qu'il s'agissait de `main` — `jeu_zombies` (`feat/insertion-designs`) et `Appli_TSA_SDI_TDAH` (`v5.1`, était `v5.0` le 2026-08-05) sont toujours sur des branches non-main ; les deux sont néanmoins synchronisés avec leur remote (vérifié le 2026-08-08). À vérifier que ce n'est pas gênant pour la propagation du correctif. fait quand: statut de ces deux branches (merge prévu vers main ou branche de travail durable) clarifié. réf: dépôts `jeu_zombies`, `Appli_TSA_SDI_TDAH`
@@ -18,8 +19,28 @@
 - Agent `review` créé dans `jeu_zombies` via `/create_agent` (mode création, rôle : revue de code continue, sans production de code, périmètre par défaut `REVIEW/` uniquement).
 - `README.md` : corruption d'encodage pré-existante (double UTF-8) — à traiter si gênant.
 
-## Dernière session (2026-08-10)
+## Dernière session (2026-08-11)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
+
+# Session du 2026-08-11 (commande locale /create_agent pour jeu_espace)
+
+## Décisions prises
+- Nouvelle commande locale `/create_agent` créée dans `jeu_espace` (projet externe) : permet à l'orchestrateur (zone racine) de créer lui-même des agents dans son propre projet, sans passer par le kit. Copie autonome (templates embarqués localement), inspirée de `/create_agent` du kit mais adaptée : pas d'argument chemin projet cible, pas d'écriture dans les fichiers de bookkeeping du kit (`AGENTS_REGISTRY.md`, `ameliorations_create_agent.md`), pas de phase `[AUDIT]`.
+- Portée limitée à un test isolé sur `jeu_espace` — aucun template du kit modifié, propagation à décider après retour d'expérience.
+- Rappel de validation à échéance ~2026-08-25 ajouté aux actions ouvertes du kit, sur demande explicite.
+
+## Livrables produits ou modifiés
+- Hors dépôt kit (`jeu_espace`) : `.claude/commands/create_agent.md`, `.claude/templates/agent_role_TEMPLATE.md`, `.claude/templates/_contexte/signals.md`, `.claude/templates/_contexte/contexte.md` créés.
+- `_contexte/signals.md` (kit) : action de rappel de validation ajoutée.
+
+## Hypothèses validées / invalidées
+- EN ATTENTE : la commande n'a jamais tourné en conditions réelles — aucun agent créé via ce flux à ce stade.
+
+## Prochaine étape exacte
+Lancer `/create_agent <dossier> [rôle]` réellement depuis `jeu_espace` pour valider le flux ; trancher garder/écarter/propager au kit d'ici ~2026-08-25.
+
+## Question bloquante pour la session suivante
+Aucune.
 
 # Session du 2026-08-10 (agent review + expérimentation synthèse agents)
 

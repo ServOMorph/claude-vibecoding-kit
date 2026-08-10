@@ -23,6 +23,15 @@ Sortie concrète de l'étape [ECRITURE] de la commande et des rétrospectives de
 
 ## Historique
 
+## 2026-08-10 — agent jeux (D:\ServOMorph\robert-ia)
+
+Création de l'agent JEUX (créer des jeux vidéo vintage), mode création simple, alias `jeux` absent
+de `zones.md`. `{{ALIAS_RACINE}}` correct (première ligne = `robert-ia`, vraie racine). `start.md`
+charge déjà `agent_role.md` (pas de warning). Périmètre par défaut (JEUX/ uniquement). Cas notable :
+rôle sans rapport avec la vocation du projet parent (assistant conversationnel air-gap, aucune stack
+jeu vidéo) — signalé explicitement à l'utilisateur avant écriture, confirmation obtenue. STACK non
+inventée, repli sur "hérite de la stack du projet parent" avec la mention de l'absence de rapport.
+
 ## 2026-08-10 — agent review (D:\ServOMorph\jeu_zombies)
 
 Création de l'agent REVIEW (revue de code continue, sans production de code), mode création simple,

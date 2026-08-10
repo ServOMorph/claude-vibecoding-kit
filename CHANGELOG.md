@@ -3,6 +3,11 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v3.13 — 2026-08-11
+
+### Ajouté
+- Commande locale `/create_agent` créée dans `jeu_espace` (hors dépôt kit) : donne à l'orchestrateur (zone racine) la capacité de créer lui-même des agents dans son projet, sans passer par le kit. Copie autonome — templates `agent_role_TEMPLATE.md` et `_contexte/` embarqués localement — sans écriture dans les fichiers de bookkeeping du kit (`AGENTS_REGISTRY.md`, `ameliorations_create_agent.md`) ni phase `[AUDIT]`. Expérimentation isolée à `jeu_espace`, aucun template du kit modifié, jamais testée en conditions réelles.
+
 ## v3.12 — 2026-08-10
 
 ### Ajouté
