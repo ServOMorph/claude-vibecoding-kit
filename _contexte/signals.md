@@ -1,6 +1,7 @@
 # Signals — claude-vibecoding-kit (MAJ 2026-08-12)
 
 ## Actions ouvertes
+- [P1|ouvert] Implémenter et valider le pilote de `roadmap_messages_zones.md` (système de communication kit → zone, 2 niveaux : `urgent.md` vérifié via `CLAUDE.md` avant action significative, `messages.md` lu à `/start`, format compact `[AAAA-MM-JJ] <message>`) — design validé par l'utilisateur, déploiement décidé en pilote isolé sur Roberto2 (`D:\ServOMorph\Roberto2`, alias `roberto2`) avant toute modification des templates du kit. Aucune implémentation faite (Phase 1 non commencée). fait quand: Phase 1 (blocs "Spécificités projet" dans `start.md`/`CLAUDE.md` de Roberto2) implémentée et testée à blanc, Phase 2 validée en conditions réelles, décision garder/ajuster/écarter actée. réf: `roadmap_messages_zones.md`
 - [P2|ouvert] Valider ou invalider la commande locale `/create_agent` de `jeu_espace` (permet à l'orchestrateur de créer des agents lui-même, sans passer par le kit — cf. `D:\ServOMorph\jeu_espace\.claude\commands\create_agent.md`). Créée le 2026-08-11, jamais testée en conditions réelles à ce stade. fait quand: retour d'expérience après usage réel, décision garder/écarter/propager au kit actée (échéance indicative ~2026-08-25). réf: `D:\ServOMorph\jeu_espace\.claude\commands\create_agent.md`
 - [P2|ouvert] Expérimentation "synthèse agents pour l'orchestrateur" (chaque zone-agent écrit sa synthèse à `/close` dans un fichier partagé, la zone racine la lit à `/start` et propose des actions) implémentée uniquement dans `jeu_zombies` (hors dépôt kit) — `close.md`/`start.md`/`agent_role.md` de ce projet modifiés localement, roadmap dédiée créée. Pas encore testée en conditions réelles (Phase 2 de sa roadmap), pas propagée au kit. fait quand: bilan de Phase 3 de `roadmap_synthese_agents.md` (jeu_zombies) tranché (retenue → propager au kit, écartée → documenter pourquoi). réf: `D:\ServOMorph\jeu_zombies\roadmap_synthese_agents.md`
 - [P2|ouvert] Trancher l'ajout d'une phase de code review dans le modèle de roadmap (`CLAUDE.md`, section Roadmap). Discussion ouverte le 2026-08-10 : proposition initiale "gate systématique en fin de phase" écartée par l'utilisateur (coût token trop élevé sur phases triviales), reformulée en "seuil conditionnel" (revue déclenchée seulement au-delà d'une taille de diff, sinon skip annoncé explicitement) + "tri des findings par sévérité" (bloquant = correction immédiate, mineur = reporté en action `signals.md`). Aucune validation finale, aucune modification de fichier faite. fait quand: utilisateur valide une combinaison, `.claude/CLAUDE.md` et `templates/.claude/CLAUDE.md` modifiés en miroir. réf: cette session (pas de fichier écrit)
@@ -21,6 +22,26 @@
 
 ## Dernière session (2026-08-12)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
+
+# Session du 2026-08-12 (conception système de communication kit → zone)
+
+## Décisions prises
+- Système de communication kit → zone conçu en 2 niveaux : `urgent.md` (vérifié via une instruction `CLAUDE.md`, avant toute action significative — écriture, modif, commit) et `messages.md` (lu à `/start`, priorité avant `signals.md`). Format compact commun : `[AAAA-MM-JJ] <message>`.
+- Sens unique kit → projet cible, distinct de l'expérimentation "synthèse agents" (jeu_zombies) qui va dans l'autre sens.
+- Déploiement en pilote isolé sur Roberto2 (bloc "Spécificités projet") avant toute modification des templates du kit — décision explicite de l'utilisateur, propagation différée à la validation.
+
+## Livrables produits ou modifiés
+- `roadmap_messages_zones.md` (nouveau, racine du kit) : cadrage (2 niveaux, format, mécanisme, risque de version non à jour) + 3 phases (pilote Roberto2, validation réelle, déploiement kit).
+- `_contexte/contexte.md`, `_contexte/archive_decisions.md` : purge des décisions structurantes (>10 entrées), 5 entrées archivées.
+
+## Hypothèses validées / invalidées
+- EN ATTENTE : aucune implémentation faite (Phase 1 non commencée), le mécanisme n'a jamais tourné.
+
+## Prochaine étape exacte
+Implémenter Phase 1 dans Roberto2 : blocs "Spécificités projet" de `D:\ServOMorph\Roberto2\.claude\commands\start.md` (lecture/purge `messages.md`) et `.claude\CLAUDE.md` (vérification `urgent.md`), test à blanc.
+
+## Question bloquante pour la session suivante
+Aucune
 
 # Session du 2026-08-12 (propagation create_memory.md — clôture a posteriori après /clear accidentel)
 

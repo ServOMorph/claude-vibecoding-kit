@@ -1,5 +1,13 @@
 # Archive des décisions — claude-vibecoding-kit
 
+## Décisions archivées le 2026-08-12 (session conception messages kit→zone)
+
+- 2026-07-31 : `/init_projet` exécuté sur Open_Code_Apprentissage (zone `orchestrateur`) avec reformulation + questions préalables demandées explicitement par l'utilisateur avant tout lancement. 3 agents validés par échange (notes, NARRATEUR, data) avant toute création. Gap découvert : `/init_projet` ne gère pas `GEMINI.md` (créé manuellement sur demande).
+- 2026-07-31 : `/init_projet` exécuté sur `jeu_espace` (zone `orchestrateur`) — jeu 3D Godot, `AGENTS.md` créé. Corruption accidentelle corrigée dans `create_agent.md` ; rattrapage de commits de sessions antérieures restées non commitées.
+- 2026-07-31 : Agents `dev`/`design` créés dans jeu_espace via `/create_agent`. `/create_agent` étape `[SORTIE]` enrichie d'un message presse-papier pour l'agent racine. Kit v3.5.
+- 2026-08-01 : `GEMINI.md` intégré à `/init_projet` (Q8) et `/update` (étape 7 étendue), sur le même modèle qu'`AGENTS.md`. Étape 7 de `/close` (base de connaissances) validée en conditions réelles pour la première fois sur Moulin du Sud. Kit v3.6.
+- 2026-08-02 : `git push` automatique (étape 11bis de `/close`) ajouté en test sur 3 zones avec remote GitHub (kit, `Appli_TSA_SDI_TDAH`, `VisioAide`), hors template. Kit v3.7.
+
 ## Décisions archivées le 2026-08-12 (session sauvegarde automatique DEPLOYMENTS.md)
 
 - 2026-07-30 : `/create_agent` — dossier de l'agent normalisé en MAJUSCULES (création et conversion), alias inchangé (minuscules) — décision utilisateur pour la reconnaissance visuelle dans l'arborescence. Testé en mode création sur l'agent `editeur` (crea_zik, périmètre étendu à `frontend/`/`backend/`). Kit v3.2.
