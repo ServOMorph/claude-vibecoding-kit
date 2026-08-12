@@ -56,6 +56,7 @@ claude-vibecoding-kit/
 ├── CHANGELOG.md                          # historique des versions
 ├── DEPLOYMENTS.md                        # registre des projets initialisés (ignoré par git)
 ├── AGENTS_REGISTRY.md                    # registre des agents créés (ignoré par git)
+├── backup_file.py                        # sauvegarde horodatée d'un fichier vers Google Drive (rclone)
 ├── tests/                                # suite unittest du lanceur Ollama
 ├── base_connaissances/                   # audit des projets déployés (index, fiches, analyse, propositions)
 ├── _docs/                                # documentation générée (ex. vulgarisation de roadmaps)
@@ -96,6 +97,8 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 **Aucune dépendance externe Python.** Le lanceur Ollama utilise uniquement la bibliothèque standard (`urllib`, `json`, `os`, `sys`). Aucun `requirements.txt` nécessaire.
 
 ## État actuel
+
+Kit v3.14 : sauvegarde automatique de `DEPLOYMENTS.md` vers Google Drive intégrée à `/close` du kit (étape 12bis, optionnelle, confirmation utilisateur requise) — script `backup_file.py` (rclone `copyto`, réutilise la config Google Drive déjà authentifiée), destination `googledrive:BackUps/claude-vibecoding-kit/`, horodatage du fichier sauvegardé. Testé manuellement avec succès ; jamais encore exécuté via le flux réel de `/close`.
 
 Kit v3.13 : commande locale `/create_agent` créée dans `jeu_espace` — donne à l'orchestrateur (zone racine) la capacité de créer lui-même des agents dans son projet, sans passer par le kit. Copie autonome (templates `agent_role_TEMPLATE.md` et `_contexte/` embarqués localement, pas d'écriture dans les fichiers de bookkeeping du kit, pas de phase `[AUDIT]`). Expérimentation isolée à `jeu_espace`, aucun template du kit modifié, jamais testée en conditions réelles ; validation garder/écarter/propager prévue ~2026-08-25.
 

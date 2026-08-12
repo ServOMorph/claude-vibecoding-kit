@@ -1,6 +1,7 @@
-# Signals — claude-vibecoding-kit (MAJ 2026-08-11)
+# Signals — claude-vibecoding-kit (MAJ 2026-08-12)
 
 ## Actions ouvertes
+- [P2|ouvert] Valider l'étape 12bis de `/close` (sauvegarde `DEPLOYMENTS.md` vers `googledrive:BackUps/claude-vibecoding-kit/`) sur un prochain `/close` réel du kit — cette clôture est la première exécution de l'étape telle qu'écrite dans `close.md`. fait quand: un `/close` réel du kit propose la sauvegarde, la confirmation déclenche l'upload et le fichier horodaté apparaît dans `googledrive:BackUps/claude-vibecoding-kit/`. réf: `.claude/commands/close.md` (étape 12bis), `backup_file.py`
 - [P2|ouvert] Valider ou invalider la commande locale `/create_agent` de `jeu_espace` (permet à l'orchestrateur de créer des agents lui-même, sans passer par le kit — cf. `D:\ServOMorph\jeu_espace\.claude\commands\create_agent.md`). Créée le 2026-08-11, jamais testée en conditions réelles à ce stade. fait quand: retour d'expérience après usage réel, décision garder/écarter/propager au kit actée (échéance indicative ~2026-08-25). réf: `D:\ServOMorph\jeu_espace\.claude\commands\create_agent.md`
 - [P2|ouvert] Expérimentation "synthèse agents pour l'orchestrateur" (chaque zone-agent écrit sa synthèse à `/close` dans un fichier partagé, la zone racine la lit à `/start` et propose des actions) implémentée uniquement dans `jeu_zombies` (hors dépôt kit) — `close.md`/`start.md`/`agent_role.md` de ce projet modifiés localement, roadmap dédiée créée. Pas encore testée en conditions réelles (Phase 2 de sa roadmap), pas propagée au kit. fait quand: bilan de Phase 3 de `roadmap_synthese_agents.md` (jeu_zombies) tranché (retenue → propager au kit, écartée → documenter pourquoi). réf: `D:\ServOMorph\jeu_zombies\roadmap_synthese_agents.md`
 - [P2|ouvert] Trancher l'ajout d'une phase de code review dans le modèle de roadmap (`CLAUDE.md`, section Roadmap). Discussion ouverte le 2026-08-10 : proposition initiale "gate systématique en fin de phase" écartée par l'utilisateur (coût token trop élevé sur phases triviales), reformulée en "seuil conditionnel" (revue déclenchée seulement au-delà d'une taille de diff, sinon skip annoncé explicitement) + "tri des findings par sévérité" (bloquant = correction immédiate, mineur = reporté en action `signals.md`). Aucune validation finale, aucune modification de fichier faite. fait quand: utilisateur valide une combinaison, `.claude/CLAUDE.md` et `templates/.claude/CLAUDE.md` modifiés en miroir. réf: cette session (pas de fichier écrit)
@@ -19,8 +20,29 @@
 - Agent `review` créé dans `jeu_zombies` via `/create_agent` (mode création, rôle : revue de code continue, sans production de code, périmètre par défaut `REVIEW/` uniquement).
 - `README.md` : corruption d'encodage pré-existante (double UTF-8) — à traiter si gênant.
 
-## Dernière session (2026-08-11)
+## Dernière session (2026-08-12)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
+
+# Session du 2026-08-12 (sauvegarde automatique DEPLOYMENTS.md vers Google Drive)
+
+## Décisions prises
+- Système de sauvegarde automatique de `DEPLOYMENTS.md` vers Google Drive créé, intégré à `/close` du kit (étape 12bis, optionnelle, confirmation utilisateur requise).
+- Réutilisation du pattern rclone existant (SérénIATech_dev) plutôt que réécriture complète.
+- Destination fixée sur `googledrive:BackUps/claude-vibecoding-kit/` (compte Google inchangé, confirmé par l'utilisateur).
+
+## Livrables produits ou modifiés
+- `backup_file.py` (nouveau) : script générique de sauvegarde horodatée via rclone (`copyto`).
+- `.claude/commands/close.md` : étape 12bis ajoutée, corruption "e" isolé (ligne 122) corrigée, `allowed-tools` étendu.
+
+## Hypothèses validées / invalidées
+- VALIDE : `rclone copyto` nécessaire au lieu de `rclone copy` — `copy` ignorait le nom horodaté et écrasait avec le nom du fichier source (bug détecté et corrigé en session).
+- VALIDE : rclone déjà configuré et authentifié avec le compte Google actuel, aucune reconfiguration nécessaire.
+
+## Prochaine étape exacte
+Observer le comportement de l'étape 12bis lors des prochains `/close` réels du kit ; envisager une rotation si le dossier grossit.
+
+## Question bloquante pour la session suivante
+Aucune
 
 # Session du 2026-08-11 (commande locale /create_agent pour jeu_espace)
 

@@ -357,6 +357,12 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 
 # Changelog
 
+## v3.14 — 2026-08-12
+
+**Sauvegarde automatique DEPLOYMENTS.md vers Google Drive**
+- Étape 12bis (optionnelle, kit uniquement) ajoutée à `.claude/commands/close.md` : propose la sauvegarde horodatée de `DEPLOYMENTS.md` vers `googledrive:BackUps/claude-vibecoding-kit/` via `backup_file.py` (nouveau, racine du kit, `rclone copyto`). Non propagée au template générique (spécifique au fichier `DEPLOYMENTS.md` du kit).
+- Corruption locale de `close.md` (caractère isolé) corrigée.
+
 ## v3.13 — 2026-08-11
 
 **Commande locale /create_agent (jeu_espace)**

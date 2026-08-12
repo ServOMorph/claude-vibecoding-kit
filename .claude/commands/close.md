@@ -2,7 +2,7 @@
 description: Clôture la session d'une zone — synthèse, mise à jour du contexte, commit
 argument-hint: <zone>
 model: sonnet
-allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git add:*), Bash(git commit:*), Bash(git push:*)
+allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git add:*), Bash(git commit:*), Bash(git push:*), PowerShell(python *backup_file.py*)
 ---
 
 # /close <zone>
@@ -119,7 +119,6 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
       survenir avec l'étape 10, mais à vérifier via `git status` après coup) : les inclure dans
       ce même commit, jamais dans un commit séparé.
 
-
 12. Exécuter `git push` :
     ```bash
     git push
@@ -128,6 +127,16 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
     échoue (pas de remote tracking, conflit, réseau, etc.) : afficher l'erreur telle quelle dans
     le bilan de l'étape 13, ne pas tenter de résolution automatique (pas de force push, pas de
     pull/rebase automatique).
+
+12bis. **[Optionnel — kit uniquement]** Sauvegarde du fichier `DEPLOYMENTS.md` vers Google Drive :
+    - Vérifier si ce `/close` concerne la zone racine du kit lui-même.
+    - Si oui : proposer "Sauvegarder DEPLOYMENTS.md sur Google Drive ?" (confirmation utilisateur).
+    - Si confirmation : exécuter :
+      ```powershell
+      python "d:\ServOMorph\claude-vibecoding-kit\backup_file.py" "d:\ServOMorph\claude-vibecoding-kit\DEPLOYMENTS.md"
+      ```
+    - Le fichier sera uploadé vers `googledrive:BackUps/claude-vibecoding-kit/` avec horodatage.
+    - Si le kit n'est pas fermé, ou si rclone échoue : afficher l'erreur telle quelle, ne pas bloquer la clôture.
 
 13. Afficher un bilan des résidus non commités :
     ```bash

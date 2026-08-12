@@ -3,6 +3,14 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v3.14 — 2026-08-12
+
+### Ajouté
+- Sauvegarde automatique de `DEPLOYMENTS.md` vers Google Drive, intégrée à `/close` du kit (étape 12bis, optionnelle, confirmation utilisateur requise, kit uniquement — non propagée au template générique). Script `backup_file.py` (nouveau, racine du kit) : sauvegarde horodatée d'un fichier via `rclone copyto`, réutilise la configuration Google Drive déjà authentifiée. Destination `googledrive:BackUps/claude-vibecoding-kit/`.
+
+### Corrigé
+- Corruption locale de `.claude/commands/close.md` (caractère isolé "e" avant l'étape 12) restaurée.
+
 ## v3.13 — 2026-08-11
 
 ### Ajouté
