@@ -311,3 +311,18 @@ huit axes, règle de signature de charte, deux exclusions de périmètre à ne p
 actives (accueil handicap hors V1, association/partenariats pas encore en place), et les sources
 canoniques (VISION/CHARTE/PRESENTATION/DECISIONS_METIER) à consulter avant toute production.
 Aucune friction nouvelle observée.
+
+## 2026-08-12 — agent mascotte (D:\ServOMorph\Roberto2)
+
+Création de l'agent MASCOTTE (affichage visuel de la mascotte animée dans l'UI web pywebview,
+migration `roadmap_migration_ui_web.md` Phase 2), mode création simple, alias `mascotte` absent
+de `zones.md`. `{{ALIAS_RACINE}}` correct (première ligne de `zones.md` = `roberto2`, vraie
+racine). `start.md` de Roberto2 charge déjà `agent_role.md` (pas de warning).
+
+Friction confirmée (pas nouvelle, P1) : rôle initial fourni ("développer l'affichage visuel
+mascotte qui bouge quand on charge quelque chose") formulé sans contexte projet ; l'utilisateur a
+redirigé vers "regarde le dossier pour mieux comprendre" plutôt que de préciser lui-même — lecture
+de `_contexte/contexte.md` et de l'arborescence (`UI_WEB/`, ancienne mascotte dans `UI/lanceur.ahk`
+en cours de remplacement) nécessaire avant de pouvoir formuler un rôle durable exploitable.
+`{{STACK}}` filtré en conséquence : UI web (pywebview, HTML/CSS/JS) + référence à l'ancienne
+mascotte AHK comme repère de comportement, pas de code à reprendre.

@@ -23,6 +23,25 @@
 ## Dernière session (2026-08-12)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
 
+# Session du 2026-08-12 (agent MASCOTTE dans Roberto2)
+
+## Décisions prises
+- Agent MASCOTTE créé dans Roberto2 via `/create_agent` : affichage visuel de la mascotte animée dans l'UI web (élément qui bouge pendant un chargement), migration `roadmap_migration_ui_web.md` Phase 2. Rôle précisé après lecture du dossier (`_contexte/contexte.md`, `UI_WEB/`) — argument initial insuffisant seul.
+
+## Livrables produits ou modifiés
+- Hors dépôt kit (Roberto2) : `MASCOTTE/agent_role.md`, `MASCOTTE/_contexte/{signals,contexte}.md` créés, `.claude/zones.md` (ligne mascotte).
+- `AGENTS_REGISTRY.md` (hors git) : entrée `mascotte` ajoutée.
+- `ameliorations_create_agent.md` : entrée 2026-08-12 (agent mascotte, Roberto2).
+
+## Hypothèses validées / invalidées
+- EN ATTENTE : l'agent n'a jamais tourné (`/start mascotte` jamais lancé), aucun livrable produit par l'agent lui-même.
+
+## Prochaine étape exacte
+Sur Roberto2 : lancer `/start mascotte` pour démarrer la première session de travail sur l'animation.
+
+## Question bloquante pour la session suivante
+Aucune
+
 # Session du 2026-08-12 (conception système de communication kit → zone)
 
 ## Décisions prises
