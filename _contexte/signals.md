@@ -1,7 +1,6 @@
 # Signals — claude-vibecoding-kit (MAJ 2026-08-12)
 
 ## Actions ouvertes
-- [P2|ouvert] Valider l'étape 12bis de `/close` (sauvegarde `DEPLOYMENTS.md` vers `googledrive:BackUps/claude-vibecoding-kit/`) sur un prochain `/close` réel du kit — cette clôture est la première exécution de l'étape telle qu'écrite dans `close.md`. fait quand: un `/close` réel du kit propose la sauvegarde, la confirmation déclenche l'upload et le fichier horodaté apparaît dans `googledrive:BackUps/claude-vibecoding-kit/`. réf: `.claude/commands/close.md` (étape 12bis), `backup_file.py`
 - [P2|ouvert] Valider ou invalider la commande locale `/create_agent` de `jeu_espace` (permet à l'orchestrateur de créer des agents lui-même, sans passer par le kit — cf. `D:\ServOMorph\jeu_espace\.claude\commands\create_agent.md`). Créée le 2026-08-11, jamais testée en conditions réelles à ce stade. fait quand: retour d'expérience après usage réel, décision garder/écarter/propager au kit actée (échéance indicative ~2026-08-25). réf: `D:\ServOMorph\jeu_espace\.claude\commands\create_agent.md`
 - [P2|ouvert] Expérimentation "synthèse agents pour l'orchestrateur" (chaque zone-agent écrit sa synthèse à `/close` dans un fichier partagé, la zone racine la lit à `/start` et propose des actions) implémentée uniquement dans `jeu_zombies` (hors dépôt kit) — `close.md`/`start.md`/`agent_role.md` de ce projet modifiés localement, roadmap dédiée créée. Pas encore testée en conditions réelles (Phase 2 de sa roadmap), pas propagée au kit. fait quand: bilan de Phase 3 de `roadmap_synthese_agents.md` (jeu_zombies) tranché (retenue → propager au kit, écartée → documenter pourquoi). réf: `D:\ServOMorph\jeu_zombies\roadmap_synthese_agents.md`
 - [P2|ouvert] Trancher l'ajout d'une phase de code review dans le modèle de roadmap (`CLAUDE.md`, section Roadmap). Discussion ouverte le 2026-08-10 : proposition initiale "gate systématique en fin de phase" écartée par l'utilisateur (coût token trop élevé sur phases triviales), reformulée en "seuil conditionnel" (revue déclenchée seulement au-delà d'une taille de diff, sinon skip annoncé explicitement) + "tri des findings par sévérité" (bloquant = correction immédiate, mineur = reporté en action `signals.md`). Aucune validation finale, aucune modification de fichier faite. fait quand: utilisateur valide une combinaison, `.claude/CLAUDE.md` et `templates/.claude/CLAUDE.md` modifiés en miroir. réf: cette session (pas de fichier écrit)
@@ -41,7 +40,7 @@
 - INVALIDE : l'entrée `signals.md` écrite par la session d'origine décrivait un déploiement "en cours" (test sur Roberto2) alors que le commit montrait un déploiement déjà terminé sur 25 projets — incohérence corrigée par cette clôture.
 
 ## Prochaine étape exacte
-Aucune sur ce sujet — propagation `create_memory.md` considérée close.
+Aucune sur ce sujet — propagation `create_memory.md` considérée close. Par ailleurs, étape 12bis de `/close` (sauvegarde `DEPLOYMENTS.md` vers Google Drive) validée en conditions réelles lors de cette clôture : confirmation demandée, upload déclenché, fichier `DEPLOYMENTS_20260812_115450.md` déposé dans `googledrive:BackUps/claude-vibecoding-kit/`. Action ouverte correspondante close.
 
 ## Question bloquante pour la session suivante
 Aucune
