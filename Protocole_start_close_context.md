@@ -357,6 +357,12 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 
 # Changelog
 
+## v3.15 — 2026-08-12
+
+**Propagation create_memory.md**
+- `create_memory.md` manquait à l'étape 3 d'`init_projet.md` (jamais propagé aux nouveaux projets) : ligne ajoutée, mirroré dans `templates/.claude/commands/init_projet.md`.
+- Déploiement rattrapé sur les 22 projets réels de `DEPLOYMENTS.md` via nouveau script `deploy_create_memory.py` (racine du kit) — pattern acté pour tout déploiement massif futur.
+
 ## v3.14 — 2026-08-12
 
 **Sauvegarde automatique DEPLOYMENTS.md vers Google Drive**

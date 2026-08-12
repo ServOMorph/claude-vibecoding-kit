@@ -1,7 +1,6 @@
 # Signals — claude-vibecoding-kit (MAJ 2026-08-12)
 
 ## Actions ouvertes
-- [P1|ouvert] Déployer `create_memory.md` dans tous les projets (erreur détectée 2026-08-12 : fichier non propagé par `/init_projet`). Correctif appliqué : ajout de `create_memory.md` à étape 3 d'`init_projet.md`. Script `deploy_create_memory.py` créé pour économiser tokens sur déploiement massif (test en cours sur Roberto2, puis extension à 28 projets). **Pratique notée** : à chaque déploiement massif, écrire/adapter un script Python plutôt que faire manuellement. fait quand: script testé sur Roberto2, succès confirmé, déploiement lancé sur tous les 29 projets (git commit pour chacun ou un seul commit avec batch). réf: `deploy_create_memory.py`, `.claude/commands/init_projet.md` (étape 3), DEPLOYMENTS.md
 - [P2|ouvert] Valider l'étape 12bis de `/close` (sauvegarde `DEPLOYMENTS.md` vers `googledrive:BackUps/claude-vibecoding-kit/`) sur un prochain `/close` réel du kit — cette clôture est la première exécution de l'étape telle qu'écrite dans `close.md`. fait quand: un `/close` réel du kit propose la sauvegarde, la confirmation déclenche l'upload et le fichier horodaté apparaît dans `googledrive:BackUps/claude-vibecoding-kit/`. réf: `.claude/commands/close.md` (étape 12bis), `backup_file.py`
 - [P2|ouvert] Valider ou invalider la commande locale `/create_agent` de `jeu_espace` (permet à l'orchestrateur de créer des agents lui-même, sans passer par le kit — cf. `D:\ServOMorph\jeu_espace\.claude\commands\create_agent.md`). Créée le 2026-08-11, jamais testée en conditions réelles à ce stade. fait quand: retour d'expérience après usage réel, décision garder/écarter/propager au kit actée (échéance indicative ~2026-08-25). réf: `D:\ServOMorph\jeu_espace\.claude\commands\create_agent.md`
 - [P2|ouvert] Expérimentation "synthèse agents pour l'orchestrateur" (chaque zone-agent écrit sa synthèse à `/close` dans un fichier partagé, la zone racine la lit à `/start` et propose des actions) implémentée uniquement dans `jeu_zombies` (hors dépôt kit) — `close.md`/`start.md`/`agent_role.md` de ce projet modifiés localement, roadmap dédiée créée. Pas encore testée en conditions réelles (Phase 2 de sa roadmap), pas propagée au kit. fait quand: bilan de Phase 3 de `roadmap_synthese_agents.md` (jeu_zombies) tranché (retenue → propager au kit, écartée → documenter pourquoi). réf: `D:\ServOMorph\jeu_zombies\roadmap_synthese_agents.md`
@@ -23,6 +22,29 @@
 
 ## Dernière session (2026-08-12)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
+
+# Session du 2026-08-12 (propagation create_memory.md — clôture a posteriori après /clear accidentel)
+
+## Décisions prises
+- Gap corrigé : `create_memory.md` manquait à l'étape 3 d'`init_projet.md` (fichier jamais propagé aux nouveaux projets).
+- Déploiement massif effectué via nouveau script `deploy_create_memory.py` (lecture de `DEPLOYMENTS.md`, copie si absent) plutôt que manuellement — pratique actée pour tout déploiement massif futur.
+- Session clôturée a posteriori : l'utilisateur a fait `/clear` avant `/close`, conversation perdue. Reconstruction de la synthèse à partir du commit `57a3522` et de l'état réel des fichiers/dépôts, sans les détails fins de la conversation d'origine.
+
+## Livrables produits ou modifiés
+- `.claude/commands/init_projet.md` : ligne ajoutée à l'étape 3.
+- `deploy_create_memory.py` (nouveau, racine du kit).
+- `create_memory.md` propagé et committé dans les 22 projets réels de `DEPLOYMENTS.md` (18 déjà committés par la session d'origine ; 4 recommis lors de cette clôture — `site_internet_Sereniatech_V2`, `jeu_espace`, `Participation_GitHub`, `Roberto2` — où le fichier était présent sur disque mais non commité dans leur dépôt respectif).
+- 2 projets sans dépôt git (`Moulin du Sud`, `Nettoyage_PC`) : fichier présent sur disque, commit non applicable.
+- `Open_Code_Apprentissage` : toujours chemin introuvable (gap déjà connu, voir action ouverte `DEPLOYMENTS.md`).
+
+## Hypothèses validées / invalidées
+- INVALIDE : l'entrée `signals.md` écrite par la session d'origine décrivait un déploiement "en cours" (test sur Roberto2) alors que le commit montrait un déploiement déjà terminé sur 25 projets — incohérence corrigée par cette clôture.
+
+## Prochaine étape exacte
+Aucune sur ce sujet — propagation `create_memory.md` considérée close.
+
+## Question bloquante pour la session suivante
+Aucune
 
 # Session du 2026-08-12 (sauvegarde automatique DEPLOYMENTS.md vers Google Drive)
 

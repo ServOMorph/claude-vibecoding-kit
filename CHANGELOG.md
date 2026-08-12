@@ -3,6 +3,12 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v3.15 — 2026-08-12
+
+### Corrigé
+- `create_memory.md` manquait à l'étape 3 d'`init_projet.md` (jamais propagé aux nouveaux projets) : ligne ajoutée.
+- Déploiement rattrapé sur les 22 projets réels de `DEPLOYMENTS.md` (2 sans dépôt git, `Open_Code_Apprentissage` toujours introuvable) via nouveau script `deploy_create_memory.py`.
+
 ## v3.14 — 2026-08-12
 
 ### Ajouté

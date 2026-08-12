@@ -12,12 +12,11 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - **Déploiement** : copie template vers projets via `/init`, tracking dans DEPLOYMENTS.md
 
 ## État actuel
+- Kit v3.15 : gap corrigé — `create_memory.md` manquait à l'étape 3 d'`init_projet.md` (jamais propagé aux nouveaux projets). Propagé et committé dans les 22 projets réels de `DEPLOYMENTS.md` (2 sans dépôt git, `Open_Code_Apprentissage` toujours introuvable). Script `deploy_create_memory.py` créé, pratique actée pour tout déploiement massif futur.
 - Kit v3.14 : sauvegarde automatique de `DEPLOYMENTS.md` vers Google Drive intégrée à `/close` du kit (étape 12bis, optionnelle) via `backup_file.py` (rclone) — destination `googledrive:BackUps/claude-vibecoding-kit/`, jamais exécutée dans le flux réel de `/close` à ce stade (seulement en test manuel).
 - Kit v3.13 : commande locale `/create_agent` créée dans `jeu_espace` (permet à l'orchestrateur de créer lui-même des agents, sans passer par le kit) — expérimentation isolée, jamais testée en conditions réelles, validation prévue ~2026-08-25.
-- Kit v3.12 : agent `review` créé dans `jeu_zombies` (revue de code continue). Feature "synthèse agents pour l'orchestrateur" conçue et implémentée en expérimentation, limitée à `jeu_zombies` (pas propagée au kit, propagation conditionnée au bilan de Phase 3 de `roadmap_synthese_agents.md`).
 - `/create_agent` : mode conversion pas encore validé end-to-end (Test 3 à faire).
 - `jeu_zombies` (v2.26 déployé) toujours en retard sur le kit — `/update` à lancer.
-- `DEPLOYMENTS.md` à vérifier pour `Open_Code_Apprentissage` (chemin introuvable, probable renommage).
 
 ## Décisions structurantes
 _Décisions antérieures au 2026-07-31 (`/init_projet` Open_Code_Apprentissage) archivées dans `_contexte/archive_decisions.md`._
@@ -33,3 +32,4 @@ _Décisions antérieures au 2026-07-31 (`/init_projet` Open_Code_Apprentissage) 
 - 2026-08-10 : agent `review` créé dans `jeu_zombies` (revue de code continue) via `/create_agent`. Feature "synthèse agents pour l'orchestrateur" (agents écrivent à `/close`, racine lit à `/start` et propose des actions) conçue et implémentée en expérimentation limitée à `jeu_zombies` uniquement — pas de modification des templates du kit, propagation différée au bilan de sa roadmap dédiée. Kit v3.12.
 - 2026-08-11 : commande locale `/create_agent` créée dans `jeu_espace` — donne à l'orchestrateur (zone racine) la capacité de créer lui-même des agents dans son projet, sans passer par le kit. Copie autonome (templates embarqués localement, pas de bookkeeping kit, pas de phase `[AUDIT]`). Test isolé, aucun template du kit modifié ; propagation à trancher après retour d'expérience (~2026-08-25). Kit v3.13.
 - 2026-08-12 : sauvegarde automatique de `DEPLOYMENTS.md` vers Google Drive ajoutée à `/close` du kit (étape 12bis, optionnelle) — script `backup_file.py` (rclone `copyto`, réutilise la config déjà authentifiée), destination `googledrive:BackUps/claude-vibecoding-kit/`. Kit v3.14.
+- 2026-08-12 : `create_memory.md` ajouté à l'étape 3 d'`init_projet.md` (gap : fichier jamais propagé aux nouveaux projets) et déployé sur les 22 projets réels de `DEPLOYMENTS.md` via nouveau script `deploy_create_memory.py`. Clôture faite a posteriori après un `/clear` accidentel avant `/close` — synthèse reconstruite depuis le commit `57a3522` et l'état réel des dépôts (4 projets recommis lors de la clôture : `site_internet_Sereniatech_V2`, `jeu_espace`, `Participation_GitHub`, `Roberto2`). Kit v3.15.

@@ -49,6 +49,7 @@ La racine du projet cible ne doit jamais être demandée si $ARGUMENTS est fourn
   (sauf zone supplémentaire, voir Q5)
 - `templates/.claude/commands/close.md` → `$ARGUMENTS/.claude/commands/close.md`
   (sauf zone supplémentaire, voir Q5)
+- `templates/.claude/commands/create_memory.md` → `$ARGUMENTS/.claude/commands/create_memory.md`
 - `templates/.claude/zones.md` → `$ARGUMENTS/.claude/zones.md`
   (sauf zone supplémentaire : ajouter une ligne `| alias | dossier |` à la table existante)
 - `templates/ollama_call.py` → `$ARGUMENTS/ollama_call.py`
