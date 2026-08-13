@@ -1,5 +1,12 @@
 # Archive des décisions — claude-vibecoding-kit
 
+## Décisions archivées le 2026-08-13 (session audit + refacto racine du kit)
+
+- 2026-08-04 : décision "garder" actée pour `git push` automatique après validation réelle sur les 4 zones test. Promu en étape native (12) de `close.md` (kit + template). Propagé à 15 projets déployés avec remote git. Kit v3.9.
+- 2026-08-05 : correctif de la propagation v3.9 — l'instruction `git push` était restée dans le bloc "Spécificités projet" des 18 close.md concernés au lieu d'une étape native, corrigée. Corruption locale du `close.md` du kit restaurée. Kit v3.10.
+
+**Note (2026-08-13) :** la décision 2026-08-04 (`crea_zik`, Kit v3.8) présente à la fois dans "Décisions structurantes" actives de `contexte.md` et déjà archivée ci-dessous (session backup Google Drive) — doublon pré-existant, non recréé ici, retiré de la liste active sans nouvelle copie.
+
 ## Décisions archivées le 2026-08-13 (session backup Google Drive projets sans git)
 
 - 2026-08-04 : `git push` automatique (étape 11bis) propagé à une 4ème zone, `crea_zik`. Corruption pré-existante corrigée dans `.claude/commands/doc_sync.md` (frontmatter `a---`). Kit v3.8.

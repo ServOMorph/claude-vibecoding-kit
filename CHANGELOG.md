@@ -3,6 +3,13 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v3.18 — 2026-08-13
+
+### Modifié
+- Racine du kit nettoyée (16→10 fichiers) suite à un audit structurel : `scripts/` (`backup_file.py`, `deploy_create_memory.py`) et `_archives/` (`roadmap_agents.md`, `note_conception_create_agent.md`, `roadmap_agents_explained.html`) créés ; `TEST_CREATE_AGENT_RESULTS.md` et `ameliorations_create_agent.md` déplacés dans `base_connaissances/`. Références réparées dans `.claude/commands/create_agent.md` et `close.md`. `README.md` § "Structure du kit" réécrit.
+- `roadmap_refacto_kit.md` créée : 6 phases pour traiter la cause commune identifiée (vérité dupliquée sur 5 emplacements sans contrôle mécanique) — normalisation LF, `scripts/check_kit.py`, rotation `signals.md`, correctifs de divergence kit/template, dé-duplication documentaire.
+- `_contexte/signals.md` : écrasement de la section "Dernière session" enfin appliqué littéralement (règle en vigueur depuis v2.x, non suivie depuis le 2026-07-26) — historique conservé via `git log` sur le fichier, pas supprimé.
+
 ## v3.17 — 2026-08-13
 
 ### Ajouté

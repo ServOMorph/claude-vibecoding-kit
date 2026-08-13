@@ -131,8 +131,8 @@ elle s'exécute toujours depuis le kit, projet cible en premier argument.
    Fichier local (hors git) : registre centralisé tous projets confondus,
    colonne "Verdict"/"Retex" mise à jour manuellement ensuite.
 
-9. Ajouter une entrée à `<racine du kit>/ameliorations_create_agent.md` (jamais
-   dans le projet cible), sous la section "Historique" :
+9. Ajouter une entrée à `<racine du kit>/base_connaissances/ameliorations_create_agent.md`
+   (jamais dans le projet cible), sous la section "Historique" :
    ```
    ## {{DATE}} — agent <alias> (<projet_cible>)
    [ce qui a bien fonctionné / ce qui a nécessité une clarification manuelle]
@@ -183,8 +183,9 @@ elle s'exécute toujours depuis le kit, projet cible en premier argument.
     sur quatre axes, dans cet ordre :
 
     - **Pertinence** : chaque ajout récent répond-il à une friction réellement
-      observée (tracée dans `ameliorations_create_agent.md` ou
-      `TEST_CREATE_AGENT_RESULTS.md`) ou à une friction supposée ? Signaler
+      observée (tracée dans `base_connaissances/ameliorations_create_agent.md`
+      ou `base_connaissances/TEST_CREATE_AGENT_RESULTS.md`) ou à une friction
+      supposée ? Signaler
       tout ajout sans cas d'usage constaté, et proposer sa suppression.
     - **Économie de tokens** : identifier ce qui est lu ou écrit sans être
       utilisé (analyses non conditionnées, fichiers ouverts pour rien,
@@ -198,7 +199,7 @@ elle s'exécute toujours depuis le kit, projet cible en premier argument.
     - **Régression** : une règle antérieure a-t-elle disparu sans décision
       explicite ? Comparer avec `git log`/`git diff` sur ce fichier.
 
-    Sortie obligatoire : mettre à jour `<racine du kit>/ameliorations_create_agent.md`
+    Sortie obligatoire : mettre à jour `<racine du kit>/base_connaissances/ameliorations_create_agent.md`
     — verdict par axe, propositions numérotées (P<n>) pour ce qui reste à
     trancher, et marquage `[Implémentée le {{DATE}}]` pour ce qui est corrigé
     dans la foulée. Un audit qui ne laisse qu'un message dans le chat ne

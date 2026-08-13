@@ -53,16 +53,29 @@ Claude pose 5 questions (alias, objectif, stack, git, première zone ou supplém
 
 ```
 claude-vibecoding-kit/
-├── Protocole_start_close_context.md   # documentation complète
+├── README.md                             # ce fichier
+├── Protocole_start_close_context.md      # documentation complète
 ├── CHANGELOG.md                          # historique des versions
+├── llms.txt                              # description du dépôt pour agents IA tiers
+├── LICENSE                               # MIT
 ├── DEPLOYMENTS.md                        # registre des projets initialisés (ignoré par git)
 ├── AGENTS_REGISTRY.md                    # registre des agents créés (ignoré par git)
-├── backup_file.py                        # sauvegarde horodatée d'un fichier vers Google Drive (rclone)
-├── deploy_create_memory.py               # déploiement massif de create_memory.md sur les projets de DEPLOYMENTS.md
+├── roadmap_*.md                          # chantiers multi-phases en cours (kit lui-même)
+├── note_conception_*.md                  # notes de conception non encore tranchées
+│
+├── .claude/                              # instance du protocole appliquée au kit lui-même
+│   ├── CLAUDE.md                         # règles permanentes
+│   └── commands/                         # /start /close /update /init_projet /create_memory
+│       │                                 #   + kit uniquement : /create_agent /create_com_agents
+│       └───────────────────────────────  #                     /cherche_meilleure_action /doc_sync
+├── _contexte/                            # contexte du kit (contexte, signals, archive_decisions)
+├── scripts/
+│   ├── backup_file.py                    # sauvegarde horodatée d'un fichier vers Google Drive (rclone)
+│   └── deploy_create_memory.py           # déploiement massif d'un fichier sur les projets de DEPLOYMENTS.md
 ├── tests/                                # suite unittest du lanceur Ollama
-├── base_connaissances/                   # audit des projets déployés (index, fiches, analyse, propositions)
-├── _docs/                                # documentation générée (ex. vulgarisation de roadmaps)
-└── templates/
+├── base_connaissances/                   # audit des projets déployés + journaux de retex /create_agent
+├── _archives/                            # roadmaps closes et documents historiques
+└── templates/                            # patron copié dans les projets cibles par /init_projet
     ├── .claude/
     │   ├── CLAUDE.md                     # règles pour l'IA
     │   ├── zones.md                      # table alias → dossiers réels
@@ -83,6 +96,10 @@ claude-vibecoding-kit/
     └── GEMINI.md                         # équivalent CLAUDE.md spécifique à Gemini, sur confirmation
 ```
 
+Les commandes `/create_agent`, `/create_com_agents`, `/cherche_meilleure_action` et `/doc_sync`
+vivent uniquement dans `.claude/commands/` du kit : elles s'exécutent depuis le kit et ne sont
+jamais copiées dans les projets cibles, donc absentes de `templates/`.
+
 ## Documentation
 
 Lire `Protocole_start_close_context.md` pour le détail complet : stratégie de gestion du contexte, table des modèles recommandés, formats canoniques, intégration Ollama.
@@ -100,6 +117,8 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 **Aucune dépendance externe Python.** Le lanceur Ollama utilise uniquement la bibliothèque standard (`urllib`, `json`, `os`, `sys`). Aucun `requirements.txt` nécessaire.
 
 ## État actuel
+
+Kit v3.18 : audit structurel du kit — 9 défauts identifiés, tous instances d'un même défaut racine (la vérité est dupliquée sur 5 emplacements sans aucun contrôle mécanique). Racine nettoyée (16→10 fichiers : `scripts/`, `_archives/`, `base_connaissances/` créés/enrichis). `roadmap_refacto_kit.md` créée pour traiter le reste (normalisation LF, `scripts/check_kit.py`, rotation `signals.md`, correctifs de divergence kit/template, dé-duplication doc) — Phase 1 terminée, Phase 2 en cours.
 
 Kit v3.17 : `/init_projet` propose désormais, si le projet cible n'est pas sous git, d'automatiser un backup miroir du dossier vers Google Drive à chaque `/close` (script `backup_project.py`, `rclone sync`, exclusions standard) — accepté, il est copié dans le projet et son étape injectée dans le bloc "Spécificités projet" du `close.md` cible. Jamais testé en conditions réelles. Init de `Capafy_AI` (zone `capafy_ai`) ce même jour, mis sous git a posteriori, commit initial + push effectués.
 

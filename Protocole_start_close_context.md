@@ -357,6 +357,14 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 
 # Changelog
 
+## v3.18 — 2026-08-13
+
+**Refacto structurel du kit**
+- Audit du kit : 9 défauts identifiés, tous instances d'un même défaut racine — la vérité du kit est dupliquée sur 5 emplacements (`.claude/commands/`, `templates/.claude/commands/`, `README.md`, `CHANGELOG.md`, `Protocole_start_close_context.md`) sans aucun contrôle mécanique, cause commune aux incidents de v3.10 et v3.16.
+- Racine nettoyée (16→10 fichiers) : `scripts/` (`backup_file.py`, `deploy_create_memory.py`), `_archives/` (`roadmap_agents.md`, `note_conception_create_agent.md`, `roadmap_agents_explained.html`) créés ; `TEST_CREATE_AGENT_RESULTS.md`/`ameliorations_create_agent.md` déplacés dans `base_connaissances/`. Références réparées, `README.md` § Structure réécrit.
+- `roadmap_refacto_kit.md` créée (6 phases, Phase 1 close) : normalisation LF, contrôle mécanique (`scripts/check_kit.py`), rotation `signals.md`, correctifs de divergence kit/template déjà identifiés (étape `12bis` de `close.md` du kit encore dans le corps générique au lieu du bloc `SPECIFICITES PROJET`, `templates/.claude/commands/create_agent.md` absent alors qu'une roadmap archivée affirme son existence), dé-duplication documentaire (dont ce changelog dupliqué à 47 % avec `CHANGELOG.md`, traité en Phase 6).
+- `_contexte/signals.md` : écrasement de "Dernière session" enfin appliqué littéralement, plus de 21 sessions accumulées depuis le 2026-07-26.
+
 ## v3.17 — 2026-08-13
 
 **Backup Google Drive pour projets sans git**

@@ -133,7 +133,7 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
     - Si oui : proposer "Sauvegarder DEPLOYMENTS.md sur Google Drive ?" (confirmation utilisateur).
     - Si confirmation : exécuter :
       ```powershell
-      python "d:\ServOMorph\claude-vibecoding-kit\backup_file.py" "d:\ServOMorph\claude-vibecoding-kit\DEPLOYMENTS.md"
+      python "d:\ServOMorph\claude-vibecoding-kit\scripts\backup_file.py" "d:\ServOMorph\claude-vibecoding-kit\DEPLOYMENTS.md"
       ```
     - Le fichier sera uploadé vers `googledrive:BackUps/claude-vibecoding-kit/` avec horodatage.
     - Si le kit n'est pas fermé, ou si rclone échoue : afficher l'erreur telle quelle, ne pas bloquer la clôture.
