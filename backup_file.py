@@ -33,7 +33,7 @@ file_name = file_path.stem
 file_ext = file_path.suffix
 backup_name = f"{file_name}_{timestamp}{file_ext}"
 
-print(f"[{datetime.now().strftime('%H:%M:%S')}] Sauvegarde {file_path.name} → {drive_dest}/{backup_name}")
+print(f"[{datetime.now().strftime('%H:%M:%S')}] Sauvegarde {file_path.name} -> {drive_dest}/{backup_name}")
 
 result = subprocess.run(
     [str(RCLONE), "copyto", str(file_path), f"{drive_dest}/{backup_name}"],
@@ -44,4 +44,4 @@ if result.returncode != 0:
     print(f"ERREUR upload : {result.stderr.strip()}")
     sys.exit(1)
 
-print(f"[{datetime.now().strftime('%H:%M:%S')}] Sauvegarde OK → {drive_dest}/{backup_name}")
+print(f"[{datetime.now().strftime('%H:%M:%S')}] Sauvegarde OK -> {drive_dest}/{backup_name}")
