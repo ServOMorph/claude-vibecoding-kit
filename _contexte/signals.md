@@ -1,6 +1,7 @@
 # Signals — claude-vibecoding-kit (MAJ 2026-08-13)
 
 ## Actions ouvertes
+- [P2|ouvert] Tester en conditions réelles la nouvelle question Q4bis de `/init_projet` (backup Google Drive pour projet sans git, script `backup_project.py`) — jamais exécutée depuis l'ajout. fait quand: un `/init_projet` réel avec réponse "non" à la question git déclenche Q4bis, le script est copié dans le projet cible et l'étape est injectée dans son `close.md` (avec `allowed-tools` correspondant), comportement vérifié en conditions réelles. réf: `.claude/commands/init_projet.md`, `templates/backup_project.py`
 - [P1|ouvert] Terminer la Phase 2 du pilote `create_com_agents` sur Roberto2 : mécanisme installé et un bug de placement d'étape corrigé (voir Dernière session), mais reste à valider en conditions réelles : `/start roberto2` (correctif du placement 2d), `/close mascotte` (écriture `statut.md`), écriture/lecture d'un message réel dans `messages.md`. fait quand: les 3 tests réels effectués et bilan Phase 2 (garder/ajuster/écarter) acté dans `roadmap_com_agents.md`. réf: `roadmap_com_agents.md`, `D:\ServOMorph\Roberto2\.claude\commands\start.md`
 - [P1|ouvert] Implémenter et valider le pilote de `roadmap_messages_zones.md` (système de communication kit → zone, 2 niveaux : `urgent.md` vérifié via `CLAUDE.md` avant action significative, `messages.md` lu à `/start`, format compact `[AAAA-MM-JJ] <message>`) — design validé par l'utilisateur, déploiement décidé en pilote isolé sur Roberto2 (`D:\ServOMorph\Roberto2`, alias `roberto2`) avant toute modification des templates du kit. Aucune implémentation faite (Phase 1 non commencée). fait quand: Phase 1 (blocs "Spécificités projet" dans `start.md`/`CLAUDE.md` de Roberto2) implémentée et testée à blanc, Phase 2 validée en conditions réelles, décision garder/ajuster/écarter actée. réf: `roadmap_messages_zones.md`
 - [P2|ouvert] Valider ou invalider la commande locale `/create_agent` de `jeu_espace` (permet à l'orchestrateur de créer des agents lui-même, sans passer par le kit — cf. `D:\ServOMorph\jeu_espace\.claude\commands\create_agent.md`). Créée le 2026-08-11, jamais testée en conditions réelles à ce stade. fait quand: retour d'expérience après usage réel, décision garder/écarter/propager au kit actée (échéance indicative ~2026-08-25). réf: `D:\ServOMorph\jeu_espace\.claude\commands\create_agent.md`
@@ -23,6 +24,28 @@
 
 ## Dernière session (2026-08-13)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
+
+# Session du 2026-08-13 (init Capafy_AI + backup Google Drive pour projets sans git)
+
+## Décisions prises
+- `/init_projet` exécuté sur `D:\ServOMorph\Capafy_AI` (zone `capafy_ai`, première zone, ni `AGENTS.md` ni `GEMINI.md`). Mis sous git par l'utilisateur après l'init ; commit initial + push effectués a posteriori (`.claude/scheduled_tasks.lock` exclu du commit, verrou runtime non pertinent en git).
+- Nouvelle fonctionnalité dans `/init_projet` : si le projet cible n'est pas sous git, Q4bis propose d'automatiser un backup miroir du dossier vers Google Drive à chaque `/close` (nouveau script `backup_project.py`, `rclone sync`, exclusions standard) — injecté dans le bloc "Spécificités projet" du `close.md` du projet cible si accepté.
+- `/doc_sync` exécuté : miroir `templates/.claude/commands/init_projet.md` répercuté (était en retard), `README.md`/`CHANGELOG.md`/`Protocole_start_close_context.md` alignés. Kit v3.17.
+
+## Livrables produits ou modifiés
+- `templates/backup_project.py` (nouveau) : script de sauvegarde miroir via rclone.
+- `.claude/commands/init_projet.md`, `templates/.claude/commands/init_projet.md` : Q4bis + étape 4bis (injection close.md) + copie conditionnelle.
+- `README.md`, `CHANGELOG.md`, `Protocole_start_close_context.md` : synchronisés (v3.17).
+- Hors dépôt kit (`Capafy_AI`) : init complet (`.claude/`, `_contexte/`, `ollama_call.py`, `_docs/`), commit initial + push vers `github.com/ServOMorph/Capafy_AI`.
+
+## Hypothèses validées / invalidées
+- EN ATTENTE : Q4bis/`backup_project.py` n'a jamais tourné en conditions réelles depuis l'ajout.
+
+## Prochaine étape exacte
+Tester Q4bis en conditions réelles sur un futur `/init_projet` avec projet sans git.
+
+## Question bloquante pour la session suivante
+Aucune
 
 # Session du 2026-08-13 (commande create_com_agents + pilote Roberto2)
 

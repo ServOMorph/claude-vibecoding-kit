@@ -3,6 +3,11 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v3.17 — 2026-08-13
+
+### Ajouté
+- `/init_projet` propose désormais, si le projet cible n'est pas sous git, d'automatiser un backup miroir du dossier vers Google Drive à chaque `/close` (nouveau script `backup_project.py`, `rclone sync` avec exclusions standard). Si accepté : le script est copié dans le projet cible et une étape est injectée dans le bloc `SPECIFICITES PROJET` de son `close.md` (avec le `allowed-tools` correspondant).
+
 ## v3.16 — 2026-08-13
 
 ### Ajouté

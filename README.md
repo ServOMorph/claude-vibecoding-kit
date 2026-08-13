@@ -41,7 +41,7 @@ Dans Claude Code, ouvrir le dossier du kit (claude-vibecoding-kit).
 /init_projet <chemin vers le projet à initialiser>
 ```
 
-Claude pose 5 questions (alias, objectif, stack, git, première zone ou supplémentaire). La racine du projet cible est l'argument fourni — non demandée. Copie les fichiers, remplace les placeholders, committe dans le projet cible, enregistre le déploiement dans `DEPLOYMENTS.md`.
+Claude pose 5 questions (alias, objectif, stack, git, première zone ou supplémentaire — si le projet n'est pas sous git, une question complémentaire propose d'automatiser un backup miroir du dossier vers Google Drive à chaque `/close`). La racine du projet cible est l'argument fourni — non demandée. Copie les fichiers, remplace les placeholders, committe dans le projet cible, enregistre le déploiement dans `DEPLOYMENTS.md`.
 
 ### 4. Démarrer
 
@@ -76,6 +76,7 @@ claude-vibecoding-kit/
     │   ├── contexte.md                   # contexte stable du projet
     │   └── signals.md                    # actions ouvertes, blocages, dernière session
     ├── ollama_call.py                    # délégation vers modèle local
+    ├── backup_project.py                 # backup miroir du dossier projet vers Google Drive (rclone), sur confirmation si projet sans git
     ├── agent_role_TEMPLATE.md            # template de charte pour /create_agent
     ├── roadmap_TEMPLATE.md               # template pour chantiers multi-phases
     ├── AGENTS.md                         # équivalent CLAUDE.md pour agents non-Claude (Codex, ChatGPT...), sur confirmation
@@ -99,6 +100,8 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 **Aucune dépendance externe Python.** Le lanceur Ollama utilise uniquement la bibliothèque standard (`urllib`, `json`, `os`, `sys`). Aucun `requirements.txt` nécessaire.
 
 ## État actuel
+
+Kit v3.17 : `/init_projet` propose désormais, si le projet cible n'est pas sous git, d'automatiser un backup miroir du dossier vers Google Drive à chaque `/close` (script `backup_project.py`, `rclone sync`, exclusions standard) — accepté, il est copié dans le projet et son étape injectée dans le bloc "Spécificités projet" du `close.md` cible. Jamais testé en conditions réelles. Init de `Capafy_AI` (zone `capafy_ai`) ce même jour, mis sous git a posteriori, commit initial + push effectués.
 
 Kit v3.16 : nouvelle commande `/create_com_agents` — installe un mécanisme de communication en étoile agent↔orchestrateur (`statut.md` pull, `messages.md` push) dans un projet cible, unifiant 3 mécanismes existants non propagés (design `roadmap_messages_zones.md`, `statut.md` ad hoc de Roberto2/MASCOTTE, expérimentation `synthese_agents.md` de jeu_zombies). Pilotée en conditions réelles sur Roberto2 (Phase 2 de `roadmap_com_agents.md`, en cours) : un bug de placement d'étape trouvé et corrigé (une étape conditionnelle placée après un paragraphe de synthèse narrative dans `start.md` est sautée à l'exécution ; corrigée en la plaçant tôt, adjacente à une étape similaire déjà fiable) — reste à retester avant bilan.
 

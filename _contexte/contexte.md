@@ -12,13 +12,15 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - **Déploiement** : copie template vers projets via `/init`, tracking dans DEPLOYMENTS.md
 
 ## État actuel
-- Kit v3.16 : nouvelle commande `create_com_agents` (mécanisme de communication agent↔orchestrateur en étoile), pilotée en conditions réelles sur Roberto2 — Phase 2 de `roadmap_com_agents.md` en cours, un bug de placement d'étape trouvé et corrigé, reste à retester.
-- Roadmap `roadmap_messages_zones.md` (système de communication kit → zone) : design antérieur, statut à trancher en Phase 3 de `roadmap_com_agents.md` (recouvrement possible avec le nouveau mécanisme).
+- Kit v3.17 : `/init_projet` propose désormais un backup Google Drive automatique (`backup_project.py`, rclone sync) pour les projets sans git — jamais testé en conditions réelles.
+- `create_com_agents` (Roberto2, v3.16) : Phase 2 en cours, correctif de placement d'étape à retester.
 - `/create_agent` : mode conversion pas encore validé end-to-end (Test 3 à faire).
 - `jeu_zombies` (v2.26 déployé) toujours en retard sur le kit — `/update` à lancer.
+- Capafy_AI initialisé (zone `capafy_ai`), mis sous git a posteriori, commit initial + push faits.
 
 ## Décisions structurantes
-_Décisions antérieures au 2026-08-04 (`git push` étendu à crea_zik) archivées dans `_contexte/archive_decisions.md`._
+_Décisions antérieures au 2026-08-04 (session crea_zik/doc_sync) archivées dans `_contexte/archive_decisions.md`._
+- 2026-08-13 : `/init_projet` propose un backup Google Drive automatique (`backup_project.py`, rclone sync) pour les projets sans git — Q4bis, injection conditionnelle de l'étape dans le `close.md` du projet cible. Init de `Capafy_AI` (zone `capafy_ai`), mis sous git a posteriori par l'utilisateur, commit initial + push faits. Kit v3.17.
 - 2026-08-13 : commande `create_com_agents` créée (mécanisme en étoile agent↔orchestrateur, `statut.md`/`messages.md`) et installée en pilote réel sur Roberto2. Bug trouvé en conditions réelles : étape conditionnelle placée après une synthèse narrative dans `start.md` est sautée à l'exécution — corrigée par un placement adjacent à une étape courte déjà fiable, appliquée dans Roberto2 et dans la commande source du kit. Kit v3.16.
 - 2026-08-04 : `git push` automatique étendu à une 4ème zone, `crea_zik`. Corruption pré-existante de `.claude/commands/doc_sync.md` (frontmatter `a---`) corrigée. Kit v3.8.
 - 2026-08-04 : décision "garder" actée pour `git push` automatique après validation réelle sur les 4 zones test. Promu en étape native (12) de `templates/.claude/commands/close.md` et `.claude/commands/close.md` (kit). Propagé à 15 projets déployés avec remote git (commit + push dans 14, `Lieux_Hybrides` en commit local sur décision explicite de ne pas configurer l'upstream). Kit v3.9.

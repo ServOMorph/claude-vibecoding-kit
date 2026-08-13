@@ -357,6 +357,11 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 
 # Changelog
 
+## v3.17 — 2026-08-13
+
+**Backup Google Drive pour projets sans git**
+- `/init_projet` : si réponse "non" à la question git (Q4), propose une question complémentaire (Q4bis) pour automatiser un backup miroir du dossier projet vers Google Drive à chaque `/close` — un projet sans git n'a aucune protection contre la perte de travail. Nouveau script `templates/backup_project.py` (`rclone sync`, exclusions standard `.git/`, `node_modules/`, `__pycache__/`, `venv/`, `.venv/`, `dist/`, `build/`), copié dans le projet cible seulement si accepté. Si accepté : une étape est injectée dans le bloc `SPECIFICITES PROJET` du `close.md` du projet cible (avec `PowerShell(python *backup_project.py*)` ajouté à `allowed-tools`), destination `googledrive:BackUps/<alias>/`.
+
 ## v3.16 — 2026-08-13
 
 **Commande create_com_agents (communication agent↔orchestrateur)**

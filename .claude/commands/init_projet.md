@@ -27,6 +27,10 @@ Initialiser le protocole vibecoding dans le projet cible à partir de ce kit de 
 2. Objectif du projet (1-2 phrases) ?
 3. Stack technique (liste courte) ?
 4. Projet sous git ? (oui/non)
+   - Si "non" : proposer "Automatiser un backup du dossier projet vers Google Drive à chaque
+     /close (miroir via rclone, dans BackUps/<nom_du_dossier>/) ? (oui/non)" (Q4bis). Un projet
+     sans git n'a aucune protection contre la perte de travail ; ce backup en tient lieu.
+     Si "oui" à Q4bis : noter le nom du dossier projet (nom de `$ARGUMENTS`) comme destination.
 5. Première zone de ce projet, ou zone supplémentaire ?
    - Si supplémentaire : `.claude/commands/start.md` et `close.md` existent déjà.
      Ajouter une ligne `{{ALIAS}} | {{RACINE}}` à leur table des zones au lieu de copier ces fichiers.
@@ -58,6 +62,8 @@ La racine du projet cible ne doit jamais être demandée si $ARGUMENTS est fourn
   (seulement si réponse "oui" à Q7 ; si déjà présent : demander avant d'écraser)
 - `templates/GEMINI.md` → `$ARGUMENTS/GEMINI.md`
   (seulement si réponse "oui" à Q8 ; si déjà présent : demander avant d'écraser)
+- `templates/backup_project.py` → `$ARGUMENTS/backup_project.py`
+  (seulement si réponse "oui" à Q4bis)
 
 Ne pas copier `roadmap_TEMPLATE.md` (utilisé uniquement à la création d'un chantier).
 
@@ -73,6 +79,26 @@ Dans tous les fichiers copiés sous `_contexte/`, `.claude/commands/` et `.claud
 | `{{STACK}}` | Stack technique (réponse Q3) |
 | `{{DATE}}` | Date du jour (AAAA-MM-JJ) |
 | `{{DONNEES_SENSIBLES}}` | Réponse Q6, en liste à puces ; "Aucun déclaré." si réponse négative |
+
+### 4bis. Brancher le backup Google Drive dans close.md (si réponse "oui" à Q4bis)
+
+Uniquement si `backup_project.py` a été copié (Q4bis = "oui") et que `close.md` a été copié à
+cette exécution (pas en cas de zone supplémentaire, Q5) :
+
+1. Dans `$ARGUMENTS/.claude/commands/close.md`, ajouter `PowerShell(python *backup_project.py*)`
+   à la liste `allowed-tools` du frontmatter (même ligne que les outils `Bash(git ...)`).
+2. Insérer, entre les marqueurs `<!-- SPECIFICITES PROJET : DEBUT -->` / `FIN` de ce même fichier,
+   l'étape suivante :
+
+   ```
+   Sauvegarde du dossier projet vers Google Drive (projet sans git) :
+   - Exécuter :
+     ```powershell
+     python "{{RACINE}}\backup_project.py" "{{RACINE}}" "{{ALIAS}}"
+     ```
+   - Le dossier sera synchronisé (miroir) vers `googledrive:BackUps/{{ALIAS}}/`.
+   - Si rclone échoue : afficher l'erreur telle quelle, ne pas bloquer la clôture.
+   ```
 
 ### 5. Commit initial (si réponse "oui" à Q4)
 
@@ -95,7 +121,7 @@ La version du kit est la dernière entrée de `<kit>/CHANGELOG.md` (ex: `v2.2`).
 
 ### 7. Lister les fichiers écrits ou modifiés
 
-Avant la confirmation finale, afficher la liste de tous les fichiers créés ou modifiés aux étapes 3 à 6, sous forme de liens cliquables (chemin absolu) :
+Avant la confirmation finale, afficher la liste de tous les fichiers créés ou modifiés aux étapes 3 à 4bis et 6, sous forme de liens cliquables (chemin absolu) :
 
 ```
 - [<fichier>](<chemin absolu>)

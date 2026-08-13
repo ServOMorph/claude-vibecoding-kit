@@ -1,5 +1,9 @@
 # Archive des décisions — claude-vibecoding-kit
 
+## Décisions archivées le 2026-08-13 (session backup Google Drive projets sans git)
+
+- 2026-08-04 : `git push` automatique (étape 11bis) propagé à une 4ème zone, `crea_zik`. Corruption pré-existante corrigée dans `.claude/commands/doc_sync.md` (frontmatter `a---`). Kit v3.8.
+
 ## Décisions archivées le 2026-08-12 (session conception messages kit→zone)
 
 - 2026-07-31 : `/init_projet` exécuté sur Open_Code_Apprentissage (zone `orchestrateur`) avec reformulation + questions préalables demandées explicitement par l'utilisateur avant tout lancement. 3 agents validés par échange (notes, NARRATEUR, data) avant toute création. Gap découvert : `/init_projet` ne gère pas `GEMINI.md` (créé manuellement sur demande).
