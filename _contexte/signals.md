@@ -1,7 +1,6 @@
 # Signals — claude-vibecoding-kit (MAJ 2026-08-13)
 
 ## Actions ouvertes
-- [P2|ouvert] Poursuivre `roadmap_refacto_kit.md` (Phase 1 nettoyage racine faite cette session ; Phase 2 en cours : normalisation LF, prérequis de `check_kit.py` en Phase 3). fait quand: les 6 phases de la roadmap sont `[FAIT]` — au minimum Phase 2 (`.gitattributes`, `close.md` reconverti en LF, plus aucun fichier versionné en CRLF) et Phase 3 (`scripts/check_kit.py` écrit, testé, branché sur `/doc_sync` et `/close`) tranchées avant de considérer le chantier avancé. réf: `roadmap_refacto_kit.md`
 - [P2|ouvert] Tester en conditions réelles la nouvelle question Q4bis de `/init_projet` (backup Google Drive pour projet sans git, script `backup_project.py`) — jamais exécutée depuis l'ajout. fait quand: un `/init_projet` réel avec réponse "non" à la question git déclenche Q4bis, le script est copié dans le projet cible et l'étape est injectée dans son `close.md` (avec `allowed-tools` correspondant), comportement vérifié en conditions réelles. réf: `.claude/commands/init_projet.md`, `templates/backup_project.py`
 - [P1|ouvert] Terminer la Phase 2 du pilote `create_com_agents` sur Roberto2 : mécanisme installé et un bug de placement d'étape corrigé (voir historique git de ce fichier), mais reste à valider en conditions réelles : `/start roberto2` (correctif du placement 2d), `/close mascotte` (écriture `statut.md`), écriture/lecture d'un message réel dans `messages.md`. fait quand: les 3 tests réels effectués et bilan Phase 2 (garder/ajuster/écarter) acté dans `roadmap_com_agents.md`. réf: `roadmap_com_agents.md`, `D:\ServOMorph\Roberto2\.claude\commands\start.md`
 - [P1|ouvert] Implémenter et valider le pilote de `roadmap_messages_zones.md` (système de communication kit → zone, 2 niveaux : `urgent.md` vérifié via `CLAUDE.md` avant action significative, `messages.md` lu à `/start`, format compact `[AAAA-MM-JJ] <message>`) — design validé par l'utilisateur, déploiement décidé en pilote isolé sur Roberto2 (`D:\ServOMorph\Roberto2`, alias `roberto2`) avant toute modification des templates du kit. Aucune implémentation faite (Phase 1 non commencée). fait quand: Phase 1 (blocs "Spécificités projet" dans `start.md`/`CLAUDE.md` de Roberto2) implémentée et testée à blanc, Phase 2 validée en conditions réelles, décision garder/ajuster/écarter actée. réf: `roadmap_messages_zones.md`
@@ -26,33 +25,26 @@
 ## Dernière session (2026-08-13)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
 
-# Session du 2026-08-13 (audit + refacto racine du kit)
+# Session du 2026-08-13 (clôture roadmap_refacto_kit, relecture du travail d'un agent devstral)
 
 ## Décisions prises
-- Audit structurel du kit sur demande utilisateur : 9 défauts identifiés (①→⑨ dans `roadmap_refacto_kit.md`), tous instances d'un même défaut racine — la vérité est dupliquée sur 5 emplacements (`.claude/commands/`, `templates/.claude/commands/`, `README.md`, `CHANGELOG.md`, `Protocole_start_close_context.md`) sans aucun contrôle mécanique.
-- Nettoyage de la racine exécuté immédiatement (validé par question utilisateur) : 16→10 fichiers.
-- `roadmap_refacto_kit.md` créée (6 phases) pour traiter le reste du chantier.
-- `roadmap_messages_zones.md` laissé en l'état à la racine (décision différée sur demande explicite, dépend du bilan Phase 2 de `roadmap_com_agents.md`).
-- Étape 4 de `/close` (écrasement de "Dernière session") enfin appliquée littéralement — les 21 sessions accumulées depuis le 2026-07-26 (jamais écrasées malgré la règle) restent consultables via `git log -p _contexte/signals.md`, pas supprimées de l'historique.
+- Phases 2 à 6 de `roadmap_refacto_kit.md` exécutées en autonomie par un agent codant devstral ; `/close` n'avait pas pu être lancée par cet agent (problème de connexion). Travail relu et clôturé ici.
+- Refacto jugé conforme : `check_kit.py` passant (6 contrôles), suite `tests/` (23 passed, 1 skipped), versions cohérentes (v3.19) entre `CHANGELOG.md`/`README.md`/`Protocole_start_close_context.md`, paires miroir kit/template identiques hors blocs `SPECIFICITES PROJET`.
+- Les 3 commits locaux de devstral (`e03ba3a`, `ae26a76`, `77991ea`) étaient déjà poussés sur le remote malgré le problème de connexion signalé — rien à repousser.
+- Chantier `roadmap_refacto_kit.md` considéré clos (6/6 phases `[FAIT]`).
 
-## Livrables produits ou modifiés
-- `scripts/backup_file.py`, `scripts/deploy_create_memory.py` : déplacés (git mv).
-- `_archives/roadmap_agents.md`, `_archives/note_conception_create_agent.md`, `_archives/roadmap_agents_explained.html` : déplacés ; `_docs/` supprimé (vide).
-- `base_connaissances/TEST_CREATE_AGENT_RESULTS.md`, `base_connaissances/ameliorations_create_agent.md` : déplacés.
-- `.claude/commands/create_agent.md` : 3 chemins réparés (nouveaux emplacements).
-- `.claude/commands/close.md` : chemin `backup_file.py` de l'étape 12bis réparé.
-- `README.md` : section "Structure du kit" réécrite (arborescence réelle, commandes kit-only expliquées).
-- `roadmap_refacto_kit.md` (nouveau) : 6 phases, Phase 1 FAIT, Phase 2 EN COURS.
-- `_contexte/contexte.md` : État actuel + décision structurante ajoutées ; 3 entrées les plus anciennes archivées (>10 seuil) — doublon pré-existant (`crea_zik` v3.8) repéré dans `archive_decisions.md` et non recréé.
-- `_contexte/archive_decisions.md` : 2 décisions archivées (v3.9, v3.10) + note sur le doublon repéré.
+## Livrables produits ou modifiés (par devstral, relus à cette clôture)
+- `.gitattributes`, `scripts/check_kit.py` + `tests/test_check_kit.py` (Phases 2-3, bundlés dans le commit "phase4" par erreur d'étiquetage).
+- `_contexte/archive_sessions.md` créé, rotation de `signals.md` (Phase 4).
+- `.claude/CLAUDE.md`, `templates/.claude/CLAUDE.md`, `close.md` (étape 14bis déplacée en SPECIFICITES), `doc_sync.md`, `_archives/roadmap_agents.md` (Phase 5).
+- `Protocole_start_close_context.md`, `README.md`, `llms.txt`, `base_connaissances/INDEX.md` (Phase 6, commit au message vide "feat:").
 
 ## Hypothèses validées / invalidées
-- VALIDE : suite `tests/` (10 tests, 1 skipped) passe toujours après déplacement des scripts.
-- EN ATTENTE : Phase 2 de `roadmap_refacto_kit.md` (normalisation LF) non commencée ; `scripts/check_kit.py` pas encore écrit.
-- À NOTER : doublon pré-existant repéré dans `archive_decisions.md` (décision `crea_zik` 2026-08-04/v3.8 archivée deux fois sous des sessions différentes) — non corrigé au-delà de ne pas le reproduire, correction complète hors périmètre de cette session.
+- VALIDE : refacto fonctionnellement complet et vérifié (contrôle mécanique + tests + relecture manuelle des points clés).
+- À NOTER : hygiène de commit dégradée côté devstral (bundling Phase 2/3 sans étiquette, message de commit vide sur Phase 6) — sans impact sur le contenu, signalé pour vigilance future.
 
 ## Prochaine étape exacte
-Phase 2 de `roadmap_refacto_kit.md` : créer `.gitattributes` (`* text=auto eol=lf`), convertir `.claude/commands/close.md` en LF, vérifier qu'aucun fichier versionné n'est en CRLF.
+Reprendre les actions ouvertes de `signals.md` (Phase 2 `create_com_agents` sur Roberto2, pilote `roadmap_messages_zones.md`).
 
 ## Question bloquante pour la session suivante
 Aucune
