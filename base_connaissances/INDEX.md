@@ -1,5 +1,7 @@
 # Base de connaissances — projets vibecoding
 
+> **Date de gel :** 2026-07-17. Ce catalogue couvre 12 projets à cette date. Pour la liste complète des ~22 projets déployés, voir [`DEPLOYMENTS.md`](../DEPLOYMENTS.md).
+
 Générée le 2026-07-17 à partir de : historique git, `_contexte/` (contexte, signals, archives de décisions), mémoire projet, roadmaps, et transcripts Claude Code.
 
 | Projet | Fichier | Version kit | Commits | Sessions Claude | Période sessions |

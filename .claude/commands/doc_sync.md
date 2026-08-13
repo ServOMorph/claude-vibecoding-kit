@@ -93,24 +93,14 @@ Pour chaque paire :
   - **major** si : structure de `_contexte/` modifiée, placeholder renommé/supprimé, commande supprimée
   - **minor** dans tous les autres cas
 - Ne jamais modifier une entrée existante.
+- **Note :** `Protocole_start_close_context.md` ne duplique plus le changelog — il renvoie désormais à `CHANGELOG.md`.
 
-### 5. Vérifier `Protocole_start_close_context.md`
-
-- Sa propre section "# Changelog" (en fin de fichier) doit avoir une entrée miroir de celle ajoutée à
-  l'étape 4 (même version, format court propre à ce fichier — voir entrées précédentes).
-- Si le changement touche le nombre ou le contenu des étapes d'une commande (`/start`, `/close`,
-  `/update`, `/init`, `/create_memory`) documentée en détail dans ce fichier : mettre à jour la
-  description correspondante pour qu'elle reste fidèle au fichier de commande réel.
-- Si le changement touche la table des modèles recommandés, les formats canoniques (`_manifest.md`,
-  `contexte.md`, `signals.md`) ou la stratégie de gestion du contexte : vérifier que la description
-  reste exacte.
-
-### 6. Vérifier `DEPLOYMENTS.md`
+### 5. Vérifier `DEPLOYMENTS.md`
 
 - Ne pas modifier ce fichier ici (il ne reflète pas des changements du kit mais des déploiements dans
   des projets tiers, gérés par `/init` et `/update`).
 
-### 7. Rapport final
+### 6. Rapport final
 
 Lister, en une ligne par fichier, ce qui a été modifié à cette étape :
 ```

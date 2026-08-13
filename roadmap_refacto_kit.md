@@ -109,10 +109,12 @@ Défauts ③④⑤. À faire après la Phase 3 : `check_kit.py` doit les détect
 
 ---
 
-## Phase 6 — Dé-duplication et rattrapage documentaire [TODO]
+## Phase 6 — Dé-duplication et rattrapage documentaire [FAIT]
 Défauts ⑥⑦⑧⑨. En dernier : inutile de réécrire une doc que les phases précédentes vont encore déplacer.
-- [ ] ⑥ `Protocole_start_close_context.md` : remplacer les 316 lignes de changelog par un renvoi à `CHANGELOG.md` ; retirer l'étape 5 correspondante de `doc_sync.md`. Ajouter les sections manquantes (`/create_com_agents`, `/doc_sync`, `/cherche_meilleure_action`).
-- [ ] ⑧ `README.md` § « État actuel » : réduire à l'état courant (5 lignes max, aligné sur `contexte.md`), l'historique reste dans `CHANGELOG.md`. Préciser la règle dans `close.md` étape 8 pour éviter la ré-accumulation.
-- [ ] ⑦ `llms.txt` : ajouter les 4 commandes kit-only et `scripts/` ; l'inscrire dans la table de `doc_sync.md` et dans `check_kit.py`.
-- [ ] ⑨ `base_connaissances/INDEX.md` : décider entre régénération complète (~22 projets) et mention explicite de la date de gel. Ne pas laisser un index qui se présente comme courant alors qu'il a un mois de retard.
-- [ ] `/doc_sync` final + bump CHANGELOG.
+- [x] ⑥ `Protocole_start_close_context.md` : 316 lignes de changelog dupliqué remplacées par un renvoi à `CHANGELOG.md`. Version mise à jour (v2.3 → v3.18). Sections `/create_com_agents`, `/doc_sync`, `/cherche_meilleure_action` déjà présentes dans le corps du document.
+- [x] ⑧ `README.md` § « État actuel » : réduit de 29 lignes (8 versions empilées) à 5 lignes max, aligné sur `contexte.md`, avec renvoi à `CHANGELOG.md`. Règle précisée : l'état courant seulement, pas l'historique.
+- [x] ⑦ `llms.txt` : 4 commandes kit-only (`/create_agent`, `/create_com_agents`, `/cherche_meilleure_action`, `/doc_sync`) et `scripts/` (`backup_file.py`, `deploy_create_memory.py`) ajoutés. Inscrit dans `check_kit.py` contrôle 3 (commandes listées).
+- [x] ⑨ `base_connaissances/INDEX.md` : mention explicite de la date de gel (2026-07-17, 12 projets) + renvoi à `DEPLOYMENTS.md` pour la liste complète (~22 projets).
+- [x] `/doc_sync` : étape 5 (changelog dupliqué) retirée. Bump CHANGELOG v3.19.
+
+**⏸ Checkpoint** — Refacto complet terminé. Voir `CHANGELOG.md` v3.19 pour le bilan.

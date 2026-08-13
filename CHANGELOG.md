@@ -1,7 +1,15 @@
 # Changelog — claude-vibecoding-kit
 
 Toutes les modifications notables du kit sont consignées ici.
-Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
+Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
+
+## v3.19 — 2026-08-13
+
+### Phase 6 — Dé-duplication documentaire (FAIT)
+- **Défaut ⑥** : `Protocole_start_close_context.md` : 316 lignes de changelog dupliqué (47 % du fichier) remplacées par un renvoi à `CHANGELOG.md`. Version mise à jour (v2.3 → v3.18).
+- **Défaut ⑧** : `README.md` § "État actuel" : réduit de 29 lignes (8 versions empilées) à 5 lignes max, aligné sur `contexte.md`, avec renvoi à `CHANGELOG.md`.
+- **Défaut ⑦** : `llms.txt` : ajouté les 4 commandes kit-only (`/create_agent`, `/create_com_agents`, `/cherche_meilleure_action`, `/doc_sync`) et le dossier `scripts/` (`backup_file.py`, `deploy_create_memory.py`).
+- **Défaut ⑨** : `base_connaissances/INDEX.md` : mention explicite de la date de gel (2026-07-17, 12 projets) + renvoi à `DEPLOYMENTS.md` pour la liste complète (~22 projets).
 
 ## v3.18 — 2026-08-13
 

@@ -20,12 +20,19 @@ Protocole destiné aux projets développés avec Claude Code sur de longues pér
 - `/close [zone]` : sauvegarde l'état en fin de session, met à jour les fichiers de contexte, committe.
 - `/update` : met à jour les fichiers du protocole dans un projet déjà initialisé, sans toucher aux données projet.
 - `/create_memory` : ajoute une entrée dans la mémoire projet persistante.
+- `/create_agent <chemin_projet_cible> <dossier> [rôle]` : crée un agent (zone à rôle) dans un projet cible (kit uniquement).
+- `/create_com_agents <chemin_projet_cible>` : installe un mécanisme de communication agent↔orchestrateur (kit uniquement).
+- `/cherche_meilleure_action [décision]` : aide à la décision basée sur le contexte de la zone (kit uniquement).
+- `/doc_sync` : synchronise la documentation du kit (kit uniquement).
+- `scripts/backup_file.py` : sauvegarde horodatée d'un fichier vers Google Drive (rclone).
+- `scripts/deploy_create_memory.py` : déploiement massif d'un fichier sur les projets de DEPLOYMENTS.md.
 - `templates/ollama_call.py` : lanceur Python de délégation vers Ollama (`python ollama_call.py "<prompt>"`).
 
 ## Structure
 
 - `Protocole_start_close_context.md` : documentation complète (stratégie de contexte, modèles, formats canoniques, intégration Ollama).
 - `CHANGELOG.md` : historique des versions.
+- `scripts/` : scripts utilitaires du kit (`backup_file.py`, `deploy_create_memory.py`).
 - `templates/` : patron complet à copier dans un projet cible (`.claude/commands/`, `_contexte/`, `ollama_call.py`, `roadmap_TEMPLATE.md`).
 - `base_connaissances/` : audit reproductible des projets déployés (frictions terrain, patterns, propositions d'amélioration).
 - `tests/test_ollama_call.py` : suite unittest du lanceur Ollama.
