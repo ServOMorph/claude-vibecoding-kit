@@ -3,6 +3,15 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `Protocole_start_close_context.md`.
 
+## v3.16 — 2026-08-13
+
+### Ajouté
+- Nouvelle commande `/create_com_agents <chemin_projet_cible>` : installe un mécanisme de communication en étoile agent↔orchestrateur (`_contexte/statut.md` pull écrasé à chaque `/close` d'une zone-agent, `_contexte/messages.md` push purgé à chaque `/start` de la zone destinataire, agrégation automatique des statuts à chaque `/start` racine) dans un projet cible déjà initialisé — unifie 3 mécanismes existants non propagés (`roadmap_messages_zones.md`, `statut.md` ad hoc de Roberto2/MASCOTTE, `synthese_agents.md` de jeu_zombies). Suivie par `roadmap_com_agents.md` (nouveau).
+- Pilote réel effectué sur Roberto2 (Phase 2 de la roadmap, en cours).
+
+### Corrigé
+- Bug constaté lors du pilote : une étape conditionnelle de `start.md` placée après un paragraphe de synthèse narrative est sautée à l'exécution réelle. Corrigé en plaçant les deux étapes `create_com_agents` adjacentes, tôt dans la procédure (juste après le chargement de charte), documenté dans `create_com_agents.md` pour éviter la régression sur les futures installations.
+
 ## v3.15 — 2026-08-12
 
 ### Corrigé

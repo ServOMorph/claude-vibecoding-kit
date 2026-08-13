@@ -12,13 +12,14 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - **Déploiement** : copie template vers projets via `/init`, tracking dans DEPLOYMENTS.md
 
 ## État actuel
-- Kit v3.15 (inchangé cette session — aucun template/commande modifié).
-- Nouvelle roadmap `roadmap_messages_zones.md` : système de communication kit → zone en 2 niveaux (`urgent.md` vérifié via `CLAUDE.md` avant action significative, `messages.md` lu à `/start`), design validé, pilote isolé prévu sur Roberto2 avant toute propagation au kit. Aucune implémentation faite.
+- Kit v3.16 : nouvelle commande `create_com_agents` (mécanisme de communication agent↔orchestrateur en étoile), pilotée en conditions réelles sur Roberto2 — Phase 2 de `roadmap_com_agents.md` en cours, un bug de placement d'étape trouvé et corrigé, reste à retester.
+- Roadmap `roadmap_messages_zones.md` (système de communication kit → zone) : design antérieur, statut à trancher en Phase 3 de `roadmap_com_agents.md` (recouvrement possible avec le nouveau mécanisme).
 - `/create_agent` : mode conversion pas encore validé end-to-end (Test 3 à faire).
 - `jeu_zombies` (v2.26 déployé) toujours en retard sur le kit — `/update` à lancer.
 
 ## Décisions structurantes
 _Décisions antérieures au 2026-08-04 (`git push` étendu à crea_zik) archivées dans `_contexte/archive_decisions.md`._
+- 2026-08-13 : commande `create_com_agents` créée (mécanisme en étoile agent↔orchestrateur, `statut.md`/`messages.md`) et installée en pilote réel sur Roberto2. Bug trouvé en conditions réelles : étape conditionnelle placée après une synthèse narrative dans `start.md` est sautée à l'exécution — corrigée par un placement adjacent à une étape courte déjà fiable, appliquée dans Roberto2 et dans la commande source du kit. Kit v3.16.
 - 2026-08-04 : `git push` automatique étendu à une 4ème zone, `crea_zik`. Corruption pré-existante de `.claude/commands/doc_sync.md` (frontmatter `a---`) corrigée. Kit v3.8.
 - 2026-08-04 : décision "garder" actée pour `git push` automatique après validation réelle sur les 4 zones test. Promu en étape native (12) de `templates/.claude/commands/close.md` et `.claude/commands/close.md` (kit). Propagé à 15 projets déployés avec remote git (commit + push dans 14, `Lieux_Hybrides` en commit local sur décision explicite de ne pas configurer l'upstream). Kit v3.9.
 - 2026-08-05 : correctif de la propagation v3.9 — l'instruction `git push` était restée dans le bloc "Spécificités projet" des 18 close.md concernés au lieu d'une étape native, corrigée et commitée dans les 18 (push en attente). Corruption locale non commitée du `close.md` du kit restaurée. Kit v3.10.

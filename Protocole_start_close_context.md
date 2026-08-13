@@ -357,6 +357,12 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 
 # Changelog
 
+## v3.16 — 2026-08-13
+
+**Commande create_com_agents (communication agent↔orchestrateur)**
+- Nouvelle commande `.claude/commands/create_com_agents.md` (kit uniquement, non propagée au template générique — même statut que `create_agent.md`) : installe dans un projet cible un mécanisme de communication en étoile agent↔orchestrateur, sans communication agent↔agent directe. `_contexte/statut.md` (pull, écrasé à chaque `/close` d'une zone-agent) et `_contexte/messages.md` (push, purgé au `/start` de la zone destinataire) ; agrégation automatique des statuts à chaque `/start` de la zone racine. Unifie 3 mécanismes existants non propagés (`roadmap_messages_zones.md`, `statut.md` ad hoc de Roberto2/MASCOTTE, `synthese_agents.md` de jeu_zombies). Suivie par `roadmap_com_agents.md`.
+- Pilote réel sur Roberto2 (Phase 2, en cours) : bug constaté — une étape conditionnelle de `start.md` placée après un paragraphe de synthèse narrative est sautée à l'exécution. Corrigé en plaçant les deux étapes ajoutées par la commande tôt et adjacentes (juste après le chargement de la charte `agent_role.md`), jamais isolées après une synthèse.
+
 ## v3.15 — 2026-08-12
 
 **Propagation create_memory.md**

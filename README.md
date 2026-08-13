@@ -14,6 +14,7 @@ Résout le problème structurel du vibecoding : **le contexte est perdu à chaqu
 - `/update` — met à jour les fichiers de protocole dans un projet déjà initialisé, sans toucher aux données projet
 - `/create_memory` — ajoute une entrée dans la mémoire projet persistante (`.claude/memory.md`)
 - `/create_agent <chemin_projet_cible> <dossier> [rôle]` — crée un agent (zone à rôle : charte `agent_role.md` + `_contexte/` propre, pilotable par `/start`/`/close`) dans un projet cible ; s'exécute toujours depuis le kit, n'est jamais copiée dans les projets cibles
+- `/create_com_agents <chemin_projet_cible>` — installe un mécanisme de communication en étoile agent↔orchestrateur (`_contexte/statut.md` pull écrasé à chaque `/close` d'une zone-agent, `_contexte/messages.md` push purgé à chaque `/start` de la zone destinataire) dans un projet cible déjà initialisé ; s'exécute toujours depuis le kit, ne modifie que `start.md`/`close.md` du projet cible
 - `/cherche_meilleure_action [décision]` — commande d'aide à la décision (kit uniquement) : analyse le contexte réel de la zone, évalue les options selon des critères explicites, recommande une action et demande confirmation ; à invoquer quand on ne sait pas quoi faire ensuite
 - `/doc_sync` — synchronise toute la documentation du kit (commandes, templates, structure) après une modification
 - `CLAUDE.md` — règles permanentes appliquées à toutes les conversations
@@ -98,6 +99,8 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 **Aucune dépendance externe Python.** Le lanceur Ollama utilise uniquement la bibliothèque standard (`urllib`, `json`, `os`, `sys`). Aucun `requirements.txt` nécessaire.
 
 ## État actuel
+
+Kit v3.16 : nouvelle commande `/create_com_agents` — installe un mécanisme de communication en étoile agent↔orchestrateur (`statut.md` pull, `messages.md` push) dans un projet cible, unifiant 3 mécanismes existants non propagés (design `roadmap_messages_zones.md`, `statut.md` ad hoc de Roberto2/MASCOTTE, expérimentation `synthese_agents.md` de jeu_zombies). Pilotée en conditions réelles sur Roberto2 (Phase 2 de `roadmap_com_agents.md`, en cours) : un bug de placement d'étape trouvé et corrigé (une étape conditionnelle placée après un paragraphe de synthèse narrative dans `start.md` est sautée à l'exécution ; corrigée en la plaçant tôt, adjacente à une étape similaire déjà fiable) — reste à retester avant bilan.
 
 Kit v3.15 : `create_memory.md` manquait à l'étape 3 d'`init_projet.md` (jamais propagé aux nouveaux projets) — corrigé et déployé sur les 22 projets réels de `DEPLOYMENTS.md` via nouveau script `deploy_create_memory.py` (pattern acté pour tout déploiement massif futur).
 

@@ -1,6 +1,7 @@
-# Signals — claude-vibecoding-kit (MAJ 2026-08-12)
+# Signals — claude-vibecoding-kit (MAJ 2026-08-13)
 
 ## Actions ouvertes
+- [P1|ouvert] Terminer la Phase 2 du pilote `create_com_agents` sur Roberto2 : mécanisme installé et un bug de placement d'étape corrigé (voir Dernière session), mais reste à valider en conditions réelles : `/start roberto2` (correctif du placement 2d), `/close mascotte` (écriture `statut.md`), écriture/lecture d'un message réel dans `messages.md`. fait quand: les 3 tests réels effectués et bilan Phase 2 (garder/ajuster/écarter) acté dans `roadmap_com_agents.md`. réf: `roadmap_com_agents.md`, `D:\ServOMorph\Roberto2\.claude\commands\start.md`
 - [P1|ouvert] Implémenter et valider le pilote de `roadmap_messages_zones.md` (système de communication kit → zone, 2 niveaux : `urgent.md` vérifié via `CLAUDE.md` avant action significative, `messages.md` lu à `/start`, format compact `[AAAA-MM-JJ] <message>`) — design validé par l'utilisateur, déploiement décidé en pilote isolé sur Roberto2 (`D:\ServOMorph\Roberto2`, alias `roberto2`) avant toute modification des templates du kit. Aucune implémentation faite (Phase 1 non commencée). fait quand: Phase 1 (blocs "Spécificités projet" dans `start.md`/`CLAUDE.md` de Roberto2) implémentée et testée à blanc, Phase 2 validée en conditions réelles, décision garder/ajuster/écarter actée. réf: `roadmap_messages_zones.md`
 - [P2|ouvert] Valider ou invalider la commande locale `/create_agent` de `jeu_espace` (permet à l'orchestrateur de créer des agents lui-même, sans passer par le kit — cf. `D:\ServOMorph\jeu_espace\.claude\commands\create_agent.md`). Créée le 2026-08-11, jamais testée en conditions réelles à ce stade. fait quand: retour d'expérience après usage réel, décision garder/écarter/propager au kit actée (échéance indicative ~2026-08-25). réf: `D:\ServOMorph\jeu_espace\.claude\commands\create_agent.md`
 - [P2|ouvert] Expérimentation "synthèse agents pour l'orchestrateur" (chaque zone-agent écrit sa synthèse à `/close` dans un fichier partagé, la zone racine la lit à `/start` et propose des actions) implémentée uniquement dans `jeu_zombies` (hors dépôt kit) — `close.md`/`start.md`/`agent_role.md` de ce projet modifiés localement, roadmap dédiée créée. Pas encore testée en conditions réelles (Phase 2 de sa roadmap), pas propagée au kit. fait quand: bilan de Phase 3 de `roadmap_synthese_agents.md` (jeu_zombies) tranché (retenue → propager au kit, écartée → documenter pourquoi). réf: `D:\ServOMorph\jeu_zombies\roadmap_synthese_agents.md`
@@ -20,8 +21,29 @@
 - Agent `review` créé dans `jeu_zombies` via `/create_agent` (mode création, rôle : revue de code continue, sans production de code, périmètre par défaut `REVIEW/` uniquement).
 - `README.md` : corruption d'encodage pré-existante (double UTF-8) — à traiter si gênant.
 
-## Dernière session (2026-08-12)
+## Dernière session (2026-08-13)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
+
+# Session du 2026-08-13 (commande create_com_agents + pilote Roberto2)
+
+## Décisions prises
+- `create_com_agents` (nouvelle commande kit) conçue et installée en conditions réelles sur Roberto2 : mécanisme en étoile agent↔orchestrateur (`statut.md` pull écrasé, `messages.md` push purgé), `start.md`/`close.md` de Roberto2 modifiés.
+- Bug détecté en conditions réelles : l'étape conditionnelle d'agrégation `statut.md` (4c, placée après la synthèse narrative de `signals.md`) a été sautée au premier `/start roberto2`. Corrigée : déplacée en `2d`, adjacente à `2b`/`2c`, avant tout paragraphe narratif — appliquée à la fois dans Roberto2 et dans `create_com_agents.md` (kit), avec la raison documentée pour éviter la régression sur de futures installations.
+
+## Livrables produits ou modifiés
+- `.claude/commands/create_com_agents.md` (nouveau, kit) : commande + correctif de placement.
+- `roadmap_com_agents.md` (nouveau, kit).
+- Hors dépôt kit (Roberto2) : `.claude/commands/start.md`, `.claude/commands/close.md` modifiés.
+
+## Hypothèses validées / invalidées
+- INVALIDE : une étape conditionnelle placée après un paragraphe de synthèse narrative est fiable à l'exécution — sautée lors du premier test réel.
+- EN ATTENTE : le correctif (2d) n'a pas encore été retesté en conditions réelles ; `/close mascotte` réel et test `messages.md` pas encore faits.
+
+## Prochaine étape exacte
+Sur Roberto2 : relancer `/start roberto2` pour valider le correctif 2d, puis `/close mascotte` réel, puis test écriture/lecture `messages.md`.
+
+## Question bloquante pour la session suivante
+Aucune
 
 # Session du 2026-08-12 (agent MASCOTTE dans Roberto2)
 
