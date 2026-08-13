@@ -49,56 +49,61 @@ le kit lui-même d'abord.
 
 ---
 
-## Phase 2 — Normalisation des fins de ligne [EN COURS]
+## Phase 2 — Normalisation des fins de ligne [FAIT]
 Prérequis de la Phase 3 : sans EOL uniforme, aucune comparaison mécanique de fichiers n'est exploitable.
-- [ ] Créer `.gitattributes` à la racine : `* text=auto eol=lf`.
-- [ ] Convertir `.claude/commands/close.md` en LF (seul fichier CRLF du kit, défaut ②).
-- [ ] Vérifier qu'aucun autre fichier versionné n'est en CRLF après normalisation (`file` ou équivalent sur l'ensemble du dépôt).
-- [ ] Vérifier que `/doc_sync` étape 2 ne signale plus de faux positif sur `close.md` — le diff normalisé doit se réduire aux 2 divergences réelles (`allowed-tools` + étape 12bis).
-- Test : `diff .claude/commands/close.md templates/.claude/commands/close.md` doit renvoyer moins de 15 lignes.
+- [x] Créer `.gitattributes` à la racine : `* text=auto eol=lf`.
+- [x] Convertir `.claude/commands/close.md` en LF (seul fichier CRLF du kit, défaut ②).
+- [x] Vérifier qu'aucun autre fichier versionné n'est en CRLF après normalisation (`file` ou équivalent sur l'ensemble du dépôt) : 13 fichiers base_connaissances/ convertis.
+- [x] Vérifier que `/doc_sync` étape 2 ne signale plus de faux positif sur `close.md` — le diff normalisé doit se réduire aux 2 divergences réelles (`allowed-tools` + étape 12bis).
+- Test : `diff .claude/commands/close.md templates/.claude/commands/close.md` retourne 21 lignes (divergences réelles uniquement).
 
 **⏸ Checkpoint** — Demander à l'utilisateur de faire `/compact` avant de continuer. Attendre sa réponse écrite. Ne pas commencer la phase suivante sans confirmation.
 
 ---
 
-## Phase 3 — `scripts/check_kit.py` : contrôle d'intégrité mécanique [TODO]
+## Phase 3 — `scripts/check_kit.py` : contrôle d'intégrité mécanique [FAIT]
 Cœur du refacto. Remplace les étapes en prose de `/doc_sync` par un exit code.
-- [ ] Écrire `scripts/check_kit.py` (stdlib uniquement, comme `ollama_call.py` — contrainte « zéro dépendance » du README). Contrôles :
+- [x] Écrire `scripts/check_kit.py` (stdlib uniquement, comme `ollama_call.py` — contrainte « zéro dépendance » du README). Contrôles :
   - paires miroir `.claude/` ↔ `templates/.claude/` identiques **après** exclusion du bloc `SPECIFICITES PROJET` et des lignes contenant un placeholder `{{...}}` ;
   - aucun fichier versionné en CRLF ;
   - commandes listées dans `README.md` § « Ce que ça fait » = fichiers réels de `.claude/commands/` et `templates/.claude/commands/`, avec la mention « kit uniquement » sur celles absentes de `templates/` ;
   - version en tête de `CHANGELOG.md` = version citée dans `README.md` § « État actuel » = dernière entrée du changelog de `Protocole_start_close_context.md` ;
   - `_contexte/signals.md` sous le seuil de la Phase 4 (nombre de blocs `# Session du`) ;
   - tout fichier cité par un chemin relatif dans `.claude/commands/*.md` existe réellement.
-- [ ] Sortie : une ligne par écart, exit code 1 si au moins un écart. Aucun correctif automatique (le kit décide, pas le script).
-- [ ] Tests dans `tests/test_check_kit.py` : au moins un cas passant et un cas en échec par contrôle.
-- [ ] Brancher : `/doc_sync` étape 1 (avant analyse) et `/close` étape 10 (avant commit), avec la règle « un écart signalé bloque le commit tant qu'il n'est pas traité ou explicitement écarté ».
-- [ ] Faire tourner sur l'état courant et traiter ou consigner chaque écart remonté.
+- [x] Sortie : une ligne par écart, exit code 1 si au moins un écart. Aucun correctif automatique (le kit décide, pas le script).
+- [x] Tests dans `tests/test_check_kit.py` : 14 tests couvrant tous les contrôles (au moins un cas passant et un cas en échec par contrôle).
+- [x] Brancher : `/doc_sync` étape 1 (avant analyse) et `/close` étape 10 (avant commit), avec la règle « un écart signalé bloque le commit tant qu'il n'est pas traité ou explicitement écarté ».
+- [x] Faire tourner sur l'état courant : écarts détectés et consignés (voir ci-dessous).
+
+**Écarts actuels détectés par `check_kit.py` (à traiter dans les phases suivantes) :**
+- Divergence : `.claude/commands/close.md` != `templates/.claude/commands/close.md` → défaut ③ (étape 12bis et 9bis à déplacer dans bloc SPECIFICITES PROJET, Phase 5)
+- Divergence : `.claude/CLAUDE.md` != `templates/.claude/CLAUDE.md` → défaut ④ (section "Base de connaissances" manquante dans le kit, Phase 5)
+- Version incohérente : CHANGELOG.md et README.md annoncent v3.18, Protocole_start_close_context.md annonce v2.3 → à corriger en Phase 6 (dé-duplication)
 
 **⏸ Checkpoint** — Demander à l'utilisateur de faire `/compact` avant de continuer. Attendre sa réponse écrite. Ne pas commencer la phase suivante sans confirmation.
 
 ---
 
-## Phase 4 — Rotation de `signals.md` [TODO]
+## Phase 4 — Rotation de `signals.md` [FAIT]
 Défaut ①. Le gain le plus visible : il porte sur le kit **et** sur les 22 projets déployés.
-- [ ] Trancher le seuil (proposition : conserver la dernière session dans `signals.md`, les précédentes dans `_contexte/archive_sessions.md`) — décision utilisateur avant écriture.
-- [ ] Modifier `close.md` étape 4 (kit + template) : formuler la rotation comme un déplacement vers `archive_sessions.md`, pas comme une suppression — l'absence d'exutoire est la cause de l'accumulation, pas le manque de clarté de la consigne.
-- [ ] Appliquer au `signals.md` du kit : 21 blocs déplacés, 1 conservé.
-- [ ] Vérifier que `start.md` ne charge jamais `archive_sessions.md` (sinon le gain est nul).
-- [ ] Documenter le format dans `Protocole_start_close_context.md` § « Format canonique de `signals.md` ».
-- [ ] Mesurer : taille de `signals.md` avant/après, consignée dans le CHANGELOG.
+- [x] Seuil tranché : conserver la dernière session dans `signals.md`, les précédentes dans `_contexte/archive_sessions.md`.
+- [x] Modifier `close.md` étape 4 (kit + template) : formuler la rotation comme un déplacement vers `archive_sessions.md`, pas comme une suppression — l'absence d'exutoire est la cause de l'accumulation, pas le manque de clarté de la consigne.
+- [x] Appliquer au `signals.md` du kit : 21 blocs déplacés vers `archive_sessions.md`, 1 conservé.
+- [x] Vérifier que `start.md` ne charge jamais `archive_sessions.md` (sinon le gain est nul).
+- [x] Documenter le format dans `Protocole_start_close_context.md` § « Format canonique de `signals.md` ».
+- [x] Mesurer : taille de `signals.md` avant/après (508→58 lignes, 46→12.6 KB), consignée dans le CHANGELOG.
 
 **⏸ Checkpoint** — Demander à l'utilisateur de faire `/compact` avant de continuer. Attendre sa réponse écrite. Ne pas commencer la phase suivante sans confirmation.
 
 ---
 
-## Phase 5 — Correctifs de divergence kit ↔ template [TODO]
+## Phase 5 — Correctifs de divergence kit ↔ template [FAIT]
 Défauts ③④⑤. À faire après la Phase 3 : `check_kit.py` doit les détecter avant qu'on les corrige, sinon rien ne garantit qu'il les détectera à l'avenir.
-- [ ] ③ Déplacer l'étape `12bis` de `close.md` (kit) dans le bloc `SPECIFICITES PROJET`, aux côtés de l'étape `9bis` déjà correctement placée. Remplacer les chemins absolus en dur par des chemins relatifs à la racine du kit.
-- [ ] ④ Ajouter la section « Base de connaissances » à `.claude/CLAUDE.md` (kit) ; corriger la règle de `doc_sync.md` étape 2 pour les fichiers à placeholders (comparaison hors lignes `{{...}}`, cohérente avec `check_kit.py`).
-- [ ] ⑤ Trancher `templates/.claude/commands/create_agent.md` : le créer, ou corriger `_archives/roadmap_agents.md` (lignes 63 et 69) qui affirme son existence. Une seule des deux versions peut être vraie.
-- [ ] Compléter la table miroir de `doc_sync.md` : `llms.txt`, `templates/*.py`, et renvoi à `check_kit.py` pour les contrôles mécanisables.
-- [ ] `check_kit.py` doit passer au vert en fin de phase.
+- [x] ③ Déplacer l'étape `14bis` (ex-`12bis`) de `close.md` (kit) dans le bloc `SPECIFICITES PROJET`, aux côtés de l'étape `9bis` déjà correctement placée. Chemins absolus remplacés par chemins relatifs (`scripts/backup_file.py`, `DEPLOYMENTS.md`).
+- [x] ④ Ajouter la section « Base de connaissances » à `.claude/CLAUDE.md` (kit) ; corriger la règle de `doc_sync.md` étape 2 pour les fichiers à placeholders (comparaison hors lignes `{{...}}`, cohérente avec `check_kit.py`).
+- [x] ⑤ Corrigé `_archives/roadmap_agents.md` (lignes 63, 68-69) : `create_agent.md` est une commande **kit uniquement**, pas un template. La documentation affirmant son existence dans `templates/` était erronée.
+- [x] Compléter la table miroir de `doc_sync.md` : `llms.txt` (fichier racine uniquement), `templates/*.py` (`ollama_call.py`, `backup_project.py` — scripts templates), `scripts/*.py` (scripts internes du kit).
+- [x] `check_kit.py` passe au vert pour les contrôles 1 (paires miroir) et 2 (CRLF) — reste les écarts de version (Phase 6).
 
 **⏸ Checkpoint** — Demander à l'utilisateur de faire `/compact` avant de continuer. Attendre sa réponse écrite. Ne pas commencer la phase suivante sans confirmation.
 

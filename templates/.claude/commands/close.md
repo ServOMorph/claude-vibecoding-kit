@@ -2,7 +2,7 @@
 description: Clôture la session d'une zone — synthèse, mise à jour du contexte, commit
 argument-hint: <zone>
 model: sonnet
-allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git add:*), Bash(git commit:*), Bash(git push:*)
+allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git add:*), Bash(git commit:*), Bash(git push:*), PowerShell(python *backup_file.py*)
 ---
 
 # /close <zone>
@@ -48,6 +48,9 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
 
 4. Mettre à jour `<dossier>/_contexte/signals.md` :
    - Lire le fichier existant. Reporter tout élément non résolu.
+   - **Rotation des sessions :** Si le nombre de blocs `# Session du` dépasse 1 (seuil) :
+     - Déplacer toutes les sessions sauf la plus récente vers `<dossier>/_contexte/archive_sessions.md` (append only, préfixer par `---` si le fichier existe déjà).
+     - Conserver uniquement la dernière session dans `signals.md`.
    - Écraser la section "Dernière session" avec la synthèse de l'étape 3 (date du jour dans le titre).
    - Mettre à jour les priorités [P1/P2] sur les actions ouvertes.
    - Supprimer les entrées "Contexte chaud" périmées. Ajouter les nouvelles informations volatiles.
@@ -99,12 +102,24 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
      ```
    - Ne pas modifier les entrées existantes.
 
-10. Avant de committer, relire les étapes 3 à 9 une par une et confirmer explicitement que chacune
+10. Avant de committer, exécuter le contrôle d'intégrité mécanique :
+   ```bash
+   python scripts/check_kit.py
+   ```
+   **Règle :** un écart signalé bloque le commit tant qu'il n'est pas traité ou explicitement écarté.
+   
+   Si le contrôle passe (exit code 0) : continuer à l'étape 11.
+   Si le contrôle échoue (exit code 1) : 
+   - Lister les écarts détectés
+   - Traiter chaque écart ou le consigner explicitement comme "écart connu à corriger en Phase X"
+   - Ne pas committer tant que des écarts non consignés persistent
+
+12. Relire les étapes 3 à 9 une par une et confirmer explicitement que chacune
    a été exécutée (pas seulement planifiée). Si une étape a une commande associée (script de build,
    régénération de vue, etc.) et qu'elle n'a pas encore été lancée dans cette session, l'exécuter
    maintenant, avant le commit — jamais après.
 
-11. Effectuer un commit git :
+13. Effectuer un commit git :
     ```bash
     git diff --name-only          # vérifier tous les fichiers modifiés pendant la session
     git status                    # confirmer l'état du repo
@@ -116,27 +131,26 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
       plutôt qu'un commit partiel laissant le repo dans un état incohérent.
     - Ne pas inclure de fichiers sans lien avec la session.
     - Si une commande de génération a modifié des fichiers après le commit (cas non censé
-      survenir avec l'étape 10, mais à vérifier via `git status` après coup) : les inclure dans
+      survenir avec l'étape 12, mais à vérifier via `git status` après coup) : les inclure dans
       ce même commit, jamais dans un commit séparé.
 
-
-12. Exécuter `git push` :
+14. Exécuter `git push` :
     ```bash
     git push
     ```
     Si le projet n'a pas de remote configuré, ignorer cette étape silencieusement. Si le push
     échoue (pas de remote tracking, conflit, réseau, etc.) : afficher l'erreur telle quelle dans
-    le bilan de l'étape 13, ne pas tenter de résolution automatique (pas de force push, pas de
+    le bilan de l'étape 15, ne pas tenter de résolution automatique (pas de force push, pas de
     pull/rebase automatique).
 
-13. Afficher un bilan des résidus non commités :
+15. Afficher un bilan des résidus non commités :
     ```bash
     git status --short
     ```
     S'il reste des fichiers non commités : ajouter à la synthèse finale une ligne
     "résidus non commités : N fichiers". Pas d'action automatique — uniquement rendre visible.
 
-14. Afficher en fin de réponse en grand format : ✌️😎
+16. Afficher en fin de réponse en grand format : ✌️😎
 
 <!-- SPECIFICITES PROJET : DEBUT (préservé par /update, ne pas toucher hors de ce bloc) -->
 <!-- Convention : toute règle liée à une étape précise de la Procédure ci-dessus doit la

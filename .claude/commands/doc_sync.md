@@ -14,7 +14,22 @@ fonctionnel — uniquement la documentation et les copies miroir.
 
 ## Procédure
 
-### 1. Identifier ce qui a changé
+### 1. Contrôle d'intégrité mécanique
+
+Avant toute synchronisation, exécuter le contrôle d'intégrité :
+```bash
+python scripts/check_kit.py
+```
+
+**Règle :** un écart signalé bloque la synchronisation tant qu'il n'est pas traité ou explicitement écarté.
+
+Si le contrôle passe (exit code 0) : continuer à l'étape 2.
+Si le contrôle échoue (exit code 1) : 
+- Lister les écarts détectés
+- Traiter chaque écart ou le consigner explicitement comme "écart connu à corriger en Phase X"
+- Ne pas continuer la synchronisation tant que des écarts non consignés persistent
+
+### 2. Identifier ce qui a changé
 
 ```bash
 git status --short
@@ -30,8 +45,8 @@ Si rien n'a changé (working tree propre) : répondre "Rien à synchroniser — 
 
 ### 2. Synchroniser les paires miroir
 
-Ces fichiers doivent être identiques dans les deux emplacements (aucun placeholder `{{ALIAS}}`/`{{RACINE}}`
-ne s'applique à eux, car ce sont des définitions de commande, pas des instances) :
+Ces fichiers doivent être identiques dans les deux emplacements **après exclusion des lignes contenant des placeholders `{{...}}`** (ex: `{{DONNEES_SENSIBLES}}` dans `CLAUDE.md`).
+Les placeholders sont des marqueurs de personnalisation pour les projets cibles et ne doivent pas bloquer la synchronisation :
 
 | `.claude/...` | `templates/.claude/...` |
 |----------------|--------------------------|
@@ -41,6 +56,11 @@ ne s'applique à eux, car ce sont des définitions de commande, pas des instance
 | `commands/init_projet.md` | `commands/init_projet.md` |
 | `commands/update.md` | `commands/update.md` |
 | `CLAUDE.md` | `CLAUDE.md` |
+
+> **Note :** Les fichiers suivants ne font pas partie des paires miroir et ne doivent pas être synchronisés :
+> - `llms.txt` : description du kit pour les LLM (fichier racine uniquement, pas de miroir)
+> - `templates/ollama_call.py`, `templates/backup_project.py` : scripts templates pour les projets cibles, pas des miroirs de `scripts/`
+> - `scripts/backup_file.py`, `scripts/deploy_create_memory.py`, `scripts/check_kit.py` : scripts internes du kit (pas de miroir dans `templates/`)
 
 Pour chaque paire :
 - Pour `start.md` et `close.md`, comparer uniquement le contenu situé hors des marqueurs

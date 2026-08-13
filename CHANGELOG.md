@@ -8,7 +8,10 @@ Le détail complet par version reste documenté dans `Protocole_start_close_cont
 ### Modifié
 - Racine du kit nettoyée (16→10 fichiers) suite à un audit structurel : `scripts/` (`backup_file.py`, `deploy_create_memory.py`) et `_archives/` (`roadmap_agents.md`, `note_conception_create_agent.md`, `roadmap_agents_explained.html`) créés ; `TEST_CREATE_AGENT_RESULTS.md` et `ameliorations_create_agent.md` déplacés dans `base_connaissances/`. Références réparées dans `.claude/commands/create_agent.md` et `close.md`. `README.md` § "Structure du kit" réécrit.
 - `roadmap_refacto_kit.md` créée : 6 phases pour traiter la cause commune identifiée (vérité dupliquée sur 5 emplacements sans contrôle mécanique) — normalisation LF, `scripts/check_kit.py`, rotation `signals.md`, correctifs de divergence kit/template, dé-duplication documentaire.
-- `_contexte/signals.md` : écrasement de la section "Dernière session" enfin appliqué littéralement (règle en vigueur depuis v2.x, non suivie depuis le 2026-07-26) — historique conservé via `git log` sur le fichier, pas supprimé.
+- `_contexte/signals.md` : **rotation appliquée** (Phase 4) — 21 anciennes sessions (508→58 lignes, 46→12.6 KB) déplacées vers `_contexte/archive_sessions.md` (544 lignes, 36 KB, format append-only). Seule la dernière session conservée dans `signals.md`. Historique reste consultable via `archive_sessions.md` (non chargé par `/start`).
+- `_contexte/archive_sessions.md` : créé, contient les 21 sessions archivées (2026-07-26 → 2026-08-13).
+- `.claude/commands/close.md` et `templates/.claude/commands/close.md` : étape 4 mise à jour pour implémenter la rotation automatique (déplacement vers `archive_sessions.md` si >1 session).
+- `Protocole_start_close_context.md` : section "Format canonique de `signals.md`" mise à jour avec la documentation de la rotation.
 
 ## v3.17 — 2026-08-13
 

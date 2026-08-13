@@ -94,7 +94,7 @@ fonctionnement inchangé, aucune consultation à faire.
 Rappel : jamais de secret en dur dans le code ou les prompts — stockage hors git, accès via service/API.
 
 Dossiers ou fichiers contenant des données sensibles (registre nominatif, credentials, données clients, fichiers financiers) à ne jamais lire ni écrire sans instruction explicite :
-{{DONNEES_SENSIBLES}}
+Aucun déclaré.
 
 <!-- Exemple :
 - Chemin/vers/dossier_sensible

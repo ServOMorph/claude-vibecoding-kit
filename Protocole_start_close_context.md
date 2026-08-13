@@ -116,6 +116,8 @@ Structure fixe. Taille maximale par section indiquée — à respecter pour cont
 
 > **Section "Dernière session" :** remplace l'ancien fichier `derniere_session.md` (fusionné en v2.1) — un fichier de moins à lire au `/start` et à réécrire au `/close`. Écrasée intégralement par `/close` avec la synthèse de session ; l'historique des sessions reste consultable via git.
 
+> **Rotation des sessions (Phase 4) :** Pour éviter l'accumulation d'historique mort, `signals.md` ne conserve que la **dernière session** (seuil = 1 bloc `# Session du`). Les sessions précédentes sont automatiquement déplacées vers `_contexte/archive_sessions.md` (format append-only, séparées par `---`). Le fichier `archive_sessions.md` n'est **jamais** chargé par `/start` — il sert uniquement de stockage historique pour consultation manuelle.
+
 ---
 
 # /start [zone]

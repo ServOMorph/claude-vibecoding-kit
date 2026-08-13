@@ -60,13 +60,13 @@ Il ne s'agit **pas** d'un subagent Claude Code (`.claude/agents/*.md`, Task tool
 ---
 
 ## Phase 3 — Généralisation : commande `/create_agent` + template dans le kit [FAIT]
-- [x] Écrire `templates/.claude/commands/create_agent.md` (argument = dossier cible ; crée dossier + charte + `_contexte/` + enregistre la zone), **avec contrôle d'unicité de l'alias avant écriture dans `zones.md`** (décision 3). Copiée aussi dans `.claude/commands/create_agent.md` du kit.
+- [x] Écrire `.claude/commands/create_agent.md` (argument = dossier cible ; crée dossier + charte + `_contexte/` + enregistre la zone), **avec contrôle d'unicité de l'alias avant écriture dans `zones.md`** (décision 3). Commande **kit uniquement** — ne pas copier dans les templates.
 - [x] Créer le template de charte `templates/agent_role_TEMPLATE.md`, générique et paramétré par rôle (pas centré sur un cas d'usage précis, cf. correctif appliqué à `COM/agent_role.md` de robert-ia).
 - [x] Ajouter dans `start.md` (kit + template) l'étape de chargement automatique de `agent_role.md` avant `signals.md` (décision 4).
 - [x] Écrire explicitement dans `update.md` que les `_contexte/` des sous-zones ne sont jamais touchés par `/update` (décision 2), avant tout `/update all`.
-- [x] Intégrer dans la commande l'**étape finale obligatoire** : recommander à l'utilisateur de passer sur **Opus**, analyser le workflow qui vient de se dérouler, et **écrire/mettre à jour `ameliorations_create_agent.md`** (sortie concrète, décision 6) — pas seulement un affichage chat. → Étape 10 ajoutée, fichier situé à la racine du projet où `/create_agent` est invoqué.
-- [x] Copier la commande dans le kit lui-même (`.claude/commands/create_agent.md`) pour qu'elle soit utilisable ici.
-- [x] Décider si `/update` propage `create_agent.md` aux projets (cohérence avec start/close/create_memory). → Décision de l'utilisateur : non, `/update` ne propage pas `create_agent.md`. La commande reste disponible dans le kit (`templates/.claude/commands/create_agent.md`) et se copie manuellement dans les projets où elle est voulue.
+- [x] Intégrer dans la commande l'**étape finale obligatoire** : recommander à l'utilisateur de passer sur **Opus**, analyser le workflow qui vient de se dérouler, et **écrire/mettre à jour `base_connaissances/ameliorations_create_agent.md`** (sortie concrète, décision 6) — pas seulement un affichage chat. → Étape 10 ajoutée, fichier situé à la racine du kit.
+- [x] La commande reste dans le kit (`.claude/commands/create_agent.md`) — **ne pas propager via `/update`** (décision utilisateur : commande kit uniquement, comme `doc_sync.md`).
+- [x] `/doc_sync`, mise à jour `CHANGELOG.md` / `DEPLOYMENTS.md` si impacté. → `doc_sync.md` (table miroir), `README.md`, `Protocole_start_close_context.md`, `CHANGELOG.md` (v2.21) mis à jour. `DEPLOYMENTS.md` non touché.
 - [x] `/doc_sync`, mise à jour `CHANGELOG.md` / `DEPLOYMENTS.md` si impacté. → `doc_sync.md` (table miroir + `create_agent.md`), `README.md`, `Protocole_start_close_context.md`, `CHANGELOG.md` (v2.21) mis à jour. `DEPLOYMENTS.md` non touché (règle de `/doc_sync` : ne reflète que les déploiements projets, pas les changements du kit).
 
 **⏸ Checkpoint** — Demander à l'utilisateur de faire `/compact` avant de continuer. Attendre sa réponse écrite. Ne pas commencer la phase suivante sans confirmation.
