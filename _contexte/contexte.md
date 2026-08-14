@@ -12,14 +12,15 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - **Déploiement** : copie template vers projets via `/init`, tracking dans DEPLOYMENTS.md
 
 ## État actuel
-- Kit v3.19 : `roadmap_refacto_kit.md` close (6/6 phases FAIT) — normalisation LF, `scripts/check_kit.py` (contrôle mécanique, branché sur `/doc_sync` et `/close`), rotation `signals.md`, correctifs de divergence kit/template, dé-duplication documentaire. Vérifié : `check_kit.py` au vert, 23 tests passants (1 skip).
+- Kit v3.20 : nouveau template `control_PC` pour encadrer une fenêtre, afficher un journal vivant et organiser macros/workflows par application.
+- `control_PC` conserve les constats dans SQLite local, exclu de Git ; ses captures de session restent locales.
 - `create_com_agents` (Roberto2, v3.16) : Phase 2 en cours, correctif de placement d'étape à retester.
 - `/create_agent` : mode conversion pas encore validé end-to-end (Test 3 à faire).
 - `jeu_zombies` (v2.26 déployé) toujours en retard sur le kit — `/update` à lancer.
-- Capafy_AI initialisé (zone `capafy_ai`), mis sous git a posteriori, commit initial + push faits.
 
 ## Décisions structurantes
 _Décisions antérieures au 2026-08-04 (session crea_zik/doc_sync) archivées dans `_contexte/archive_decisions.md`._
+- 2026-08-14 : template `control_PC` ajouté : halo de fenêtre violet avec arrêt `Esc`, journal de session affiché dans la barre basse, détection visuelle prudente, base SQLite locale et macros indexées par application. Parcours LinkedIn de planification documenté jusqu'avant programmation finale ; aucune donnée personnelle ni publication enregistrée. Kit v3.20.
 - 2026-08-13 : `roadmap_refacto_kit.md` close (6/6 phases FAIT), exécutée en autonomie par un agent devstral puis relue et clôturée par Claude (l'agent n'a pas pu lancer `/close` lui-même, problème de connexion). Kit v3.19, `check_kit.py` au vert.
 - 2026-08-13 : audit structurel du kit (9 défauts identifiés) — vérité dupliquée sur 5 emplacements (`.claude/commands/`, `templates/.claude/commands/`, `README.md`, `CHANGELOG.md`, `Protocole_start_close_context.md`) sans aucun contrôle mécanique. Racine nettoyée (16→10 fichiers, `git mv` vers `scripts/`/`_archives/`/`base_connaissances/`, références réparées, `README.md` § Structure réécrit). `roadmap_refacto_kit.md` créée : normalisation LF, `check_kit.py` (contrôle mécanique), rotation `signals.md`, correctifs de divergence kit/template, dé-duplication doc. Kit v3.18.
 - 2026-08-13 : `/init_projet` propose un backup Google Drive automatique (`backup_project.py`, rclone sync) pour les projets sans git — Q4bis, injection conditionnelle de l'étape dans le `close.md` du projet cible. Init de `Capafy_AI` (zone `capafy_ai`), mis sous git a posteriori par l'utilisateur, commit initial + push faits. Kit v3.17.

@@ -172,6 +172,10 @@ def check_crlf_files():
     
     # Dossiers à ignorer (gitignore standard + dossiers de build/test)
     ignored_dirs = {".git", "__pycache__", ".pytest_cache", ".vscode", ".idea", "build", "dist", "venv", ".venv"}
+    runtime_dirs = {
+        Path("templates/control_PC/analysis"),
+        Path("templates/control_PC/logs"),
+    }
     # Extensions de fichiers à ignorer
     ignored_extensions = {".pyc", ".swp", ".swo", ".DS_Store", ".log", ".bak", ".tmp"}
     # Extensions binaires à ignorer
@@ -179,7 +183,11 @@ def check_crlf_files():
     
     for root, dirs, files in os.walk(KIT_ROOT):
         # Filtrer les dossiers ignorés
-        dirs[:] = [d for d in dirs if d not in ignored_dirs]
+        relative_root = Path(root).relative_to(KIT_ROOT)
+        dirs[:] = [
+            d for d in dirs
+            if d not in ignored_dirs and relative_root / d not in runtime_dirs
+        ]
         
         for file in files:
             filepath = Path(root) / file

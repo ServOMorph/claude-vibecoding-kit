@@ -3,6 +3,13 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
 
+## v3.20 — 2026-08-14
+
+### Ajouté
+- Template `control_PC` : halo violet autour de la fenêtre contrôlée, arrêt global `Esc`, journal vivant et détection visuelle prudente.
+- Organisation de macros par application, workflows composés et schéma SQLite local pour conserver les applications, constats vérifiés et macros validées.
+- Macro LinkedIn de préparation d'un post planifié, arrêtée volontairement avant la confirmation finale.
+
 ## v3.19 — 2026-08-13
 
 ### Phase 6 — Dé-duplication documentaire (FAIT)

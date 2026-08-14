@@ -94,6 +94,7 @@ claude-vibecoding-kit/
     ├── roadmap_TEMPLATE.md               # template pour chantiers multi-phases
     ├── AGENTS.md                         # équivalent CLAUDE.md pour agents non-Claude (Codex, ChatGPT...), sur confirmation
     └── GEMINI.md                         # équivalent CLAUDE.md spécifique à Gemini, sur confirmation
+    └── control_PC/                       # template local de contrôle visuel, macros et workflows par application
 ```
 
 Les commandes `/create_agent`, `/create_com_agents`, `/cherche_meilleure_action` et `/doc_sync`
@@ -118,7 +119,7 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit **v3.19** (2026-08-13) : refacto structurel terminé — 9 défauts corrigés (vérité dupliquée sur 5 emplacements sans contrôle mécanique). Phases 1-6 terminées : nettoyage racine, normalisation LF, `scripts/check_kit.py`, rotation `signals.md`, correctifs kit/template, dé-duplication documentaire. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
+Kit **v3.20** (2026-08-14) : ajout du template `control_PC` — halo de fenêtre avec arrêt `Esc`, journal vivant, détection visuelle prudente, base locale de connaissances et macros organisées par application. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
 
 ## Vérifier le lanceur Ollama
 

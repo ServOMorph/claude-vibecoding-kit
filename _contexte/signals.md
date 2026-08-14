@@ -1,6 +1,7 @@
 # Signals — claude-vibecoding-kit (MAJ 2026-08-13)
 
 ## Actions ouvertes
+- [P1|ouvert] Valider en conditions réelles le template `control_PC` : journal vivant dans le halo, reconnaissance d'une fenêtre par empreinte, et macro LinkedIn de planification jusqu'à l'étape de confirmation finale, sans publication. fait quand: un journal ajouté pendant une prise de contrôle s'affiche immédiatement dans le halo, l'application est reconnue depuis `control_pc.sqlite` et la macro LinkedIn est validée jusqu'au dernier écran sans cliquer sur l'action finale. réf: `templates/control_PC/README.md`, `templates/control_PC/_commands/prendre_controle_pc.md`, `templates/control_PC/macros/linkedin/planifier_un_post.md`
 - [P2|ouvert] Tester en conditions réelles la nouvelle question Q4bis de `/init_projet` (backup Google Drive pour projet sans git, script `backup_project.py`) — jamais exécutée depuis l'ajout. fait quand: un `/init_projet` réel avec réponse "non" à la question git déclenche Q4bis, le script est copié dans le projet cible et l'étape est injectée dans son `close.md` (avec `allowed-tools` correspondant), comportement vérifié en conditions réelles. réf: `.claude/commands/init_projet.md`, `templates/backup_project.py`
 - [P1|ouvert] Terminer la Phase 2 du pilote `create_com_agents` sur Roberto2 : mécanisme installé et un bug de placement d'étape corrigé (voir historique git de ce fichier), mais reste à valider en conditions réelles : `/start roberto2` (correctif du placement 2d), `/close mascotte` (écriture `statut.md`), écriture/lecture d'un message réel dans `messages.md`. fait quand: les 3 tests réels effectués et bilan Phase 2 (garder/ajuster/écarter) acté dans `roadmap_com_agents.md`. réf: `roadmap_com_agents.md`, `D:\ServOMorph\Roberto2\.claude\commands\start.md`
 - [P1|ouvert] Implémenter et valider le pilote de `roadmap_messages_zones.md` (système de communication kit → zone, 2 niveaux : `urgent.md` vérifié via `CLAUDE.md` avant action significative, `messages.md` lu à `/start`, format compact `[AAAA-MM-JJ] <message>`) — design validé par l'utilisateur, déploiement décidé en pilote isolé sur Roberto2 (`D:\ServOMorph\Roberto2`, alias `roberto2`) avant toute modification des templates du kit. Aucune implémentation faite (Phase 1 non commencée). fait quand: Phase 1 (blocs "Spécificités projet" dans `start.md`/`CLAUDE.md` de Roberto2) implémentée et testée à blanc, Phase 2 validée en conditions réelles, décision garder/ajuster/écarter actée. réf: `roadmap_messages_zones.md`
@@ -21,30 +22,29 @@
 ## Contexte chaud
 - Agent `review` créé dans `jeu_zombies` via `/create_agent` (mode création, rôle : revue de code continue, sans production de code, périmètre par défaut `REVIEW/` uniquement).
 - `README.md` : corruption d'encodage pré-existante (double UTF-8) — à traiter si gênant.
+- Template `control_PC` créé : halo violet autour de la fenêtre, journal vivant, base SQLite locale ignorée par Git et macros organisées par application. Le flux LinkedIn a été arrêté avant programmation/publication finale.
 
-## Dernière session (2026-08-13)
+## Dernière session (2026-08-14)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
 
-# Session du 2026-08-13 (clôture roadmap_refacto_kit, relecture du travail d'un agent devstral)
+# Session du 2026-08-14
 
 ## Décisions prises
-- Phases 2 à 6 de `roadmap_refacto_kit.md` exécutées en autonomie par un agent codant devstral ; `/close` n'avait pas pu être lancée par cet agent (problème de connexion). Travail relu et clôturé ici.
-- Refacto jugé conforme : `check_kit.py` passant (6 contrôles), suite `tests/` (23 passed, 1 skipped), versions cohérentes (v3.19) entre `CHANGELOG.md`/`README.md`/`Protocole_start_close_context.md`, paires miroir kit/template identiques hors blocs `SPECIFICITES PROJET`.
-- Les 3 commits locaux de devstral (`e03ba3a`, `ae26a76`, `77991ea`) étaient déjà poussés sur le remote malgré le problème de connexion signalé — rien à repousser.
-- Chantier `roadmap_refacto_kit.md` considéré clos (6/6 phases `[FAIT]`).
+- Nouveau template `control_PC` : le halo cible une fenêtre précise, s'arrête avec `Esc` et affiche le journal vivant de session.
+- Les connaissances applicatives sont structurées dans SQLite local (ignoré par Git), les macros sont classées par application et les workflows composés sont documentés.
+- La planification LinkedIn a été explorée jusqu'aux champs date/heure, sans aucune validation finale ni publication.
 
-## Livrables produits ou modifiés (par devstral, relus à cette clôture)
-- `.gitattributes`, `scripts/check_kit.py` + `tests/test_check_kit.py` (Phases 2-3, bundlés dans le commit "phase4" par erreur d'étiquetage).
-- `_contexte/archive_sessions.md` créé, rotation de `signals.md` (Phase 4).
-- `.claude/CLAUDE.md`, `templates/.claude/CLAUDE.md`, `close.md` (étape 14bis déplacée en SPECIFICITES), `doc_sync.md`, `_archives/roadmap_agents.md` (Phase 5).
-- `Protocole_start_close_context.md`, `README.md`, `llms.txt`, `base_connaissances/INDEX.md` (Phase 6, commit au message vide "feat:").
+## Livrables produits ou modifiés
+- `templates/control_PC/` : script du halo, commande, détecteur visuel, schéma SQLite, organisation de macros et workflows.
+- `templates/control_PC/macros/linkedin/planifier_un_post.md` : macro brouillon documentant le parcours jusqu'à confirmation finale.
+- `.gitignore`, `README.md`, `CHANGELOG.md` : intégration du template et exclusion des artefacts locaux.
 
 ## Hypothèses validées / invalidées
-- VALIDE : refacto fonctionnellement complet et vérifié (contrôle mécanique + tests + relecture manuelle des points clés).
-- À NOTER : hygiène de commit dégradée côté devstral (bundling Phase 2/3 sans étiquette, message de commit vide sur Phase 6) — sans impact sur le contenu, signalé pour vigilance future.
+- VALIDE : le halo peut encadrer une fenêtre et le flux LinkedIn de planification est accessible via l'horloge de rédaction.
+- EN ATTENTE : affichage réellement dynamique des nouveaux logs et validation de la macro LinkedIn jusqu'au dernier écran non publiant.
 
 ## Prochaine étape exacte
-Reprendre les actions ouvertes de `signals.md` (Phase 2 `create_com_agents` sur Roberto2, pilote `roadmap_messages_zones.md`).
+Reprendre la validation `control_PC`, puis les actions P1 existantes du pilote `create_com_agents` sur Roberto2.
 
 ## Question bloquante pour la session suivante
 Aucune

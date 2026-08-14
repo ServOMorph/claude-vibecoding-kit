@@ -1,5 +1,5 @@
 # Protocole de vibecoding — Documentation générique
-> **v3.19** — Révision du 2026-08-13. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet des versions.
+> **v3.20** — Révision du 2026-08-14. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet des versions.
 
 ## Pourquoi ce fichier
 
@@ -361,4 +361,3 @@ Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par
 
 > **Source unique :** L'historique complet des versions est consigné dans [`CHANGELOG.md`](CHANGELOG.md).
 > Ce fichier ne duplique pas le changelog — voir `CHANGELOG.md` pour le détail des modifications par version.
-

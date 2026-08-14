@@ -15,3 +15,10 @@ DEPLOYMENTS.md
 
 # Local agents registry (chemins absolus locaux)
 AGENTS_REGISTRY.md
+
+# Runtime artifacts of the Control PC template
+templates/control_PC/analysis/session_*/
+templates/control_PC/analysis/linkedin_ephemere.png
+templates/control_PC/analysis/observer_error.log
+templates/control_PC/logs/control.log
+templates/control_PC/database/*.sqlite
