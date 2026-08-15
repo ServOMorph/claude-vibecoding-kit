@@ -1,7 +1,7 @@
-# Signals — claude-vibecoding-kit (MAJ 2026-08-13)
+# Signals — claude-vibecoding-kit (MAJ 2026-08-15)
 
 ## Actions ouvertes
-- [P1|ouvert] Valider en conditions réelles le template `control_PC` : journal vivant dans le halo, reconnaissance d'une fenêtre par empreinte, et macro LinkedIn de planification jusqu'à l'étape de confirmation finale, sans publication. fait quand: un journal ajouté pendant une prise de contrôle s'affiche immédiatement dans le halo, l'application est reconnue depuis `control_pc.sqlite` et la macro LinkedIn est validée jusqu'au dernier écran sans cliquer sur l'action finale. réf: `templates/control_PC/README.md`, `templates/control_PC/_commands/prendre_controle_pc.md`, `templates/control_PC/macros/linkedin/planifier_un_post.md`
+- [P2|ouvert] Corruption d'encodage dans `templates/control_PC/database/control_pc.sqlite` (table `discoveries`, lignes de la session du 2026-08-14 sur `appli_tsa_sdi_tdah`) : accents remplacés par des `?` littéraux (perte de caractère, pas un simple problème d'affichage — vérifié par lecture des octets bruts). Constaté en session du 2026-08-15 en marge de la validation `control_PC`, aucune correction faite. fait quand: source de la corruption identifiée (script `discover_right_window.py` ou étape d'écriture manuelle) et lignes concernées corrigées ou ré-observées. réf: `templates/control_PC/database/control_pc.sqlite`, `templates/control_PC/discovery/discover_right_window.py`
 - [P2|ouvert] Tester en conditions réelles la nouvelle question Q4bis de `/init_projet` (backup Google Drive pour projet sans git, script `backup_project.py`) — jamais exécutée depuis l'ajout. fait quand: un `/init_projet` réel avec réponse "non" à la question git déclenche Q4bis, le script est copié dans le projet cible et l'étape est injectée dans son `close.md` (avec `allowed-tools` correspondant), comportement vérifié en conditions réelles. réf: `.claude/commands/init_projet.md`, `templates/backup_project.py`
 - [P1|ouvert] Terminer la Phase 2 du pilote `create_com_agents` sur Roberto2 : mécanisme installé et un bug de placement d'étape corrigé (voir historique git de ce fichier), mais reste à valider en conditions réelles : `/start roberto2` (correctif du placement 2d), `/close mascotte` (écriture `statut.md`), écriture/lecture d'un message réel dans `messages.md`. fait quand: les 3 tests réels effectués et bilan Phase 2 (garder/ajuster/écarter) acté dans `roadmap_com_agents.md`. réf: `roadmap_com_agents.md`, `D:\ServOMorph\Roberto2\.claude\commands\start.md`
 - [P1|ouvert] Implémenter et valider le pilote de `roadmap_messages_zones.md` (système de communication kit → zone, 2 niveaux : `urgent.md` vérifié via `CLAUDE.md` avant action significative, `messages.md` lu à `/start`, format compact `[AAAA-MM-JJ] <message>`) — design validé par l'utilisateur, déploiement décidé en pilote isolé sur Roberto2 (`D:\ServOMorph\Roberto2`, alias `roberto2`) avant toute modification des templates du kit. Aucune implémentation faite (Phase 1 non commencée). fait quand: Phase 1 (blocs "Spécificités projet" dans `start.md`/`CLAUDE.md` de Roberto2) implémentée et testée à blanc, Phase 2 validée en conditions réelles, décision garder/ajuster/écarter actée. réf: `roadmap_messages_zones.md`
@@ -22,29 +22,28 @@
 ## Contexte chaud
 - Agent `review` créé dans `jeu_zombies` via `/create_agent` (mode création, rôle : revue de code continue, sans production de code, périmètre par défaut `REVIEW/` uniquement).
 - `README.md` : corruption d'encodage pré-existante (double UTF-8) — à traiter si gênant.
-- Template `control_PC` créé : halo violet autour de la fenêtre, journal vivant, base SQLite locale ignorée par Git et macros organisées par application. Le flux LinkedIn a été arrêté avant programmation/publication finale.
+- Template `control_PC` validé en conditions réelles le 2026-08-15 (voir dernière session) : journal vivant, reconnaissance par empreinte et macro LinkedIn jusqu'à l'écran de confirmation, sans publication.
 
-## Dernière session (2026-08-14)
+## Dernière session (2026-08-15)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
 
-# Session du 2026-08-14
+# Session du 2026-08-15
 
 ## Décisions prises
-- Nouveau template `control_PC` : le halo cible une fenêtre précise, s'arrête avec `Esc` et affiche le journal vivant de session.
-- Les connaissances applicatives sont structurées dans SQLite local (ignoré par Git), les macros sont classées par application et les workflows composés sont documentés.
-- La planification LinkedIn a été explorée jusqu'aux champs date/heure, sans aucune validation finale ni publication.
+- Validation P1 `control_PC` actée en conditions réelles sur la fenêtre LinkedIn : journal vivant, reconnaissance par empreinte et macro `planifier_un_post` jusqu'à l'écran de confirmation.
 
 ## Livrables produits ou modifiés
-- `templates/control_PC/` : script du halo, commande, détecteur visuel, schéma SQLite, organisation de macros et workflows.
-- `templates/control_PC/macros/linkedin/planifier_un_post.md` : macro brouillon documentant le parcours jusqu'à confirmation finale.
-- `.gitignore`, `README.md`, `CHANGELOG.md` : intégration du template et exclusion des artefacts locaux.
+- `templates/control_PC/database/control_pc.sqlite` : macro `linkedin.planifier_un_post` passée à `validée`, fiche `linkedin` mise à jour (`last_seen_at`), nouvelle observation de l'écran de confirmation.
+- `templates/control_PC/logs/control.log` : entrées de test du journal vivant (fichier local, ignoré par Git).
+- `_contexte/signals.md` : action P1 `control_PC` clôturée ; nouvelle action P2 (corruption d'encodage détectée dans `control_pc.sqlite`).
 
 ## Hypothèses validées / invalidées
-- VALIDE : le halo peut encadrer une fenêtre et le flux LinkedIn de planification est accessible via l'horloge de rédaction.
-- EN ATTENTE : affichage réellement dynamique des nouveaux logs et validation de la macro LinkedIn jusqu'au dernier écran non publiant.
+- VALIDE : le journal ajouté pendant une prise de contrôle s'affiche immédiatement dans le halo.
+- VALIDE : l'application est reconnue depuis `control_pc.sqlite` (titre de fenêtre confirmé contre la signature enregistrée).
+- VALIDE : la macro LinkedIn atteint l'écran de confirmation sans déclencher l'action finale.
 
 ## Prochaine étape exacte
-Reprendre la validation `control_PC`, puis les actions P1 existantes du pilote `create_com_agents` sur Roberto2.
+Traiter la corruption d'encodage de `control_pc.sqlite` (P2), puis reprendre le pilote `create_com_agents` (Phase 2, Roberto2) et `roadmap_messages_zones.md`.
 
 ## Question bloquante pour la session suivante
 Aucune

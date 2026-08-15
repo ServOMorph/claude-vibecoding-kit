@@ -119,7 +119,7 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit **v3.20** (2026-08-14) : ajout du template `control_PC` — halo de fenêtre avec arrêt `Esc`, journal vivant, détection visuelle prudente, base locale de connaissances et macros organisées par application. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
+Kit **v3.21** (2026-08-15) : template `control_PC` validé en conditions réelles — journal vivant, reconnaissance d'application par empreinte et macro LinkedIn déroulée jusqu'à l'écran de confirmation, sans publication. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
 
 ## Vérifier le lanceur Ollama
 

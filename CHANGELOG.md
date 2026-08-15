@@ -3,6 +3,14 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
 
+## v3.21 — 2026-08-15
+
+### Corrigé
+- Template `control_PC` validé en conditions réelles sur la fenêtre LinkedIn : journal vivant confirmé (log ajouté visible immédiatement dans le halo), reconnaissance par empreinte confirmée (titre de fenêtre vs signature `control_pc.sqlite`), macro `linkedin.planifier_un_post` déroulée jusqu'à l'écran de confirmation sans déclencher l'action finale — statut passé à `validée` en base.
+
+### Ajouté
+- Signal ouvert : corruption d'encodage détectée dans `control_pc.sqlite` (accents perdus sur des lignes `discoveries` du 2026-08-14), à corriger.
+
 ## v3.20 — 2026-08-14
 
 ### Ajouté
