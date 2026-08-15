@@ -1,7 +1,6 @@
 # Signals — claude-vibecoding-kit (MAJ 2026-08-15)
 
 ## Actions ouvertes
-- [P1|ouvert] Poursuivre `roadmap_template_roberto.md` — Phase 2 (conception de la commande générique d'insertion de template `.claude/commands/`) : Phase 1 (inventaire fichier par fichier de `D:\ServOMorph\Roberto2`) terminée. Reste à trancher le nom/portée de la commande, le mécanisme de placeholders, la détection d'idempotence, et si le template `roberto` doit pré-câbler une structure `_contexte/` vide pour `create_com_agents`. fait quand: `.claude/commands/<nom_commande>.md` rédigée et Phase 2 passée à FAIT dans la roadmap. réf: `roadmap_template_roberto.md`, `templates/roberto/analysis/inventaire.md`, `.claude/commands/create_agent.md` (modèle structurel)
 - [P2|ouvert] Corruption d'encodage dans `templates/control_PC/database/control_pc.sqlite` (table `discoveries`, lignes de la session du 2026-08-14 sur `appli_tsa_sdi_tdah`) : accents remplacés par des `?` littéraux (perte de caractère, pas un simple problème d'affichage — vérifié par lecture des octets bruts). Constaté en session du 2026-08-15 en marge de la validation `control_PC`, aucune correction faite. fait quand: source de la corruption identifiée (script `discover_right_window.py` ou étape d'écriture manuelle) et lignes concernées corrigées ou ré-observées. réf: `templates/control_PC/database/control_pc.sqlite`, `templates/control_PC/discovery/discover_right_window.py`
 - [P2|ouvert] Tester en conditions réelles la nouvelle question Q4bis de `/init_projet` (backup Google Drive pour projet sans git, script `backup_project.py`) — jamais exécutée depuis l'ajout. fait quand: un `/init_projet` réel avec réponse "non" à la question git déclenche Q4bis, le script est copié dans le projet cible et l'étape est injectée dans son `close.md` (avec `allowed-tools` correspondant), comportement vérifié en conditions réelles. réf: `.claude/commands/init_projet.md`, `templates/backup_project.py`
 - [P1|ouvert] Terminer la Phase 2 du pilote `create_com_agents` sur Roberto2 : mécanisme installé et un bug de placement d'étape corrigé (voir historique git de ce fichier), mais reste à valider en conditions réelles : `/start roberto2` (correctif du placement 2d), `/close mascotte` (écriture `statut.md`), écriture/lecture d'un message réel dans `messages.md`. fait quand: les 3 tests réels effectués et bilan Phase 2 (garder/ajuster/écarter) acté dans `roadmap_com_agents.md`. réf: `roadmap_com_agents.md`, `D:\ServOMorph\Roberto2\.claude\commands\start.md`
@@ -23,7 +22,8 @@
 ## Contexte chaud
 - Agent `review` créé dans `jeu_zombies` via `/create_agent` (mode création, rôle : revue de code continue, sans production de code, périmètre par défaut `REVIEW/` uniquement).
 - `README.md` : corruption d'encodage pré-existante (double UTF-8) — à traiter si gênant.
-- Template `control_PC` validé en conditions réelles le 2026-08-15 (voir dernière session) : journal vivant, reconnaissance par empreinte et macro LinkedIn jusqu'à l'écran de confirmation, sans publication.
+- Template `control_PC` validé en conditions réelles le 2026-08-15 : journal vivant, reconnaissance par empreinte et macro LinkedIn jusqu'à l'écran de confirmation, sans publication.
+- `roadmap_template_roberto.md` close (5/5 phases FAIT) : template `roberto` + commande `/insert_template` disponibles. L'utilisateur prévoit de tester `roberto` en conditions réelles plus tard (pas planifié).
 
 ## Dernière session (2026-08-15)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
@@ -31,20 +31,20 @@
 # Session du 2026-08-15
 
 ## Décisions prises
-- Création de `roadmap_template_roberto.md` : deux livrables couplés — commande générique d'insertion de template (`.claude/commands/`) et template `templates/roberto/` extrait de `Roberto2` comme cas d'usage. Traçage de l'analyse dans `templates/roberto/` (décidé via AskUserQuestion, pas dans un dossier `roberto/` à la racine du kit).
+- `roadmap_template_roberto.md` close (5/5 phases FAIT) : bilan garder tel quel, aucun ajustement nécessaire sur le template ni sur la commande.
 
 ## Livrables produits ou modifiés
-- `roadmap_template_roberto.md` : créée (5 phases).
-- `templates/roberto/analysis/inventaire.md` : créé — inventaire fichier par fichier de `D:\ServOMorph\Roberto2` (conserver/génériciser/exclure), dépendances externes (`pywin32`, `pyautogui`, `pywebview`, aucun `requirements.txt` source).
-- `roadmap_template_roberto.md` : Phase 1 passée à FAIT, Phase 2 passée à EN COURS.
+- `templates/roberto/` : template extrait et généricisé depuis `D:\ServOMorph\Roberto2` (MACROS, MASCOTTE, UI_WEB, scripts racine, 30 fichiers hors `analysis/`) ; placeholders `{{NOM_PROJET}}`/`{{ALIAS_PROJET}}`/`{{DATE}}` appliqués à `README.md`, `.claude/zones.md`, `MASCOTTE/agent_role.md`.
+- `.claude/commands/insert_template.md` : testé de bout en bout sur un projet cible de test (idempotence, résolution des placeholders, code Python compilable, aucun chemin résiduel vers `Roberto2`).
+- `roadmap_template_roberto.md` : Phases 3/4/5 passées à FAIT.
+- `README.md`, `CHANGELOG.md` (v3.22 → v3.23) : synchronisés via `/doc_sync`.
 
 ## Hypothèses validées / invalidées
-- VALIDE : aucun chemin absolu codé en dur dans le code Python de Roberto2 (tous les modules résolvent via `Path(__file__)`) — seuls des fichiers de données/config (`UI/recents.txt`, `UI_WEB/recent_folders.json`, `.claude/zones.md`) portent le chemin `D:\ServOMorph\Roberto2` en dur.
-- VALIDE : `.claude/commands/close.md`/`start.md` de Roberto2 sont des versions obsolètes divergentes du kit (diff effectué) — à exclure du template, gérées par le kit standard.
-- EN ATTENTE : statut du mécanisme `create_com_agents` déjà installé dans `MASCOTTE/_contexte/statut.md` — à trancher en Phase 2 (pré-câblage `_contexte/` vide dans le template ou hors périmètre).
+- VALIDE : `/insert_template` fonctionne comme prévu en conditions réelles (idempotence, placeholders, exclusion `analysis/`, préservation des binaires).
+- INVALIDE : l'inventaire Phase 1 affirmait "aucun chemin absolu en dur dans le code Python" — deux scripts (`MACROS/tester_memoire_opencode.py`, `MACROS/tester_communication_opencode.py`) en contredisaient. Pivot : corrigés par résolution relative `Path(__file__)`, cohérente avec le reste du code.
 
 ## Prochaine étape exacte
-Phase 2 de `roadmap_template_roberto.md` : trancher nom/portée de la commande d'insertion générique, mécanisme de placeholders, idempotence ; rédiger `.claude/commands/<nom_commande>.md`.
+Aucune action immédiate sur `roberto` (usage réel différé par l'utilisateur). Reprendre les actions ouvertes prioritaires (P1) de ce fichier.
 
 ## Question bloquante pour la session suivante
 Aucune

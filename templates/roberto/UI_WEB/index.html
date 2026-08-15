@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Roberto</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <div id="mascot-crt-contenant" class="mascot-crt-contenant">
+        <div id="mascot-crt" class="mascot-crt">
+          <pre id="mascot-screen" class="mascot-screen"></pre>
+          <div class="mascot-scanlines"></div>
+        </div>
+      </div>
+
+      <header>
+        <div>
+          <p class="eyebrow">AUTOMATISATION LOCALE</p>
+          <h1>Roberto</h1>
+        </div>
+      </header>
+
+      <section class="status-card">
+        <p class="section-label">NOM DU PROGRAMME</p>
+        <input type="text" id="program-input" placeholder="ex. notepad" autocomplete="off" />
+        <button class="primary" id="launch-button" style="width: 100%">LANCER</button>
+
+        <p id="status-message" class="mascot-message"></p>
+
+        <button class="text-button" id="logs-button">VOIR LES LOGS</button>
+      </section>
+
+      <section class="status-card">
+        <p class="section-label">JEUX</p>
+        <button class="primary" id="pong-button" style="width: 100%">PONG</button>
+      </section>
+
+      <section class="status-card">
+        <button class="primary" id="opencode-button" style="width: 100%">OPENCODE</button>
+
+        <div id="recent-folders" class="macro-list"></div>
+
+        <p class="section-label">MESSAGE OPENCODE</p>
+        <input type="text" id="opencode-message-input" placeholder="Message a envoyer" autocomplete="off" />
+        <button class="primary" id="opencode-message-button" style="width: 100%">ENVOYER</button>
+
+        <p class="section-label">CAPTURE COORDONNEES</p>
+        <button class="primary" id="capture-coord-button" style="width: 100%">ACTIVER CAPTURE (F8)</button>
+      </section>
+    </main>
+
+    <div id="logs-modal" class="modal hidden">
+      <div class="modal-panel">
+        <div class="section-heading">
+          <p class="section-label">HISTORIQUE COMPLET</p>
+          <button class="text-button" id="logs-close">FERMER</button>
+        </div>
+        <div id="logs-list" class="logs-list"></div>
+      </div>
+    </div>
+
+    <script src="mascotte/config_rendu.js"></script>
+    <script src="mascotte/registry.js"></script>
+    <script src="mascotte/animations_base.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

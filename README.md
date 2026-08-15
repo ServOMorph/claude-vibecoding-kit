@@ -15,6 +15,7 @@ Résout le problème structurel du vibecoding : **le contexte est perdu à chaqu
 - `/create_memory` — ajoute une entrée dans la mémoire projet persistante (`.claude/memory.md`)
 - `/create_agent <chemin_projet_cible> <dossier> [rôle]` — crée un agent (zone à rôle : charte `agent_role.md` + `_contexte/` propre, pilotable par `/start`/`/close`) dans un projet cible ; s'exécute toujours depuis le kit, n'est jamais copiée dans les projets cibles
 - `/create_com_agents <chemin_projet_cible>` — installe un mécanisme de communication en étoile agent↔orchestrateur (`_contexte/statut.md` pull écrasé à chaque `/close` d'une zone-agent, `_contexte/messages.md` push purgé à chaque `/start` de la zone destinataire) dans un projet cible déjà initialisé ; s'exécute toujours depuis le kit, ne modifie que `start.md`/`close.md` du projet cible
+- `/insert_template <chemin_projet_cible> <nom_template> [dossier_destination]` — insère un template (`templates/<nom>/`) dans un projet cible, résout les placeholders génériques (`{{NOM_PROJET}}`/`{{ALIAS_PROJET}}`/`{{DATE}}`) et ne jamais écraser un fichier déjà présent ; s'exécute toujours depuis le kit, jamais copiée dans les projets cibles
 - `/cherche_meilleure_action [décision]` — commande d'aide à la décision (kit uniquement) : analyse le contexte réel de la zone, évalue les options selon des critères explicites, recommande une action et demande confirmation ; à invoquer quand on ne sait pas quoi faire ensuite
 - `/doc_sync` — synchronise toute la documentation du kit (commandes, templates, structure) après une modification
 - `CLAUDE.md` — règles permanentes appliquées à toutes les conversations
@@ -95,12 +96,12 @@ claude-vibecoding-kit/
     ├── AGENTS.md                         # équivalent CLAUDE.md pour agents non-Claude (Codex, ChatGPT...), sur confirmation
     └── GEMINI.md                         # équivalent CLAUDE.md spécifique à Gemini, sur confirmation
     ├── control_PC/                       # template local de contrôle visuel, macros et workflows par application
-    └── roberto/                          # template en construction (extraction Roberto2), voir roadmap_template_roberto.md
+    └── roberto/                          # template extrait de Roberto2 (UI PC + mascotte), testé de bout en bout
 ```
 
-Les commandes `/create_agent`, `/create_com_agents`, `/cherche_meilleure_action` et `/doc_sync`
-vivent uniquement dans `.claude/commands/` du kit : elles s'exécutent depuis le kit et ne sont
-jamais copiées dans les projets cibles, donc absentes de `templates/`.
+Les commandes `/create_agent`, `/create_com_agents`, `/insert_template`, `/cherche_meilleure_action`
+et `/doc_sync` vivent uniquement dans `.claude/commands/` du kit : elles s'exécutent depuis le kit
+et ne sont jamais copiées dans les projets cibles, donc absentes de `templates/`.
 
 ## Documentation
 
@@ -120,7 +121,7 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit **v3.22** (2026-08-15) : `roadmap_template_roberto.md` en cours — conception d'une commande générique d'insertion de template et extraction du template `roberto` depuis `Roberto2` (Phase 1 FAIT, Phase 2 EN COURS). Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
+Kit **v3.23** (2026-08-15) : `roadmap_template_roberto.md` close (5/5 phases FAIT) — commande `/insert_template` et template `roberto` extrait de `Roberto2`, testé de bout en bout sur un projet cible. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
 
 ## Vérifier le lanceur Ollama
 

@@ -1,0 +1,1 @@
+const VERSION_GENERATION_MASCOTTE = 'v-dev';

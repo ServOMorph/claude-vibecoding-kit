@@ -3,6 +3,15 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
 
+## v3.23 — 2026-08-15
+
+### Ajouté
+- `.claude/commands/insert_template.md` : commande générique d'insertion d'un template (`templates/<nom>/`) dans un projet cible — résolution des placeholders `{{NOM_PROJET}}`/`{{ALIAS_PROJET}}`/`{{DATE}}`, jamais d'écrasement silencieux d'un fichier déjà présent, blocage explicite sur token inconnu.
+- `templates/roberto/` : template extrait et généricisé depuis `D:\ServOMorph\Roberto2` (MACROS, MASCOTTE, UI_WEB, scripts racine) — écart détecté vs l'inventaire Phase 1 corrigé (deux scripts `MACROS/tester_*_opencode.py` avaient un chemin absolu en dur, remplacé par une résolution relative `Path(__file__)`).
+
+### Corrigé
+- Testé de bout en bout sur un projet cible de test : idempotence vérifiée (fichier déjà présent laissé intact), placeholders résolus sans reste, code Python compilable, aucun chemin résiduel vers `Roberto2`. `roadmap_template_roberto.md` close (5/5 phases FAIT).
+
 ## v3.22 — 2026-08-15
 
 ### Ajouté
