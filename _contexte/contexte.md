@@ -12,7 +12,7 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 - **Déploiement** : copie template vers projets via `/init`, tracking dans DEPLOYMENTS.md
 
 ## État actuel
-- Kit v3.21 : template `control_PC` validé en conditions réelles (journal vivant, reconnaissance par empreinte, macro LinkedIn jusqu'à confirmation).
+- Kit v3.22 : `roadmap_template_roberto.md` en cours (Phase 1 FAIT, Phase 2 EN COURS) — commande générique d'insertion de template + extraction du template `roberto` depuis `Roberto2`.
 - Corruption d'encodage constatée dans `control_pc.sqlite` (accents perdus sur des lignes du 2026-08-14) — à corriger.
 - `create_com_agents` (Roberto2, v3.16) : Phase 2 en cours, correctif de placement d'étape à retester.
 - `/create_agent` : mode conversion pas encore validé end-to-end (Test 3 à faire).
@@ -20,6 +20,7 @@ Fournir un kit reproductible pour gérer le vibecoding sur des projets multi-ses
 
 ## Décisions structurantes
 _Décisions antérieures au 2026-08-04 (session crea_zik/doc_sync) archivées dans `_contexte/archive_decisions.md`._
+- 2026-08-15 : `roadmap_template_roberto.md` créée — aucune commande n'automatise actuellement l'insertion d'un template (`control_PC` copié manuellement, vérifié par grep). Portée : commande générique `.claude/commands/` d'insertion de `templates/<nom>/` dans un projet cible + template `roberto` extrait de `D:\ServOMorph\Roberto2` comme cas d'usage. Traçage dans `templates/roberto/` (décidé par l'utilisateur). Phase 1 (inventaire de Roberto2) FAIT : noyau fonctionnel identifié (`MACROS/`, `UI_WEB/`, `MASCOTTE/`), aucun chemin absolu en dur dans le code Python, dépendances `pywin32`/`pyautogui`/`pywebview` sans `requirements.txt` source. Kit v3.22.
 - 2026-08-15 : template `control_PC` validé en conditions réelles sur la fenêtre LinkedIn — journal vivant confirmé, reconnaissance par empreinte confirmée (titre de fenêtre vs signature `control_pc.sqlite`), macro `linkedin.planifier_un_post` déroulée jusqu'à l'écran de confirmation sans déclencher l'action finale, statut passé à `validée`. Corruption d'encodage détectée en marge (accents perdus, lignes `discoveries` du 2026-08-14), non corrigée. Kit v3.21.
 - 2026-08-14 : template `control_PC` ajouté : halo de fenêtre violet avec arrêt `Esc`, journal de session affiché dans la barre basse, détection visuelle prudente, base SQLite locale et macros indexées par application. Parcours LinkedIn de planification documenté jusqu'avant programmation finale ; aucune donnée personnelle ni publication enregistrée. Kit v3.20.
 - 2026-08-13 : `roadmap_refacto_kit.md` close (6/6 phases FAIT), exécutée en autonomie par un agent devstral puis relue et clôturée par Claude (l'agent n'a pas pu lancer `/close` lui-même, problème de connexion). Kit v3.19, `check_kit.py` au vert.

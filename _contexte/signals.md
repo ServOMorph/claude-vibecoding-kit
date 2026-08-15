@@ -1,6 +1,7 @@
 # Signals — claude-vibecoding-kit (MAJ 2026-08-15)
 
 ## Actions ouvertes
+- [P1|ouvert] Poursuivre `roadmap_template_roberto.md` — Phase 2 (conception de la commande générique d'insertion de template `.claude/commands/`) : Phase 1 (inventaire fichier par fichier de `D:\ServOMorph\Roberto2`) terminée. Reste à trancher le nom/portée de la commande, le mécanisme de placeholders, la détection d'idempotence, et si le template `roberto` doit pré-câbler une structure `_contexte/` vide pour `create_com_agents`. fait quand: `.claude/commands/<nom_commande>.md` rédigée et Phase 2 passée à FAIT dans la roadmap. réf: `roadmap_template_roberto.md`, `templates/roberto/analysis/inventaire.md`, `.claude/commands/create_agent.md` (modèle structurel)
 - [P2|ouvert] Corruption d'encodage dans `templates/control_PC/database/control_pc.sqlite` (table `discoveries`, lignes de la session du 2026-08-14 sur `appli_tsa_sdi_tdah`) : accents remplacés par des `?` littéraux (perte de caractère, pas un simple problème d'affichage — vérifié par lecture des octets bruts). Constaté en session du 2026-08-15 en marge de la validation `control_PC`, aucune correction faite. fait quand: source de la corruption identifiée (script `discover_right_window.py` ou étape d'écriture manuelle) et lignes concernées corrigées ou ré-observées. réf: `templates/control_PC/database/control_pc.sqlite`, `templates/control_PC/discovery/discover_right_window.py`
 - [P2|ouvert] Tester en conditions réelles la nouvelle question Q4bis de `/init_projet` (backup Google Drive pour projet sans git, script `backup_project.py`) — jamais exécutée depuis l'ajout. fait quand: un `/init_projet` réel avec réponse "non" à la question git déclenche Q4bis, le script est copié dans le projet cible et l'étape est injectée dans son `close.md` (avec `allowed-tools` correspondant), comportement vérifié en conditions réelles. réf: `.claude/commands/init_projet.md`, `templates/backup_project.py`
 - [P1|ouvert] Terminer la Phase 2 du pilote `create_com_agents` sur Roberto2 : mécanisme installé et un bug de placement d'étape corrigé (voir historique git de ce fichier), mais reste à valider en conditions réelles : `/start roberto2` (correctif du placement 2d), `/close mascotte` (écriture `statut.md`), écriture/lecture d'un message réel dans `messages.md`. fait quand: les 3 tests réels effectués et bilan Phase 2 (garder/ajuster/écarter) acté dans `roadmap_com_agents.md`. réf: `roadmap_com_agents.md`, `D:\ServOMorph\Roberto2\.claude\commands\start.md`
@@ -30,20 +31,20 @@
 # Session du 2026-08-15
 
 ## Décisions prises
-- Validation P1 `control_PC` actée en conditions réelles sur la fenêtre LinkedIn : journal vivant, reconnaissance par empreinte et macro `planifier_un_post` jusqu'à l'écran de confirmation.
+- Création de `roadmap_template_roberto.md` : deux livrables couplés — commande générique d'insertion de template (`.claude/commands/`) et template `templates/roberto/` extrait de `Roberto2` comme cas d'usage. Traçage de l'analyse dans `templates/roberto/` (décidé via AskUserQuestion, pas dans un dossier `roberto/` à la racine du kit).
 
 ## Livrables produits ou modifiés
-- `templates/control_PC/database/control_pc.sqlite` : macro `linkedin.planifier_un_post` passée à `validée`, fiche `linkedin` mise à jour (`last_seen_at`), nouvelle observation de l'écran de confirmation.
-- `templates/control_PC/logs/control.log` : entrées de test du journal vivant (fichier local, ignoré par Git).
-- `_contexte/signals.md` : action P1 `control_PC` clôturée ; nouvelle action P2 (corruption d'encodage détectée dans `control_pc.sqlite`).
+- `roadmap_template_roberto.md` : créée (5 phases).
+- `templates/roberto/analysis/inventaire.md` : créé — inventaire fichier par fichier de `D:\ServOMorph\Roberto2` (conserver/génériciser/exclure), dépendances externes (`pywin32`, `pyautogui`, `pywebview`, aucun `requirements.txt` source).
+- `roadmap_template_roberto.md` : Phase 1 passée à FAIT, Phase 2 passée à EN COURS.
 
 ## Hypothèses validées / invalidées
-- VALIDE : le journal ajouté pendant une prise de contrôle s'affiche immédiatement dans le halo.
-- VALIDE : l'application est reconnue depuis `control_pc.sqlite` (titre de fenêtre confirmé contre la signature enregistrée).
-- VALIDE : la macro LinkedIn atteint l'écran de confirmation sans déclencher l'action finale.
+- VALIDE : aucun chemin absolu codé en dur dans le code Python de Roberto2 (tous les modules résolvent via `Path(__file__)`) — seuls des fichiers de données/config (`UI/recents.txt`, `UI_WEB/recent_folders.json`, `.claude/zones.md`) portent le chemin `D:\ServOMorph\Roberto2` en dur.
+- VALIDE : `.claude/commands/close.md`/`start.md` de Roberto2 sont des versions obsolètes divergentes du kit (diff effectué) — à exclure du template, gérées par le kit standard.
+- EN ATTENTE : statut du mécanisme `create_com_agents` déjà installé dans `MASCOTTE/_contexte/statut.md` — à trancher en Phase 2 (pré-câblage `_contexte/` vide dans le template ou hors périmètre).
 
 ## Prochaine étape exacte
-Traiter la corruption d'encodage de `control_pc.sqlite` (P2), puis reprendre le pilote `create_com_agents` (Phase 2, Roberto2) et `roadmap_messages_zones.md`.
+Phase 2 de `roadmap_template_roberto.md` : trancher nom/portée de la commande d'insertion générique, mécanisme de placeholders, idempotence ; rédiger `.claude/commands/<nom_commande>.md`.
 
 ## Question bloquante pour la session suivante
 Aucune

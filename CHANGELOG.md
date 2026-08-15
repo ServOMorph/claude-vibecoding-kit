@@ -3,6 +3,11 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
 
+## v3.22 — 2026-08-15
+
+### Ajouté
+- `roadmap_template_roberto.md` : commande générique d'insertion de template + template `roberto` extrait de `D:\ServOMorph\Roberto2` comme cas d'usage. Phase 1 (inventaire fichier par fichier) FAIT : `templates/roberto/analysis/inventaire.md` produit (noyau fonctionnel identifié, dépendances `pywin32`/`pyautogui`/`pywebview`, aucun chemin absolu en dur dans le code Python source).
+
 ## v3.21 — 2026-08-15
 
 ### Corrigé

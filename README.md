@@ -94,7 +94,8 @@ claude-vibecoding-kit/
     ├── roadmap_TEMPLATE.md               # template pour chantiers multi-phases
     ├── AGENTS.md                         # équivalent CLAUDE.md pour agents non-Claude (Codex, ChatGPT...), sur confirmation
     └── GEMINI.md                         # équivalent CLAUDE.md spécifique à Gemini, sur confirmation
-    └── control_PC/                       # template local de contrôle visuel, macros et workflows par application
+    ├── control_PC/                       # template local de contrôle visuel, macros et workflows par application
+    └── roberto/                          # template en construction (extraction Roberto2), voir roadmap_template_roberto.md
 ```
 
 Les commandes `/create_agent`, `/create_com_agents`, `/cherche_meilleure_action` et `/doc_sync`
@@ -119,7 +120,7 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit **v3.21** (2026-08-15) : template `control_PC` validé en conditions réelles — journal vivant, reconnaissance d'application par empreinte et macro LinkedIn déroulée jusqu'à l'écran de confirmation, sans publication. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
+Kit **v3.22** (2026-08-15) : `roadmap_template_roberto.md` en cours — conception d'une commande générique d'insertion de template et extraction du template `roberto` depuis `Roberto2` (Phase 1 FAIT, Phase 2 EN COURS). Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
 
 ## Vérifier le lanceur Ollama
 
