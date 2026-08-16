@@ -3,6 +3,11 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
 
+## v3.24 — 2026-08-16
+
+### Corrigé
+- Corruption d'encodage de `templates/control_PC/database/control_pc.sqlite` (table `discoveries`, 6 lignes `appli_tsa_sdi_tdah` du 2026-08-14, accents remplacés par des `?` littéraux). Cause confirmée : insertion manuelle via CLI shell (codepage non-UTF8) — `discover_right_window.py` n'écrit jamais en base (vérifié par lecture du script). 6 lignes irrécupérables supprimées, 5 ré-observées en conditions réelles sur l'application ouverte (captures + clics confirmés) et réinsérées via le module `sqlite3` Python (encodage vérifié correct). Écran Onboarding restant, non ré-observable sans `Reset DB` assumé.
+
 ## v3.23 — 2026-08-15
 
 ### Ajouté

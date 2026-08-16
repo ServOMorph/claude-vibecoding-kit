@@ -542,3 +542,26 @@ Aucune
 
 ---
 
+
+---
+
+# Session du 2026-08-15
+
+## Décisions prises
+- `roadmap_template_roberto.md` close (5/5 phases FAIT) : bilan garder tel quel, aucun ajustement nécessaire sur le template ni sur la commande.
+
+## Livrables produits ou modifiés
+- `templates/roberto/` : template extrait et généricisé depuis `D:\ServOMorph\Roberto2` (MACROS, MASCOTTE, UI_WEB, scripts racine, 30 fichiers hors `analysis/`) ; placeholders `{{NOM_PROJET}}`/`{{ALIAS_PROJET}}`/`{{DATE}}` appliqués à `README.md`, `.claude/zones.md`, `MASCOTTE/agent_role.md`.
+- `.claude/commands/insert_template.md` : testé de bout en bout sur un projet cible de test (idempotence, résolution des placeholders, code Python compilable, aucun chemin résiduel vers `Roberto2`).
+- `roadmap_template_roberto.md` : Phases 3/4/5 passées à FAIT.
+- `README.md`, `CHANGELOG.md` (v3.22 -> v3.23) : synchronisés via `/doc_sync`.
+
+## Hypothèses validées / invalidées
+- VALIDE : `/insert_template` fonctionne comme prévu en conditions réelles (idempotence, placeholders, exclusion `analysis/`, préservation des binaires).
+- INVALIDE : l'inventaire Phase 1 affirmait "aucun chemin absolu en dur dans le code Python" — deux scripts (`MACROS/tester_memoire_opencode.py`, `MACROS/tester_communication_opencode.py`) en contredisaient. Pivot : corrigés par résolution relative `Path(__file__)`, cohérente avec le reste du code.
+
+## Prochaine étape exacte
+Aucune action immédiate sur `roberto` (usage réel différé par l'utilisateur). Reprendre les actions ouvertes prioritaires (P1) de ce fichier.
+
+## Question bloquante pour la session suivante
+Aucune

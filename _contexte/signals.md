@@ -1,7 +1,7 @@
-# Signals — claude-vibecoding-kit (MAJ 2026-08-15)
+# Signals — claude-vibecoding-kit (MAJ 2026-08-16)
 
 ## Actions ouvertes
-- [P2|ouvert] Corruption d'encodage dans `templates/control_PC/database/control_pc.sqlite` (table `discoveries`, lignes de la session du 2026-08-14 sur `appli_tsa_sdi_tdah`) : accents remplacés par des `?` littéraux (perte de caractère, pas un simple problème d'affichage — vérifié par lecture des octets bruts). Constaté en session du 2026-08-15 en marge de la validation `control_PC`, aucune correction faite. fait quand: source de la corruption identifiée (script `discover_right_window.py` ou étape d'écriture manuelle) et lignes concernées corrigées ou ré-observées. réf: `templates/control_PC/database/control_pc.sqlite`, `templates/control_PC/discovery/discover_right_window.py`
+- [P2|ouvert] Écran Onboarding de `appli_tsa_sdi_tdah` non re-documenté dans `control_pc.sqlite` après la correction de corruption du 2026-08-16 (les 5 autres écrans ont été ré-observés et réinsérés avec encodage correct) — cet écran n'est accessible qu'après un `Reset DB`, action destructive non déclenchée sans confirmation explicite. fait quand: Onboarding observé (Reset DB assumé ou nouvelle installation) et ligne insérée en base avec encodage correct. réf: `templates/control_PC/database/control_pc.sqlite`, `templates/control_PC/analysis/appli_tsa_sdi_tdah/`
 - [P2|ouvert] Tester en conditions réelles la nouvelle question Q4bis de `/init_projet` (backup Google Drive pour projet sans git, script `backup_project.py`) — jamais exécutée depuis l'ajout. fait quand: un `/init_projet` réel avec réponse "non" à la question git déclenche Q4bis, le script est copié dans le projet cible et l'étape est injectée dans son `close.md` (avec `allowed-tools` correspondant), comportement vérifié en conditions réelles. réf: `.claude/commands/init_projet.md`, `templates/backup_project.py`
 - [P1|ouvert] Terminer la Phase 2 du pilote `create_com_agents` sur Roberto2 : mécanisme installé et un bug de placement d'étape corrigé (voir historique git de ce fichier), mais reste à valider en conditions réelles : `/start roberto2` (correctif du placement 2d), `/close mascotte` (écriture `statut.md`), écriture/lecture d'un message réel dans `messages.md`. fait quand: les 3 tests réels effectués et bilan Phase 2 (garder/ajuster/écarter) acté dans `roadmap_com_agents.md`. réf: `roadmap_com_agents.md`, `D:\ServOMorph\Roberto2\.claude\commands\start.md`
 - [P1|ouvert] Implémenter et valider le pilote de `roadmap_messages_zones.md` (système de communication kit → zone, 2 niveaux : `urgent.md` vérifié via `CLAUDE.md` avant action significative, `messages.md` lu à `/start`, format compact `[AAAA-MM-JJ] <message>`) — design validé par l'utilisateur, déploiement décidé en pilote isolé sur Roberto2 (`D:\ServOMorph\Roberto2`, alias `roberto2`) avant toute modification des templates du kit. Aucune implémentation faite (Phase 1 non commencée). fait quand: Phase 1 (blocs "Spécificités projet" dans `start.md`/`CLAUDE.md` de Roberto2) implémentée et testée à blanc, Phase 2 validée en conditions réelles, décision garder/ajuster/écarter actée. réf: `roadmap_messages_zones.md`
@@ -11,7 +11,6 @@
 - [P2|ouvert] Le correctif du 2026-08-05 a été commité sur la branche courante de chaque dépôt sans vérifier qu'il s'agissait de `main` — `jeu_zombies` (`feat/insertion-designs`) et `Appli_TSA_SDI_TDAH` (`v5.1`, était `v5.0` le 2026-08-05) sont toujours sur des branches non-main ; les deux sont néanmoins synchronisés avec leur remote (vérifié le 2026-08-08). À vérifier que ce n'est pas gênant pour la propagation du correctif. fait quand: statut de ces deux branches (merge prévu vers main ou branche de travail durable) clarifié. réf: dépôts `jeu_zombies`, `Appli_TSA_SDI_TDAH`
 - [P2|ouvert] `DEPLOYMENTS.md` indique `Open_Code_Apprentissage` au chemin `D:\ServOMorph\Open_Code_Apprentissage`, introuvable lors d'un contrôle le 2026-08-04 — seuls `D:\ServOMorph\OpenCode` et `D:\ServOMorph\Test_OpenCode` existent. Probable renommage non répercuté dans `DEPLOYMENTS.md`, pas d'investigation faite au-delà du constat. fait quand: chemin réel confirmé et `DEPLOYMENTS.md` corrigé si besoin. réf: `DEPLOYMENTS.md`
 - [P2|ouvert] Trancher les points ouverts de `note_conception_pause_agents.md` (position exacte dans `/init_projet`, contenu de la question, enchaînement ou non sur `/create_agent`, persistance de l'échange, articulation avec Q5) puis implémenter si retenu. Cadrage initial acté le 2026-07-31 : nouvelle étape dans `/init_projet` (pas `/create_agent`), déclenchement systématique, cette note est un document seul, aucune implémentation faite. fait quand: chaque point tranché, `/init_projet` modifié si retenu. réf: `note_conception_pause_agents.md`
-- [P1|ouvert] Tester en conditions réelles la question AGENTS.md/GEMINI.md de `/update`/`/init_projet` (étape 7 de `/close` déjà validée le 2026-08-01). fait quand: un `/update`/`/init_projet` réel pose la question AGENTS.md et/ou GEMINI.md et le comportement (jamais automatique, jamais écrasé) est conforme. réf: `.claude/commands/update.md`, `.claude/commands/init_projet.md`
 - [P1|ouvert] Test 3 réel de `/create_agent` en mode conversion, sur la version réécrite (phases ancrées). Aucun test n'a encore exercé cette branche telle qu'écrite : l'agent `design` (jeu_zombies) était un cas de conversion mais traité manuellement, pas via la procédure. fait quand: `/create_agent` lancée sur un alias déjà enregistré et le comportement conforme à `[PREFLIGHT]`/`[ECRITURE]` (pas de modif `zones.md`/`signals.md` existant) vérifié en conditions réelles. réf: `.claude/commands/create_agent.md`, `base_connaissances/TEST_CREATE_AGENT_RESULTS.md`
 - [P2|ouvert] Tester l'étape 10 de `/create_agent` (message presse-papier pour l'agent racine, ajoutée le 2026-07-31) via un appel réel de la commande — cette session, le message a été généré et copié manuellement (`Set-Clipboard`) hors du flux de la commande, jamais via `[SORTIE]` tel qu'écrit. fait quand: `/create_agent` lancée en conditions réelles, question presse-papier posée et exécutée par la commande elle-même. réf: `.claude/commands/create_agent.md` (étape 10)
 - [P2|ouvert] Tester le renommage automatique du dossier d'agent en mode conversion (règle MAJUSCULES ajoutée le 2026-07-30) : aucun agent existant actuellement en minuscules pour exercer cette branche. fait quand: `/create_agent` lancée en mode conversion sur un dossier à la casse non conforme, renommage + mise à jour de `zones.md` vérifiés en conditions réelles. réf: `.claude/commands/create_agent.md`, `base_connaissances/ameliorations_create_agent.md`
@@ -22,29 +21,28 @@
 ## Contexte chaud
 - Agent `review` créé dans `jeu_zombies` via `/create_agent` (mode création, rôle : revue de code continue, sans production de code, périmètre par défaut `REVIEW/` uniquement).
 - `README.md` : corruption d'encodage pré-existante (double UTF-8) — à traiter si gênant.
-- Template `control_PC` validé en conditions réelles le 2026-08-15 : journal vivant, reconnaissance par empreinte et macro LinkedIn jusqu'à l'écran de confirmation, sans publication.
 - `roadmap_template_roberto.md` close (5/5 phases FAIT) : template `roberto` + commande `/insert_template` disponibles. L'utilisateur prévoit de tester `roberto` en conditions réelles plus tard (pas planifié).
+- Écriture en base `control_pc.sqlite` : utiliser le module `sqlite3` Python (paramétré), jamais un `INSERT` tapé via CLI shell — cause confirmée de la corruption d'encodage du 2026-08-16.
+- `base_connaissances/ameliorations_create_agent.md` : modification locale non commitée, antérieure à cette session (entrée agent `1_jour_moins_numerique`) — non traitée ici, résidu à examiner.
 
-## Dernière session (2026-08-15)
+## Dernière session (2026-08-16)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
 
-# Session du 2026-08-15
+# Session du 2026-08-16
 
 ## Décisions prises
-- `roadmap_template_roberto.md` close (5/5 phases FAIT) : bilan garder tel quel, aucun ajustement nécessaire sur le template ni sur la commande.
+- Corruption d'encodage de `control_pc.sqlite` corrigée : cause confirmée (insertion manuelle via CLI shell, codepage non-UTF8 — `discover_right_window.py` n'écrit jamais en base, vérifié par lecture du script). Question AGENTS.md/GEMINI.md de `/update`/`/init_projet` confirmée fonctionnelle par l'utilisateur en conditions réelles.
 
 ## Livrables produits ou modifiés
-- `templates/roberto/` : template extrait et généricisé depuis `D:\ServOMorph\Roberto2` (MACROS, MASCOTTE, UI_WEB, scripts racine, 30 fichiers hors `analysis/`) ; placeholders `{{NOM_PROJET}}`/`{{ALIAS_PROJET}}`/`{{DATE}}` appliqués à `README.md`, `.claude/zones.md`, `MASCOTTE/agent_role.md`.
-- `.claude/commands/insert_template.md` : testé de bout en bout sur un projet cible de test (idempotence, résolution des placeholders, code Python compilable, aucun chemin résiduel vers `Roberto2`).
-- `roadmap_template_roberto.md` : Phases 3/4/5 passées à FAIT.
-- `README.md`, `CHANGELOG.md` (v3.22 → v3.23) : synchronisés via `/doc_sync`.
+- `templates/control_PC/database/control_pc.sqlite` : 6 lignes `discoveries` corrompues (id 1-6, `appli_tsa_sdi_tdah`) supprimées ; 5 ré-observées en conditions réelles (captures + clics confirmés sur l'app ouverte) et réinsérées (id 8-12) via `sqlite3` Python, encodage vérifié correct.
+- `templates/control_PC/analysis/appli_tsa_sdi_tdah/` (non commité, conforme à la convention `analysis/` éphémère) : captures et clics de la session de ré-observation.
 
 ## Hypothèses validées / invalidées
-- VALIDE : `/insert_template` fonctionne comme prévu en conditions réelles (idempotence, placeholders, exclusion `analysis/`, préservation des binaires).
-- INVALIDE : l'inventaire Phase 1 affirmait "aucun chemin absolu en dur dans le code Python" — deux scripts (`MACROS/tester_memoire_opencode.py`, `MACROS/tester_communication_opencode.py`) en contredisaient. Pivot : corrigés par résolution relative `Path(__file__)`, cohérente avec le reste du code.
+- VALIDE : `discover_right_window.py` n'écrit jamais dans SQLite — corruption venait d'une insertion manuelle CLI, pas du script.
+- EN ATTENTE : écran Onboarding non ré-observé (nécessite un `Reset DB` assumé, action destructive non déclenchée cette session).
 
 ## Prochaine étape exacte
-Aucune action immédiate sur `roberto` (usage réel différé par l'utilisateur). Reprendre les actions ouvertes prioritaires (P1) de ce fichier.
+Reprendre les actions ouvertes prioritaires (P1) de ce fichier. Décider si/quand traiter l'Onboarding restant (Reset DB assumé).
 
 ## Question bloquante pour la session suivante
 Aucune

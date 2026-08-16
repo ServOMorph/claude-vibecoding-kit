@@ -121,7 +121,7 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit **v3.23** (2026-08-15) : `roadmap_template_roberto.md` close (5/5 phases FAIT) — commande `/insert_template` et template `roberto` extrait de `Roberto2`, testé de bout en bout sur un projet cible. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
+Kit **v3.24** (2026-08-16) : corruption d'encodage de `templates/control_PC/database/control_pc.sqlite` corrigée — cause confirmée (insertion manuelle via CLI shell), lignes irrécupérables ré-observées en conditions réelles et réinsérées via le module `sqlite3` Python. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
 
 ## Vérifier le lanceur Ollama
 
