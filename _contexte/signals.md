@@ -1,6 +1,8 @@
 # Signals — claude-vibecoding-kit (MAJ 2026-08-16)
 
 ## Actions ouvertes
+- [P1|ouvert] Test du template `templates/discord_com/` bloqué sur accès au salon Discord (`403 Forbidden — Missing Access` lors de `fetch_channel`) : le bot se connecte au gateway (token/channel_id valides) mais n'a probablement jamais été invité sur le serveur de test, ou n'a pas la permission "Voir le salon". Contournement temporaire actif dans la copie de test (`discord_com/bot.py`, non commité, hors `templates/`) : `intents.message_content = False` pour valider la connexion, car le toggle "Message Content Intent" du Developer Portal ne persiste pas côté utilisateur (cause non identifiée — pistes données : droits du compte, extension navigateur bloquant le PATCH, console F12 jamais vérifiée). fait quand: bot invité via URL OAuth2 (scope `bot`, permissions View Channel + Send Messages), `fetch_channel` réussit, puis intent Message Content réglé côté portail et `intents.message_content = True` rétabli dans `discord_com/bot.py` (copie de test) — échange de message bidirectionnel confirmé en conditions réelles. réf: `templates/discord_com/`, `discord_com/bot.py` (copie de test, non commitée)
+- [P2|ouvert] Décider si `templates/discord_com/README_DISCORD_COM.md`/`SETUP.md` doivent documenter le piège "Message Content Intent qui ne se sauvegarde pas sur le portail" une fois la cause identifiée (dépannage utile pour les futurs projets cibles) — pas fait cette session, cause encore inconnue. fait quand: cause du blocage portail identifiée, décision actée (documenter ou non), fichier mis à jour si retenu. réf: `templates/discord_com/README_DISCORD_COM.md`
 - [P2|ouvert] Écran Onboarding de `appli_tsa_sdi_tdah` non re-documenté dans `control_pc.sqlite` après la correction de corruption du 2026-08-16 (les 5 autres écrans ont été ré-observés et réinsérés avec encodage correct) — cet écran n'est accessible qu'après un `Reset DB`, action destructive non déclenchée sans confirmation explicite. fait quand: Onboarding observé (Reset DB assumé ou nouvelle installation) et ligne insérée en base avec encodage correct. réf: `templates/control_PC/database/control_pc.sqlite`, `templates/control_PC/analysis/appli_tsa_sdi_tdah/`
 - [P2|ouvert] Tester en conditions réelles la nouvelle question Q4bis de `/init_projet` (backup Google Drive pour projet sans git, script `backup_project.py`) — jamais exécutée depuis l'ajout. fait quand: un `/init_projet` réel avec réponse "non" à la question git déclenche Q4bis, le script est copié dans le projet cible et l'étape est injectée dans son `close.md` (avec `allowed-tools` correspondant), comportement vérifié en conditions réelles. réf: `.claude/commands/init_projet.md`, `templates/backup_project.py`
 - [P1|ouvert] Terminer la Phase 2 du pilote `create_com_agents` sur Roberto2 : mécanisme installé et un bug de placement d'étape corrigé (voir historique git de ce fichier), mais reste à valider en conditions réelles : `/start roberto2` (correctif du placement 2d), `/close mascotte` (écriture `statut.md`), écriture/lecture d'un message réel dans `messages.md`. fait quand: les 3 tests réels effectués et bilan Phase 2 (garder/ajuster/écarter) acté dans `roadmap_com_agents.md`. réf: `roadmap_com_agents.md`, `D:\ServOMorph\Roberto2\.claude\commands\start.md`
@@ -24,6 +26,8 @@
 - `roadmap_template_roberto.md` close (5/5 phases FAIT) : template `roberto` + commande `/insert_template` disponibles. L'utilisateur prévoit de tester `roberto` en conditions réelles plus tard (pas planifié).
 - Écriture en base `control_pc.sqlite` : utiliser le module `sqlite3` Python (paramétré), jamais un `INSERT` tapé via CLI shell — cause confirmée de la corruption d'encodage du 2026-08-16.
 - `base_connaissances/ameliorations_create_agent.md` : modification locale non commitée, antérieure à cette session (entrée agent `1_jour_moins_numerique`) — non traitée ici, résidu à examiner.
+- Vigilance credentials Discord : 3 incidents cette session sur le token bot (un vrai token affiché en clair dans le chat lors d'un `cat` d'un fichier de projet tiers, régénéré par l'utilisateur ; un vrai token écrit par erreur dans le fichier `.example.json` du template kit, jamais commité, restauré en placeholder ; un vrai token placé dans `templates/discord_com/` au lieu de `discord_com/` racine du kit, déplacé vers l'emplacement gitignored). Toujours vérifier `git check-ignore`/`git status` avant tout commit touchant `discord_com/`.
+- Copie de test `discord_com/` (racine du kit) et `.claude/commands/discord_loop.md` (racine du kit) : artefacts de test local, intentionnellement non commités (redondants avec `templates/discord_com/`, `bot.py` de test porte un contournement — `message_content` désactivé — à ne jamais propager au template).
 
 ## Dernière session (2026-08-16)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
@@ -31,18 +35,23 @@
 # Session du 2026-08-16
 
 ## Décisions prises
-- Corruption d'encodage de `control_pc.sqlite` corrigée : cause confirmée (insertion manuelle via CLI shell, codepage non-UTF8 — `discover_right_window.py` n'écrit jamais en base, vérifié par lecture du script). Question AGENTS.md/GEMINI.md de `/update`/`/init_projet` confirmée fonctionnelle par l'utilisateur en conditions réelles.
+- Nouvelle commande `/cherche_fonction` créée : recherche générique d'une fonctionnalité déjà codée dans d'anciens projets, dossiers cibles toujours redemandés à chaque appel (jamais mémorisés).
+- Intégration Discord ↔ Claude Code extraite et généricisée en template kit réutilisable, source `Agents_IA_V2\Templates\_discord_integration\` : commandes `bot.py` spécifiques au projet source (poker/coach_DQN) retirées, ne reste que le relais générique.
+- Contournement temporaire décidé pour débloquer le test : `intents.message_content = False` dans la copie de test uniquement (jamais dans le template livrable), le toggle "Message Content Intent" du Developer Portal Discord ne persistant pas malgré plusieurs tentatives.
 
 ## Livrables produits ou modifiés
-- `templates/control_PC/database/control_pc.sqlite` : 6 lignes `discoveries` corrompues (id 1-6, `appli_tsa_sdi_tdah`) supprimées ; 5 ré-observées en conditions réelles (captures + clics confirmés sur l'app ouverte) et réinsérées (id 8-12) via `sqlite3` Python, encodage vérifié correct.
-- `templates/control_PC/analysis/appli_tsa_sdi_tdah/` (non commité, conforme à la convention `analysis/` éphémère) : captures et clics de la session de ré-observation.
+- `.claude/commands/cherche_fonction.md` : créé.
+- `templates/discord_com/` : nouveau template (bot.py, bot_manager.py, claude_bridge.py, discord_loop.py, docs, `.claude/commands/discord_loop.md`) — vérifié sans placeholder `{{...}}` non reconnu, sans credential réel.
+- `discord_com/` (racine kit) : copie de test locale, **non commitée intentionnellement** (résidu attendu).
+- `.gitignore` : ajout `discord_com/config_bot_discord.json` et `discord_com/bot.pid`.
 
 ## Hypothèses validées / invalidées
-- VALIDE : `discover_right_window.py` n'écrit jamais dans SQLite — corruption venait d'une insertion manuelle CLI, pas du script.
-- EN ATTENTE : écran Onboarding non ré-observé (nécessite un `Reset DB` assumé, action destructive non déclenchée cette session).
+- VALIDE : le template se connecte correctement au gateway Discord une fois token/channel_id valides.
+- INVALIDE : le toggle Message Content Intent du portail Discord ne se sauvegarde pas via les manipulations standard testées — cause non identifiée, contournement temporaire appliqué à la place.
+- EN ATTENTE : accès au salon (`403 Missing Access` sur `fetch_channel`) — bot probablement jamais invité sur le serveur de test.
 
 ## Prochaine étape exacte
-Reprendre les actions ouvertes prioritaires (P1) de ce fichier. Décider si/quand traiter l'Onboarding restant (Reset DB assumé).
+Inviter le bot sur le serveur (URL OAuth2, scope `bot`, permissions View Channel + Send Messages), relancer `discord_com/bot.py`, confirmer l'échange de message. Puis résoudre le blocage Message Content Intent et rétablir `message_content = True`.
 
 ## Question bloquante pour la session suivante
 Aucune

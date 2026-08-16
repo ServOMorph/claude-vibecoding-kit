@@ -565,3 +565,24 @@ Aucune action immédiate sur `roberto` (usage réel différé par l'utilisateur)
 
 ## Question bloquante pour la session suivante
 Aucune
+
+---
+
+# Session du 2026-08-16
+
+## Décisions prises
+- Corruption d'encodage de `control_pc.sqlite` corrigée : cause confirmée (insertion manuelle via CLI shell, codepage non-UTF8 — `discover_right_window.py` n'écrit jamais en base, vérifié par lecture du script). Question AGENTS.md/GEMINI.md de `/update`/`/init_projet` confirmée fonctionnelle par l'utilisateur en conditions réelles.
+
+## Livrables produits ou modifiés
+- `templates/control_PC/database/control_pc.sqlite` : 6 lignes `discoveries` corrompues (id 1-6, `appli_tsa_sdi_tdah`) supprimées ; 5 ré-observées en conditions réelles (captures + clics confirmés sur l'app ouverte) et réinsérées (id 8-12) via `sqlite3` Python, encodage vérifié correct.
+- `templates/control_PC/analysis/appli_tsa_sdi_tdah/` (non commité, conforme à la convention `analysis/` éphémère) : captures et clics de la session de ré-observation.
+
+## Hypothèses validées / invalidées
+- VALIDE : `discover_right_window.py` n'écrit jamais dans SQLite — corruption venait d'une insertion manuelle CLI, pas du script.
+- EN ATTENTE : écran Onboarding non ré-observé (nécessite un `Reset DB` assumé, action destructive non déclenchée cette session).
+
+## Prochaine étape exacte
+Reprendre les actions ouvertes prioritaires (P1) de ce fichier. Décider si/quand traiter l'Onboarding restant (Reset DB assumé).
+
+## Question bloquante pour la session suivante
+Aucune

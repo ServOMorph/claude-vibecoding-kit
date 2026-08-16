@@ -18,6 +18,7 @@ Résout le problème structurel du vibecoding : **le contexte est perdu à chaqu
 - `/insert_template <chemin_projet_cible> <nom_template> [dossier_destination]` — insère un template (`templates/<nom>/`) dans un projet cible, résout les placeholders génériques (`{{NOM_PROJET}}`/`{{ALIAS_PROJET}}`/`{{DATE}}`) et ne jamais écraser un fichier déjà présent ; s'exécute toujours depuis le kit, jamais copiée dans les projets cibles
 - `/cherche_meilleure_action [décision]` — commande d'aide à la décision (kit uniquement) : analyse le contexte réel de la zone, évalue les options selon des critères explicites, recommande une action et demande confirmation ; à invoquer quand on ne sait pas quoi faire ensuite
 - `/doc_sync` — synchronise toute la documentation du kit (commandes, templates, structure) après une modification
+- `/cherche_fonction <description>` — recherche une fonctionnalité déjà codée dans d'anciens projets à partir d'une description ; les dossiers cibles sont toujours redemandés à chaque appel (kit uniquement)
 - `CLAUDE.md` — règles permanentes appliquées à toutes les conversations
 - `AGENTS.md` / `GEMINI.md` (optionnels, sur confirmation) — équivalents `CLAUDE.md` pour les agents non-Claude (Codex, ChatGPT, Gemini...)
 - Base de connaissances `DOCUMENTATION/` (optionnelle, via agent dédié créé par `/create_agent`) — documentation métier du projet en `.md`, consultée par tous les agents (`INDEX.md` catalogue + progressive disclosure)
@@ -69,6 +70,7 @@ claude-vibecoding-kit/
 │   └── commands/                         # /start /close /update /init_projet /create_memory
 │       │                                 #   + kit uniquement : /create_agent /create_com_agents
 │       └───────────────────────────────  #                     /cherche_meilleure_action /doc_sync
+│                                          #                     /cherche_fonction
 ├── _contexte/                            # contexte du kit (contexte, signals, archive_decisions)
 ├── scripts/
 │   ├── backup_file.py                    # sauvegarde horodatée d'un fichier vers Google Drive (rclone)
@@ -96,7 +98,8 @@ claude-vibecoding-kit/
     ├── AGENTS.md                         # équivalent CLAUDE.md pour agents non-Claude (Codex, ChatGPT...), sur confirmation
     └── GEMINI.md                         # équivalent CLAUDE.md spécifique à Gemini, sur confirmation
     ├── control_PC/                       # template local de contrôle visuel, macros et workflows par application
-    └── roberto/                          # template extrait de Roberto2 (UI PC + mascotte), testé de bout en bout
+    ├── roberto/                          # template extrait de Roberto2 (UI PC + mascotte), testé de bout en bout
+    └── discord_com/                      # intégration Discord ↔ Claude Code, généricisée depuis Agents_IA_V2
 ```
 
 Les commandes `/create_agent`, `/create_com_agents`, `/insert_template`, `/cherche_meilleure_action`
@@ -121,7 +124,7 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit **v3.24** (2026-08-16) : corruption d'encodage de `templates/control_PC/database/control_pc.sqlite` corrigée — cause confirmée (insertion manuelle via CLI shell), lignes irrécupérables ré-observées en conditions réelles et réinsérées via le module `sqlite3` Python. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
+Kit **v3.25** (2026-08-16) : template `templates/discord_com/` ajouté (intégration Discord ↔ Claude Code généricisée) + commande `/cherche_fonction`. Test en conditions réelles en cours, bloqué sur l'invitation du bot au serveur Discord de test. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
 
 ## Vérifier le lanceur Ollama
 

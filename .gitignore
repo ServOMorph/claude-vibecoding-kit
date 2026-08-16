@@ -22,3 +22,7 @@ templates/control_PC/analysis/linkedin_ephemere.png
 templates/control_PC/analysis/observer_error.log
 templates/control_PC/logs/control.log
 templates/control_PC/database/*.sqlite
+
+# Discord com — credentials, jamais commités
+discord_com/config_bot_discord.json
+discord_com/bot.pid

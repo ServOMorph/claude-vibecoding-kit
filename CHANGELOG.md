@@ -3,6 +3,15 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
 
+## v3.25 — 2026-08-16
+
+### Ajouté
+- `.claude/commands/cherche_fonction.md` : recherche générique d'une fonctionnalité déjà codée dans d'anciens projets, dossiers cibles toujours redemandés à chaque appel.
+- `templates/discord_com/` : intégration Discord ↔ Claude Code généricisée depuis `Agents_IA_V2\Templates\_discord_integration\` (bot.py, bot_manager.py, claude_bridge.py, discord_loop.py, docs, commande `/discord_loop`). Commandes autonomes spécifiques au projet source retirées de `bot.py`.
+
+### Corrigé
+- Trois incidents de sécurité traités pendant le test du template (token réel affiché en chat puis régénéré par l'utilisateur, token écrit par erreur dans le fichier `.example.json` du template puis restauré en placeholder, token placé hors du dossier gitignored puis déplacé) — aucun n'a atteint l'historique git. `.gitignore` complété (`discord_com/config_bot_discord.json`, `discord_com/bot.pid`).
+
 ## v3.24 — 2026-08-16
 
 ### Corrigé
