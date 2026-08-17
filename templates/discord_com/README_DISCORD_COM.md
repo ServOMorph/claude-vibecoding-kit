@@ -83,7 +83,13 @@ bot.py ──── écrit ──→ commands.json
 
 ### 2. Inviter le bot sur le serveur
 
-Générer une URL OAuth2 avec les permissions `Send Messages` + `Read Messages`.
+Developer Portal → application → **General Information** → copier l'**Application ID**, puis ouvrir dans un navigateur (connecté au compte ayant les droits sur le serveur cible) :
+
+```
+https://discord.com/api/oauth2/authorize?client_id=APPLICATION_ID&permissions=68608&scope=bot
+```
+
+(`permissions=68608` = View Channel + Send Messages + Read Message History). Sélectionner le serveur, valider les permissions affichées, cliquer Autoriser. Sans cette étape, `bot.py` se connecte au gateway (token valide) mais `fetch_channel` échoue avec `403 Forbidden — Missing Access`.
 
 ### 3. Configurer
 
@@ -250,6 +256,8 @@ python discord_com/bot_manager.py restart  # stop + start
 |---|---|
 | Bot ne répond pas | Vérifier que `bot.py` tourne dans un terminal séparé |
 | `enabled: false` | Mettre `true` dans `config_bot_discord.json` |
-| Message Content Intent manquant | Developer Portal → Bot → activer l'intent |
+| `403 Forbidden — Missing Access` sur `fetch_channel` | Bot jamais invité sur le serveur (ou permission "Voir le salon" manquante) — voir section "Inviter le bot sur le serveur" |
+| Message Content Intent manquant (`!ping`/`!help` sans réponse) | Developer Portal → Bot → Privileged Gateway Intents → activer Message Content Intent → Save Changes. Si le toggle ne se sauvegarde pas après clic, réessayer (cause non identifiée côté portail Discord) |
+| `!ping`/`!help` sans réponse malgré l'intent activé | Vérifier que `channel_id` dans `config_bot_discord.json` correspond bien au salon utilisé (`bot.py` compare l'ID en entier — un ID mal copié ou un mismatch de salon donne un silence total, pas d'erreur) |
 | `channel_id` invalide | Vérifier le mode développeur Discord activé |
 | Boucle bloquée | Envoyer `stop` sur Discord ou Ctrl+C dans Claude Code |

@@ -3,6 +3,16 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
 
+## v3.28 — 2026-08-17
+
+### Corrigé
+- `templates/discord_com/bot.py` : `CHANNEL_ID` comparé en `str` vs `int` (tout message entrant silencieusement ignoré, quel que soit l'état de l'intent) — corrigé par `int(CONFIG["channel_id"])`.
+- `templates/discord_com/bot.py` : ordre de priorité dans `on_message` — la vérification `commands.json == idle` court-circuitait `queue.json == waiting`, cassant `claude_bridge.envoyer()`/`discord_loop.py send` dès que `commands.json` était au repos (état normal). Inversé : `queue.json waiting` vérifié en premier.
+- Blocage `403 Forbidden — Missing Access` résolu : cause confirmée, bot jamais invité sur le serveur.
+
+### Modifié
+- `templates/discord_com/SETUP.md`, `README_DISCORD_COM.md` : étape d'invitation du bot rendue concrète (Application ID + URL OAuth2), dépannage enrichi (`403`, intent, mismatch `channel_id`).
+
 ## v3.27 — 2026-08-17
 
 ### Ajouté

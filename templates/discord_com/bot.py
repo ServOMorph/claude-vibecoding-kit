@@ -13,7 +13,7 @@ if not CONFIG.get("enabled", True):
     exit(0)
 
 TOKEN = CONFIG["bot_token"]
-CHANNEL_ID = CONFIG["channel_id"]
+CHANNEL_ID = int(CONFIG["channel_id"])
 QUEUE = DIR / "queue.json"
 COMMANDS = DIR / "commands.json"
 POLL_INTERVAL = 1
@@ -89,6 +89,15 @@ async def on_message(message):
         await _channel.send(reponse)
         return
 
+    # Mode réponse interactive (claude_bridge.envoyer) : priorité si une attente est en cours
+    q = lire(QUEUE)
+    if q["status"] == "waiting":
+        q["response"] = message.content
+        q["status"] = "responded"
+        q["timestamp"] = int(time.time())
+        ecrire(QUEUE, q)
+        return
+
     # Mode commande Claude : si Claude attend, transmettre
     cmd = lire(COMMANDS)
     if cmd["status"] == "idle":
@@ -103,15 +112,6 @@ async def on_message(message):
             "command": contenu,
             "timestamp": int(time.time())
         })
-        return
-
-    # Mode réponse interactive (claude_bridge.envoyer)
-    q = lire(QUEUE)
-    if q["status"] == "waiting":
-        q["response"] = message.content
-        q["status"] = "responded"
-        q["timestamp"] = int(time.time())
-        ecrire(QUEUE, q)
 
 
 async def boucle_polling():

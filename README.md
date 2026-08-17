@@ -126,7 +126,7 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit **v3.27** (2026-08-17) : template `templates/notification/` ajouté (notification systray, alternative à l'overlay plein écran) — bug de non-affichage de la bulle corrigé, comportement de disparition et focus au clic restent à valider. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
+Kit **v3.28** (2026-08-17) : `templates/discord_com/` débloqué et validé de bout en bout (invitation OAuth2, Message Content Intent, correctifs `bot.py` — comparaison `channel_id`, priorité `queue.json`/`commands.json`). Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
 
 ## Vérifier le lanceur Ollama
 
