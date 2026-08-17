@@ -62,7 +62,8 @@ templates), pas seulement à un template particulier.
 
 4. Résoudre le dossier de destination :
    - Fourni en argument → `<projet_cible>/<dossier_destination>`.
-   - Absent → `<projet_cible>` (fusion à la racine du projet).
+   - Absent → `<projet_cible>/ROBERTO` (dossier dédié qui centralise tous les
+     templates insérés, créé s'il n'existe pas).
 
 5. Lister récursivement `templates/<nom_template>/`, dossier `analysis/`
    exclu. Pour chaque fichier, calculer le chemin cible et vérifier s'il

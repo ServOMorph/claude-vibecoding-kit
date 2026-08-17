@@ -1,6 +1,8 @@
-# Signals — claude-vibecoding-kit (MAJ 2026-08-16)
+# Signals — claude-vibecoding-kit (MAJ 2026-08-17)
 
 ## Actions ouvertes
+- [P1|ouvert] Valider en conditions réelles la nouvelle destination par défaut d'`/insert_template` (`<projet_cible>/ROBERTO/` au lieu de la racine du projet cible) : dossier bien créé, fichiers copiés dedans, pas de casse sur un `ROBERTO/` déjà existant. fait quand: les 3 points de `tests_manuels.md` vérifiés sur un projet cible réel, décision de déploiement généralisé actée. réf: `tests_manuels.md`, `.claude/commands/insert_template.md`
+- [P2|ouvert] Tester le template `templates/overlay/` (affichage overlay néon fin de tâche) dans un vrai flux agent : insertion via `/insert_template`, déclenchement depuis un prompt d'agent en fin de tâche longue, lisibilité en conditions réelles (contenu visible derrière, texte lisible). fait quand: overlay déclenché par un agent réel sur une tâche longue, rendu jugé satisfaisant ou ajusté. réf: `templates/overlay/`
 - [P1|ouvert] Test du template `templates/discord_com/` bloqué sur accès au salon Discord (`403 Forbidden — Missing Access` lors de `fetch_channel`) : le bot se connecte au gateway (token/channel_id valides) mais n'a probablement jamais été invité sur le serveur de test, ou n'a pas la permission "Voir le salon". Contournement temporaire actif dans la copie de test (`discord_com/bot.py`, non commité, hors `templates/`) : `intents.message_content = False` pour valider la connexion, car le toggle "Message Content Intent" du Developer Portal ne persiste pas côté utilisateur (cause non identifiée — pistes données : droits du compte, extension navigateur bloquant le PATCH, console F12 jamais vérifiée). fait quand: bot invité via URL OAuth2 (scope `bot`, permissions View Channel + Send Messages), `fetch_channel` réussit, puis intent Message Content réglé côté portail et `intents.message_content = True` rétabli dans `discord_com/bot.py` (copie de test) — échange de message bidirectionnel confirmé en conditions réelles. réf: `templates/discord_com/`, `discord_com/bot.py` (copie de test, non commitée)
 - [P2|ouvert] Décider si `templates/discord_com/README_DISCORD_COM.md`/`SETUP.md` doivent documenter le piège "Message Content Intent qui ne se sauvegarde pas sur le portail" une fois la cause identifiée (dépannage utile pour les futurs projets cibles) — pas fait cette session, cause encore inconnue. fait quand: cause du blocage portail identifiée, décision actée (documenter ou non), fichier mis à jour si retenu. réf: `templates/discord_com/README_DISCORD_COM.md`
 - [P2|ouvert] Écran Onboarding de `appli_tsa_sdi_tdah` non re-documenté dans `control_pc.sqlite` après la correction de corruption du 2026-08-16 (les 5 autres écrans ont été ré-observés et réinsérés avec encodage correct) — cet écran n'est accessible qu'après un `Reset DB`, action destructive non déclenchée sans confirmation explicite. fait quand: Onboarding observé (Reset DB assumé ou nouvelle installation) et ligne insérée en base avec encodage correct. réf: `templates/control_PC/database/control_pc.sqlite`, `templates/control_PC/analysis/appli_tsa_sdi_tdah/`
@@ -21,37 +23,40 @@
 - [P2|ouvert] `jeu_zombies` (déployé v2.26, `D:\ServOMorph\jeu_zombies`) en retard sur le kit — n'a pas encore la section "Tests manuels" ni "Déclencheurs de vérification" de `CLAUDE.md`, ni la base de connaissances. Propagation reportée par l'utilisateur le 2026-07-28. fait quand: `/update` lancé sur jeu_zombies et `.claude/CLAUDE.md` du projet reflète le contenu à jour. réf: `DEPLOYMENTS.md`, `.claude/CLAUDE.md`
 
 ## Contexte chaud
+- `/insert_template` : la destination par défaut (sans `dossier_destination` fourni) est désormais `<projet_cible>/ROBERTO/`, nom fixe pour tous les projets — pas encore testé en conditions réelles.
+- `templates/overlay/` : nouveau template, overlay plein écran opacité réduite + contour néon bleu foncé animé, texte = nom agent/zone + "J'ai fini !!!", fermeture `Esc`/clic ou auto (5s par défaut). Testé uniquement en isolation (compilation + affichage), pas encore dans un flux agent réel.
+- `Protocole_start_close_context.md` : explicitement non modifié cette session, sur instruction utilisateur (à ne pas confondre avec un oubli).
 - Agent `review` créé dans `jeu_zombies` via `/create_agent` (mode création, rôle : revue de code continue, sans production de code, périmètre par défaut `REVIEW/` uniquement).
 - `README.md` : corruption d'encodage pré-existante (double UTF-8) — à traiter si gênant.
-- `roadmap_template_roberto.md` close (5/5 phases FAIT) : template `roberto` + commande `/insert_template` disponibles. L'utilisateur prévoit de tester `roberto` en conditions réelles plus tard (pas planifié).
 - Écriture en base `control_pc.sqlite` : utiliser le module `sqlite3` Python (paramétré), jamais un `INSERT` tapé via CLI shell — cause confirmée de la corruption d'encodage du 2026-08-16.
 - `base_connaissances/ameliorations_create_agent.md` : modification locale non commitée, antérieure à cette session (entrée agent `1_jour_moins_numerique`) — non traitée ici, résidu à examiner.
-- Vigilance credentials Discord : 3 incidents cette session sur le token bot (un vrai token affiché en clair dans le chat lors d'un `cat` d'un fichier de projet tiers, régénéré par l'utilisateur ; un vrai token écrit par erreur dans le fichier `.example.json` du template kit, jamais commité, restauré en placeholder ; un vrai token placé dans `templates/discord_com/` au lieu de `discord_com/` racine du kit, déplacé vers l'emplacement gitignored). Toujours vérifier `git check-ignore`/`git status` avant tout commit touchant `discord_com/`.
+- Vigilance credentials Discord : 3 incidents en session du 2026-08-16 sur le token bot, tous traités avant commit. Toujours vérifier `git check-ignore`/`git status` avant tout commit touchant `discord_com/`.
 - Copie de test `discord_com/` (racine du kit) et `.claude/commands/discord_loop.md` (racine du kit) : artefacts de test local, intentionnellement non commités (redondants avec `templates/discord_com/`, `bot.py` de test porte un contournement — `message_content` désactivé — à ne jamais propager au template).
 
-## Dernière session (2026-08-16)
+## Dernière session (2026-08-17)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
 
-# Session du 2026-08-16
+# Session du 2026-08-17
 
 ## Décisions prises
-- Nouvelle commande `/cherche_fonction` créée : recherche générique d'une fonctionnalité déjà codée dans d'anciens projets, dossiers cibles toujours redemandés à chaque appel (jamais mémorisés).
-- Intégration Discord ↔ Claude Code extraite et généricisée en template kit réutilisable, source `Agents_IA_V2\Templates\_discord_integration\` : commandes `bot.py` spécifiques au projet source (poker/coach_DQN) retirées, ne reste que le relais générique.
-- Contournement temporaire décidé pour débloquer le test : `intents.message_content = False` dans la copie de test uniquement (jamais dans le template livrable), le toggle "Message Content Intent" du Developer Portal Discord ne persistant pas malgré plusieurs tentatives.
+- Nouveau template `overlay` créé : overlay plein écran néon (WinForms/PowerShell, même stack que `control_PC`) pour signaler visuellement la fin d'une tâche d'agent.
+- Convention `/insert_template` changée : sans `dossier_destination` explicite, l'insertion cible désormais `<projet_cible>/ROBERTO/` (nom fixe, centralise tous les templates insérés) au lieu de la racine du projet — décidé après clarification (portée générale du kit, nom fixe).
+- `Protocole_start_close_context.md` explicitement laissé intact sur demande utilisateur.
 
 ## Livrables produits ou modifiés
-- `.claude/commands/cherche_fonction.md` : créé.
-- `templates/discord_com/` : nouveau template (bot.py, bot_manager.py, claude_bridge.py, discord_loop.py, docs, `.claude/commands/discord_loop.md`) — vérifié sans placeholder `{{...}}` non reconnu, sans credential réel.
-- `discord_com/` (racine kit) : copie de test locale, **non commitée intentionnellement** (résidu attendu).
-- `.gitignore` : ajout `discord_com/config_bot_discord.json` et `discord_com/bot.pid`.
+- `templates/overlay/start_overlay.ps1` : créé, testé (compilation + affichage réel, fermeture auto 4s).
+- `templates/overlay/README.md` : créé.
+- `templates/overlay/_commands/afficher_overlay.md` : créé.
+- `.claude/commands/insert_template.md` : modifié (étape [PREFLIGHT] 4, destination par défaut).
+- `tests_manuels.md` : créé à la racine du kit (test en attente : validation ROBERTO/ sur projet réel).
 
 ## Hypothèses validées / invalidées
-- VALIDE : le template se connecte correctement au gateway Discord une fois token/channel_id valides.
-- INVALIDE : le toggle Message Content Intent du portail Discord ne se sauvegarde pas via les manipulations standard testées — cause non identifiée, contournement temporaire appliqué à la place.
-- EN ATTENTE : accès au salon (`403 Missing Access` sur `fetch_channel`) — bot probablement jamais invité sur le serveur de test.
+- VALIDE : `start_overlay.ps1` compile et s'affiche correctement en isolation (WinForms, overlay plein écran, néon animé).
+- EN ATTENTE : nouvelle destination par défaut `ROBERTO/` d'`/insert_template` non testée sur un projet cible réel.
+- EN ATTENTE : template `overlay` non testé dans un flux agent réel (déclenchement en fin de tâche longue).
 
 ## Prochaine étape exacte
-Inviter le bot sur le serveur (URL OAuth2, scope `bot`, permissions View Channel + Send Messages), relancer `discord_com/bot.py`, confirmer l'échange de message. Puis résoudre le blocage Message Content Intent et rétablir `message_content = True`.
+Tester `/insert_template <projet> overlay` sur un projet réel pour valider la destination `ROBERTO/`, puis déclencher l'overlay depuis un agent en fin de tâche longue pour valider le rendu en conditions réelles.
 
 ## Question bloquante pour la session suivante
 Aucune

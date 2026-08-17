@@ -3,6 +3,15 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
 
+## v3.26 — 2026-08-17
+
+### Ajouté
+- `templates/overlay/` : overlay plein écran, opacité réduite, contour néon bleu foncé animé — affiche le nom de l'agent/zone qui l'a déclenché puis « J'ai fini !!! ». Fermeture par `Esc`/clic ou automatique (5s par défaut). Même stack WinForms/PowerShell que `templates/control_PC/`. Inclut `_commands/afficher_overlay.md`.
+- `tests_manuels.md` : file d'attente des contrôles manuels non validés (validation de la nouvelle destination `ROBERTO/` d'`/insert_template`, test du template `overlay` en conditions réelles).
+
+### Modifié
+- `.claude/commands/insert_template.md` : sans `dossier_destination` fourni, la destination par défaut devient `<projet_cible>/ROBERTO/` (nom fixe, centralise tous les templates insérés) au lieu de la racine du projet cible.
+
 ## v3.25 — 2026-08-16
 
 ### Ajouté

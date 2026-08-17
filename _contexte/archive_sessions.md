@@ -586,3 +586,29 @@ Reprendre les actions ouvertes prioritaires (P1) de ce fichier. Décider si/quan
 
 ## Question bloquante pour la session suivante
 Aucune
+
+---
+
+# Session du 2026-08-16
+
+## Décisions prises
+- Nouvelle commande `/cherche_fonction` créée : recherche générique d'une fonctionnalité déjà codée dans d'anciens projets, dossiers cibles toujours redemandés à chaque appel (jamais mémorisés).
+- Intégration Discord ↔ Claude Code extraite et généricisée en template kit réutilisable, source `Agents_IA_V2\Templates\_discord_integration\` : commandes `bot.py` spécifiques au projet source (poker/coach_DQN) retirées, ne reste que le relais générique.
+- Contournement temporaire décidé pour débloquer le test : `intents.message_content = False` dans la copie de test uniquement (jamais dans le template livrable), le toggle "Message Content Intent" du Developer Portal Discord ne persistant pas malgré plusieurs tentatives.
+
+## Livrables produits ou modifiés
+- `.claude/commands/cherche_fonction.md` : créé.
+- `templates/discord_com/` : nouveau template (bot.py, bot_manager.py, claude_bridge.py, discord_loop.py, docs, `.claude/commands/discord_loop.md`) — vérifié sans placeholder `{{...}}` non reconnu, sans credential réel.
+- `discord_com/` (racine kit) : copie de test locale, **non commitée intentionnellement** (résidu attendu).
+- `.gitignore` : ajout `discord_com/config_bot_discord.json` et `discord_com/bot.pid`.
+
+## Hypothèses validées / invalidées
+- VALIDE : le template se connecte correctement au gateway Discord une fois token/channel_id valides.
+- INVALIDE : le toggle Message Content Intent du portail Discord ne se sauvegarde pas via les manipulations standard testées — cause non identifiée, contournement temporaire appliqué à la place.
+- EN ATTENTE : accès au salon (`403 Missing Access` sur `fetch_channel`) — bot probablement jamais invité sur le serveur de test.
+
+## Prochaine étape exacte
+Inviter le bot sur le serveur (URL OAuth2, scope `bot`, permissions View Channel + Send Messages), relancer `discord_com/bot.py`, confirmer l'échange de message. Puis résoudre le blocage Message Content Intent et rétablir `message_content = True`.
+
+## Question bloquante pour la session suivante
+Aucune
