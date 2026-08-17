@@ -3,6 +3,15 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
 
+## v3.29 — 2026-08-17
+
+### Ajouté
+- `.claude/commands/init_discord_mode.md` : commande kit-only `/init_discord_mode <chemin_projet_cible>` — insère `templates/discord_com/` (délègue à `/insert_template`) puis guide la configuration jusqu'à un bot opérationnel (token, Application ID/invitation OAuth2, Message Content Intent, channel_id, dépendances, validation `bot_manager.py status`/`!ping`).
+
+### Modifié
+- `scripts/check_kit.py` : `init_discord_mode.md` ajouté à `KIT_ONLY_COMMANDS`.
+- `README.md` : ligne `/init_discord_mode` ajoutée à "Ce que ça fait".
+
 ## v3.28 — 2026-08-17
 
 ### Corrigé

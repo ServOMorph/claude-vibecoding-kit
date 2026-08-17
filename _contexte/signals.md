@@ -21,6 +21,7 @@
 - [P2|ouvert] Décider quelles propositions des Lots 2-4 de `base_connaissances/PROPOSITIONS_AMELIORATION.md` mettre en œuvre (Lot 1 clos). Lot 3 = 1.4+2.2, 1.5, 1.6 ; Lot 4 = 2.1, 2.3, 3.2-A, 3.4. fait quand: décision actée pour chaque proposition restante, implémentée si retenue. réf: `base_connaissances/PROPOSITIONS_AMELIORATION.md`
 - [P2|ouvert] `jeu_zombies` (déployé v2.26, `D:\ServOMorph\jeu_zombies`) en retard sur le kit — n'a pas encore la section "Tests manuels" ni "Déclencheurs de vérification" de `CLAUDE.md`, ni la base de connaissances. Propagation reportée par l'utilisateur le 2026-07-28. fait quand: `/update` lancé sur jeu_zombies et `.claude/CLAUDE.md` du projet reflète le contenu à jour. réf: `DEPLOYMENTS.md`, `.claude/CLAUDE.md`
 - [P2|ouvert] `templates/discord_com/` : mode `enabled: false` et préfixe novice `"? "` (préfixage de message) jamais testés en conditions réelles — le flux principal (connexion, `!ping`/`!help`, commande libre, `notify`/`notifier`/`envoyer`, `bot_manager.py`) est validé, ces deux branches ne l'ont pas été. fait quand: les deux comportements vérifiés en conditions réelles (bot ignore les messages avec `enabled: false`, préfixe novice reformule correctement la commande transmise). réf: `templates/discord_com/bot.py`, `templates/discord_com/README_DISCORD_COM.md`
+- [P1|ouvert] Nouvelle commande `/init_discord_mode <chemin_projet_cible>` (insère `discord_com` puis guide la configuration jusqu'à un bot opérationnel) créée mais jamais appelée en conditions réelles — aucune des étapes [PREFLIGHT]/[INSERTION]/[CONFIGURATION]/[VALIDATION] n'a été exercée. fait quand: `/init_discord_mode` lancée sur un projet cible réel, insertion + configuration guidée (token, Application ID/invitation OAuth2, Message Content Intent, channel_id) + validation (`bot_manager.py status`, `!ping`) vérifiées en conditions réelles. réf: `.claude/commands/init_discord_mode.md`
 
 ## Contexte chaud
 - `templates/discord_com/` : blocages `403 Forbidden` et Message Content Intent levés (2026-08-17) — bot invité via URL OAuth2, intent activé côté portail. Deux bugs réels trouvés et corrigés dans `bot.py` (`templates/discord_com/` et copie de test `discord_com/`) : (1) `CHANNEL_ID` comparé en `str` vs `int` (`bot.py:16`, tout message entrant silencieusement ignoré) ; (2) ordre de priorité dans `on_message` — la vérification `commands.json == idle` court-circuitait `queue.json == waiting`, cassant `claude_bridge.envoyer()`/`discord_loop.py send` dès que `commands.json` était au repos (cas normal). Inversé : `queue.json waiting` vérifié en premier. Flux complet testé en conditions réelles : `!ping`, `!help`, message libre → `commands.json`, `discord_loop.py notify`, `claude_bridge.notifier()`, `claude_bridge.envoyer()` (aller-retour confirmé après correctif), cycle `bot_manager.py` (start/status/restart/stop). `SETUP.md` et `README_DISCORD_COM.md` mis à jour (étape invitation OAuth2 concrète, dépannage `403`/intent/mismatch `channel_id`).
@@ -40,20 +41,18 @@
 # Session du 2026-08-17
 
 ## Décisions prises
-- `templates/discord_com/` débloqué et validé de bout en bout : bot invité via URL OAuth2, Message Content Intent activé côté portail.
-- Deux bugs réels corrigés dans `bot.py` (template + copie de test) : `CHANNEL_ID` comparé `str` vs `int`, ordre de priorité `on_message` (`queue.json` désormais vérifié avant `commands.json`).
+- Nouvelle commande `/init_discord_mode <chemin_projet_cible>` créée : insère `discord_com` (délègue à `/insert_template`) puis guide la configuration jusqu'à un bot opérationnel (token, Application ID/invitation OAuth2, Message Content Intent, channel_id, dépendances).
 
 ## Livrables produits ou modifiés
-- `templates/discord_com/bot.py`, `discord_com/bot.py` (copie de test) : corrigés (2 bugs)
-- `templates/discord_com/SETUP.md`, `README_DISCORD_COM.md` : étape invitation OAuth2 rendue concrète, dépannage enrichi
+- `.claude/commands/init_discord_mode.md` : créé
+- `scripts/check_kit.py` : `init_discord_mode.md` ajouté à `KIT_ONLY_COMMANDS`
+- `README.md` : ligne `/init_discord_mode` ajoutée à "Ce que ça fait"
 
 ## Hypothèses validées / invalidées
-- VALIDE : invitation OAuth2 (Application ID + URL) résout le `403 Forbidden`
-- INVALIDE : intent Message Content seul suffisant pour faire répondre `!ping` — bug réel `CHANNEL_ID` str/int, corrigé
-- INVALIDE : ordre `commands.json`/`queue.json` sans impact — bug confirmé (reproduit via `claude_bridge.envoyer()`, `TimeoutError`) puis corrigé
+- EN ATTENTE : `/init_discord_mode` jamais appelée en conditions réelles
 
 ## Prochaine étape exacte
-Template `discord_com` opérationnel de bout en bout. Reste non testé : mode `enabled: false`, préfixe novice `"? "`.
+Tester `/init_discord_mode` sur un projet cible réel. Sinon, restent à tester pour `discord_com` : mode `enabled: false`, préfixe novice `"? "`.
 
 ## Question bloquante pour la session suivante
 Aucune.

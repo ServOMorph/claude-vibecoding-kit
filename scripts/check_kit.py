@@ -44,7 +44,7 @@ MIRROR_PAIRS = [
 ]
 
 # Commandes kit-only (absentes de templates/)
-KIT_ONLY_COMMANDS = {"cherche_meilleure_action.md", "create_agent.md", "create_com_agents.md", "doc_sync.md"}
+KIT_ONLY_COMMANDS = {"cherche_meilleure_action.md", "create_agent.md", "create_com_agents.md", "doc_sync.md", "init_discord_mode.md"}
 
 
 def get_version_from_changelog():

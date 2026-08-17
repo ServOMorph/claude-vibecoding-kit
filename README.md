@@ -16,6 +16,7 @@ Résout le problème structurel du vibecoding : **le contexte est perdu à chaqu
 - `/create_agent <chemin_projet_cible> <dossier> [rôle]` — crée un agent (zone à rôle : charte `agent_role.md` + `_contexte/` propre, pilotable par `/start`/`/close`) dans un projet cible ; s'exécute toujours depuis le kit, n'est jamais copiée dans les projets cibles
 - `/create_com_agents <chemin_projet_cible>` — installe un mécanisme de communication en étoile agent↔orchestrateur (`_contexte/statut.md` pull écrasé à chaque `/close` d'une zone-agent, `_contexte/messages.md` push purgé à chaque `/start` de la zone destinataire) dans un projet cible déjà initialisé ; s'exécute toujours depuis le kit, ne modifie que `start.md`/`close.md` du projet cible
 - `/insert_template <chemin_projet_cible> <nom_template> [dossier_destination]` — insère un template (`templates/<nom>/`) dans un projet cible, résout les placeholders génériques (`{{NOM_PROJET}}`/`{{ALIAS_PROJET}}`/`{{DATE}}`) et ne jamais écraser un fichier déjà présent ; s'exécute toujours depuis le kit, jamais copiée dans les projets cibles
+- `/init_discord_mode <chemin_projet_cible>` — insère le template `discord_com` dans un projet cible et guide la configuration jusqu'à un bot opérationnel (token, channel_id, invitation OAuth2, Message Content Intent, dépendances) ; kit uniquement, s'exécute toujours depuis le kit
 - `/cherche_meilleure_action [décision]` — commande d'aide à la décision (kit uniquement) : analyse le contexte réel de la zone, évalue les options selon des critères explicites, recommande une action et demande confirmation ; à invoquer quand on ne sait pas quoi faire ensuite
 - `/doc_sync` — synchronise toute la documentation du kit (commandes, templates, structure) après une modification
 - `/cherche_fonction <description>` — recherche une fonctionnalité déjà codée dans d'anciens projets à partir d'une description ; les dossiers cibles sont toujours redemandés à chaque appel (kit uniquement)
@@ -126,7 +127,7 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit **v3.28** (2026-08-17) : `templates/discord_com/` débloqué et validé de bout en bout (invitation OAuth2, Message Content Intent, correctifs `bot.py` — comparaison `channel_id`, priorité `queue.json`/`commands.json`). Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
+Kit **v3.29** (2026-08-17) : nouvelle commande `/init_discord_mode` (insère `discord_com` puis guide la configuration jusqu'à un bot opérationnel), jamais testée en conditions réelles. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
 
 ## Vérifier le lanceur Ollama
 
