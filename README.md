@@ -100,7 +100,8 @@ claude-vibecoding-kit/
     ├── control_PC/                       # template local de contrôle visuel, macros et workflows par application
     ├── roberto/                          # template extrait de Roberto2 (UI PC + mascotte), testé de bout en bout
     ├── discord_com/                      # intégration Discord ↔ Claude Code, généricisée depuis Agents_IA_V2
-    └── overlay/                          # overlay néon plein écran, signal de fin de tâche d'agent
+    ├── overlay/                          # overlay néon plein écran, signal de fin de tâche d'agent
+    └── notification/                     # notification systray (icône + bulle Windows), alternative à overlay
 ```
 
 Les commandes `/create_agent`, `/create_com_agents`, `/insert_template`, `/cherche_meilleure_action`
@@ -125,7 +126,7 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit **v3.26** (2026-08-17) : template `templates/overlay/` ajouté (overlay néon plein écran, signal de fin de tâche d'agent) + destination par défaut d'`/insert_template` changée vers `<projet_cible>/ROBERTO/`. Les deux restent à valider en conditions réelles. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
+Kit **v3.27** (2026-08-17) : template `templates/notification/` ajouté (notification systray, alternative à l'overlay plein écran) — bug de non-affichage de la bulle corrigé, comportement de disparition et focus au clic restent à valider. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
 
 ## Vérifier le lanceur Ollama
 

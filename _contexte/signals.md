@@ -1,6 +1,7 @@
 # Signals — claude-vibecoding-kit (MAJ 2026-08-17)
 
 ## Actions ouvertes
+- [P1|ouvert] Reprendre le test du template `templates/notification/` (bulle systray + icône tray, template 2, alternative à l'overlay). La bulle s'affiche (après correctif : délai 300ms avant `ShowBalloonTip`, un appel immédiat étant ignoré par l'Explorateur) mais disparaît seule après quelques secondes — reste à déterminer si l'icône tray persiste ensuite (comportement Windows normal, durée d'affichage non pilotable par l'API, déjà documenté dans le README) ou si tout disparaît (bug : processus qui se termine seul avant le clic, à corriger). fait quand: réponse obtenue sur la persistance de l'icône après disparition de la bulle, comportement jugé conforme ou corrigé, focus au clic (remontée de la fenêtre parente) validé en conditions réelles. réf: `templates/notification/start_notification.ps1`, `templates/notification/README.md`
 - [P1|ouvert] Valider en conditions réelles la nouvelle destination par défaut d'`/insert_template` (`<projet_cible>/ROBERTO/` au lieu de la racine du projet cible) : dossier bien créé, fichiers copiés dedans, pas de casse sur un `ROBERTO/` déjà existant. fait quand: les 3 points de `tests_manuels.md` vérifiés sur un projet cible réel, décision de déploiement généralisé actée. réf: `tests_manuels.md`, `.claude/commands/insert_template.md`
 - [P2|ouvert] Tester le template `templates/overlay/` (affichage overlay néon fin de tâche) dans un vrai flux agent : insertion via `/insert_template`, déclenchement depuis un prompt d'agent en fin de tâche longue, lisibilité en conditions réelles (contenu visible derrière, texte lisible). fait quand: overlay déclenché par un agent réel sur une tâche longue, rendu jugé satisfaisant ou ajusté. réf: `templates/overlay/`
 - [P1|ouvert] Test du template `templates/discord_com/` bloqué sur accès au salon Discord (`403 Forbidden — Missing Access` lors de `fetch_channel`) : le bot se connecte au gateway (token/channel_id valides) mais n'a probablement jamais été invité sur le serveur de test, ou n'a pas la permission "Voir le salon". Contournement temporaire actif dans la copie de test (`discord_com/bot.py`, non commité, hors `templates/`) : `intents.message_content = False` pour valider la connexion, car le toggle "Message Content Intent" du Developer Portal ne persiste pas côté utilisateur (cause non identifiée — pistes données : droits du compte, extension navigateur bloquant le PATCH, console F12 jamais vérifiée). fait quand: bot invité via URL OAuth2 (scope `bot`, permissions View Channel + Send Messages), `fetch_channel` réussit, puis intent Message Content réglé côté portail et `intents.message_content = True` rétabli dans `discord_com/bot.py` (copie de test) — échange de message bidirectionnel confirmé en conditions réelles. réf: `templates/discord_com/`, `discord_com/bot.py` (copie de test, non commitée)
@@ -39,24 +40,22 @@
 # Session du 2026-08-17
 
 ## Décisions prises
-- Nouveau template `overlay` créé : overlay plein écran néon (WinForms/PowerShell, même stack que `control_PC`) pour signaler visuellement la fin d'une tâche d'agent.
-- Convention `/insert_template` changée : sans `dossier_destination` explicite, l'insertion cible désormais `<projet_cible>/ROBERTO/` (nom fixe, centralise tous les templates insérés) au lieu de la racine du projet — décidé après clarification (portée générale du kit, nom fixe).
-- `Protocole_start_close_context.md` explicitement laissé intact sur demande utilisateur.
+- Nouveau template `notification` créé (template 2, alternative à `overlay` = template 1) : notification systray (icône + bulle Windows) au lieu d'un overlay plein écran.
+- Comportement au clic sur la notification : focus automatique de la fenêtre de l'agent (remontée de la chaîne des processus parents jusqu'au premier disposant d'une fenêtre principale) + disparition de la notification.
+- Fermeture auto désactivée par défaut sur ce template (`-DurationSeconds` par défaut passé de 5 à 0) — portée limitée à `notification`, `overlay` non touché (clarifié par question explicite).
 
 ## Livrables produits ou modifiés
-- `templates/overlay/start_overlay.ps1` : créé, testé (compilation + affichage réel, fermeture auto 4s).
-- `templates/overlay/README.md` : créé.
-- `templates/overlay/_commands/afficher_overlay.md` : créé.
-- `.claude/commands/insert_template.md` : modifié (étape [PREFLIGHT] 4, destination par défaut).
-- `tests_manuels.md` : créé à la racine du kit (test en attente : validation ROBERTO/ sur projet réel).
+- `templates/notification/start_notification.ps1` : créé ; bug constaté (bulle non affichée, appel `ShowBalloonTip` immédiat ignoré par l'Explorateur) corrigé par un délai de 300ms avant l'appel — correctif non encore revalidé par l'utilisateur.
+- `templates/notification/README.md` : créé.
+- `templates/notification/_commands/afficher_notification.md` : créé.
 
 ## Hypothèses validées / invalidées
-- VALIDE : `start_overlay.ps1` compile et s'affiche correctement en isolation (WinForms, overlay plein écran, néon animé).
-- EN ATTENTE : nouvelle destination par défaut `ROBERTO/` d'`/insert_template` non testée sur un projet cible réel.
-- EN ATTENTE : template `overlay` non testé dans un flux agent réel (déclenchement en fin de tâche longue).
+- INVALIDE : `ShowBalloonTip` appelé juste après création de l'icône s'affiche de façon fiable — la bulle n'apparaissait pas. Corrigé par un délai différé (Timer 300ms).
+- EN ATTENTE : après le correctif, la bulle s'affiche puis disparaît seule après quelques secondes — reste à savoir si l'icône tray persiste ensuite (normal, documenté) ou si tout disparaît (bug).
+- EN ATTENTE : focus au clic (remontée de fenêtre parente) jamais testé en conditions réelles.
 
 ## Prochaine étape exacte
-Tester `/insert_template <projet> overlay` sur un projet réel pour valider la destination `ROBERTO/`, puis déclencher l'overlay depuis un agent en fin de tâche longue pour valider le rendu en conditions réelles.
+Reprendre le test du template `notification` : vérifier si l'icône tray reste visible après disparition de la bulle, puis tester le clic (focus + disparition).
 
 ## Question bloquante pour la session suivante
-Aucune
+La bulle de notification disparaît seule après quelques secondes : l'icône tray reste-t-elle visible ensuite (comportement Windows normal) ou tout disparaît (bug à corriger) ?

@@ -3,6 +3,14 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
 
+## v3.27 — 2026-08-17
+
+### Ajouté
+- `templates/notification/` : notification systray (icône + bulle Windows), alternative à `templates/overlay/` (template 2) — affiche le nom de l'agent/zone et le message, focus automatique de la fenêtre de l'agent au clic (remontée de la chaîne des processus parents jusqu'au premier disposant d'une fenêtre principale), fermeture au clic. Fermeture auto désactivée par défaut (`-DurationSeconds` = 0). Inclut `_commands/afficher_notification.md`.
+
+### Corrigé
+- `templates/notification/start_notification.ps1` : bulle non affichée lorsque `ShowBalloonTip` était appelé immédiatement après création de l'icône (ignoré par l'Explorateur Windows) — appel désormais différé de 300ms.
+
 ## v3.26 — 2026-08-17
 
 ### Ajouté
