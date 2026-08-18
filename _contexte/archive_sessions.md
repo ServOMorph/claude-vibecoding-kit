@@ -2,6 +2,29 @@
 <!-- Ce fichier contient les anciennes sessions de signals.md, archivées automatiquement par /close -->
 <!-- Format: chaque session est séparée par une ligne vide -->
 
+# Session du 2026-08-18 (mémoire scopée par zone)
+
+## Décisions prises
+- Mémoire scopée par zone ajoutée à `/create_memory` : `[alias_zone] [contenu]` écrit dans `<dossier_zone>/_contexte/memory.md` si l'alias est reconnu dans `zones.md`, sinon comportement global inchangé (`.claude/memory.md`).
+- `/start` charge désormais `_contexte/memory.md` de la zone résolue (nouvelle étape 2c).
+
+## Livrables produits ou modifiés
+- `.claude/commands/create_memory.md`, `templates/.claude/commands/create_memory.md` : résolution de zone ajoutée
+- `.claude/commands/start.md`, `templates/.claude/commands/start.md` : étape 2c ajoutée
+- `.claude/CLAUDE.md`, `templates/.claude/CLAUDE.md` : section "Mémoire projet" mise à jour
+- `Protocole_start_close_context.md`, `README.md`, `CHANGELOG.md` : documentation synchronisée (kit v3.31)
+
+## Hypothèses validées / invalidées
+- EN ATTENTE : propagation vers SérénIATech_dev (nécessite `/update` sur ce projet) et test réel `/create_memory linkedin <contenu>` sur la zone `linkedin` — non fait cette session (hors dépôt kit).
+
+## Prochaine étape exacte
+Lancer `/update` sur SérénIATech_dev, vérifier l'alias `linkedin` dans son `zones.md`, puis tester `/create_memory linkedin <contenu>` et `/start linkedin` en conditions réelles.
+
+## Question bloquante pour la session suivante
+Aucune.
+
+---
+
 # Session du 2026-08-13 (init Capafy_AI + backup Google Drive pour projets sans git)
 
 ## Décisions prises

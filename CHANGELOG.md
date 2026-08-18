@@ -3,6 +3,17 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
 
+## v3.32 — 2026-08-18
+
+### Ajouté
+- `skills/chatgpt-orchestrateur/` : premier skill Claude Code du kit (dossier `skills/` jusque-là vide). Pilote une boucle où une IA en session web gratuite (ChatGPT en premier, généricisé via un paramètre `-Agent` pour en accueillir d'autres) sert d'orchestrateur donnant des instructions à Claude Code.
+- Persistance de l'état de mission en fichiers Markdown par agent (`etat.md`, `decisions.md`, `questions_ouvertes.md`, `echanges/`) et journal léger `log.jsonl` (une ligne par échange) pour analyse ultérieure de la communication propre à chaque agent.
+- 5 scripts PowerShell (`skills/chatgpt-orchestrateur/scripts/`) : `init_agent.ps1`, `maj_etat.ps1`, `log_echange.ps1`, `generer_reprise.ps1` (état géré sans réécriture manuelle de fichiers, économie de tokens), `coller_et_envoyer.ps1` (envoi automatique clic + collage + Entrée vers la fenêtre de l'orchestrateur, ciblée par position écran/processus, échec propre sans deviner en cas d'ambiguïté).
+- Règle actée : les réponses de l'orchestrateur doivent toujours être en un seul bloc Markdown prêt à copier, sans commentaire hors bloc.
+
+### Corrigé
+- `Get-Content -Raw` sans `-Encoding UTF8` corrompait les accents des fichiers relayés à l'orchestrateur — encodage forcé dans tous les scripts du skill.
+
 ## v3.31 — 2026-08-18
 
 ### Ajouté

@@ -22,9 +22,11 @@
 - [P2|ouvert] Décider quelles propositions des Lots 2-4 de `base_connaissances/PROPOSITIONS_AMELIORATION.md` mettre en œuvre (Lot 1 clos). Lot 3 = 1.4+2.2, 1.5, 1.6 ; Lot 4 = 2.1, 2.3, 3.2-A, 3.4. fait quand: décision actée pour chaque proposition restante, implémentée si retenue. réf: `base_connaissances/PROPOSITIONS_AMELIORATION.md`
 - [P2|ouvert] `jeu_zombies` (déployé v2.26, `D:\ServOMorph\jeu_zombies`) en retard sur le kit — n'a pas encore la section "Tests manuels" ni "Déclencheurs de vérification" de `CLAUDE.md`, ni la base de connaissances. Propagation reportée par l'utilisateur le 2026-07-28. fait quand: `/update` lancé sur jeu_zombies et `.claude/CLAUDE.md` du projet reflète le contenu à jour. réf: `DEPLOYMENTS.md`, `.claude/CLAUDE.md`
 - [P2|ouvert] `templates/discord_com/` : mode `enabled: false` et préfixe novice `"? "` (préfixage de message) jamais testés en conditions réelles — le flux principal (connexion, `!ping`/`!help`, commande libre, `notify`/`notifier`/`envoyer`, `bot_manager.py`) est validé, ces deux branches ne l'ont pas été. fait quand: les deux comportements vérifiés en conditions réelles (bot ignore les messages avec `enabled: false`, préfixe novice reformule correctement la commande transmise). réf: `templates/discord_com/bot.py`, `templates/discord_com/README_DISCORD_COM.md`
+- [P1|ouvert] Poursuivre la mission de conception du skill générique d'orchestration multi-agents via le skill `chatgpt-orchestrateur` : ChatGPT a reçu les extraits des sections 11/12/13/14/18 de `etude_architecture_skill.md` et a répondu "Confirmation technique reçue. Pour cette étape, ne fais aucune action suppl[émentaire]..." (réponse non encore lue en entier). Reste à trancher : nom du skill générique, emplacement (`skills/` vs commande kit), mécanisme technique, ordre d'implémentation. fait quand: nom/emplacement/mécanisme actés avec l'orchestrateur ChatGPT, `roadmap_<nom_skill>.md` créée. réf: `D:\ServOMorph\Appli_TSA_SDI_TDAH\ROBERTO\_orchestrateur_ia\chatgpt\etat.md`, `D:\ServOMorph\Appli_TSA_SDI_TDAH\ROBERTO\etude_architecture_skill.md`
 - [P2|ouvert] Aucune automatisation n'ajoute `discord_com/.env` (ni `config_bot_discord.json`) au `.gitignore` d'un projet cible lors de l'insertion — `DISCORD_SECURITY.md` suppose la couverture mais rien ne l'écrit ni ne la vérifie (constaté le 2026-08-18, `insert_template.md` ne gère aucun `.gitignore`). fait quand: mécanisme de vérification/ajout tranché (dans `/insert_template` ou `/init_discord_mode`) et testé sur un projet cible réel, ou décision explicite de ne pas automatiser actée. réf: `.claude/commands/insert_template.md`, `.claude/commands/init_discord_mode.md`, `templates/discord_com/DISCORD_SECURITY.md`
 
 ## Contexte chaud
+- `skills/chatgpt-orchestrateur/` : premier skill Claude Code du kit (`skills/` était vide jusque-là). Généricisé cette session (paramètre `-Agent`, ChatGPT premier agent supporté) et journalisé (`log.jsonl` par agent). 5 scripts PowerShell créés et testés en conditions réelles (`init_agent.ps1`, `maj_etat.ps1`, `log_echange.ps1`, `generer_reprise.ps1`, `coller_et_envoyer.ps1`) : gestion de l'état sans réécriture manuelle de fichiers (économie de tokens), et envoi automatique vers la fenêtre ChatGPT (clic + `Ctrl+V` + Entrée, ciblage par position écran/process, échec propre sans deviner si ambiguïté). Bug corrigé : `Get-Content -Raw` sans `-Encoding UTF8` corrompait les accents. Règle actée : les réponses de l'orchestrateur doivent toujours être en un seul bloc Markdown sans commentaire hors bloc. Mission réelle de test en cours dans `Appli_TSA_SDI_TDAH\ROBERTO\_orchestrateur_ia\chatgpt\` (hors dépôt kit).
 - `/create_memory` : mémoire scopée par zone ajoutée cette session (`[alias_zone] [contenu]` → `<dossier_zone>/_contexte/memory.md`, chargée par l'étape 2c de `/start`). Rétrocompatible : sans alias reconnu dans `zones.md`, comportement global inchangé (`.claude/memory.md`). Kit v3.31, jamais testé en conditions réelles.
 - `templates/discord_com/` : blocages `403 Forbidden` et Message Content Intent levés (2026-08-17) — bot invité via URL OAuth2, intent activé côté portail. Deux bugs réels trouvés et corrigés dans `bot.py` (`templates/discord_com/` et copie de test `discord_com/`) : (1) `CHANNEL_ID` comparé en `str` vs `int` (`bot.py:16`, tout message entrant silencieusement ignoré) ; (2) ordre de priorité dans `on_message` — la vérification `commands.json == idle` court-circuitait `queue.json == waiting`, cassant `claude_bridge.envoyer()`/`discord_loop.py send` dès que `commands.json` était au repos (cas normal). Inversé : `queue.json waiting` vérifié en premier. Flux complet testé en conditions réelles : `!ping`, `!help`, message libre → `commands.json`, `discord_loop.py notify`, `claude_bridge.notifier()`, `claude_bridge.envoyer()` (aller-retour confirmé après correctif), cycle `bot_manager.py` (start/status/restart/stop). `SETUP.md` et `README_DISCORD_COM.md` mis à jour (étape invitation OAuth2 concrète, dépannage `403`/intent/mismatch `channel_id`).
 - `/insert_template` : la destination par défaut (sans `dossier_destination` fourni) est désormais `<projet_cible>/ROBERTO/`, nom fixe pour tous les projets — pas encore testé en conditions réelles.
@@ -42,20 +44,23 @@
 # Session du 2026-08-18
 
 ## Décisions prises
-- Mémoire scopée par zone ajoutée à `/create_memory` : `[alias_zone] [contenu]` écrit dans `<dossier_zone>/_contexte/memory.md` si l'alias est reconnu dans `zones.md`, sinon comportement global inchangé (`.claude/memory.md`).
-- `/start` charge désormais `_contexte/memory.md` de la zone résolue (nouvelle étape 2c).
+- `skills/chatgpt-orchestrateur/` généricisé multi-agent (`-Agent`, ChatGPT en premier) et journalisé (`log.jsonl`).
+- Gestion de l'état exclusivement via scripts PowerShell dédiés, jamais `Write`/`Edit` direct (économie de tokens).
+- Réponses de l'orchestrateur exigées en un seul bloc Markdown sans commentaire hors bloc.
+- Envoi automatique (clic + `Ctrl+V` + Entrée vers la fenêtre orchestrateur) ajouté et validé en conditions réelles ; presse-papier reste le repli si la fenêtre n'est pas trouvée.
 
 ## Livrables produits ou modifiés
-- `.claude/commands/create_memory.md`, `templates/.claude/commands/create_memory.md` : résolution de zone ajoutée
-- `.claude/commands/start.md`, `templates/.claude/commands/start.md` : étape 2c ajoutée
-- `.claude/CLAUDE.md`, `templates/.claude/CLAUDE.md` : section "Mémoire projet" mise à jour
-- `Protocole_start_close_context.md`, `README.md`, `CHANGELOG.md` : documentation synchronisée (kit v3.31)
+- `skills/chatgpt-orchestrateur/SKILL.md` : généricisé + journal + envoi auto
+- `skills/chatgpt-orchestrateur/scripts/{init_agent,maj_etat,log_echange,generer_reprise,coller_et_envoyer}.ps1` : créés et testés en conditions réelles
+- `D:\ServOMorph\Appli_TSA_SDI_TDAH\ROBERTO\_orchestrateur_ia\chatgpt\` (hors dépôt kit) : mission réelle initialisée pour tester le skill
 
 ## Hypothèses validées / invalidées
-- EN ATTENTE : propagation vers SérénIATech_dev (nécessite `/update` sur ce projet) et test réel `/create_memory linkedin <contenu>` sur la zone `linkedin` — non fait cette session (hors dépôt kit).
+- VALIDE : ciblage fenêtre par position écran (moitié gauche) + process navigateur suffit pour cliquer/coller/envoyer automatiquement.
+- INVALIDE (corrigé) : `Get-Content -Raw` sans `-Encoding UTF8` corrompait les accents dans les fichiers relayés — forcé partout.
+- EN ATTENTE : nom et emplacement définitifs du futur skill générique d'orchestration multi-agents (question posée à l'orchestrateur ChatGPT, réponse reçue non encore lue en entier).
 
 ## Prochaine étape exacte
-Lancer `/update` sur SérénIATech_dev, vérifier l'alias `linkedin` dans son `zones.md`, puis tester `/create_memory linkedin <contenu>` et `/start linkedin` en conditions réelles.
+Lire la suite de la réponse ChatGPT ("Confirmation technique reçue...") et poursuivre la décision nom/emplacement/mécanisme du skill générique d'orchestration.
 
 ## Question bloquante pour la session suivante
 Aucune.
