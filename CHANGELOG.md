@@ -3,6 +3,15 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
 
+## v3.34 — 2026-08-18
+
+### Modifié
+- Mission ROBERTO (`Appli_TSA_SDI_TDAH`, hors dépôt kit) réorientée : analyse a posteriori du relai `skills/chatgpt-orchestrateur/` montrant qu'il ne fait pas d'économie de tokens côté Claude sur des tâches courtes (composer une délégation avec code de référence inline coûte autant que l'écrire directement, captures d'écran en surcoût net) — plus-value réelle retenue : test d'autonomie et journalisation. Suite de la mission reprise en travail direct.
+- Zone-agent `roberto` créée dans `Appli_TSA_SDI_TDAH` via `/create_agent` (mode création sur un dossier déjà riche en contenu, périmètre étendu à `scripts/`/`_contexte/` racine).
+
+### Corrigé
+- Incohérence détectée dans `templates/agent_role_TEMPLATE.md` : la section "Invariants" est un texte fixe non paramétré qui contredit tout périmètre étendu (`{{ECRITURE_ETENDUE}}`) accordé dans la section "Périmètre" — corrigée à la main sur la charte de l'agent `roberto`, template lui-même non modifié (proposition P14 tracée dans `base_connaissances/ameliorations_create_agent.md`).
+
 ## v3.33 — 2026-08-18
 
 ### Ajouté

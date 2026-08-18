@@ -131,7 +131,7 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit **v3.33** (2026-08-18) : `skills/chatgpt-orchestrateur/` complété par un suivi de tokens (par agent et par compte Google) et une rotation automatique de compte Google (`roadmap_reprise_multicompte.md`, Phases 1/2 FAIT) — bloqué avant la Phase 3 par un risque de vol de focus documenté. Validé en conditions réelles sur une mission de délégation complète (state machine testée de bout en bout, 29 tests, hors dépôt kit). Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
+Kit **v3.34** (2026-08-18) : mission ROBERTO (`Appli_TSA_SDI_TDAH`, hors dépôt kit) réorientée après analyse a posteriori du relai `skills/chatgpt-orchestrateur/` — jugé non économe en tokens côté Claude sur des tâches courtes, la mission reprend en travail direct via une zone-agent dédiée créée par `/create_agent`. `chatgpt-orchestrateur` reste disponible (rotation multi-compte Google Phases 1/2 FAIT, bloqué avant la Phase 3 par un risque de vol de focus documenté). Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
 
 ## Vérifier le lanceur Ollama
 

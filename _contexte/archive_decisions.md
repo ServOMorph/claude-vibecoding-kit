@@ -1,5 +1,9 @@
 # Archive des décisions — claude-vibecoding-kit
 
+## Décisions archivées le 2026-08-18 (session réorientation ROBERTO + agent roberto)
+
+- 2026-08-16 : corruption d'encodage de `control_pc.sqlite` corrigée. Cause confirmée : insertion manuelle via CLI shell (codepage non-UTF8), `discover_right_window.py` n'écrit jamais en base (vérifié par lecture du script). 6 lignes `discoveries` corrompues supprimées (irrécupérables), 5 ré-observées en conditions réelles sur `appli_tsa_sdi_tdah` ouverte et réinsérées via `sqlite3` Python. Règle retenue : toute écriture future en base passe par le module Python, jamais par un `INSERT` shell. Onboarding restant (nécessite `Reset DB`). Kit v3.24.
+
 ## Décisions archivées le 2026-08-18 (session roadmap multi-compte + délégation ROBERTO)
 
 - 2026-08-15 : `roadmap_template_roberto.md` close (5/5 phases FAIT). Commande `/insert_template <chemin_projet_cible> <nom_template> [dossier_destination]` créée (générique, réutilisable pour `control_PC` et futurs templates). Template `roberto` extrait et généricisé (30 fichiers hors `analysis/`). Écart détecté vs l'inventaire Phase 1 : deux scripts `MACROS/tester_*_opencode.py` avaient un chemin absolu en dur, corrigés par résolution relative. Testé de bout en bout sur un projet cible de test : idempotence, placeholders, code Python compilable, aucun chemin résiduel vers `Roberto2` — bilan garder tel quel. Kit v3.23.

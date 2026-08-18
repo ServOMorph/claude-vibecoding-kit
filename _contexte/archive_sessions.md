@@ -2,23 +2,27 @@
 <!-- Ce fichier contient les anciennes sessions de signals.md, archivées automatiquement par /close -->
 <!-- Format: chaque session est séparée par une ligne vide -->
 
-# Session du 2026-08-18 (mémoire scopée par zone)
+# Session du 2026-08-18 (roadmap multi-compte + délégation réelle ROBERTO)
 
 ## Décisions prises
-- Mémoire scopée par zone ajoutée à `/create_memory` : `[alias_zone] [contenu]` écrit dans `<dossier_zone>/_contexte/memory.md` si l'alias est reconnu dans `zones.md`, sinon comportement global inchangé (`.claude/memory.md`).
-- `/start` charge désormais `_contexte/memory.md` de la zone résolue (nouvelle étape 2c).
+- Roadmap `roadmap_reprise_multicompte.md` Phase 1 (suivi tokens) et Phase 2 (rotation de compte Google) terminées et commitées ; conception évoluée en `comptes_usage.json`/`compte_actif.json` (statut actif/inactif/epuise) plutôt que le simple `comptes_utilises.json` prévu au départ.
+- Risque de vol de focus `SetForegroundWindow` découvert et documenté (`SKILL.md`) comme préalable bloquant à la Phase 3.
+- Pivot décidé par l'utilisateur : delegation maximale du code à ChatGPT sur la vraie mission ROBERTO (`Appli_TSA_SDI_TDAH`) plutôt que poursuivre mécaniquement la roadmap — test explicite d'autonomie.
+- Test Markdown vs JSON sur les échanges avec ChatGPT : les deux fonctionnent, JSON pas plus économe sur du contenu plat (voir `roadmap_reprise_multicompte.md` Phase 5).
 
 ## Livrables produits ou modifiés
-- `.claude/commands/create_memory.md`, `templates/.claude/commands/create_memory.md` : résolution de zone ajoutée
-- `.claude/commands/start.md`, `templates/.claude/commands/start.md` : étape 2c ajoutée
-- `.claude/CLAUDE.md`, `templates/.claude/CLAUDE.md` : section "Mémoire projet" mise à jour
-- `Protocole_start_close_context.md`, `README.md`, `CHANGELOG.md` : documentation synchronisée (kit v3.31)
+- `skills/chatgpt-orchestrateur/scripts/{maj_usage,definir_compte_actif,maj_compte_usage,ouvrir_nouveau_compte}.ps1`, `comptes_google.json` : créés et testés
+- `skills/chatgpt-orchestrateur/SKILL.md` : sections suivi tokens + risque de vol de focus ajoutées
+- `roadmap_reprise_multicompte.md` : Phases 1/2 FAIT, blocage focus ajouté en tête de Phase 3
+- `D:\ServOMorph\Appli_TSA_SDI_TDAH\ROBERTO\` (hors dépôt kit) : Flux A de la state machine complet et testé (10 étapes, 29 tests), délégué à ChatGPT
 
 ## Hypothèses validées / invalidées
-- EN ATTENTE : propagation vers SérénIATech_dev (nécessite `/update` sur ce projet) et test réel `/create_memory linkedin <contenu>` sur la zone `linkedin` — non fait cette session (hors dépôt kit).
+- VALIDE : déléguer l'écriture de code à ChatGPT (audit, script, tests) puis se contenter d'appliquer/vérifier côté Claude Code fonctionne bien en conditions réelles sur 10 itérations consécutives.
+- VALIDE : la vérification systématique par capture après un collage évite les échecs silencieux (piège de calibration déjà documenté, reconfirmé sur un envoi long).
+- INVALIDE : `SetForegroundWindow` + coordonnées de clic suffisent à cibler fiablement une fenêtre précise — un vol de focus silencieux est possible.
 
 ## Prochaine étape exacte
-Lancer `/update` sur SérénIATech_dev, vérifier l'alias `linkedin` dans son `zones.md`, puis tester `/create_memory linkedin <contenu>` et `/start linkedin` en conditions réelles.
+Résoudre ou contourner le vol de focus avant la Phase 3 de `roadmap_reprise_multicompte.md`. Sur ROBERTO : reprendre l'étape 11 (CLI `process_manual_test.py`), interrompue par l'utilisateur avant envoi, rien n'a été perdu.
 
 ## Question bloquante pour la session suivante
 Aucune.
@@ -632,32 +636,6 @@ Aucune
 
 ## Prochaine étape exacte
 Inviter le bot sur le serveur (URL OAuth2, scope `bot`, permissions View Channel + Send Messages), relancer `discord_com/bot.py`, confirmer l'échange de message. Puis résoudre le blocage Message Content Intent et rétablir `message_content = True`.
-
-## Question bloquante pour la session suivante
-Aucune
-
----
-
-# Session du 2026-08-18 (skill chatgpt-orchestrateur généricisé multi-agent, journal, envoi auto)
-
-## Décisions prises
-- `skills/chatgpt-orchestrateur/` généricisé multi-agent (`-Agent`, ChatGPT en premier) et journalisé (`log.jsonl`).
-- Gestion de l'état exclusivement via scripts PowerShell dédiés, jamais `Write`/`Edit` direct (économie de tokens).
-- Réponses de l'orchestrateur exigées en un seul bloc Markdown sans commentaire hors bloc.
-- Envoi automatique (clic + `Ctrl+V` + Entrée vers la fenêtre orchestrateur) ajouté et validé en conditions réelles ; presse-papier reste le repli si la fenêtre n'est pas trouvée.
-
-## Livrables produits ou modifiés
-- `skills/chatgpt-orchestrateur/SKILL.md` : généricisé + journal + envoi auto
-- `skills/chatgpt-orchestrateur/scripts/{init_agent,maj_etat,log_echange,generer_reprise,coller_et_envoyer}.ps1` : créés et testés en conditions réelles
-- `D:\ServOMorph\Appli_TSA_SDI_TDAH\ROBERTO\_orchestrateur_ia\chatgpt\` (hors dépôt kit) : mission réelle initialisée pour tester le skill
-
-## Hypothèses validées / invalidées
-- VALIDE : ciblage fenêtre par position écran (moitié gauche) + process navigateur suffit pour cliquer/coller/envoyer automatiquement.
-- INVALIDE (corrigé) : `Get-Content -Raw` sans `-Encoding UTF8` corrompait les accents dans les fichiers relayés — forcé partout.
-- EN ATTENTE : nom et emplacement définitifs du futur skill générique d'orchestration multi-agents (question posée à l'orchestrateur ChatGPT, réponse reçue non encore lue en entier).
-
-## Prochaine étape exacte
-Lire la suite de la réponse ChatGPT ("Confirmation technique reçue...") et poursuivre la décision nom/emplacement/mécanisme du skill générique d'orchestration.
 
 ## Question bloquante pour la session suivante
 Aucune
