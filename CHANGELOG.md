@@ -3,6 +3,22 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
 
+## v3.30 — 2026-08-18
+
+### Corrigé
+- `templates/discord_com/` : faille de sécurité corrigée — le bot token transitait par Claude (lu/écrit dans `config_bot_discord.json`). Déplacé dans `discord_com/.env`, créé/rempli exclusivement par l'utilisateur ; `config_bot_discord.json` réduit à `enabled`/`channel_id`. `bot.py` lit désormais le token via `os.environ`/`python-dotenv`.
+
+### Ajouté
+- `templates/discord_com/.env.example` : nouveau fichier exemple pour le token.
+
+### Modifié
+- `templates/discord_com/requirements.txt` : ajout de `python-dotenv`.
+- `templates/discord_com/config_bot_discord.example.json` : `bot_token` retiré.
+- `templates/discord_com/SETUP.md`, `DISCORD_SECURITY.md` : workflow `.env` documenté.
+- `.claude/commands/init_discord_mode.md` : règle absolue sur le token (jamais lu/écrit par Claude), vérifications de présence via commande shell à sortie booléenne uniquement.
+- `README.md` : section "État actuel" mise à jour.
+- `/init_discord_mode` testée en conditions réelles pour la première fois (insertion + configuration + validation confirmées sur un projet cible réel).
+
 ## v3.29 — 2026-08-17
 
 ### Ajouté

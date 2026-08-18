@@ -2,17 +2,21 @@
 import discord
 import asyncio
 import json
+import os
 import time
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 DIR = Path(__file__).parent
+load_dotenv(DIR / ".env")
 CONFIG = json.loads((DIR / "config_bot_discord.json").read_text(encoding="utf-8"))
 
 if not CONFIG.get("enabled", True):
     print("Discord com désactivée.")
     exit(0)
 
-TOKEN = CONFIG["bot_token"]
+TOKEN = os.environ["DISCORD_BOT_TOKEN"]
 CHANNEL_ID = int(CONFIG["channel_id"])
 QUEUE = DIR / "queue.json"
 COMMANDS = DIR / "commands.json"

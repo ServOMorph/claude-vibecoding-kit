@@ -17,6 +17,13 @@ s'exécute toujours depuis le kit, projet cible en argument. Elle délègue l'in
 fichiers à la même logique que `/insert_template <chemin_projet_cible> discord_com` — pas de
 duplication de cette procédure, uniquement la configuration ajoutée en aval.
 
+**Règle absolue sur le token** : le bot token Discord est un secret. Claude ne le demande
+jamais dans le chat, ne le lit jamais (aucun `Read`/`Grep` affichant sa valeur) et ne l'écrit
+jamais dans un fichier. Il vit exclusivement dans `discord_com/.env`, rempli par
+l'utilisateur lui-même dans son éditeur. Toute vérification de présence côté Claude passe par
+une commande shell dont la sortie ne contient jamais la valeur du token (ex. comparaison au
+placeholder par défaut, résultat booléen uniquement).
+
 ## [PREFLIGHT] — résolution, aucune écriture
 
 1. Résoudre `<chemin_projet_cible>` (même règle que `/insert_template` : gérer les chemins
@@ -27,11 +34,14 @@ duplication de cette procédure, uniquement la configuration ajoutée en aval.
 3. Localiser le dossier `discord_com/` déjà inséré côté cible, le cas échéant (chercher
    `discord_com/bot.py` sous la destination par défaut `<projet_cible>/ROBERTO/` puis, à
    défaut, à la racine du projet — ne jamais supposer un seul emplacement possible).
-4. Si `discord_com/config_bot_discord.json` existe déjà avec `enabled: true` et un
-   `bot_token` non vide : informer "discord_com déjà configuré dans ce projet
-   (`<chemin>`)." et proposer de vérifier la connexion (`python discord_com/bot_manager.py
-   status`) plutôt que de repartir de zéro. Ne poursuivre au-delà de cette étape que si
-   l'utilisateur le demande explicitement.
+4. Si `discord_com/config_bot_discord.json` existe déjà avec `enabled: true` et que
+   `discord_com/.env` contient une valeur de `DISCORD_BOT_TOKEN` différente du placeholder
+   (vérifier par une commande shell qui ne renvoie qu'un booléen, jamais la valeur — ex.
+   `grep -q "^DISCORD_BOT_TOKEN=colle_ton_token_ici$" discord_com/.env && echo VIDE || echo
+   REMPLI`) : informer "discord_com déjà configuré dans ce projet (`<chemin>`)." et proposer
+   de vérifier la connexion (`python discord_com/bot_manager.py status`) plutôt que de
+   repartir de zéro. Ne poursuivre au-delà de cette étape que si l'utilisateur le demande
+   explicitement.
 
 ## [INSERTION]
 
@@ -46,10 +56,14 @@ duplication de cette procédure, uniquement la configuration ajoutée en aval.
 
 7. Si `<destination>/discord_com/config_bot_discord.json` n'existe pas : le créer en copiant
    `config_bot_discord.example.json` (`enabled: false` par défaut tant que la configuration
-   n'est pas complète).
-8. Demander le **bot token** si absent du fichier (rappeler : Developer Portal → application
-   → Bot → Add Bot / Reset Token → copier le token). Écrire la valeur fournie dans
-   `bot_token`. Ne jamais l'afficher en clair dans la synthèse finale une fois écrit.
+   n'est pas complète). Si `<destination>/discord_com/.env` n'existe pas : le créer en
+   copiant `.env.example` (jamais en construisant son contenu soi-même).
+8. Demander à l'utilisateur de compléter **lui-même** `<destination>/discord_com/.env`
+   (rappeler : Developer Portal → application → Bot → Add Bot / Reset Token → copier le
+   token, puis le coller à la place du placeholder dans `.env`, dans son éditeur). Claude ne
+   demande jamais le token dans le chat et ne touche jamais au contenu de `.env`. Attendre
+   confirmation que c'est fait, puis vérifier uniquement par une commande shell à sortie
+   booléenne (cf. étape 4) que le placeholder a été remplacé — jamais lire la valeur.
 9. Demander l'**Application ID** (Developer Portal → application → General Information —
    valeur publique, pas un secret). Construire l'URL d'invitation OAuth2 :
    `https://discord.com/api/oauth2/authorize?client_id=<APPLICATION_ID>&permissions=68608&scope=bot`
@@ -92,9 +106,11 @@ duplication de cette procédure, uniquement la configuration ajoutée en aval.
     - Prochaines étapes : `python <destination>/discord_com/bot_manager.py start` pour
       relancer le bot après un redémarrage, puis `/discord_loop` dans une conversation Claude
       Code pour activer la boucle de contrôle native.
-    - Rappel sécurité : `config_bot_discord.json` ne doit jamais être commité (déjà couvert
-      par `.gitignore` si le template a été inséré correctement — vérifier sa présence dans
-      `<destination>/discord_com/DISCORD_SECURITY.md` sinon le signaler).
+    - Rappel sécurité : `.env` ne doit jamais être commité (déjà couvert par `.gitignore` si
+      le template a été inséré correctement — vérifier sa présence dans
+      `<destination>/discord_com/DISCORD_SECURITY.md` sinon le signaler). Rappeler aussi que
+      le token ayant transité par la session courante (avant cette mise à jour du workflow)
+      doit être régénéré (Developer Portal → Bot → Reset Token) par précaution.
 
 <!-- SPECIFICITES PROJET : DEBUT (préservé par /update, ne pas toucher hors de ce bloc) -->
 <!-- Convention : toute règle liée à une phase précise de la Procédure ci-dessus doit la

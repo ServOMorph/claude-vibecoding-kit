@@ -1,4 +1,4 @@
-# Signals — claude-vibecoding-kit (MAJ 2026-08-17)
+# Signals — claude-vibecoding-kit (MAJ 2026-08-18)
 
 ## Actions ouvertes
 - [P1|ouvert] Reprendre le test du template `templates/notification/` (bulle systray + icône tray, template 2, alternative à l'overlay). La bulle s'affiche (après correctif : délai 300ms avant `ShowBalloonTip`, un appel immédiat étant ignoré par l'Explorateur) mais disparaît seule après quelques secondes — reste à déterminer si l'icône tray persiste ensuite (comportement Windows normal, durée d'affichage non pilotable par l'API, déjà documenté dans le README) ou si tout disparaît (bug : processus qui se termine seul avant le clic, à corriger). fait quand: réponse obtenue sur la persistance de l'icône après disparition de la bulle, comportement jugé conforme ou corrigé, focus au clic (remontée de la fenêtre parente) validé en conditions réelles. réf: `templates/notification/start_notification.ps1`, `templates/notification/README.md`
@@ -21,7 +21,7 @@
 - [P2|ouvert] Décider quelles propositions des Lots 2-4 de `base_connaissances/PROPOSITIONS_AMELIORATION.md` mettre en œuvre (Lot 1 clos). Lot 3 = 1.4+2.2, 1.5, 1.6 ; Lot 4 = 2.1, 2.3, 3.2-A, 3.4. fait quand: décision actée pour chaque proposition restante, implémentée si retenue. réf: `base_connaissances/PROPOSITIONS_AMELIORATION.md`
 - [P2|ouvert] `jeu_zombies` (déployé v2.26, `D:\ServOMorph\jeu_zombies`) en retard sur le kit — n'a pas encore la section "Tests manuels" ni "Déclencheurs de vérification" de `CLAUDE.md`, ni la base de connaissances. Propagation reportée par l'utilisateur le 2026-07-28. fait quand: `/update` lancé sur jeu_zombies et `.claude/CLAUDE.md` du projet reflète le contenu à jour. réf: `DEPLOYMENTS.md`, `.claude/CLAUDE.md`
 - [P2|ouvert] `templates/discord_com/` : mode `enabled: false` et préfixe novice `"? "` (préfixage de message) jamais testés en conditions réelles — le flux principal (connexion, `!ping`/`!help`, commande libre, `notify`/`notifier`/`envoyer`, `bot_manager.py`) est validé, ces deux branches ne l'ont pas été. fait quand: les deux comportements vérifiés en conditions réelles (bot ignore les messages avec `enabled: false`, préfixe novice reformule correctement la commande transmise). réf: `templates/discord_com/bot.py`, `templates/discord_com/README_DISCORD_COM.md`
-- [P1|ouvert] Nouvelle commande `/init_discord_mode <chemin_projet_cible>` (insère `discord_com` puis guide la configuration jusqu'à un bot opérationnel) créée mais jamais appelée en conditions réelles — aucune des étapes [PREFLIGHT]/[INSERTION]/[CONFIGURATION]/[VALIDATION] n'a été exercée. fait quand: `/init_discord_mode` lancée sur un projet cible réel, insertion + configuration guidée (token, Application ID/invitation OAuth2, Message Content Intent, channel_id) + validation (`bot_manager.py status`, `!ping`) vérifiées en conditions réelles. réf: `.claude/commands/init_discord_mode.md`
+- [P2|ouvert] Aucune automatisation n'ajoute `discord_com/.env` (ni `config_bot_discord.json`) au `.gitignore` d'un projet cible lors de l'insertion — `DISCORD_SECURITY.md` suppose la couverture mais rien ne l'écrit ni ne la vérifie (constaté le 2026-08-18, `insert_template.md` ne gère aucun `.gitignore`). fait quand: mécanisme de vérification/ajout tranché (dans `/insert_template` ou `/init_discord_mode`) et testé sur un projet cible réel, ou décision explicite de ne pas automatiser actée. réf: `.claude/commands/insert_template.md`, `.claude/commands/init_discord_mode.md`, `templates/discord_com/DISCORD_SECURITY.md`
 
 ## Contexte chaud
 - `templates/discord_com/` : blocages `403 Forbidden` et Message Content Intent levés (2026-08-17) — bot invité via URL OAuth2, intent activé côté portail. Deux bugs réels trouvés et corrigés dans `bot.py` (`templates/discord_com/` et copie de test `discord_com/`) : (1) `CHANNEL_ID` comparé en `str` vs `int` (`bot.py:16`, tout message entrant silencieusement ignoré) ; (2) ordre de priorité dans `on_message` — la vérification `commands.json == idle` court-circuitait `queue.json == waiting`, cassant `claude_bridge.envoyer()`/`discord_loop.py send` dès que `commands.json` était au repos (cas normal). Inversé : `queue.json waiting` vérifié en premier. Flux complet testé en conditions réelles : `!ping`, `!help`, message libre → `commands.json`, `discord_loop.py notify`, `claude_bridge.notifier()`, `claude_bridge.envoyer()` (aller-retour confirmé après correctif), cycle `bot_manager.py` (start/status/restart/stop). `SETUP.md` et `README_DISCORD_COM.md` mis à jour (étape invitation OAuth2 concrète, dépannage `403`/intent/mismatch `channel_id`).
@@ -32,27 +32,33 @@
 - `README.md` : corruption d'encodage pré-existante (double UTF-8) — à traiter si gênant.
 - Écriture en base `control_pc.sqlite` : utiliser le module `sqlite3` Python (paramétré), jamais un `INSERT` tapé via CLI shell — cause confirmée de la corruption d'encodage du 2026-08-16.
 - `base_connaissances/ameliorations_create_agent.md` : modification locale non commitée, antérieure à cette session (entrée agent `1_jour_moins_numerique`) — non traitée ici, résidu à examiner.
-- Vigilance credentials Discord : 3 incidents en session du 2026-08-16 sur le token bot, tous traités avant commit. Toujours vérifier `git check-ignore`/`git status` avant tout commit touchant `discord_com/`.
-- Copie de test `discord_com/` (racine du kit) et `.claude/commands/discord_loop.md` (racine du kit) : artefacts de test local, intentionnellement non commités (redondants avec `templates/discord_com/`, `bot.py` de test porte un contournement — `message_content` désactivé — à ne jamais propager au template).
+- Vigilance credentials Discord : 3 incidents en session du 2026-08-16 sur le token bot, tous traités avant commit. Incident supplémentaire le 2026-08-18 : token lu/écrit par Claude via `/init_discord_mode` (design initial de la commande, pas une erreur ponctuelle) — corrigé structurellement par le passage à `.env` (cf. décision du 2026-08-18 dans `contexte.md`). Toujours vérifier `git check-ignore`/`git status` avant tout commit touchant `discord_com/`.
+- Copie de test `discord_com/` (racine du kit) et `.claude/commands/discord_loop.md` (racine du kit) : artefacts de test local, intentionnellement non commités (redondants avec `templates/discord_com/`, `bot.py` de test porte un contournement — `message_content` désactivé — à ne jamais propager au template). Process de test associé ("vibecoder") repéré tournant en arrière-plan sans lien avec la session courante et arrêté le 2026-08-18.
 
-## Dernière session (2026-08-17)
+## Dernière session (2026-08-18)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
 
-# Session du 2026-08-17
+# Session du 2026-08-18
 
 ## Décisions prises
-- Nouvelle commande `/init_discord_mode <chemin_projet_cible>` créée : insère `discord_com` (délègue à `/insert_template`) puis guide la configuration jusqu'à un bot opérationnel (token, Application ID/invitation OAuth2, Message Content Intent, channel_id, dépendances).
+- `/init_discord_mode` testée en conditions réelles pour la première fois (ROBERTO, SérénIATech_dev) : insertion + configuration + validation (`bot_manager.py status`, `!ping`) confirmées.
+- Faille de sécurité détectée en cours de test (token lu/écrit par Claude) et corrigée structurellement : token déplacé dans `discord_com/.env`, jamais touché par Claude ; `config_bot_discord.json` réduit à `enabled`/`channel_id`.
 
 ## Livrables produits ou modifiés
-- `.claude/commands/init_discord_mode.md` : créé
-- `scripts/check_kit.py` : `init_discord_mode.md` ajouté à `KIT_ONLY_COMMANDS`
-- `README.md` : ligne `/init_discord_mode` ajoutée à "Ce que ça fait"
+- `templates/discord_com/bot.py` : lecture du token via `os.environ`/`python-dotenv`
+- `templates/discord_com/requirements.txt` : `python-dotenv` ajouté
+- `templates/discord_com/config_bot_discord.example.json` : `bot_token` retiré
+- `templates/discord_com/.env.example` : créé
+- `templates/discord_com/SETUP.md`, `DISCORD_SECURITY.md` : workflow `.env` documenté
+- `.claude/commands/init_discord_mode.md` : règle absolue token + vérifications booléennes
+- Déploiement réel (hors dépôt kit) : `ROBERTO/discord_com/` dans SérénIATech_dev
 
 ## Hypothèses validées / invalidées
-- EN ATTENTE : `/init_discord_mode` jamais appelée en conditions réelles
+- VALIDE : `/init_discord_mode` fonctionnelle de bout en bout en conditions réelles.
+- INVALIDE : workflow initial (token manipulé par Claude) → pivot vers `.env` rempli par l'utilisateur.
 
 ## Prochaine étape exacte
-Tester `/init_discord_mode` sur un projet cible réel. Sinon, restent à tester pour `discord_com` : mode `enabled: false`, préfixe novice `"? "`.
+Trancher l'automatisation `.gitignore` pour `discord_com/.env` côté projets cibles (cf. action ouverte). Sinon, restent à tester pour `discord_com` : mode `enabled: false`, préfixe novice `"? "`.
 
 ## Question bloquante pour la session suivante
 Aucune.

@@ -127,7 +127,7 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit **v3.29** (2026-08-17) : nouvelle commande `/init_discord_mode` (insère `discord_com` puis guide la configuration jusqu'à un bot opérationnel), jamais testée en conditions réelles. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
+Kit **v3.30** (2026-08-18) : `/init_discord_mode` validée en conditions réelles ; token Discord désormais géré via `discord_com/.env` (rempli par l'utilisateur, jamais lu ni écrit par Claude). Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
 
 ## Vérifier le lanceur Ollama
 

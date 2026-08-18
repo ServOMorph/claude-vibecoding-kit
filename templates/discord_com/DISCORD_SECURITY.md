@@ -1,12 +1,17 @@
 # Sécurité Discord — Configuration des tokens
 
-## ⚠️ Important : Les tokens ne sont jamais dans le dépôt git
+## ⚠️ Important : le token n'est jamais dans le dépôt git, ni lu par Claude
 
-La configuration avec les tokens Discord est **ignorée par git** pour des raisons de sécurité.
+Le token Discord vit uniquement dans `.env`, ignoré par git **et jamais lu ni écrit par
+Claude** : c'est l'utilisateur qui le colle lui-même dans le fichier, dans son éditeur.
+`config_bot_discord.json` (non sensible : `enabled`, `channel_id`) peut en revanche être
+rempli par Claude sans problème.
 
 ```
 .gitignore :
-discord_com/config_bot_discord.json  ← Jamais commité
+discord_com/.env                     ← Jamais commité, jamais lu par Claude
+.env.example                         ← Exemple sans secret (peut être commité)
+discord_com/config_bot_discord.json  ← Non sensible, mais ignoré par cohérence
 config_bot_discord.example.json      ← Exemple (peut être commité)
 ```
 
@@ -19,22 +24,28 @@ git clone https://...
 cd mon-projet
 ```
 
-Tu noteras : **config_bot_discord.json n'existe pas** (c'est normal, il est ignoré)
+Tu noteras : **`.env` et `config_bot_discord.json` n'existent pas** (c'est normal, ignorés)
 
-### 2️⃣ Copie le fichier example
+### 2️⃣ Copie les fichiers example
 
 ```bash
+cp discord_com/.env.example discord_com/.env
 cp discord_com/config_bot_discord.example.json discord_com/config_bot_discord.json
 ```
 
-### 3️⃣ Remplis le fichier avec tes credentials
+### 3️⃣ Remplis le token toi-même (jamais via Claude)
 
-Édite `discord_com/config_bot_discord.json` :
+Édite `discord_com/.env` directement dans ton éditeur :
+
+```
+DISCORD_BOT_TOKEN=TON_TOKEN_DISCORD_ICI
+```
+
+Édite `discord_com/config_bot_discord.json` (Claude peut t'aider ici) :
 
 ```json
 {
   "enabled": true,
-  "bot_token": "TON_TOKEN_DISCORD_ICI",
   "channel_id": 123456789012345678
 }
 ```
@@ -43,7 +54,7 @@ cp discord_com/config_bot_discord.example.json discord_com/config_bot_discord.js
 
 ```bash
 git status
-# config_bot_discord.json ne sera jamais affiché (ignoré)
+# .env et config_bot_discord.json ne seront jamais affichés (ignorés)
 ```
 
 ## Obtenir les credentials
@@ -65,45 +76,10 @@ git status
 
 ### Partager les credentials entre machines
 
-**Option 1 : Variable d'environnement**
+Chaque machine recopie `.env.example` vers `.env` et remplit `DISCORD_BOT_TOKEN` elle-même
+(jamais via un fichier partagé ou committé).
 
-```bash
-export DISCORD_BOT_TOKEN="ton_token_ici"
-export DISCORD_CHANNEL_ID="123456789"
-python discord_com/bot.py
-```
-
-Script peut lire depuis env :
-
-```python
-import os
-import json
-
-config = json.load(open("discord_com/config_bot_discord.json"))
-config["bot_token"] = os.environ.get("DISCORD_BOT_TOKEN", config["bot_token"])
-config["channel_id"] = int(os.environ.get("DISCORD_CHANNEL_ID", config["channel_id"]))
-```
-
-**Option 2 : Fichier .env (également ignoré)**
-
-```bash
-# .env (ignoré par git)
-DISCORD_BOT_TOKEN=ton_token
-DISCORD_CHANNEL_ID=123456789
-```
-
-```python
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-config = {
-    "bot_token": os.getenv("DISCORD_BOT_TOKEN"),
-    "channel_id": int(os.getenv("DISCORD_CHANNEL_ID"))
-}
-```
-
-**Option 3 : GitHub Secrets (pour CI/CD)**
+**GitHub Secrets (pour CI/CD)**
 
 ```yaml
 # .github/workflows/deploy.yml
@@ -115,29 +91,28 @@ env:
 ## Vérifier la sécurité
 
 ```bash
-# Ces fichiers NE doivent JAMAIS être committés
-git log --follow -- discord_com/config_bot_discord.json
+# Ce fichier NE doit JAMAIS être committé
+git log --follow -- discord_com/.env
 # → Aucun résultat (fichier ignoré depuis le départ)
 
 # Les fichiers example PEUVENT être committés (pas de secrets)
-git log --follow -- discord_com/config_bot_discord.example.json
-# → Affiche les commits (documentation)
+git log --follow -- discord_com/.env.example
 ```
 
-## Regénérer le bot token (si compromis)
+## Regénérer le bot token (si compromis, ou après passage par Claude)
 
-1. Discord Developer Portal → Bot → **Regenerate**
+1. Discord Developer Portal → Bot → **Reset Token**
 2. Copier le nouveau token
-3. Mettre à jour `discord_com/config_bot_discord.json` localement
-4. Ne pas commiter le nouveau fichier (gitignore)
+3. Mettre à jour `discord_com/.env` localement (toi-même, pas via Claude)
+4. Ne pas commiter le fichier (gitignore)
 
 ## Checklist sécurité
 
-- [ ] `config_bot_discord.json` est dans `.gitignore`
-- [ ] `config_bot_discord.json` n'existe pas dans le dépôt (historique git)
-- [ ] `config_bot_discord.example.json` sert de template (pas de secrets)
-- [ ] Les tokens ne sont jamais dans les logs git
-- [ ] Les tokens ne sont jamais dans les commits
+- [ ] `.env` est dans `.gitignore`
+- [ ] `.env` n'existe pas dans le dépôt (historique git)
+- [ ] `.env.example` sert de template (pas de secrets)
+- [ ] Le token n'a jamais transité par Claude (ni lu, ni écrit par lui)
+- [ ] Les tokens ne sont jamais dans les logs git ni dans les commits
 
 ---
 

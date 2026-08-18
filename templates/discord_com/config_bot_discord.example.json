@@ -1,5 +1,4 @@
 {
   "enabled": false,
-  "bot_token": "Copier le token depuis https://discord.com/developers/applications → Bot",
   "channel_id": "Clic droit sur le salon Discord (mode développeur) → Copier l'ID"
 }
