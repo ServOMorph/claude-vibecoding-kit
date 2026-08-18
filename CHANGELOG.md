@@ -3,6 +3,14 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
 
+## v3.35 — 2026-08-18
+
+### Modifié
+- Mission ROBERTO (`Appli_TSA_SDI_TDAH`, hors dépôt kit) : lecture croisée accordée à la zone `roberto` vers `_contexte/signals.md`/`contexte.md` racine (lecture seule), après constat que la zone travaillait sans le contexte global du projet. Fusion des zones écartée (casserait l'isolation voulue par le système de zones) au profit d'une lecture ciblée. Mission mise en pause à la demande de l'utilisateur après clôture des Phases 1-2 de sa roadmap ; reprise prévue sur la zone globale.
+
+### Corrigé
+- Problème réel découvert et corrigé côté `Appli_TSA_SDI_TDAH` : une session `/close roberto` avait écrit sa synthèse dans les fichiers `_contexte/` racine du projet cible au lieu de ceux de la zone `roberto`, laissant la mémoire de cette zone figée depuis sa création — resynchronisée.
+
 ## v3.34 — 2026-08-18
 
 ### Modifié
