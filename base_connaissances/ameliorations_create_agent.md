@@ -23,6 +23,88 @@ Sortie concrète de l'étape [ECRITURE] de la commande et des rétrospectives de
 
 ## Historique
 
+## 2026-08-18 — agent roberto (Appli_TSA_SDI_TDAH)
+
+Création de l'agent ROBERTO (implémenter et faire évoluer le système d'orchestration de workflow
+ROBERTO — flux testeur JSON / Google Drive / sync-marie, moteur de décision, releases — puis en
+extraire un skill générique), mode création simple, alias `roberto` absent de `zones.md`. Dossier
+`ROBERTO/` existait déjà avec un contenu substantiel (code du Flux A + `_docs/` de cadrage,
+produits lors de sessions précédentes hors protocole zone-agent) — traité en création normale
+(alias absent = création, quelle que soit la richesse du contenu déjà présent), pas en conversion.
+
+Rôle fourni durable et déjà rédigé (roadmap existante, `roadmap_roberto_workflow.md`) — question
+groupée réduite à confirmation du rôle + arbitrage du périmètre d'écriture, plutôt qu'une collecte
+complète.
+
+**Incohérence de template détectée et corrigée manuellement** : le périmètre étendu
+(`{{ECRITURE_ETENDUE}}`) a été accordé (`scripts/`, `_contexte/` racine) pour rester cohérent avec
+des fichiers déjà écrits par une session précédente hors de `ROBERTO/`. Mais la section
+"Invariants" du template (`agent_role_TEMPLATE.md`) est un texte fixe non paramétré
+("Ne jamais committer hors de {{DOSSIER_AGENT}}/") — elle contredit directement tout périmètre
+étendu accordé juste au-dessus dans "Périmètre". Corrigé à la main dans la charte produite ;
+`agent_role_TEMPLATE.md` lui-même n'a pas été modifié (pas d'accord explicite de l'utilisateur pour
+ce faire). Proposition P14 : paramétrer la section Invariants avec un placeholder cohérent avec
+`{{ECRITURE_ETENDUE}}`, pour que toute future création avec périmètre étendu ne reproduise pas
+cette incohérence silencieusement.
+
+Alias `roberto` déjà utilisé par un agent homonyme sans rapport sur un autre projet
+(SérénIATech_dev, cf. entrée du 2026-08-16 ci-dessous) — pas un conflit (alias scopé par projet
+dans `zones.md`), mais confusion potentielle en lecture de `AGENTS_REGISTRY.md`. Collision de nom
+déjà documentée côté projet (`ROBERTO/synthese_analyse.md`).
+
+`{{STACK}}` produit à partir du code déjà présent (pas de `README.md`/config dédiés à ROBERTO) :
+Python 3.13 stdlib + pytest, pas de `requirements.txt` formalisé, journal réel
+`_contexte/marie_tests_journal.json` (racine projet), roadmap et docs de cadrage déjà écrits.
+
+## 2026-08-17 — agent design (IA_Life)
+
+Création de l'agent DESIGN (design du jeu IA_Life : mécaniques de simulation, environnement,
+caméra/UI, en cohérence avec l'objectif d'étude comportementale des IA pilotées par LLM), mode
+création simple, alias `design` absent de `zones.md`, dossier `DESIGN/` inexistant. Rôle fourni en
+argument déjà durable et sans ambiguïté ("gère tout le design du jeu") — aucune question groupée
+nécessaire en [COLLECTE] (rôle clair, périmètre par défaut, mode création). `{{ALIAS_RACINE}}`
+correct (première ligne de `zones.md` = `ia_life`, vraie racine). `start.md` charge déjà
+`agent_role.md` (pas de warning).
+
+`{{STACK}}` produit à partir de `README.md`, `project.godot`, `AGENTS.md` et `_docs/but du
+projet.txt` : Godot 4.5/GDScript, scène construite par code, personnages lowpoly pilotés par LLM
+externe, mécaniques faim/vieillissement/mort/vitesse, caméra libre + caméras par perso prévues,
+UI panneaux stats. Filtrage par rôle simple (peu de bruit à écarter, projet encore petit).
+
+## 2026-08-16 — agent roberto (SérénIATech_dev)
+
+Création de l'agent ROBERTO (agent toujours actif ou à intervalle régulier, communication par
+Discord, exécution d'actions sur le PC selon un cadre défini par l'utilisateur), mode création
+simple, alias `roberto` absent de `zones.md`. Dossier `ROBERTO/` existait déjà (un seul fichier
+`but du dossier.txt`, non enregistré comme zone) — traité en création normale, pas en conversion.
+
+Friction confirmée (pas nouvelle, P11) : `{{ALIAS_RACINE}}` non déterminable — aucune ligne de
+`zones.md` ne pointe vers la racine du projet elle-même (la zone `orchestrateur` existe d'après
+`AGENTS.md` mais n'est pas dans `zones.md`). Ligne "Zone parente" omise de la charte générée,
+conformément à la règle de l'étape [ECRITURE].
+
+`{{STACK}}` : rôle sans rapport technique avec la stack Flask/UI existante du dépôt (aucune
+infrastructure Discord/bot présente) — "Hérite de la stack du projet parent." signalé tel quel,
+aucune information exploitable trouvée pour filtrer par rôle.
+
+## 2026-08-15 — agent 1_jour_moins_numerique (site_internet_Sereniatech_V2)
+
+Création mode simple (alias absent de `zones.md`), à partir d'un dossier déjà existant à la
+racine du projet cible (`1_jour_moins_numerique/`, contenant un audit technique + 2 docx de
+cadrage), non enregistré comme zone — traité en création normale, pas en conversion (la
+conversion ne s'applique qu'à un alias déjà dans `zones.md`). Dossier untracked par git : le
+renommage en MAJUSCULES a utilisé `mv` simple, pas `git mv` (règle de casse toujours respectée).
+`{{ALIAS_RACINE}}` correct (première ligne de `zones.md` = `sereniatech-web`, vraie racine).
+`start.md` du projet charge déjà `agent_role.md` (pas de warning).
+
+`{{STACK}}` produit à partir d'un `AUDIT.md` déjà présent dans le dossier (audit technique du
+dépôt réalisé en amont, hors `/create_agent`) : site statique HTML/CSS/JS vanilla + backend
+Express monofichier, aucun système de comptes/DB/modération existant, déploiement scindé
+Vercel/Render. Cas notable : le rôle collecté (implémentation complète de la feature, donc
+code applicatif hors du dossier de l'agent) contredit la réponse "dossier propre uniquement"
+donnée à la question de périmètre d'écriture — incohérence signalée à l'utilisateur après
+création plutôt que résolue silencieusement par une extension de périmètre non demandée.
+
 ## 2026-08-10 — agent jeux (D:\ServOMorph\robert-ia)
 
 Création de l'agent JEUX (créer des jeux vidéo vintage), mode création simple, alias `jeux` absent
