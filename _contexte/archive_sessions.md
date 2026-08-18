@@ -638,6 +638,32 @@ Aucune
 
 ---
 
+# Session du 2026-08-18 (skill chatgpt-orchestrateur généricisé multi-agent, journal, envoi auto)
+
+## Décisions prises
+- `skills/chatgpt-orchestrateur/` généricisé multi-agent (`-Agent`, ChatGPT en premier) et journalisé (`log.jsonl`).
+- Gestion de l'état exclusivement via scripts PowerShell dédiés, jamais `Write`/`Edit` direct (économie de tokens).
+- Réponses de l'orchestrateur exigées en un seul bloc Markdown sans commentaire hors bloc.
+- Envoi automatique (clic + `Ctrl+V` + Entrée vers la fenêtre orchestrateur) ajouté et validé en conditions réelles ; presse-papier reste le repli si la fenêtre n'est pas trouvée.
+
+## Livrables produits ou modifiés
+- `skills/chatgpt-orchestrateur/SKILL.md` : généricisé + journal + envoi auto
+- `skills/chatgpt-orchestrateur/scripts/{init_agent,maj_etat,log_echange,generer_reprise,coller_et_envoyer}.ps1` : créés et testés en conditions réelles
+- `D:\ServOMorph\Appli_TSA_SDI_TDAH\ROBERTO\_orchestrateur_ia\chatgpt\` (hors dépôt kit) : mission réelle initialisée pour tester le skill
+
+## Hypothèses validées / invalidées
+- VALIDE : ciblage fenêtre par position écran (moitié gauche) + process navigateur suffit pour cliquer/coller/envoyer automatiquement.
+- INVALIDE (corrigé) : `Get-Content -Raw` sans `-Encoding UTF8` corrompait les accents dans les fichiers relayés — forcé partout.
+- EN ATTENTE : nom et emplacement définitifs du futur skill générique d'orchestration multi-agents (question posée à l'orchestrateur ChatGPT, réponse reçue non encore lue en entier).
+
+## Prochaine étape exacte
+Lire la suite de la réponse ChatGPT ("Confirmation technique reçue...") et poursuivre la décision nom/emplacement/mécanisme du skill générique d'orchestration.
+
+## Question bloquante pour la session suivante
+Aucune
+
+---
+
 # Session du 2026-08-18 (init_discord_mode validée en conditions réelles + faille token corrigée)
 
 ## Décisions prises

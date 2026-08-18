@@ -3,6 +3,17 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
 
+## v3.33 — 2026-08-18
+
+### Ajouté
+- `roadmap_reprise_multicompte.md` : détection de fin de session ChatGPT et reprise automatique multi-compte Google. Phases 1 et 2 terminées.
+- Suivi de tokens estimés par agent (`usage.json`, `maj_usage.ps1`) et par compte Google (`comptes_usage.json`/`compte_actif.json`, statuts actif/inactif/epuise, `definir_compte_actif.ps1`/`maj_compte_usage.ps1`), avec alerte de seuil propagée par `log_echange.ps1`.
+- `comptes_google.json` (13 comptes Google autorisés, mapping profil Chrome) et `ouvrir_nouveau_compte.ps1` (ouverture automatique d'une nouvelle fenêtre Chrome sur le prochain compte disponible, round-robin).
+- `skills/chatgpt-orchestrateur/SKILL.md` : section suivi des tokens/comptes, section sur le risque de vol de focus (`SetForegroundWindow`) découvert en conditions réelles.
+
+### Modifié
+- Validation grandeur nature du skill `chatgpt-orchestrateur` sur la mission ROBERTO (`Appli_TSA_SDI_TDAH`, hors dépôt kit) : Flux A de la state machine du testeur Marie implémenté et testé de bout en bout par délégation à ChatGPT (10 étapes, 29 tests).
+
 ## v3.32 — 2026-08-18
 
 ### Ajouté

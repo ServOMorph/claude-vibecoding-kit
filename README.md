@@ -131,7 +131,7 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit **v3.32** (2026-08-18) : premier skill Claude Code du kit, `skills/chatgpt-orchestrateur/`, généricisé pour piloter une boucle avec plusieurs IA orchestratrices (ChatGPT en premier), journalisé, avec envoi automatique presse-papier vers la fenêtre de l'orchestrateur (clic + collage + Entrée). Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
+Kit **v3.33** (2026-08-18) : `skills/chatgpt-orchestrateur/` complété par un suivi de tokens (par agent et par compte Google) et une rotation automatique de compte Google (`roadmap_reprise_multicompte.md`, Phases 1/2 FAIT) — bloqué avant la Phase 3 par un risque de vol de focus documenté. Validé en conditions réelles sur une mission de délégation complète (state machine testée de bout en bout, 29 tests, hors dépôt kit). Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
 
 ## Vérifier le lanceur Ollama
 

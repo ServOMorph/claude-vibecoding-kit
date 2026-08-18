@@ -1,5 +1,10 @@
 # Archive des décisions — claude-vibecoding-kit
 
+## Décisions archivées le 2026-08-18 (session roadmap multi-compte + délégation ROBERTO)
+
+- 2026-08-15 : `roadmap_template_roberto.md` close (5/5 phases FAIT). Commande `/insert_template <chemin_projet_cible> <nom_template> [dossier_destination]` créée (générique, réutilisable pour `control_PC` et futurs templates). Template `roberto` extrait et généricisé (30 fichiers hors `analysis/`). Écart détecté vs l'inventaire Phase 1 : deux scripts `MACROS/tester_*_opencode.py` avaient un chemin absolu en dur, corrigés par résolution relative. Testé de bout en bout sur un projet cible de test : idempotence, placeholders, code Python compilable, aucun chemin résiduel vers `Roberto2` — bilan garder tel quel. Kit v3.23.
+- 2026-08-15 : `roadmap_template_roberto.md` créée — aucune commande n'automatise actuellement l'insertion d'un template (`control_PC` copié manuellement, vérifié par grep). Portée : commande générique `.claude/commands/` d'insertion de `templates/<nom>/` dans un projet cible + template `roberto` extrait de `D:\ServOMorph\Roberto2` comme cas d'usage. Traçage dans `templates/roberto/` (décidé par l'utilisateur). Phase 1 (inventaire de Roberto2) FAIT : noyau fonctionnel identifié (`MACROS/`, `UI_WEB/`, `MASCOTTE/`), aucun chemin absolu en dur dans le code Python, dépendances `pywin32`/`pyautogui`/`pywebview` sans `requirements.txt` source. Kit v3.22.
+
 ## Décisions archivées le 2026-08-18 (session mémoire scopée par zone)
 
 - 2026-08-15 : template `control_PC` validé en conditions réelles sur la fenêtre LinkedIn — journal vivant confirmé, reconnaissance par empreinte confirmée (titre de fenêtre vs signature `control_pc.sqlite`), macro `linkedin.planifier_un_post` déroulée jusqu'à l'écran de confirmation sans déclencher l'action finale, statut passé à `validée`. Corruption d'encodage détectée en marge (accents perdus, lignes `discoveries` du 2026-08-14), non corrigée. Kit v3.21.
