@@ -1,24 +1,11 @@
 param(
     [ValidateSet('gauche', 'droite', 'aucune')][string]$Moitie = 'gauche',
     [Parameter(Mandatory=$true)][string]$TitreContient,
-    [double]$PositionClicX = 0.5,
-    [double]$PositionClicY = 0.93,
-    [int]$DelaiApresClicMs = 300,
-    [int]$DelaiApresCollerMs = 300,
-    [switch]$SansEnvoi,
-    [switch]$SeulementValider,
-    [string]$DossierEtat = '',
-    [string]$Agent = ''
+    [double]$PositionSourisX = 0.5,
+    [double]$PositionSourisY = 0.5,
+    [int]$Crans = 5,
+    [switch]$AllerEnBas
 )
-
-if ($DossierEtat -and $Agent) {
-    $cheminCalib = Join-Path (Join-Path $DossierEtat $Agent) 'calibration.json'
-    if (Test-Path -LiteralPath $cheminCalib) {
-        $calib = Get-Content -LiteralPath $cheminCalib -Raw -Encoding UTF8 | ConvertFrom-Json
-        if (-not $PSBoundParameters.ContainsKey('PositionClicX')) { $PositionClicX = $calib.PositionClicX }
-        if (-not $PSBoundParameters.ContainsKey('PositionClicY')) { $PositionClicY = $calib.PositionClicY }
-    }
-}
 
 Add-Type -AssemblyName System.Windows.Forms
 
@@ -28,14 +15,14 @@ using System.Text;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-public struct RectFEnvoi {
+public struct RectFD {
     public int Left;
     public int Top;
     public int Right;
     public int Bottom;
 }
 
-public class FenetreFinderEnvoi {
+public class FenetreFinderDefil {
     public delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
 
     [DllImport("user32.dll")]
@@ -51,7 +38,7 @@ public class FenetreFinderEnvoi {
     public static extern bool IsWindowVisible(IntPtr hWnd);
 
     [DllImport("user32.dll")]
-    public static extern bool GetWindowRect(IntPtr hWnd, out RectFEnvoi rect);
+    public static extern bool GetWindowRect(IntPtr hWnd, out RectFD rect);
 
     [DllImport("user32.dll")]
     public static extern bool SetForegroundWindow(IntPtr hWnd);
@@ -60,7 +47,7 @@ public class FenetreFinderEnvoi {
     public static extern void SetCursorPos(int x, int y);
 
     [DllImport("user32.dll")]
-    public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint dwData, int dwExtraInfo);
+    public static extern void mouse_event(uint dwFlags, uint dx, uint dy, int dwData, int dwExtraInfo);
 
     public static List<KeyValuePair<IntPtr, string>> Lister(string titreContient) {
         List<KeyValuePair<IntPtr, string>> resultat = new List<KeyValuePair<IntPtr, string>>();
@@ -82,17 +69,19 @@ public class FenetreFinderEnvoi {
 }
 '@
 
+$MOUSEEVENTF_WHEEL = 0x0800
 $MOUSEEVENTF_LEFTDOWN = 0x0002
 $MOUSEEVENTF_LEFTUP = 0x0004
+$WHEEL_DELTA = 120
 
-$candidats = [FenetreFinderEnvoi]::Lister($TitreContient)
+$candidats = [FenetreFinderDefil]::Lister($TitreContient)
 
 if ($Moitie -ne 'aucune') {
     $ecran = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
     $milieuEcran = $ecran.Left + ($ecran.Width / 2)
     $candidats = $candidats | Where-Object {
-        $rect = New-Object RectFEnvoi
-        [FenetreFinderEnvoi]::GetWindowRect($_.Key, [ref]$rect) | Out-Null
+        $rect = New-Object RectFD
+        [FenetreFinderDefil]::GetWindowRect($_.Key, [ref]$rect) | Out-Null
         $centreX = ($rect.Left + $rect.Right) / 2
         if ($Moitie -eq 'gauche') { $centreX -lt $milieuEcran } else { $centreX -ge $milieuEcran }
     }
@@ -110,32 +99,30 @@ if ($nombre -gt 1) {
 
 $hwnd = $candidats[0].Key
 $titre = $candidats[0].Value
-[FenetreFinderEnvoi]::SetForegroundWindow($hwnd) | Out-Null
+[FenetreFinderDefil]::SetForegroundWindow($hwnd) | Out-Null
 Start-Sleep -Milliseconds 200
 
-$rect = New-Object RectFEnvoi
-[FenetreFinderEnvoi]::GetWindowRect($hwnd, [ref]$rect) | Out-Null
+$rect = New-Object RectFD
+[FenetreFinderDefil]::GetWindowRect($hwnd, [ref]$rect) | Out-Null
 $largeur = $rect.Right - $rect.Left
 $hauteur = $rect.Bottom - $rect.Top
-$x = [int]($rect.Left + $largeur * $PositionClicX)
-$y = [int]($rect.Top + $hauteur * $PositionClicY)
+$x = [int]($rect.Left + $largeur * $PositionSourisX)
+$y = [int]($rect.Top + $hauteur * $PositionSourisY)
 
-if (-not $SeulementValider) {
-    [FenetreFinderEnvoi]::SetCursorPos($x, $y)
-    Start-Process -FilePath 'powershell.exe' -ArgumentList @('-NoProfile', '-WindowStyle', 'Hidden', '-File', (Join-Path $PSScriptRoot 'afficher_indicateur_clic.ps1'), '-X', $x, '-Y', $y) -WindowStyle Hidden -Wait
-    [FenetreFinderEnvoi]::mouse_event($MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
-    [FenetreFinderEnvoi]::mouse_event($MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
-    Start-Sleep -Milliseconds $DelaiApresClicMs
+[FenetreFinderDefil]::SetCursorPos($x, $y)
 
-    [System.Windows.Forms.SendKeys]::SendWait('^v')
-    Start-Sleep -Milliseconds $DelaiApresCollerMs
+if ($AllerEnBas) {
+    [FenetreFinderDefil]::mouse_event($MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
+    [FenetreFinderDefil]::mouse_event($MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+    Start-Sleep -Milliseconds 150
+    [System.Windows.Forms.SendKeys]::SendWait('{END}')
+    Write-Output "Fenetre : $titre"
+    Write-Output "Clic neutre en $x, $y puis touche Fin envoyee"
+} else {
+    for ($i = 0; $i -lt $Crans; $i++) {
+        [FenetreFinderDefil]::mouse_event($MOUSEEVENTF_WHEEL, 0, 0, (-$WHEEL_DELTA), 0)
+        Start-Sleep -Milliseconds 80
+    }
+    Write-Output "Fenetre : $titre"
+    Write-Output "Molette actionnee en : $x, $y ($Crans crans vers le bas)"
 }
-
-if (-not $SansEnvoi) {
-    [System.Windows.Forms.SendKeys]::SendWait('{ENTER}')
-}
-
-Write-Output "Fenetre ciblee : $titre"
-Write-Output "Clic en : $x, $y"
-Write-Output "Colle : $(-not $SeulementValider)"
-Write-Output "Envoye : $(-not $SansEnvoi)"

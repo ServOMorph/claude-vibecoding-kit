@@ -1,24 +1,10 @@
 param(
     [ValidateSet('gauche', 'droite', 'aucune')][string]$Moitie = 'gauche',
     [Parameter(Mandatory=$true)][string]$TitreContient,
-    [double]$PositionClicX = 0.5,
-    [double]$PositionClicY = 0.93,
-    [int]$DelaiApresClicMs = 300,
-    [int]$DelaiApresCollerMs = 300,
-    [switch]$SansEnvoi,
-    [switch]$SeulementValider,
-    [string]$DossierEtat = '',
-    [string]$Agent = ''
+    [Parameter(Mandatory=$true)][double]$PositionClicX,
+    [Parameter(Mandatory=$true)][double]$PositionClicY,
+    [int]$DelaiApresClicMs = 200
 )
-
-if ($DossierEtat -and $Agent) {
-    $cheminCalib = Join-Path (Join-Path $DossierEtat $Agent) 'calibration.json'
-    if (Test-Path -LiteralPath $cheminCalib) {
-        $calib = Get-Content -LiteralPath $cheminCalib -Raw -Encoding UTF8 | ConvertFrom-Json
-        if (-not $PSBoundParameters.ContainsKey('PositionClicX')) { $PositionClicX = $calib.PositionClicX }
-        if (-not $PSBoundParameters.ContainsKey('PositionClicY')) { $PositionClicY = $calib.PositionClicY }
-    }
-}
 
 Add-Type -AssemblyName System.Windows.Forms
 
@@ -28,14 +14,14 @@ using System.Text;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-public struct RectFEnvoi {
+public struct RectFClic {
     public int Left;
     public int Top;
     public int Right;
     public int Bottom;
 }
 
-public class FenetreFinderEnvoi {
+public class FenetreFinderClic {
     public delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
 
     [DllImport("user32.dll")]
@@ -51,7 +37,7 @@ public class FenetreFinderEnvoi {
     public static extern bool IsWindowVisible(IntPtr hWnd);
 
     [DllImport("user32.dll")]
-    public static extern bool GetWindowRect(IntPtr hWnd, out RectFEnvoi rect);
+    public static extern bool GetWindowRect(IntPtr hWnd, out RectFClic rect);
 
     [DllImport("user32.dll")]
     public static extern bool SetForegroundWindow(IntPtr hWnd);
@@ -85,14 +71,14 @@ public class FenetreFinderEnvoi {
 $MOUSEEVENTF_LEFTDOWN = 0x0002
 $MOUSEEVENTF_LEFTUP = 0x0004
 
-$candidats = [FenetreFinderEnvoi]::Lister($TitreContient)
+$candidats = [FenetreFinderClic]::Lister($TitreContient)
 
 if ($Moitie -ne 'aucune') {
     $ecran = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
     $milieuEcran = $ecran.Left + ($ecran.Width / 2)
     $candidats = $candidats | Where-Object {
-        $rect = New-Object RectFEnvoi
-        [FenetreFinderEnvoi]::GetWindowRect($_.Key, [ref]$rect) | Out-Null
+        $rect = New-Object RectFClic
+        [FenetreFinderClic]::GetWindowRect($_.Key, [ref]$rect) | Out-Null
         $centreX = ($rect.Left + $rect.Right) / 2
         if ($Moitie -eq 'gauche') { $centreX -lt $milieuEcran } else { $centreX -ge $milieuEcran }
     }
@@ -110,32 +96,21 @@ if ($nombre -gt 1) {
 
 $hwnd = $candidats[0].Key
 $titre = $candidats[0].Value
-[FenetreFinderEnvoi]::SetForegroundWindow($hwnd) | Out-Null
+[FenetreFinderClic]::SetForegroundWindow($hwnd) | Out-Null
 Start-Sleep -Milliseconds 200
 
-$rect = New-Object RectFEnvoi
-[FenetreFinderEnvoi]::GetWindowRect($hwnd, [ref]$rect) | Out-Null
+$rect = New-Object RectFClic
+[FenetreFinderClic]::GetWindowRect($hwnd, [ref]$rect) | Out-Null
 $largeur = $rect.Right - $rect.Left
 $hauteur = $rect.Bottom - $rect.Top
 $x = [int]($rect.Left + $largeur * $PositionClicX)
 $y = [int]($rect.Top + $hauteur * $PositionClicY)
 
-if (-not $SeulementValider) {
-    [FenetreFinderEnvoi]::SetCursorPos($x, $y)
-    Start-Process -FilePath 'powershell.exe' -ArgumentList @('-NoProfile', '-WindowStyle', 'Hidden', '-File', (Join-Path $PSScriptRoot 'afficher_indicateur_clic.ps1'), '-X', $x, '-Y', $y) -WindowStyle Hidden -Wait
-    [FenetreFinderEnvoi]::mouse_event($MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
-    [FenetreFinderEnvoi]::mouse_event($MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
-    Start-Sleep -Milliseconds $DelaiApresClicMs
-
-    [System.Windows.Forms.SendKeys]::SendWait('^v')
-    Start-Sleep -Milliseconds $DelaiApresCollerMs
-}
-
-if (-not $SansEnvoi) {
-    [System.Windows.Forms.SendKeys]::SendWait('{ENTER}')
-}
+[FenetreFinderClic]::SetCursorPos($x, $y)
+Start-Process -FilePath 'powershell.exe' -ArgumentList @('-NoProfile', '-WindowStyle', 'Hidden', '-File', (Join-Path $PSScriptRoot 'afficher_indicateur_clic.ps1'), '-X', $x, '-Y', $y) -WindowStyle Hidden -Wait
+[FenetreFinderClic]::mouse_event($MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
+[FenetreFinderClic]::mouse_event($MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+Start-Sleep -Milliseconds $DelaiApresClicMs
 
 Write-Output "Fenetre ciblee : $titre"
 Write-Output "Clic en : $x, $y"
-Write-Output "Colle : $(-not $SeulementValider)"
-Write-Output "Envoye : $(-not $SansEnvoi)"

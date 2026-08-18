@@ -35,6 +35,15 @@ $ligneLog = [PSCustomObject]@{
 } | ConvertTo-Json -Compress
 Add-Content -LiteralPath (Join-Path $agentDir 'log.jsonl') -Value $ligneLog
 
+$sortieUsage = & (Join-Path $PSScriptRoot 'maj_usage.ps1') -DossierEtat $DossierEtat -Agent $Agent -CaracteresAjoutes $Contenu.Length
+$alerteUsage = $sortieUsage | Where-Object { $_ -like 'ALERTE*' }
+
+$alerteCompte = $null
+if (Test-Path -LiteralPath (Join-Path $agentDir 'compte_actif.json')) {
+    $sortieCompte = & (Join-Path $PSScriptRoot 'maj_compte_usage.ps1') -DossierEtat $DossierEtat -Agent $Agent -CaracteresAjoutes $Contenu.Length
+    $alerteCompte = $sortieCompte | Where-Object { $_ -like 'ALERTE*' }
+}
+
 $clipboardOk = $false
 if (-not $SansClipboard) {
     try {
@@ -47,3 +56,9 @@ if (-not $SansClipboard) {
 
 Write-Output "Fichier : $cheminEchange"
 Write-Output "Clipboard : $clipboardOk"
+if ($alerteUsage) {
+    Write-Output $alerteUsage
+}
+if ($alerteCompte) {
+    Write-Output $alerteCompte
+}
