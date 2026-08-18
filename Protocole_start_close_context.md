@@ -1,5 +1,5 @@
 # Protocole de vibecoding — Documentation générique
-> **v3.30** — Révision du 2026-08-18. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet des versions.
+> **v3.31** — Révision du 2026-08-18. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet des versions.
 
 ## Pourquoi ce fichier
 
@@ -345,15 +345,15 @@ Lancée depuis le repo du kit, avec en argument le chemin absolu du projet cible
 Procédure : voir `templates/.claude/commands/update.md`.
 
 
-# /create_memory — Mémoire projet persistante
+# /create_memory [alias_zone] [contenu] — Mémoire projet persistante
 
-Gère `.claude/memory.md` : décisions et préférences explicitement enregistrées, relues au démarrage de chaque session.
+Gère deux niveaux : `.claude/memory.md` (mémoire globale, tout le projet) et, si le premier mot de l'argument correspond à un alias de `.claude/zones.md`, `<dossier_zone>/_contexte/memory.md` (mémoire propre à cette zone). Les deux sont relus au démarrage de session (`.claude/memory.md` systématiquement, `_contexte/memory.md` de la zone résolue via l'étape 2c de `/start`).
 
 Procédure : voir `templates/.claude/commands/create_memory.md`.
 
 ## Règle d'utilisation
 
-Ne jamais écrire directement dans `.claude/memory.md` — passer uniquement par `/create_memory`. Ne jamais y écrire des informations éphémères (état courant, session en cours) : réserver aux décisions, préférences et contexte persistants.
+Ne jamais écrire directement dans ces fichiers — passer uniquement par `/create_memory`. Ne jamais y écrire des informations éphémères (état courant, session en cours) : réserver aux décisions, préférences et contexte persistants.
 
 ---
 

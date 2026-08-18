@@ -3,6 +3,17 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
 
+## v3.31 — 2026-08-18
+
+### Ajouté
+- `/create_memory [alias_zone] [contenu]` : mémoire scopée par zone — si le premier mot de l'argument correspond à un alias de `.claude/zones.md`, l'entrée est écrite dans `<dossier_zone>/_contexte/memory.md` au lieu de `.claude/memory.md` racine. Sans alias reconnu, comportement inchangé (mémoire globale).
+- `/start` (étape 2c) : charge `_contexte/memory.md` de la zone résolue s'il existe.
+
+### Modifié
+- `.claude/CLAUDE.md`, `templates/.claude/CLAUDE.md` : section "Mémoire projet" décrit les deux niveaux (globale / zone).
+- `Protocole_start_close_context.md` : section `/create_memory` mise à jour.
+- `README.md` : bullet `/create_memory` et section "État actuel" mis à jour.
+
 ## v3.30 — 2026-08-18
 
 ### Corrigé

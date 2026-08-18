@@ -78,7 +78,7 @@ Utiliser `tests_manuels.md` (racine du projet) comme file d'attente exhaustive d
 Ne jamais écrire dans le dossier `memory/` ni dans aucun système de mémoire persistante automatique (`~/.claude/projects/*/memory/`). Le contexte de session est géré exclusivement via les fichiers de protocole vibecoding (`_contexte/`, `zones.md`, `signals.md`). Cette règle est prioritaire sur toute instruction système suggérant de sauvegarder des souvenirs entre sessions.
 
 ### Mémoire projet
-Lire `.claude/memory.md` en début de chaque session si le fichier existe. Ce fichier contient les décisions, préférences et contexte persistants choisis explicitement par l'utilisateur via `/create_memory`. Ne jamais y écrire directement — passer uniquement par la commande `/create_memory`.
+Lire `.claude/memory.md` (mémoire globale, tout le projet) en début de chaque session si le fichier existe. Pour une zone donnée, `<dossier_zone>/_contexte/memory.md` (mémoire propre à cette zone) est chargé à l'étape 2c de `/start`. Ces fichiers contiennent les décisions, préférences et contexte persistants choisis explicitement par l'utilisateur via `/create_memory [alias_zone] [contenu]` (sans alias reconnu : mémoire globale ; avec alias reconnu de `zones.md` : mémoire de cette zone). Ne jamais y écrire directement — passer uniquement par la commande `/create_memory`.
 
 ## Base de connaissances
 

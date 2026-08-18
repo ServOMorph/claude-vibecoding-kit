@@ -612,3 +612,30 @@ Inviter le bot sur le serveur (URL OAuth2, scope `bot`, permissions View Channel
 
 ## Question bloquante pour la session suivante
 Aucune
+
+---
+
+# Session du 2026-08-18 (init_discord_mode validée en conditions réelles + faille token corrigée)
+
+## Décisions prises
+- `/init_discord_mode` testée en conditions réelles pour la première fois (ROBERTO, SérénIATech_dev) : insertion + configuration + validation (`bot_manager.py status`, `!ping`) confirmées.
+- Faille de sécurité détectée en cours de test (token lu/écrit par Claude) et corrigée structurellement : token déplacé dans `discord_com/.env`, jamais touché par Claude ; `config_bot_discord.json` réduit à `enabled`/`channel_id`.
+
+## Livrables produits ou modifiés
+- `templates/discord_com/bot.py` : lecture du token via `os.environ`/`python-dotenv`
+- `templates/discord_com/requirements.txt` : `python-dotenv` ajouté
+- `templates/discord_com/config_bot_discord.example.json` : `bot_token` retiré
+- `templates/discord_com/.env.example` : créé
+- `templates/discord_com/SETUP.md`, `DISCORD_SECURITY.md` : workflow `.env` documenté
+- `.claude/commands/init_discord_mode.md` : règle absolue token + vérifications booléennes
+- Déploiement réel (hors dépôt kit) : `ROBERTO/discord_com/` dans SérénIATech_dev
+
+## Hypothèses validées / invalidées
+- VALIDE : `/init_discord_mode` fonctionnelle de bout en bout en conditions réelles.
+- INVALIDE : workflow initial (token manipulé par Claude) → pivot vers `.env` rempli par l'utilisateur.
+
+## Prochaine étape exacte
+Trancher l'automatisation `.gitignore` pour `discord_com/.env` côté projets cibles. Sinon, restent à tester pour `discord_com` : mode `enabled: false`, préfixe novice `"? "`.
+
+## Question bloquante pour la session suivante
+Aucune

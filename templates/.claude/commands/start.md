@@ -28,6 +28,9 @@ Lire `.claude/zones.md` pour obtenir la table des alias → dossiers réels.
     avant `signals.md`. Ce fichier n'existe que pour les zones-agents ; une zone
     racine classique n'en a pas.
 
+2c. Si `<dossier>/_contexte/memory.md` existe : le charger (mémoire propre à cette
+    zone, écrite via `/create_memory <alias_zone> <contenu>`).
+
 3. Charger dans l'ordre :
    1. `_contexte/signals.md` — actions ouvertes, blocages, dernière session (priorité absolue)
    2. `_contexte/contexte.md` — contexte stable

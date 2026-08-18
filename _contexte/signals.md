@@ -3,6 +3,7 @@
 ## Actions ouvertes
 - [P1|ouvert] Reprendre le test du template `templates/notification/` (bulle systray + icône tray, template 2, alternative à l'overlay). La bulle s'affiche (après correctif : délai 300ms avant `ShowBalloonTip`, un appel immédiat étant ignoré par l'Explorateur) mais disparaît seule après quelques secondes — reste à déterminer si l'icône tray persiste ensuite (comportement Windows normal, durée d'affichage non pilotable par l'API, déjà documenté dans le README) ou si tout disparaît (bug : processus qui se termine seul avant le clic, à corriger). fait quand: réponse obtenue sur la persistance de l'icône après disparition de la bulle, comportement jugé conforme ou corrigé, focus au clic (remontée de la fenêtre parente) validé en conditions réelles. réf: `templates/notification/start_notification.ps1`, `templates/notification/README.md`
 - [P1|ouvert] Valider en conditions réelles la nouvelle destination par défaut d'`/insert_template` (`<projet_cible>/ROBERTO/` au lieu de la racine du projet cible) : dossier bien créé, fichiers copiés dedans, pas de casse sur un `ROBERTO/` déjà existant. fait quand: les 3 points de `tests_manuels.md` vérifiés sur un projet cible réel, décision de déploiement généralisé actée. réf: `tests_manuels.md`, `.claude/commands/insert_template.md`
+- [P1|ouvert] Tester en conditions réelles la mémoire scopée par zone ajoutée à `/create_memory` (nouvelle syntaxe `[alias_zone] [contenu]` → `<dossier_zone>/_contexte/memory.md`, chargée par `/start` étape 2c) — implémentée cette session sur demande explicite pour la zone `linkedin` de SérénIATech_dev, jamais exécutée en conditions réelles. Nécessite un `/update` préalable sur SérénIATech_dev (fichiers `create_memory.md`/`start.md`/`CLAUDE.md` pas encore propagés) et la confirmation que l'alias `linkedin` existe bien dans son `zones.md`. fait quand: `/create_memory linkedin <contenu>` exécuté réellement sur SérénIATech_dev, entrée retrouvée dans `LINKEDIN/_contexte/memory.md`, affichage confirmé au `/start linkedin` suivant. réf: `.claude/commands/create_memory.md`, `.claude/commands/start.md`
 - [P2|ouvert] Tester le template `templates/overlay/` (affichage overlay néon fin de tâche) dans un vrai flux agent : insertion via `/insert_template`, déclenchement depuis un prompt d'agent en fin de tâche longue, lisibilité en conditions réelles (contenu visible derrière, texte lisible). fait quand: overlay déclenché par un agent réel sur une tâche longue, rendu jugé satisfaisant ou ajusté. réf: `templates/overlay/`
 - [P2|ouvert] Écran Onboarding de `appli_tsa_sdi_tdah` non re-documenté dans `control_pc.sqlite` après la correction de corruption du 2026-08-16 (les 5 autres écrans ont été ré-observés et réinsérés avec encodage correct) — cet écran n'est accessible qu'après un `Reset DB`, action destructive non déclenchée sans confirmation explicite. fait quand: Onboarding observé (Reset DB assumé ou nouvelle installation) et ligne insérée en base avec encodage correct. réf: `templates/control_PC/database/control_pc.sqlite`, `templates/control_PC/analysis/appli_tsa_sdi_tdah/`
 - [P2|ouvert] Tester en conditions réelles la nouvelle question Q4bis de `/init_projet` (backup Google Drive pour projet sans git, script `backup_project.py`) — jamais exécutée depuis l'ajout. fait quand: un `/init_projet` réel avec réponse "non" à la question git déclenche Q4bis, le script est copié dans le projet cible et l'étape est injectée dans son `close.md` (avec `allowed-tools` correspondant), comportement vérifié en conditions réelles. réf: `.claude/commands/init_projet.md`, `templates/backup_project.py`
@@ -24,16 +25,16 @@
 - [P2|ouvert] Aucune automatisation n'ajoute `discord_com/.env` (ni `config_bot_discord.json`) au `.gitignore` d'un projet cible lors de l'insertion — `DISCORD_SECURITY.md` suppose la couverture mais rien ne l'écrit ni ne la vérifie (constaté le 2026-08-18, `insert_template.md` ne gère aucun `.gitignore`). fait quand: mécanisme de vérification/ajout tranché (dans `/insert_template` ou `/init_discord_mode`) et testé sur un projet cible réel, ou décision explicite de ne pas automatiser actée. réf: `.claude/commands/insert_template.md`, `.claude/commands/init_discord_mode.md`, `templates/discord_com/DISCORD_SECURITY.md`
 
 ## Contexte chaud
+- `/create_memory` : mémoire scopée par zone ajoutée cette session (`[alias_zone] [contenu]` → `<dossier_zone>/_contexte/memory.md`, chargée par l'étape 2c de `/start`). Rétrocompatible : sans alias reconnu dans `zones.md`, comportement global inchangé (`.claude/memory.md`). Kit v3.31, jamais testé en conditions réelles.
 - `templates/discord_com/` : blocages `403 Forbidden` et Message Content Intent levés (2026-08-17) — bot invité via URL OAuth2, intent activé côté portail. Deux bugs réels trouvés et corrigés dans `bot.py` (`templates/discord_com/` et copie de test `discord_com/`) : (1) `CHANNEL_ID` comparé en `str` vs `int` (`bot.py:16`, tout message entrant silencieusement ignoré) ; (2) ordre de priorité dans `on_message` — la vérification `commands.json == idle` court-circuitait `queue.json == waiting`, cassant `claude_bridge.envoyer()`/`discord_loop.py send` dès que `commands.json` était au repos (cas normal). Inversé : `queue.json waiting` vérifié en premier. Flux complet testé en conditions réelles : `!ping`, `!help`, message libre → `commands.json`, `discord_loop.py notify`, `claude_bridge.notifier()`, `claude_bridge.envoyer()` (aller-retour confirmé après correctif), cycle `bot_manager.py` (start/status/restart/stop). `SETUP.md` et `README_DISCORD_COM.md` mis à jour (étape invitation OAuth2 concrète, dépannage `403`/intent/mismatch `channel_id`).
 - `/insert_template` : la destination par défaut (sans `dossier_destination` fourni) est désormais `<projet_cible>/ROBERTO/`, nom fixe pour tous les projets — pas encore testé en conditions réelles.
 - `templates/overlay/` : nouveau template, overlay plein écran opacité réduite + contour néon bleu foncé animé, texte = nom agent/zone + "J'ai fini !!!", fermeture `Esc`/clic ou auto (5s par défaut). Testé uniquement en isolation (compilation + affichage), pas encore dans un flux agent réel.
-- `Protocole_start_close_context.md` : explicitement non modifié cette session, sur instruction utilisateur (à ne pas confondre avec un oubli).
 - Agent `review` créé dans `jeu_zombies` via `/create_agent` (mode création, rôle : revue de code continue, sans production de code, périmètre par défaut `REVIEW/` uniquement).
 - `README.md` : corruption d'encodage pré-existante (double UTF-8) — à traiter si gênant.
 - Écriture en base `control_pc.sqlite` : utiliser le module `sqlite3` Python (paramétré), jamais un `INSERT` tapé via CLI shell — cause confirmée de la corruption d'encodage du 2026-08-16.
 - `base_connaissances/ameliorations_create_agent.md` : modification locale non commitée, antérieure à cette session (entrée agent `1_jour_moins_numerique`) — non traitée ici, résidu à examiner.
 - Vigilance credentials Discord : 3 incidents en session du 2026-08-16 sur le token bot, tous traités avant commit. Incident supplémentaire le 2026-08-18 : token lu/écrit par Claude via `/init_discord_mode` (design initial de la commande, pas une erreur ponctuelle) — corrigé structurellement par le passage à `.env` (cf. décision du 2026-08-18 dans `contexte.md`). Toujours vérifier `git check-ignore`/`git status` avant tout commit touchant `discord_com/`.
-- Copie de test `discord_com/` (racine du kit) et `.claude/commands/discord_loop.md` (racine du kit) : artefacts de test local, intentionnellement non commités (redondants avec `templates/discord_com/`, `bot.py` de test porte un contournement — `message_content` désactivé — à ne jamais propager au template). Process de test associé ("vibecoder") repéré tournant en arrière-plan sans lien avec la session courante et arrêté le 2026-08-18.
+- Copie de test `discord_com/` (racine du kit) et `.claude/commands/discord_loop.md` (racine du kit) : artefacts de test local, intentionnellement non commités (redondants avec `templates/discord_com/`, `bot.py` de test porte un contournement — `message_content` désactivé — à ne jamais propager au template). Résidus CRLF signalés par `check_kit.py` (`discord_com/commands.json`, `discord_com/queue.json`, `ROBERTO/_docs/workflow1-chatgpt.md`) — dossiers non trackés, hors périmètre.
 
 ## Dernière session (2026-08-18)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
@@ -41,24 +42,20 @@
 # Session du 2026-08-18
 
 ## Décisions prises
-- `/init_discord_mode` testée en conditions réelles pour la première fois (ROBERTO, SérénIATech_dev) : insertion + configuration + validation (`bot_manager.py status`, `!ping`) confirmées.
-- Faille de sécurité détectée en cours de test (token lu/écrit par Claude) et corrigée structurellement : token déplacé dans `discord_com/.env`, jamais touché par Claude ; `config_bot_discord.json` réduit à `enabled`/`channel_id`.
+- Mémoire scopée par zone ajoutée à `/create_memory` : `[alias_zone] [contenu]` écrit dans `<dossier_zone>/_contexte/memory.md` si l'alias est reconnu dans `zones.md`, sinon comportement global inchangé (`.claude/memory.md`).
+- `/start` charge désormais `_contexte/memory.md` de la zone résolue (nouvelle étape 2c).
 
 ## Livrables produits ou modifiés
-- `templates/discord_com/bot.py` : lecture du token via `os.environ`/`python-dotenv`
-- `templates/discord_com/requirements.txt` : `python-dotenv` ajouté
-- `templates/discord_com/config_bot_discord.example.json` : `bot_token` retiré
-- `templates/discord_com/.env.example` : créé
-- `templates/discord_com/SETUP.md`, `DISCORD_SECURITY.md` : workflow `.env` documenté
-- `.claude/commands/init_discord_mode.md` : règle absolue token + vérifications booléennes
-- Déploiement réel (hors dépôt kit) : `ROBERTO/discord_com/` dans SérénIATech_dev
+- `.claude/commands/create_memory.md`, `templates/.claude/commands/create_memory.md` : résolution de zone ajoutée
+- `.claude/commands/start.md`, `templates/.claude/commands/start.md` : étape 2c ajoutée
+- `.claude/CLAUDE.md`, `templates/.claude/CLAUDE.md` : section "Mémoire projet" mise à jour
+- `Protocole_start_close_context.md`, `README.md`, `CHANGELOG.md` : documentation synchronisée (kit v3.31)
 
 ## Hypothèses validées / invalidées
-- VALIDE : `/init_discord_mode` fonctionnelle de bout en bout en conditions réelles.
-- INVALIDE : workflow initial (token manipulé par Claude) → pivot vers `.env` rempli par l'utilisateur.
+- EN ATTENTE : propagation vers SérénIATech_dev (nécessite `/update` sur ce projet) et test réel `/create_memory linkedin <contenu>` sur la zone `linkedin` — non fait cette session (hors dépôt kit).
 
 ## Prochaine étape exacte
-Trancher l'automatisation `.gitignore` pour `discord_com/.env` côté projets cibles (cf. action ouverte). Sinon, restent à tester pour `discord_com` : mode `enabled: false`, préfixe novice `"? "`.
+Lancer `/update` sur SérénIATech_dev, vérifier l'alias `linkedin` dans son `zones.md`, puis tester `/create_memory linkedin <contenu>` et `/start linkedin` en conditions réelles.
 
 ## Question bloquante pour la session suivante
 Aucune.

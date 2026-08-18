@@ -12,7 +12,7 @@ Résout le problème structurel du vibecoding : **le contexte est perdu à chaqu
 - `/close [zone]` — sauvegarde l'état, met à jour les fichiers de contexte, committe (zone implicite si absent)
 - `/init_projet` — initialise le protocole dans un nouveau projet en quelques questions
 - `/update` — met à jour les fichiers de protocole dans un projet déjà initialisé, sans toucher aux données projet
-- `/create_memory` — ajoute une entrée dans la mémoire projet persistante (`.claude/memory.md`)
+- `/create_memory [alias_zone] [contenu]` — ajoute une entrée dans la mémoire projet persistante (`.claude/memory.md`) ou, si un alias de zone est reconnu, dans la mémoire de cette zone (`<dossier_zone>/_contexte/memory.md`, chargée par `/start`)
 - `/create_agent <chemin_projet_cible> <dossier> [rôle]` — crée un agent (zone à rôle : charte `agent_role.md` + `_contexte/` propre, pilotable par `/start`/`/close`) dans un projet cible ; s'exécute toujours depuis le kit, n'est jamais copiée dans les projets cibles
 - `/create_com_agents <chemin_projet_cible>` — installe un mécanisme de communication en étoile agent↔orchestrateur (`_contexte/statut.md` pull écrasé à chaque `/close` d'une zone-agent, `_contexte/messages.md` push purgé à chaque `/start` de la zone destinataire) dans un projet cible déjà initialisé ; s'exécute toujours depuis le kit, ne modifie que `start.md`/`close.md` du projet cible
 - `/insert_template <chemin_projet_cible> <nom_template> [dossier_destination]` — insère un template (`templates/<nom>/`) dans un projet cible, résout les placeholders génériques (`{{NOM_PROJET}}`/`{{ALIAS_PROJET}}`/`{{DATE}}`) et ne jamais écraser un fichier déjà présent ; s'exécute toujours depuis le kit, jamais copiée dans les projets cibles
@@ -127,7 +127,7 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit **v3.30** (2026-08-18) : `/init_discord_mode` validée en conditions réelles ; token Discord désormais géré via `discord_com/.env` (rempli par l'utilisateur, jamais lu ni écrit par Claude). Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
+Kit **v3.31** (2026-08-18) : `/create_memory` supporte désormais une mémoire scopée par zone (`<dossier_zone>/_contexte/memory.md`, alias reconnu de `zones.md`), en plus de la mémoire globale projet — chargée par `/start` (nouvelle étape 2c). Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
 
 ## Vérifier le lanceur Ollama
 
