@@ -3,6 +3,17 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
 
+## v3.38 — 2026-08-20
+
+### Ajouté
+- `templates/roberto/com_telephone/_commands/com_stop.md` : arrêt complet du prototype "assistant vocal" (3 process + Monitor) en une seule commande.
+- `templates/roberto/com_telephone/README.md` : règle de style pour les réponses envoyées via `POST /send` (reformulation courte/orale, jamais recopiée d'un fichier).
+
+### Modifié
+- `templates/roberto/com_telephone/voice-code-bridge/server/tts_server.py` : débit TTS ralenti (`SynthesisConfig(length_scale=1.25)`).
+- `templates/roberto/AUTOMATISATIONS/workflows/quotidien/decisions.md` (+ `quotidien.md`, `AUTOMATISATIONS/README.md`) : la liste de décisions n'est plus jamais réinitialisée ni archivée à chaque lancement — roadmap vivante à cases à cocher, cochée seulement après validation explicite de l'utilisateur.
+- `templates/roberto/com_telephone/voice-code-bridge/mobile/app.js` : suppression du timeout de 30s qui fermait automatiquement l'écran vocal.
+
 ## v3.37 — 2026-08-19
 
 ### Ajouté

@@ -131,7 +131,7 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit **v3.37** (2026-08-19) : prototype d'assistant vocal distant pour Claude Code (`templates/roberto/com_telephone/`) fonctionnel de bout en bout, démarrage centralisé via `com_telephone/_commands/com_manager.py start` (Node + Whisper local + Piper local, surveillance des messages activée automatiquement). Reste à faire : authentification de l'UI, boucle de déclenchement micro rapproché à diagnostiquer. Mission ROBERTO (`Appli_TSA_SDI_TDAH`, hors dépôt kit) toujours en pause depuis le 2026-08-18. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
+Kit **v3.38** (2026-08-20) : prototype d'assistant vocal distant pour Claude Code (`templates/roberto/com_telephone/`) fonctionnel de bout en bout, réponses reformulées courtes/orales et débit TTS ralenti, arrêt complet via `/com_stop`. Workflow `quotidien` : `decisions.md` devient une roadmap persistante à cases à cocher, jamais réinitialisée. Reste à faire : authentification de l'UI, boucle de déclenchement micro rapproché à diagnostiquer, allègement de `/start` (kit jugé surchargé). Mission ROBERTO (`Appli_TSA_SDI_TDAH`, hors dépôt kit) toujours en pause depuis le 2026-08-18. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
 
 ## Vérifier le lanceur Ollama
 

@@ -27,6 +27,14 @@ python _commands/com_manager.py start
 ```
 Démarre les 3 processus (STT, TTS, puis Node) et active la surveillance de `messages.log`.
 
+## Style des réponses (POST /send)
+L'utilisateur écoute la réponse (TTS), il ne la lit pas. Chaque message envoyé via `POST /send`
+doit être reformulé pour l'oral, pas recopié depuis un fichier ou un résultat d'outil :
+- Une idée à la fois, phrases courtes.
+- Aucune info superflue (chemins de fichiers, formatage markdown, listes à puces brutes,
+  détails techniques non demandés).
+- Si plusieurs éléments à annoncer, les résumer en une phrase de synthèse plutôt que tout lister.
+
 ## État
 Fonctionnel de bout en bout, testé en conditions réelles (iPhone/Safari). Pas d'authentification sur
 l'UI à ce stade — ne pas exposer durablement sans en ajouter une.

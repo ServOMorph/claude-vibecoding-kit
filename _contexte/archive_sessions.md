@@ -2,6 +2,30 @@
 <!-- Ce fichier contient les anciennes sessions de signals.md, archivées automatiquement par /close -->
 <!-- Format: chaque session est séparée par une ligne vide -->
 
+# Session du 2026-08-19
+
+## Décisions prises
+- UI vocale enrichie : état "réflexion" (cercle orange, distinct de l'écoute bleue et de la réponse verte), bouton pause micro (suspendre la capture sans quitter l'écran vocal, ex. pour parler à quelqu'un d'autre).
+- Pilotage des 3 serveurs (Node/STT/TTS) centralisé dans un script unique (`com_manager.py`) + commande Claude Code associée (`com_manager.md`), qui active aussi automatiquement le watcher `messages.log` au démarrage.
+
+## Livrables produits ou modifiés
+- `voice-code-bridge/mobile/index.html`, `app.js` : état "thinking" orange, bouton pause micro, reset des classes CSS à l'ouverture de l'écran vocal.
+- `com_telephone/_commands/com_manager.py` : nouveau — start/stop/restart/status des 3 process. Bug trouvé et corrigé : `taskkill` nécessite `/T` (le lanceur `py -3.11` spawn un processus enfant distinct, sinon orphelin après `stop`).
+- `com_telephone/_commands/com_manager.md` : nouveau, commande Claude Code (inclut l'activation/arrêt du `Monitor` sur `messages.log`).
+- `com_telephone/README.md` : nouveau, vue d'ensemble du dossier.
+
+## Hypothèses validées / invalidées
+- VALIDE : centraliser le lancement des 3 process robustifie le prototype (bug `taskkill` trouvé en le testant réellement, pas en théorie).
+- EN ATTENTE : boucle de "enregistrement démarré" observée se répétant toutes les 2-7s sans transcription ni erreur entre les occurrences (déclenchement VAD suspect) — signalée à l'utilisateur, aucune réponse reçue avant la fin de session.
+
+## Prochaine étape exacte
+Diagnostiquer la boucle de déclenchement micro rapproché (bruit ambiant ? seuil `SPEECH_THRESHOLD` trop bas ?). Authentification de l'UI toujours à faire.
+
+## Question bloquante pour la session suivante
+La boucle de re-déclenchement rapide du micro (constatée, cause non identifiée) empêche-t-elle une utilisation normale, ou n'était-ce qu'un test involontaire ?
+
+---
+
 # Session du 2026-08-18 (roadmap multi-compte + délégation réelle ROBERTO)
 
 ## Décisions prises

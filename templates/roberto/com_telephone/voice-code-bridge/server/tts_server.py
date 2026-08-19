@@ -3,9 +3,11 @@ import json
 import wave
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from piper import PiperVoice
+from piper.config import SynthesisConfig
 
 PORT = 5002
 MODEL_PATH = "voices/fr_FR-siwis-medium.onnx"
+SYN_CONFIG = SynthesisConfig(length_scale=1.25)
 
 print("Chargement de la voix Piper (fr_FR-siwis-medium)...", flush=True)
 voice = PiperVoice.load(MODEL_PATH)
@@ -31,7 +33,7 @@ class Handler(BaseHTTPRequestHandler):
 
         buffer = io.BytesIO()
         with wave.open(buffer, "wb") as wav_file:
-            voice.synthesize_wav(text, wav_file)
+            voice.synthesize_wav(text, wav_file, syn_config=SYN_CONFIG)
 
         audio_bytes = buffer.getvalue()
 

@@ -30,14 +30,23 @@ en écoute des messages envoyés depuis l'appli, sans action supplémentaire de 
    processus enfant réel (le lanceur `py -3.11` spawn un `python3.11.exe` distinct) — ne jamais
    appeler `taskkill` manuellement sans `/T` sur ces PID.
 6. Si l'action est `start` ou `restart` (composant `node` inclus) : une fois les process confirmés
-   actifs, activer une surveillance persistante du fichier d'échange avec l'outil Monitor :
-   ```
-   command: cd "<dossier_de_ce_fichier>/../voice-code-bridge/server" && tail -f -n 0 messages.log
-   persistent: true
-   ```
+   actifs, (re)lancer la surveillance du fichier d'échange en respectant impérativement cet ordre
+   (le fichier `<dossier_de_ce_fichier>/monitor.lock` trace le Monitor actif d'une session à
+   l'autre — se fier à ce fichier, jamais à la mémoire de la conversation, un Monitor `persistent`
+   constaté ne survit pas forcément à un changement de session) :
+   1. Si `monitor.lock` existe, lire le `task_id` qu'il contient et appeler `TaskStop` dessus
+      (échec silencieux accepté si le Monitor n'existait déjà plus).
+   2. Lancer un nouveau Monitor :
+      ```
+      command: cd "<dossier_de_ce_fichier>/../voice-code-bridge/server" && tail -f -n 0 messages.log
+      persistent: true
+      ```
+   3. Écrire le `task_id` retourné dans `<dossier_de_ce_fichier>/monitor.lock` (écrasant tout
+      contenu précédent).
    Sans cette étape, les messages envoyés depuis l'appli après le lancement n'arrivent à l'agent
-   qu'au prochain redémarrage de session (déjà constaté : les process survivent au changement de
-   session mais le watcher, lui, ne survit pas). Si un Monitor équivalent tourne déjà (vérifier
-   avant d'en relancer un doublon), ne pas en relancer un second.
-7. Si l'action est `stop` (composant `node` inclus ou aucun composant précisé) : arrêter le Monitor
-   actif sur `messages.log` avec TaskStop, puisqu'il n'y a alors plus de serveur à surveiller.
+   qu'au prochain redémarrage de session. Sauter l'étape 1 (ne pas arrêter l'éventuel Monitor
+   existant avant d'en relancer un) crée deux Monitor actifs en parallèle et donc des notifications
+   en double pour chaque message reçu — déjà constaté.
+7. Si l'action est `stop` (composant `node` inclus ou aucun composant précisé) : si
+   `<dossier_de_ce_fichier>/monitor.lock` existe, lire son `task_id`, l'arrêter avec `TaskStop`,
+   puis supprimer le fichier — puisqu'il n'y a alors plus de serveur à surveiller.

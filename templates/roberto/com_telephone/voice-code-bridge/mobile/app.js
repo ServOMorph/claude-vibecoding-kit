@@ -24,7 +24,6 @@ let hasSpoken = false;
 let voiceCancelled = false;
 let voicePaused = false;
 let discardNextRecording = false;
-let awaitingResponseTimer = null;
 let currentAudio = null;
 let audioUnlocked = false;
 
@@ -106,8 +105,6 @@ function connect() {
 }
 
 function playAssistantAudio(base64, mime) {
-  clearTimeout(awaitingResponseTimer);
-
   const inVoiceMode = voiceScreen.classList.contains("active") && !voiceCancelled;
   if (inVoiceMode) {
     voiceCircle.classList.remove("thinking");
@@ -158,7 +155,6 @@ composer.addEventListener("submit", (e) => {
 });
 
 function openVoiceScreen() {
-  clearTimeout(awaitingResponseTimer);
   voiceScreen.classList.add("active");
   voiceCircle.classList.remove("done", "thinking", "paused");
   voiceStatus.textContent = "Je vous ecoute...";
@@ -211,11 +207,6 @@ function confirmAndSend(transcript) {
     voiceCircle.classList.remove("done");
     voiceCircle.classList.add("thinking");
     voiceStatus.textContent = "Titi reflechit...";
-    clearTimeout(awaitingResponseTimer);
-    awaitingResponseTimer = setTimeout(() => {
-      debugLog("pas de reponse audio recue, retour au chat");
-      closeVoiceScreen();
-    }, 30000);
   };
 
   if (window.speechSynthesis) {
@@ -368,7 +359,6 @@ voicePause.addEventListener("click", () => {
   voicePaused = true;
   voicePause.textContent = "Reprendre";
   discardNextRecording = true;
-  clearTimeout(awaitingResponseTimer);
   if (mediaRecorder && mediaRecorder.state === "recording") {
     mediaRecorder.stop();
   } else {
@@ -383,7 +373,6 @@ voiceCancel.addEventListener("click", () => {
   voiceCancelled = true;
   voicePaused = false;
   discardNextRecording = false;
-  clearTimeout(awaitingResponseTimer);
   if (mediaRecorder && mediaRecorder.state === "recording") mediaRecorder.stop();
   if (currentAudio) {
     currentAudio.pause();
