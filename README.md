@@ -131,7 +131,7 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit **v3.36** (2026-08-19) : prototype d'assistant vocal distant pour Claude Code (`templates/roberto/com_telephone/voice-code-bridge/`) fonctionnel de bout en bout — PWA mobile, WebSocket, Whisper local (STT), Piper local (TTS), testé en conditions réelles via tunnel Cloudflare. Reste à faire : authentification de l'UI. Mission ROBERTO (`Appli_TSA_SDI_TDAH`, hors dépôt kit) toujours en pause depuis le 2026-08-18. `chatgpt-orchestrateur` reste disponible (rotation multi-compte Google Phases 1/2 FAIT, bloqué avant la Phase 3 par un risque de vol de focus documenté). Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
+Kit **v3.37** (2026-08-19) : prototype d'assistant vocal distant pour Claude Code (`templates/roberto/com_telephone/`) fonctionnel de bout en bout, démarrage centralisé via `com_telephone/_commands/com_manager.py start` (Node + Whisper local + Piper local, surveillance des messages activée automatiquement). Reste à faire : authentification de l'UI, boucle de déclenchement micro rapproché à diagnostiquer. Mission ROBERTO (`Appli_TSA_SDI_TDAH`, hors dépôt kit) toujours en pause depuis le 2026-08-18. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
 
 ## Vérifier le lanceur Ollama
 

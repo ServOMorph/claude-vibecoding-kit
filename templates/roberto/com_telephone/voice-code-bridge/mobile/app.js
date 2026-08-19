@@ -10,6 +10,7 @@ const voiceScreen = document.getElementById("voiceScreen");
 const voiceCircle = document.getElementById("voiceCircle");
 const voiceStatus = document.getElementById("voiceStatus");
 const voiceCancel = document.getElementById("voiceCancel");
+const voicePause = document.getElementById("voicePause");
 const assistantAudioEl = document.getElementById("assistantAudio");
 
 let ws = null;
@@ -21,6 +22,8 @@ let silenceTimer = null;
 let maxDurationTimer = null;
 let hasSpoken = false;
 let voiceCancelled = false;
+let voicePaused = false;
+let discardNextRecording = false;
 let awaitingResponseTimer = null;
 let currentAudio = null;
 let audioUnlocked = false;
@@ -107,6 +110,7 @@ function playAssistantAudio(base64, mime) {
 
   const inVoiceMode = voiceScreen.classList.contains("active") && !voiceCancelled;
   if (inVoiceMode) {
+    voiceCircle.classList.remove("thinking");
     voiceCircle.classList.add("done");
     voiceStatus.textContent = "Titi vous repond...";
   }
@@ -119,8 +123,11 @@ function playAssistantAudio(base64, mime) {
     currentAudio = null;
     audio.onended = null;
     audio.onerror = null;
-    if (inVoiceMode && !voiceCancelled) {
+    if (inVoiceMode && !voiceCancelled && !voicePaused) {
       startVoiceCapture();
+    } else if (voicePaused) {
+      voiceCircle.classList.add("paused");
+      voiceStatus.textContent = "Micro en pause";
     }
   };
 
@@ -153,8 +160,9 @@ composer.addEventListener("submit", (e) => {
 function openVoiceScreen() {
   clearTimeout(awaitingResponseTimer);
   voiceScreen.classList.add("active");
-  voiceCircle.classList.remove("done");
+  voiceCircle.classList.remove("done", "thinking", "paused");
   voiceStatus.textContent = "Je vous ecoute...";
+  voicePause.textContent = "Pause micro";
 }
 
 function closeVoiceScreen() {
@@ -201,6 +209,7 @@ function confirmAndSend(transcript) {
     sendUserMessage(transcript);
 
     voiceCircle.classList.remove("done");
+    voiceCircle.classList.add("thinking");
     voiceStatus.textContent = "Titi reflechit...";
     clearTimeout(awaitingResponseTimer);
     awaitingResponseTimer = setTimeout(() => {
@@ -291,6 +300,10 @@ function startVoiceCapture() {
       mediaRecorder.onstop = () => {
         stopStream();
         if (voiceCancelled) return;
+        if (discardNextRecording) {
+          discardNextRecording = false;
+          return;
+        }
         const blob = new Blob(chunks, { type: mediaRecorder.mimeType });
         transcribeAudio(blob);
       };
@@ -344,8 +357,32 @@ micBtn.addEventListener("click", () => {
   startVoiceCapture();
 });
 
+voicePause.addEventListener("click", () => {
+  if (voicePaused) {
+    voicePaused = false;
+    voicePause.textContent = "Pause micro";
+    startVoiceCapture();
+    return;
+  }
+
+  voicePaused = true;
+  voicePause.textContent = "Reprendre";
+  discardNextRecording = true;
+  clearTimeout(awaitingResponseTimer);
+  if (mediaRecorder && mediaRecorder.state === "recording") {
+    mediaRecorder.stop();
+  } else {
+    stopStream();
+  }
+  voiceCircle.classList.remove("done", "thinking");
+  voiceCircle.classList.add("paused");
+  voiceStatus.textContent = "Micro en pause";
+});
+
 voiceCancel.addEventListener("click", () => {
   voiceCancelled = true;
+  voicePaused = false;
+  discardNextRecording = false;
   clearTimeout(awaitingResponseTimer);
   if (mediaRecorder && mediaRecorder.state === "recording") mediaRecorder.stop();
   if (currentAudio) {

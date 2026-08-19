@@ -690,3 +690,31 @@ Depuis `Appli_TSA_SDI_TDAH` : `/start` sur la zone globale pour reprendre la mai
 
 ## Question bloquante pour la session suivante
 Aucune.
+
+---
+
+# Session du 2026-08-19 (partie 1)
+
+## Décisions prises
+- Prototype "assistant vocal distant pour Claude Code" (dossier de travail `roberto/com_telephone/`) : PWA mobile + WebSocket + Whisper local (STT) + Piper local (TTS), accès distant via tunnel Cloudflare déjà configuré (`vertia-test.serenia-tech.fr` → port 5000).
+- UI en chat (style ChatGPT) plutôt que l'interface minimaliste initiale, à la demande de l'utilisateur.
+- Capture vocale via `MediaRecorder` + détection de silence maison, la Web Speech API du navigateur étant écartée (non supportée sur Safari/iOS).
+- Traitement des messages reste manuel (Claude Code lit `messages.log` via un watcher persistant et répond via un endpoint `/send`) — pas de branchement autonome côté serveur, confirmé suffisant par l'utilisateur.
+
+## Livrables produits ou modifiés
+- `templates/roberto/com_telephone/voice-code-bridge/mobile/index.html`, `app.js` : UI chat + écran vocal (capture, VAD, lecture audio, boucle continue).
+- `templates/roberto/com_telephone/voice-code-bridge/server/server.js` : serveur Node (HTTP+WS, relais STT/TTS, log debug/messages).
+- `templates/roberto/com_telephone/voice-code-bridge/server/stt_server.py` : serveur Whisper local (faster-whisper, port 5001).
+- `templates/roberto/com_telephone/voice-code-bridge/server/tts_server.py` + `voices/fr_FR-siwis-medium.onnx(.json)` : serveur Piper local (port 5002).
+
+## Hypothèses validées / invalidées
+- VALIDE : Whisper local (faster-whisper) + Piper local suffisent pour un pipeline STT/TTS gratuit, sans cloud, avec les modèles/paquets déjà présents sur le PC.
+- INVALIDE : Web Speech API du navigateur pour le STT — pivot vers `MediaRecorder` + Whisper serveur.
+- INVALIDE : test via Firefox iOS — `secureContext`/`mediaDevices` indisponibles ; pivot vers Safari (fonctionnel).
+- VALIDE : boucle conversationnelle continue (écoute → réponse → réécoute) opérationnelle, avec déblocage audio Safari via un geste utilisateur initial.
+
+## Prochaine étape exacte
+Ajouter une authentification (mot de passe) sur l'UI avant exposition prolongée via le tunnel public — actuellement aucune protection.
+
+## Question bloquante pour la session suivante
+Aucune.

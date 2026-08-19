@@ -3,6 +3,16 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
 
+## v3.37 — 2026-08-19
+
+### Ajouté
+- `templates/roberto/com_telephone/_commands/com_manager.py` + `com_manager.md` : commande Claude Code unique pour démarrer/arrêter/vérifier les 3 processus du prototype "assistant vocal" (Node, STT Whisper, TTS Piper), avec activation automatique de la surveillance de `messages.log`.
+- `templates/roberto/com_telephone/README.md` : vue d'ensemble du dossier.
+- UI vocale du prototype : état "réflexion" (cercle orange), bouton pause micro (suspendre la capture sans quitter l'écran vocal).
+
+### Corrigé
+- `com_manager.py` : `taskkill` sans `/T` laissait le vrai serveur Python orphelin après un `stop` (le lanceur `py -3.11` spawn un processus enfant distinct) — corrigé.
+
 ## v3.36 — 2026-08-19
 
 ### Ajouté
