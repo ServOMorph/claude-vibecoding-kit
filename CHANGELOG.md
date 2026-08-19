@@ -3,6 +3,14 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
 
+## v3.36 — 2026-08-19
+
+### Ajouté
+- Prototype "assistant vocal distant pour Claude Code" (`templates/roberto/com_telephone/voice-code-bridge/`) : PWA mobile en chat, WebSocket, capture audio (`MediaRecorder`) avec détection de silence, transcription Whisper locale (`faster-whisper`, port 5001), réponses traitées par Claude Code via surveillance de `messages.log`, synthèse vocale Piper locale (voix `fr_FR-siwis-medium`, port 5002), lecture automatique en boucle conversationnelle continue. Testé de bout en bout en conditions réelles (iPhone/Safari, tunnel Cloudflare existant).
+
+### Corrigé
+- Web Speech API du navigateur écartée pour le STT (non supportée sur Safari/iOS) au profit de `MediaRecorder` + Whisper serveur. Lecture audio automatique bloquée par Safari (politique autoplay) contournée par déblocage d'un élément `<audio>` au moment du geste utilisateur initial.
+
 ## v3.35 — 2026-08-18
 
 ### Modifié

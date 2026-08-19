@@ -131,7 +131,7 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit **v3.35** (2026-08-18) : mission ROBERTO (`Appli_TSA_SDI_TDAH`, hors dépôt kit) en pause après clôture des Phases 1-2 de sa roadmap. Lecture croisée entre zones (zone-agent ↔ zone parente) expérimentée sur ce projet pour corriger un manque de contexte global, pas encore généralisée au kit. `chatgpt-orchestrateur` reste disponible (rotation multi-compte Google Phases 1/2 FAIT, bloqué avant la Phase 3 par un risque de vol de focus documenté). Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
+Kit **v3.36** (2026-08-19) : prototype d'assistant vocal distant pour Claude Code (`templates/roberto/com_telephone/voice-code-bridge/`) fonctionnel de bout en bout — PWA mobile, WebSocket, Whisper local (STT), Piper local (TTS), testé en conditions réelles via tunnel Cloudflare. Reste à faire : authentification de l'UI. Mission ROBERTO (`Appli_TSA_SDI_TDAH`, hors dépôt kit) toujours en pause depuis le 2026-08-18. `chatgpt-orchestrateur` reste disponible (rotation multi-compte Google Phases 1/2 FAIT, bloqué avant la Phase 3 par un risque de vol de focus documenté). Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
 
 ## Vérifier le lanceur Ollama
 

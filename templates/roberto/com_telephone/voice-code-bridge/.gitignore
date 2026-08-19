@@ -1,0 +1,4 @@
+node_modules/
+server/voices/
+server/messages.log
+*.wav

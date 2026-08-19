@@ -666,3 +666,27 @@ Trancher l'automatisation `.gitignore` pour `discord_com/.env` côté projets ci
 
 ## Question bloquante pour la session suivante
 Aucune
+
+---
+
+# Session du 2026-08-18
+
+## Décisions prises
+- Périmètre de lecture de la zone `roberto` (`Appli_TSA_SDI_TDAH`) étendu à `_contexte/signals.md`/`contexte.md` racine (lecture seule), suite à un constat utilisateur : la zone travaillait sans connaître l'état réel des autres chantiers du projet (notamment `sync-marie`).
+- Diagnostic d'un problème réel (pas seulement un risque) : une session `/close roberto` antérieure avait écrit sa synthèse dans les fichiers `_contexte/` racine au lieu de ceux de la zone `roberto` — mémoire de zone restée figée depuis sa création. Corrigé.
+- Mission ROBERTO mise en pause à la demande de l'utilisateur ; reprise prévue via `/start` sur la zone globale, pas sur `roberto`.
+
+## Livrables produits ou modifiés
+- `Appli_TSA_SDI_TDAH/ROBERTO/agent_role.md`, `.claude/commands/start.md` : lecture élargie de la zone `roberto` aux fichiers `_contexte` racine.
+- `Appli_TSA_SDI_TDAH/ROBERTO/_contexte/signals.md`/`contexte.md` : resynchronisés avec l'état réel (Phases 1-2 FAIT, gap corrigé, journal testeur), committé (`029efaf`).
+- Deux correctifs de mécanisme proposés mais non implémentés : `close.md` (empêcher l'écriture hors de la zone `roberto`), `start.md` racine (lire `AGENT_STATE.md` pour que la zone globale voie l'état des flux ROBERTO).
+
+## Hypothèses validées / invalidées
+- VALIDE : fusionner la zone `roberto` dans la zone principale aurait cassé l'isolation de contexte voulue par le système de zones — le vrai problème était un manque de lecture croisée, pas l'existence de deux zones séparées.
+- EN ATTENTE : généralisation de ce pattern de lecture croisée entre zones (zone-agent ↔ zone parente) aux templates du kit, pas encore tranchée.
+
+## Prochaine étape exacte
+Depuis `Appli_TSA_SDI_TDAH` : `/start` sur la zone globale pour reprendre la main. Côté kit : décider si le pattern de lecture croisée doit être généralisé (`start.md`/`close.md`/`agent_role_TEMPLATE.md`).
+
+## Question bloquante pour la session suivante
+Aucune.

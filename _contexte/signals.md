@@ -1,4 +1,4 @@
-# Signals — claude-vibecoding-kit (MAJ 2026-08-18)
+# Signals — claude-vibecoding-kit (MAJ 2026-08-19)
 
 ## Actions ouvertes
 - [P1|ouvert] Résoudre le risque de vol de focus (`SetForegroundWindow` peut échouer silencieusement, le clic part alors vers une autre fenêtre que celle ciblée — constaté : clic visant Chrome atterri sur VS Code) avant de poursuivre `roadmap_reprise_multicompte.md` Phase 3 (calibration dans une nouvelle fenêtre après rotation de compte). Phases 1 et 2 de cette roadmap sont FAIT (suivi de tokens par agent et par compte Google, ouverture automatique de nouvelle fenêtre sur un compte autorisé). fait quand : mécanisme de vérification/contournement du vol de focus trouvé et documenté, Phase 3 peut démarrer. réf : `roadmap_reprise_multicompte.md`, `skills/chatgpt-orchestrateur/SKILL.md` (section dédiée)
@@ -27,8 +27,10 @@
 - [P2|ouvert] `templates/discord_com/` : mode `enabled: false` et préfixe novice `"? "` (préfixage de message) jamais testés en conditions réelles — le flux principal (connexion, `!ping`/`!help`, commande libre, `notify`/`notifier`/`envoyer`, `bot_manager.py`) est validé, ces deux branches ne l'ont pas été. fait quand: les deux comportements vérifiés en conditions réelles (bot ignore les messages avec `enabled: false`, préfixe novice reformule correctement la commande transmise). réf: `templates/discord_com/bot.py`, `templates/discord_com/README_DISCORD_COM.md`
 - [P1|ouvert] Poursuivre la mission de conception du skill générique d'orchestration multi-agents via le skill `chatgpt-orchestrateur` : ChatGPT a reçu les extraits des sections 11/12/13/14/18 de `etude_architecture_skill.md` et a répondu "Confirmation technique reçue. Pour cette étape, ne fais aucune action suppl[émentaire]..." (réponse non encore lue en entier). Reste à trancher : nom du skill générique, emplacement (`skills/` vs commande kit), mécanisme technique, ordre d'implémentation. fait quand: nom/emplacement/mécanisme actés avec l'orchestrateur ChatGPT, `roadmap_<nom_skill>.md` créée. réf: `D:\ServOMorph\Appli_TSA_SDI_TDAH\ROBERTO\_orchestrateur_ia\chatgpt\etat.md`, `D:\ServOMorph\Appli_TSA_SDI_TDAH\ROBERTO\etude_architecture_skill.md`
 - [P2|ouvert] Aucune automatisation n'ajoute `discord_com/.env` (ni `config_bot_discord.json`) au `.gitignore` d'un projet cible lors de l'insertion — `DISCORD_SECURITY.md` suppose la couverture mais rien ne l'écrit ni ne la vérifie (constaté le 2026-08-18, `insert_template.md` ne gère aucun `.gitignore`). fait quand: mécanisme de vérification/ajout tranché (dans `/insert_template` ou `/init_discord_mode`) et testé sur un projet cible réel, ou décision explicite de ne pas automatiser actée. réf: `.claude/commands/insert_template.md`, `.claude/commands/init_discord_mode.md`, `templates/discord_com/DISCORD_SECURITY.md`
+- [P1|ouvert] Ajouter une authentification (mot de passe ou token) sur l'UI mobile du prototype "assistant vocal Claude Code" (`voice-code-bridge`) — aucune protection actuellement, n'importe qui connaissant l'URL du tunnel Cloudflare (`vertia-test.serenia-tech.fr`) peut s'y connecter et échanger des messages. Demandé explicitement par l'utilisateur, reporté volontairement après validation du pipeline fonctionnel (fait le 2026-08-19). fait quand: mécanisme d'authentification implémenté et testé, l'UI/le WebSocket refusent toute connexion sans lui. réf: `templates/roberto/com_telephone/voice-code-bridge/server/server.js`, `templates/roberto/com_telephone/voice-code-bridge/mobile/`
 
 ## Contexte chaud
+- `templates/roberto/com_telephone/voice-code-bridge/` : prototype d'assistant vocal distant pour Claude Code (PWA + WS + Whisper local + Piper local), testé en conditions réelles sur iPhone/Safari via tunnel Cloudflare. Trois serveurs à relancer manuellement pour retester (`server.js` port 5000, `stt_server.py` port 5001, `tts_server.py` port 5002 — Python 3.11 via `py -3.11`). Fichier `messages.log` sert de canal d'échange, surveillé par un `Monitor` persistant côté agent. Pas encore de mécanisme automatique de démarrage (`npm start`/script unique) ni d'authentification.
 - `skills/chatgpt-orchestrateur/` : premier skill Claude Code du kit (`skills/` était vide jusque-là). Généricisé cette session (paramètre `-Agent`, ChatGPT premier agent supporté) et journalisé (`log.jsonl` par agent). 5 scripts PowerShell créés et testés en conditions réelles (`init_agent.ps1`, `maj_etat.ps1`, `log_echange.ps1`, `generer_reprise.ps1`, `coller_et_envoyer.ps1`) : gestion de l'état sans réécriture manuelle de fichiers (économie de tokens), et envoi automatique vers la fenêtre ChatGPT (clic + `Ctrl+V` + Entrée, ciblage par position écran/process, échec propre sans deviner si ambiguïté). Bug corrigé : `Get-Content -Raw` sans `-Encoding UTF8` corrompait les accents. Règle actée : les réponses de l'orchestrateur doivent toujours être en un seul bloc Markdown sans commentaire hors bloc. Mission réelle de test en cours dans `Appli_TSA_SDI_TDAH\ROBERTO\_orchestrateur_ia\chatgpt\` (hors dépôt kit).
 - `/create_memory` : mémoire scopée par zone ajoutée cette session (`[alias_zone] [contenu]` → `<dossier_zone>/_contexte/memory.md`, chargée par l'étape 2c de `/start`). Rétrocompatible : sans alias reconnu dans `zones.md`, comportement global inchangé (`.claude/memory.md`). Kit v3.31, jamais testé en conditions réelles.
 - `templates/discord_com/` : blocages `403 Forbidden` et Message Content Intent levés (2026-08-17) — bot invité via URL OAuth2, intent activé côté portail. Deux bugs réels trouvés et corrigés dans `bot.py` (`templates/discord_com/` et copie de test `discord_com/`) : (1) `CHANNEL_ID` comparé en `str` vs `int` (`bot.py:16`, tout message entrant silencieusement ignoré) ; (2) ordre de priorité dans `on_message` — la vérification `commands.json == idle` court-circuitait `queue.json == waiting`, cassant `claude_bridge.envoyer()`/`discord_loop.py send` dès que `commands.json` était au repos (cas normal). Inversé : `queue.json waiting` vérifié en premier. Flux complet testé en conditions réelles : `!ping`, `!help`, message libre → `commands.json`, `discord_loop.py notify`, `claude_bridge.notifier()`, `claude_bridge.envoyer()` (aller-retour confirmé après correctif), cycle `bot_manager.py` (start/status/restart/stop). `SETUP.md` et `README_DISCORD_COM.md` mis à jour (étape invitation OAuth2 concrète, dépannage `403`/intent/mismatch `channel_id`).
@@ -41,27 +43,31 @@
 - Vigilance credentials Discord : 3 incidents en session du 2026-08-16 sur le token bot, tous traités avant commit. Incident supplémentaire le 2026-08-18 : token lu/écrit par Claude via `/init_discord_mode` (design initial de la commande, pas une erreur ponctuelle) — corrigé structurellement par le passage à `.env` (cf. décision du 2026-08-18 dans `contexte.md`). Toujours vérifier `git check-ignore`/`git status` avant tout commit touchant `discord_com/`.
 - Copie de test `discord_com/` (racine du kit) et `.claude/commands/discord_loop.md` (racine du kit) : artefacts de test local, intentionnellement non commités (redondants avec `templates/discord_com/`, `bot.py` de test porte un contournement — `message_content` désactivé — à ne jamais propager au template). Résidus CRLF signalés par `check_kit.py` (`discord_com/commands.json`, `discord_com/queue.json`, `ROBERTO/_docs/workflow1-chatgpt.md`) — dossiers non trackés, hors périmètre.
 
-## Dernière session (2026-08-18)
+## Dernière session (2026-08-19)
 <!-- Écrasé intégralement par /close. Synthèse < 25 lignes. -->
 
-# Session du 2026-08-18
+# Session du 2026-08-19
 
 ## Décisions prises
-- Périmètre de lecture de la zone `roberto` (`Appli_TSA_SDI_TDAH`) étendu à `_contexte/signals.md`/`contexte.md` racine (lecture seule), suite à un constat utilisateur : la zone travaillait sans connaître l'état réel des autres chantiers du projet (notamment `sync-marie`).
-- Diagnostic d'un problème réel (pas seulement un risque) : une session `/close roberto` antérieure avait écrit sa synthèse dans les fichiers `_contexte/` racine au lieu de ceux de la zone `roberto` — mémoire de zone restée figée depuis sa création. Corrigé.
-- Mission ROBERTO mise en pause à la demande de l'utilisateur ; reprise prévue via `/start` sur la zone globale, pas sur `roberto`.
+- Prototype "assistant vocal distant pour Claude Code" (dossier de travail `roberto/com_telephone/`) : PWA mobile + WebSocket + Whisper local (STT) + Piper local (TTS), accès distant via tunnel Cloudflare déjà configuré (`vertia-test.serenia-tech.fr` → port 5000).
+- UI en chat (style ChatGPT) plutôt que l'interface minimaliste initiale, à la demande de l'utilisateur.
+- Capture vocale via `MediaRecorder` + détection de silence maison, la Web Speech API du navigateur étant écartée (non supportée sur Safari/iOS).
+- Traitement des messages reste manuel (Claude Code lit `messages.log` via un watcher persistant et répond via un endpoint `/send`) — pas de branchement autonome côté serveur, confirmé suffisant par l'utilisateur.
 
 ## Livrables produits ou modifiés
-- `Appli_TSA_SDI_TDAH/ROBERTO/agent_role.md`, `.claude/commands/start.md` : lecture élargie de la zone `roberto` aux fichiers `_contexte` racine.
-- `Appli_TSA_SDI_TDAH/ROBERTO/_contexte/signals.md`/`contexte.md` : resynchronisés avec l'état réel (Phases 1-2 FAIT, gap corrigé, journal testeur), committé (`029efaf`).
-- Deux correctifs de mécanisme proposés mais non implémentés : `close.md` (empêcher l'écriture hors de la zone `roberto`), `start.md` racine (lire `AGENT_STATE.md` pour que la zone globale voie l'état des flux ROBERTO).
+- `templates/roberto/com_telephone/voice-code-bridge/mobile/index.html`, `app.js` : UI chat + écran vocal (capture, VAD, lecture audio, boucle continue).
+- `templates/roberto/com_telephone/voice-code-bridge/server/server.js` : serveur Node (HTTP+WS, relais STT/TTS, log debug/messages).
+- `templates/roberto/com_telephone/voice-code-bridge/server/stt_server.py` : serveur Whisper local (faster-whisper, port 5001).
+- `templates/roberto/com_telephone/voice-code-bridge/server/tts_server.py` + `voices/fr_FR-siwis-medium.onnx(.json)` : serveur Piper local (port 5002).
 
 ## Hypothèses validées / invalidées
-- VALIDE : fusionner la zone `roberto` dans la zone principale aurait cassé l'isolation de contexte voulue par le système de zones — le vrai problème était un manque de lecture croisée, pas l'existence de deux zones séparées.
-- EN ATTENTE : généralisation de ce pattern de lecture croisée entre zones (zone-agent ↔ zone parente) aux templates du kit, pas encore tranchée.
+- VALIDE : Whisper local (faster-whisper) + Piper local suffisent pour un pipeline STT/TTS gratuit, sans cloud, avec les modèles/paquets déjà présents sur le PC.
+- INVALIDE : Web Speech API du navigateur pour le STT — pivot vers `MediaRecorder` + Whisper serveur.
+- INVALIDE : test via Firefox iOS — `secureContext`/`mediaDevices` indisponibles ; pivot vers Safari (fonctionnel).
+- VALIDE : boucle conversationnelle continue (écoute → réponse → réécoute) opérationnelle, avec déblocage audio Safari via un geste utilisateur initial.
 
 ## Prochaine étape exacte
-Depuis `Appli_TSA_SDI_TDAH` : `/start` sur la zone globale pour reprendre la main. Côté kit : décider si le pattern de lecture croisée doit être généralisé (`start.md`/`close.md`/`agent_role_TEMPLATE.md`).
+Ajouter une authentification (mot de passe) sur l'UI avant exposition prolongée via le tunnel public — actuellement aucune protection.
 
 ## Question bloquante pour la session suivante
 Aucune.
