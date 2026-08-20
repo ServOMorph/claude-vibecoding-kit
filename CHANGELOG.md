@@ -3,6 +3,15 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
 
+## v3.39 — 2026-08-20
+
+### Ajouté
+- `templates/roberto/com_telephone/voice-code-bridge/server/server.js` : authentification par token (`AUTH_TOKEN`) sur l'UI mobile — cookie posé via `?token=`, WebSocket vérifié via `verifyClient`, `/send` restreint à `127.0.0.1`. Chargement d'un fichier `.env` local (`loadEnvFile`).
+
+### Modifié
+- `templates/roberto/com_telephone/voice-code-bridge/README.md` : section Authentification, procédure de lancement.
+- `templates/roberto/com_telephone/voice-code-bridge/.gitignore` : `server/.env` ajouté.
+
 ## v3.38 — 2026-08-20
 
 ### Ajouté

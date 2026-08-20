@@ -1,6 +1,8 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
+const { URL } = require("url");
 const { WebSocketServer } = require("ws");
 
 const PORT = process.env.PORT || 5000;
@@ -9,14 +11,70 @@ const TTS_PORT = process.env.TTS_PORT || 5002;
 const MOBILE_DIR = path.join(__dirname, "..", "mobile");
 const MESSAGES_LOG = path.join(__dirname, "messages.log");
 
+function loadEnvFile(filePath) {
+  if (!fs.existsSync(filePath)) return;
+  for (const line of fs.readFileSync(filePath, "utf8").split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const idx = trimmed.indexOf("=");
+    if (idx === -1) continue;
+    const key = trimmed.slice(0, idx).trim();
+    const value = trimmed.slice(idx + 1).trim();
+    if (!(key in process.env)) process.env[key] = value;
+  }
+}
+loadEnvFile(path.join(__dirname, ".env"));
+
+const AUTH_TOKEN = process.env.AUTH_TOKEN;
+if (!AUTH_TOKEN) {
+  console.error("AUTH_TOKEN manquant. Definir la variable d'environnement AUTH_TOKEN avant de lancer le serveur.");
+  process.exit(1);
+}
+
 const MIME_TYPES = {
   ".html": "text/html",
   ".js": "text/javascript",
   ".css": "text/css"
 };
 
+function timingSafeEqualStr(a, b) {
+  const bufA = Buffer.from(a);
+  const bufB = Buffer.from(b);
+  if (bufA.length !== bufB.length) return false;
+  return crypto.timingSafeEqual(bufA, bufB);
+}
+
+function getCookie(req, name) {
+  const header = req.headers.cookie;
+  if (!header) return null;
+  for (const part of header.split(";")) {
+    const idx = part.indexOf("=");
+    if (idx === -1) continue;
+    if (part.slice(0, idx).trim() === name) return part.slice(idx + 1).trim();
+  }
+  return null;
+}
+
+function isAuthed(req) {
+  const cookieToken = getCookie(req, "auth");
+  if (cookieToken && timingSafeEqualStr(cookieToken, AUTH_TOKEN)) return true;
+  const url = new URL(req.url, "http://localhost");
+  const queryToken = url.searchParams.get("token");
+  return !!queryToken && timingSafeEqualStr(queryToken, AUTH_TOKEN);
+}
+
+function isLoopback(req) {
+  const addr = req.socket.remoteAddress;
+  return addr === "127.0.0.1" || addr === "::1" || addr === "::ffff:127.0.0.1";
+}
+
 const httpServer = http.createServer((req, res) => {
   if (req.method === "POST" && req.url === "/send") {
+    if (!isLoopback(req)) {
+      res.writeHead(403);
+      res.end("Interdit");
+      return;
+    }
     let body = "";
     req.on("data", (chunk) => { body += chunk; });
     req.on("end", () => {
@@ -74,6 +132,11 @@ const httpServer = http.createServer((req, res) => {
   }
 
   if (req.method === "POST" && req.url === "/transcribe") {
+    if (!isAuthed(req)) {
+      res.writeHead(401);
+      res.end("Non autorise");
+      return;
+    }
     const chunks = [];
     req.on("data", (chunk) => chunks.push(chunk));
     req.on("end", () => {
@@ -105,6 +168,11 @@ const httpServer = http.createServer((req, res) => {
   }
 
   if (req.method === "POST" && req.url === "/debug") {
+    if (!isAuthed(req)) {
+      res.writeHead(401);
+      res.end("Non autorise");
+      return;
+    }
     let body = "";
     req.on("data", (chunk) => { body += chunk; });
     req.on("end", () => {
@@ -126,7 +194,14 @@ const httpServer = http.createServer((req, res) => {
     return;
   }
 
-  let filePath = req.url === "/" ? "/index.html" : req.url;
+  if (!isAuthed(req)) {
+    res.writeHead(401);
+    res.end("Non autorise");
+    return;
+  }
+
+  const url = new URL(req.url, "http://localhost");
+  let filePath = url.pathname === "/" ? "/index.html" : url.pathname;
   filePath = path.join(MOBILE_DIR, filePath);
 
   if (!filePath.startsWith(MOBILE_DIR)) {
@@ -142,15 +217,25 @@ const httpServer = http.createServer((req, res) => {
       return;
     }
     const ext = path.extname(filePath);
-    res.writeHead(200, {
+    const headers = {
       "Content-Type": MIME_TYPES[ext] || "application/octet-stream",
       "Cache-Control": "no-store"
-    });
+    };
+    if (url.searchParams.get("token")) {
+      headers["Set-Cookie"] = `auth=${AUTH_TOKEN}; HttpOnly; SameSite=Strict; Max-Age=31536000; Path=/`;
+    }
+    res.writeHead(200, headers);
     res.end(content);
   });
 });
 
-const wss = new WebSocketServer({ server: httpServer });
+const wss = new WebSocketServer({
+  server: httpServer,
+  verifyClient: (info, callback) => {
+    const cookieToken = getCookie(info.req, "auth");
+    callback(!!cookieToken && timingSafeEqualStr(cookieToken, AUTH_TOKEN));
+  }
+});
 
 wss.on("connection", (ws) => {
   console.log(`[${new Date().toISOString()}] Client connecte`);

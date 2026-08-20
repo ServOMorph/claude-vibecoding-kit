@@ -27,17 +27,29 @@ curl -L -o voices/fr_FR-siwis-medium.onnx "https://huggingface.co/rhasspy/piper-
 curl -L -o voices/fr_FR-siwis-medium.onnx.json "https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR/siwis/medium/fr_FR-siwis-medium.onnx.json"
 ```
 
+## Authentification
+
+`node server.js` exige la variable d'environnement `AUTH_TOKEN` (le serveur refuse de démarrer
+sans elle). Générer un jeton aléatoire, par exemple :
+
+```bash
+AUTH_TOKEN=$(openssl rand -hex 24)
+export AUTH_TOKEN
+```
+
 ## Lancement (3 processus séparés)
 
 ```bash
 python stt_server.py      # port 5001
 python tts_server.py      # port 5002
-node server.js            # port 5000
+AUTH_TOKEN=... node server.js   # port 5000
 ```
 
 Accès depuis le téléphone : exposer le port 5000 via un tunnel (Cloudflare Tunnel, Tailscale, etc.)
-pour un accès hors LAN. Voir `signals.md` du kit pour l'état des tâches restantes (authentification
-non implémentée à ce stade).
+pour un accès hors LAN, puis ouvrir une première fois `https://<url-tunnel>/?token=<AUTH_TOKEN>`.
+Le serveur pose un cookie de session ; les visites suivantes n'ont plus besoin du paramètre `token`
+dans l'URL. `POST /send` (utilisé par l'agent Claude Code local) n'est accessible que depuis
+`127.0.0.1`, indépendamment du jeton.
 
 ## Traitement des messages
 

@@ -1,5 +1,10 @@
 # Archive des décisions — claude-vibecoding-kit
 
+## Décisions archivées le 2026-08-20 (session authentification UI com_telephone)
+
+- 2026-08-17 : commande `/init_discord_mode <chemin_projet_cible>` créée — kit uniquement, délègue l'insertion de fichiers à `/insert_template <chemin_projet_cible> discord_com` puis guide la configuration jusqu'à un bot opérationnel : token, Application ID + URL OAuth2 (invitation), Message Content Intent, channel_id, `pip install`, validation via `bot_manager.py status` et `!ping`. `check_kit.py`/`README.md` mis à jour en cohérence (commande kit-only). Jamais testée en conditions réelles. Kit v3.29.
+- 2026-08-16 : template `templates/discord_com/` créé (source `Agents_IA_V2\Templates\_discord_integration\`, généricisé — commandes autonomes spécifiques au projet source retirées de `bot.py`) via la commande `/insert_template` existante. Commande `/cherche_fonction` ajoutée pour retrouver ce type de fonctionnalité dans d'anciens projets. Trois incidents de sécurité traités pendant le test (token réel affiché en chat puis régénéré, token écrit par erreur dans le fichier `.example.json` du template puis restauré, token placé hors du dossier gitignored puis déplacé) — aucun n'a atteint git. Test bloqué en fin de session : accès au salon Discord refusé (`403 Missing Access`) et toggle "Message Content Intent" du portail Discord qui ne persiste pas (cause non identifiée). Kit v3.25.
+
 ## Décisions archivées le 2026-08-19 (session assistant vocal com_telephone, suite)
 
 - 2026-08-17 : template `templates/overlay/` créé (overlay plein écran opacité réduite, contour néon bleu foncé animé, texte nom agent/zone + "J'ai fini !!!", même stack WinForms/PowerShell que `control_PC`), testé en isolation (compilation + affichage). Convention `/insert_template` modifiée : sans `dossier_destination` fourni, la destination par défaut devient `<projet_cible>/ROBERTO/` (nom fixe pour tous les projets, décidé après clarification utilisateur) au lieu de la racine du projet cible — non encore testé en conditions réelles, ajouté à `tests_manuels.md`. Kit v3.26.
