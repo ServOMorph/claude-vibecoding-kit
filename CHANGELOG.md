@@ -3,6 +3,11 @@
 Toutes les modifications notables du kit sont consignées ici.
 Le détail complet par version reste documenté dans `CHANGELOG.md` (ce fichier).
 
+## v3.40 — 2026-08-20
+
+### Modifié
+- `templates/roberto/` réduit : `MASCOTTE/` supprimée (extraite par l'utilisateur en projet standalone, `UI_WEB/mascotte/` conservé) ; `AUTOMATISATIONS/` et `com_telephone/` déplacés hors du kit vers `D:\ServOMorph\Roberto` (nouveau repo git). `templates/roberto/.claude/zones.md` et `README.md` (racine) mis à jour en conséquence.
+
 ## v3.39 — 2026-08-20
 
 ### Ajouté

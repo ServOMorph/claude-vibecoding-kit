@@ -103,7 +103,7 @@ claude-vibecoding-kit/
     ├── AGENTS.md                         # équivalent CLAUDE.md pour agents non-Claude (Codex, ChatGPT...), sur confirmation
     └── GEMINI.md                         # équivalent CLAUDE.md spécifique à Gemini, sur confirmation
     ├── control_PC/                       # template local de contrôle visuel, macros et workflows par application
-    ├── roberto/                          # template extrait de Roberto2 (UI PC + mascotte), testé de bout en bout
+    ├── roberto/                          # template extrait de Roberto2 (UI PC), testé de bout en bout
     ├── discord_com/                      # intégration Discord ↔ Claude Code, généricisée depuis Agents_IA_V2
     ├── overlay/                          # overlay néon plein écran, signal de fin de tâche d'agent
     └── notification/                     # notification systray (icône + bulle Windows), alternative à overlay
@@ -131,7 +131,7 @@ L'historique des versions est consigné dans `CHANGELOG.md`.
 
 ## État actuel
 
-Kit **v3.39** (2026-08-20) : prototype d'assistant vocal distant pour Claude Code (`templates/roberto/com_telephone/`) fonctionnel de bout en bout, réponses reformulées courtes/orales, débit TTS ralenti, arrêt complet via `/com_stop`, UI mobile désormais protégée par token (`AUTH_TOKEN`). Workflow `quotidien` : `decisions.md` devient une roadmap persistante à cases à cocher, jamais réinitialisée. Reste à faire : boucle de déclenchement micro rapproché à diagnostiquer, allègement de `/start` (kit jugé surchargé). Mission ROBERTO (`Appli_TSA_SDI_TDAH`, hors dépôt kit) toujours en pause depuis le 2026-08-18. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
+Kit **v3.40** (2026-08-20) : `templates/roberto/` réduit — `MASCOTTE/` supprimée (extraite en projet standalone par l'utilisateur) et `AUTOMATISATIONS/`/`com_telephone/` (assistant vocal, workflow quotidien) déplacés hors du kit vers `D:\ServOMorph\Roberto` (nouveau repo). Reste à faire : allègement de `/start` (kit jugé surchargé). Mission ROBERTO (`Appli_TSA_SDI_TDAH`, hors dépôt kit) toujours en pause depuis le 2026-08-18. Voir [`CHANGELOG.md`](CHANGELOG.md) pour l'historique complet.
 
 ## Vérifier le lanceur Ollama
 
