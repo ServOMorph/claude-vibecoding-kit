@@ -12,6 +12,7 @@ Base de connaissance interne de l'équipe d'agents, progressive disclosure. Touj
 | [20_guides/sessions_start_close.md](20_guides/sessions_start_close.md) | Travailler en session : /start, /close, /compact, roadmap | guide, session | 2026-08-21 |
 | [20_guides/creer_un_agent.md](20_guides/creer_un_agent.md) | /create_agent : créer un agent (zone à rôle) | guide, agent | 2026-08-21 |
 | [30_decisions/journal.md](30_decisions/journal.md) | Journal append-only des décisions structurantes de la base | decisions | 2026-08-21 |
+| [40_specs/controle_qualite_base.md](40_specs/controle_qualite_base.md) | Spec : contrôle qualité de la base (check_docs.py + phase doc_sync) | spec, qualité | 2026-08-21 |
 
 ## Sources canoniques
 
